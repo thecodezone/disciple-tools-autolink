@@ -23,10 +23,11 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         return self::$_instance;
     } // End instance()
 
+
     public function __construct() {
         parent::__construct();
 
-        $url = dt_get_url_path();
+        $url = dt_get_url_path(true);
         $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
 
         if ( ( $this->root ) === $url ) {
@@ -53,7 +54,9 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             // page content
             add_action( 'dt_blank_head', [ $this, '_header' ] );
             add_action( 'dt_blank_footer', [ $this, '_footer' ] );
-            add_action( 'dt_blank_body', [ $this, 'body' ] ); // body for no post key
+
+            add_action( 'dt_blank_body', [ $this, 'routes' ] ); // body for no post key
+
 
             add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
             add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
@@ -76,8 +79,81 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         );
     }
 
-    public function body() {
-        include('templates/index.php');
+    public function routes() {
+        $action = $_GET['action'] ?? '';
+        $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+        if ($type === 'GET') {
+            switch ( $action ) {
+                case 'login':
+                    $this->show_login();
+                    break;
+                case 'register':
+                    $this->show_register();
+                    break;
+                default:
+                    $this->show_login();
+                    break;
+            }
+            return;
+        }
+
+        if ($type === 'POST') {
+            switch ( $action ) {
+                case 'login':
+                    $this->process_login();
+                    break;
+                case 'register':
+                    $this->process_register();
+                    break;
+                default:
+                    wp_redirect( '/' . $this->root );
+            }
+            return;
+        }
+    }
+
+    public function show_login($params = []) {
+        $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? get_template_directory_uri() . '/dt-assets/images/disciple-tools-logo-white.png';
+        $custom_logo_url = get_option( 'custom_logo_url' );
+        if ( !empty( $custom_logo_url ) ) {
+            $logo_url = $custom_logo_url;
+        }
+        $register_url = dt_get_url_path(true) . '?action=register';
+        $form_action = dt_get_url_path(true) . '?action=login';
+        $error = $params['error'] ?? '';
+
+        include( 'templates/login.php' );
+    }
+
+
+    public function process_login() {
+        $username = sanitize_text_field( $_POST['username'] ) ?? '';
+        $password = sanitize_text_field( $_POST['password'] ) ?? '';
+
+        $user = wp_authenticate( $username, $password );
+
+        if ( is_wp_error( $user ) ) {
+            $error = $user->get_error_message();
+
+            //If the error links to lost password, inject the 3/3rds redirect
+            $error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/' . $this->root, $error );
+            return $this->show_login( [ 'error' => $error ] );
+        }
+
+        wp_set_auth_cookie( $user->ID );
+
+        if (! $user) {
+            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'dt_autolink') ] );
+        }
+
+        $this->functions->activate();
+
+        wp_redirect( '/autolink/app' );
+    }
+
+    public function show_register() {
+        include('templates/register.php');
     }
 
     /**

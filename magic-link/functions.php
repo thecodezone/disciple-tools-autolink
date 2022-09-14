@@ -38,4 +38,14 @@ class Disciple_Tools_Autolink_Magic_Functions {
         );
         wp_enqueue_style( 'magic_link_css', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../dist/magic-link.css', [], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.css' ) );
     }
+
+    /**
+     * Activate the 3/3rds magic link for the current user
+     */
+    public function activate() {
+        $app_user_key = get_user_option( 'dt_autolink' );
+        if ( !$app_user_key ) {
+            update_user_option( get_current_user_id(), 'dt_autolink', dt_create_unique_key() );
+        }
+    }
 }

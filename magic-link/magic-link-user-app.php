@@ -8,10 +8,10 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     public $page_title = 'Starter - Magic Links - User App';
     public $page_description = 'User App - Magic Links.';
-    public $root = "starter_magic_app"; // @todo define the root of the url {yoursite}/root/type/key/action
-    public $type = 'starter_user_app'; // @todo define the type
+    public $root = "autolink/app";
+    public $type = 'starter_user_app';
     public $post_type = 'user';
-    private $meta_key = '';
+    private $meta_key = 'dt_autolink';
     public $show_bulk_send = false;
     public $show_app_tile = false;
     public $functions;
