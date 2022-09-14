@@ -2,7 +2,13 @@ let mix = require('laravel-mix');
 const {browserSync} = require("laravel-mix");
 
 mix.setPublicPath('dist')
-  .setResourceRoot('magic-link')
-  .js('magic-link/magic-link.js', 'dist')
-  .postCss('magic-link/magic-link.css', 'dist')
-  .browserSync("https://discipletools.test")
+  .js('magic-link/magic-link.js', 'dist/magic-link.js')
+  .postCss('magic-link/magic-link.css', 'dist/magic-link.css')
+  .browserSync({
+    proxy: "https://discipletools.test",
+    files: [
+      'dist/*.js',
+      'dist/*.css',
+      'magic-link/templates/**/*.php',
+    ]
+  })
