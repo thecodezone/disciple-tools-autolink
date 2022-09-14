@@ -6,7 +6,7 @@
  * @var $error string
  */
 ?>
-<div class="container">
+<div class="container login">
     <dt-tile>
         <div class="logo">
             <img src="<?php echo esc_url( $logo_url ) ?>" alt="Disciple.Tools" class="logo__image">
@@ -27,7 +27,7 @@
             <button class="button button--primary">
                 <?php _e( 'Login', 'dt_autolink' ) ?>
             </button>
-            <a class="button button--link" href="<?php esc_url( $register_url ); ?>" title="<?php _e( 'Create Account', 'dt_autolink' ); ?>">
+            <a class="button button--link" href="<?php echo esc_url( $register_url ); ?>" title="<?php _e( 'Create Account', 'dt_autolink' ); ?>">
                 <?php _e( 'Create Account', 'dt_autolink' ) ?>
             </a>
         </form>

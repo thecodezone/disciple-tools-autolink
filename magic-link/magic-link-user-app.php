@@ -8,8 +8,8 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     public $page_title = 'Starter - Magic Links - User App';
     public $page_description = 'User App - Magic Links.';
-    public $root = "autolink/app";
-    public $type = 'starter_user_app';
+    public $root = "autolink";
+    public $type = 'app';
     public $post_type = 'user';
     private $meta_key = 'dt_autolink';
     public $show_bulk_send = false;
@@ -69,15 +69,19 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
          * tests if other URL
          */
         $url = dt_get_url_path();
+
         if ( strpos( $url, $this->root . '/' . $this->type ) === false ) {
             return;
         }
+
         /**
          * tests magic link parts are registered and have valid elements
          */
         if ( !$this->check_parts_match() ){
             return;
         }
+
+
 
         // load if valid url
         add_action( 'dt_blank_body', [ $this, 'body' ] );
@@ -122,33 +126,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     }
 
     public function body(){
-        ?>
-        <div id="custom-style"></div>
-        <div id="wrapper">
-            <div class="grid-x">
-                <div class="cell center">
-                    <h2 id="title">Title</h2>
-                </div>
-            </div>
-            <hr>
-            <div id="content">
-                <h3>List From API</h3>
-                <div class="grid-x" id="api-content">
-                    <!-- javascript container -->
-                    <span class="loading-spinner active"></span>
-                </div>
-
-                <br>
-                <br>
-                <br>
-                <h3>Form</h3>
-                <div class="grid-x" id="form-content">
-
-                </div>
-            </div>
-
-        </div>
-        <?php
+        include('templates/register.php');
     }
 
     /**

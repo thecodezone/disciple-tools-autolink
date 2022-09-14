@@ -48,4 +48,20 @@ class Disciple_Tools_Autolink_Magic_Functions {
             update_user_option( get_current_user_id(), 'dt_autolink', dt_create_unique_key() );
         }
     }
+
+    /**
+     * Get the magic link url
+     * @return string
+     */
+    private function get_app_link() {
+        $app_user_key = get_user_option( 'dt_autolink' );
+        $app_url_base = trim( site_url(), '/' ) .'/autolink/app';
+        return $app_user_key ? $app_url_base . '/' . $app_user_key : '';
+    }
+
+    public function redirect_to_app() {
+        wp_redirect( $this->get_app_link() );
+        exit;
+    }
+
 }

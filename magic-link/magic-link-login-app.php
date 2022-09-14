@@ -32,6 +32,11 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
         if ( ( $this->root ) === $url ) {
 
+            if ( is_user_logged_in() ) {
+                $this->functions->activate();
+                $this->functions->redirect_to_app();
+            }
+
             $this->magic = new DT_Magic_URL( $this->root );
             $this->parts = $this->magic->parse_url_parts();
 
@@ -119,8 +124,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         if ( !empty( $custom_logo_url ) ) {
             $logo_url = $custom_logo_url;
         }
-        $register_url = dt_get_url_path(true) . '?action=register';
-        $form_action = dt_get_url_path(true) . '?action=login';
+        $register_url = '/' . $this->root . '?action=register';
+        $form_action = '/' . $this->root . '?action=login';
         $error = $params['error'] ?? '';
 
         include( 'templates/login.php' );
@@ -148,12 +153,42 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
-
-        wp_redirect( '/autolink/app' );
+        $this->functions->redirect_to_app();
     }
 
-    public function show_register() {
+    public function show_register($params = []) {
+        $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? get_template_directory_uri() . '/dt-assets/images/disciple-tools-logo-white.png';
+        $custom_logo_url = get_option( 'custom_logo_url' );
+        if ( !empty( $custom_logo_url ) ) {
+            $logo_url = $custom_logo_url;
+        }
+        $form_action = '/' . $this->root . '?action=register';
+        $error = $params['error'] ?? '';
+
         include('templates/register.php');
+    }
+
+    public function process_register() {
+        $username = sanitize_text_field( $_POST['username'] ) ?? '';
+        $password = sanitize_text_field( $_POST['password'] ) ?? '';
+        $email = sanitize_text_field( $_POST['email'] ) ?? '';
+
+        $user = wp_create_user( $username, $password, $email );
+
+        if ( is_wp_error( $user ) ) {
+            $error = $user->get_error_message();
+            return $this->show_register( [ 'error' => $error ] );
+        }
+
+        wp_set_current_user( $user );
+        wp_set_auth_cookie( $user->ID );
+
+        if (! $user) {
+            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'dt_autolink') ] );
+        }
+
+        $this->functions->activate();
+        $this->functions->redirect_to_app();
     }
 
     /**
