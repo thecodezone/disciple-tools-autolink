@@ -64,4 +64,9 @@ class Disciple_Tools_Autolink_Magic_Functions {
         exit;
     }
 
+    public function redirect_to_link() {
+        wp_redirect( '/autolink' );
+        exit;
+    }
+
 }

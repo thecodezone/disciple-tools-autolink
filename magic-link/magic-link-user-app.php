@@ -74,6 +74,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
             return;
         }
 
+        dd('WE MADE IT TO THE APP!');
+
         /**
          * tests magic link parts are registered and have valid elements
          */

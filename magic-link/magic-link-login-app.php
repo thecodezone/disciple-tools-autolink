@@ -153,7 +153,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
-        $this->functions->redirect_to_app();
+        $this->functions->redirect_to_link();
     }
 
     public function show_register($params = []) {
@@ -188,7 +188,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
-        $this->functions->redirect_to_app();
+        $this->functions->redirect_to_link();
     }
 
     /**
