@@ -3,20 +3,20 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Magic_Link
+ * Class Disciple_Tools_Autolink_Magic_Link
  */
-class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Base {
-
+class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
     public $magic = false;
     public $parts = false;
     public $page_title = 'Starter - Magic Links - Post Type';
     public $page_description = 'Post Type - Magic Links.';
-    public $root = "starter_magic_app"; // @todo define the root of the url {yoursite}/root/type/key/action
-    public $type = 'starter_magic_type'; // @todo define the type
-    public $post_type = 'starter_post_type'; // @todo set the post type this magic link connects with.
+    public $root = "autolink-contact";
+    public $type = 'autolink-contact';
+    public $post_type = 'contacts';
     private $meta_key = '';
     public $show_bulk_send = false;
     public $show_app_tile = true; // show this magic link in the Apps tile on the post record
+    public $functions;
 
     private static $_instance = null;
     public $meta = []; // Allows for instance specific data.
@@ -42,6 +42,7 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Bas
          *                          If false, Dropdown option to be provided for user, team or group selection.
          *      - fields:       List of fields to be displayed within magic link frontend form.
          */
+        $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
         $this->meta = [
             'app_type'      => 'magic_link',
             'post_type'     => $this->post_type,
@@ -81,42 +82,20 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Bas
 
         // load if valid url
         add_action( 'dt_blank_body', [ $this, 'body' ] ); // body for no post key
-        add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
-        add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
+        add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
+        add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
 
     }
 
-    public function wp_enqueue_scripts(){
-        wp_enqueue_script( 'magic_link_scripts', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'magic-link.js', [
-            'jquery',
-            'lodash',
-        ], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.js' ), true );
+    public function wp_enqueue_scripts() {
+        $this->functions->wp_enqueue_scripts();
         wp_localize_script(
-            'magic_link_scripts', 'jsObject', [
-                'map_key' => DT_Mapbox_API::get_key(),
-                'rest_base' => esc_url( rest_url() ),
-                'nonce' => wp_create_nonce( 'wp_rest' ),
+            'magic_link_scripts', 'magic', [
                 'parts' => $this->parts,
-                'translations' => [
-                    'add' => __( 'Add Magic', 'disciple-tools-plugin-starter-template' ),
-                ],
                 'rest_namespace' => $this->root . '/v1/' . $this->type,
             ]
         );
-        wp_enqueue_style( 'magic_link_css', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'magic-link.css', [], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.css' ) );
-    }
-
-    public function dt_magic_url_base_allowed_js( $allowed_js ) {
-        // @todo add or remove js files with this filter
-        $allowed_js[] = 'magic_link_scripts';
-        return $allowed_js;
-    }
-
-    public function dt_magic_url_base_allowed_css( $allowed_css ) {
-        // @todo add or remove js files with this filter
-        $allowed_css[] = 'magic_link_css';
-        return $allowed_css;
     }
 
     /**
@@ -125,12 +104,13 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Bas
     public function dt_details_additional_tiles( $tiles, $post_type = "" ) {
         if ( $post_type === $this->post_type ){
             $tiles["dt_starters_magic_url"] = [
-                "label" => __( "Magic Url", 'disciple-tools-plugin-starter-template' ),
+                "label" => __( "Magic Url", 'disciple-tools-autolink' ),
                 "description" => "The Magic URL sets up a page accessible without authentication, only the link is needed. Useful for small applications liked to this record, like quick surveys or updates."
             ];
         }
         return $tiles;
     }
+
     public function dt_details_additional_section( $section, $post_type ) {
         // test if campaigns post type and campaigns_app_module enabled
         if ( $post_type === $this->post_type ) {
@@ -145,49 +125,7 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Bas
     }
 
     public function body(){
-        ?>
-        <div id="magic-link-wrapper">
-            <div class="grid-x">
-                <div class="cell center">
-                    <h2 id="title">Title</h2>
-                </div>
-            </div>
-            <hr>
-            <div id="content">
-                <h3>List From API</h3>
-                <div class="grid-x" id="api-content">
-                    <!-- javascript container -->
-                    <span class="loading-spinner active"></span>
-                </div>
-
-                <br>
-                <br>
-                <br>
-                <h3>Form</h3>
-                <div class="grid-x" id="form-content">
-                    <?php
-                    $post_id = $this->parts["post_id"];
-
-                    // get the post. Make sure to only display the needed pieces on the front end as this link does net require auth
-                    $post = DT_Posts::get_post( $this->post_type, $post_id, true, false );
-                    if ( is_wp_error( $post ) ){
-                        return;
-                    }
-                    $fields = DT_Posts::get_post_field_settings( $this->post_type );
-                    render_field_for_display( "start_date", $fields, $post );
-                    ?>
-
-                    <label style="width: 100%">
-                        <strong>Comment</strong>
-                        <textarea name="comment" id="comment-input"></textarea>
-                    </label>
-
-                    <button type="button" class="button loader" id="submit-form">Submit Update</button>
-                </div>
-            </div>
-
-        </div>
-        <?php
+        include('templates/index.php');
     }
 
     /**
@@ -270,4 +208,4 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_Link extends DT_Magic_Url_Bas
         return $data;
     }
 }
-Disciple_Tools_Plugin_Starter_Template_Magic_Link::instance();
+Disciple_Tools_Autolink_Magic_Contact_App::instance();

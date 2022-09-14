@@ -3,10 +3,9 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Magic_User_App
+ * Class Disciple_Tools_Autolink_Magic_User_App
  */
-class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url_Base {
-
+class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     public $page_title = 'Starter - Magic Links - User App';
     public $page_description = 'User App - Magic Links.';
     public $root = "starter_magic_app"; // @todo define the root of the url {yoursite}/root/type/key/action
@@ -15,6 +14,7 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url
     private $meta_key = '';
     public $show_bulk_send = false;
     public $show_app_tile = false;
+    public $functions;
 
     private static $_instance = null;
     public $meta = []; // Allows for instance specific data.
@@ -53,7 +53,11 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url
         ];
 
         $this->meta_key = $this->root . '_' . $this->type . '_magic_key';
+
         parent::__construct();
+
+        $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
+
 
         /**
          * user_app and module section
@@ -77,19 +81,20 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url
 
         // load if valid url
         add_action( 'dt_blank_body', [ $this, 'body' ] );
-        add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
-        add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
+        add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
+        add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
+        add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
 
     }
 
-    public function dt_magic_url_base_allowed_js( $allowed_js ) {
-        // @todo add or remove js files with this filter
-        return $allowed_js;
-    }
-
-    public function dt_magic_url_base_allowed_css( $allowed_css ) {
-        // @todo add or remove js files with this filter
-        return $allowed_css;
+    public function wp_enqueue_scripts() {
+        $this->functions->wp_enqueue_scripts();
+        wp_localize_script(
+            'magic_link_scripts', 'magic', [
+                'parts' => $this->parts,
+                'rest_namespace' => $this->root . '/v1/' . $this->type,
+            ]
+        );
     }
 
     /**
@@ -114,135 +119,6 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url
         ];
 
         return $apps_list;
-    }
-
-    /**
-     * Writes custom styles to header
-     *
-     * @see DT_Magic_Url_Base()->header_style() for default state
-     * @todo remove if not needed
-     */
-    public function header_style(){
-        ?>
-        <style>
-            body {
-                background-color: white;
-                padding: 1em;
-            }
-        </style>
-        <?php
-    }
-
-    /**
-     * Writes javascript to the header
-     *
-     * @see DT_Magic_Url_Base()->header_javascript() for default state
-     * @todo remove if not needed
-     */
-    public function header_javascript(){
-        ?>
-        <script>
-            console.log('insert header_javascript')
-        </script>
-        <?php
-    }
-
-    /**
-     * Writes javascript to the footer
-     *
-     * @see DT_Magic_Url_Base()->footer_javascript() for default state
-     * @todo remove if not needed
-     */
-    public function footer_javascript(){
-        ?>
-        <script>
-            console.log('insert footer_javascript')
-
-            let jsObject = [<?php echo json_encode([
-                'map_key' => DT_Mapbox_API::get_key(),
-                'root' => esc_url_raw( rest_url() ),
-                'nonce' => wp_create_nonce( 'wp_rest' ),
-                'parts' => $this->parts,
-                'translations' => [
-                    'add' => __( 'Add Magic', 'disciple-tools-plugin-starter-template' ),
-                ],
-            ]) ?>][0]
-
-            window.get_magic = () => {
-                jQuery.ajax({
-                    type: "GET",
-                    data: { action: 'get', parts: jsObject.parts },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    url: jsObject.root + jsObject.parts.root + '/v1/' + jsObject.parts.type,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('X-WP-Nonce', jsObject.nonce )
-                    }
-                })
-                    .done(function(data){
-                        window.load_magic( data )
-                    })
-                    .fail(function(e) {
-                        console.log(e)
-                        jQuery('#error').html(e)
-                    })
-            }
-
-            window.load_magic = ( data ) => {
-                let content = jQuery('#api-content')
-                let spinner = jQuery('.loading-spinner')
-
-                content.empty()
-                let html = ``
-                data.forEach(v=>{
-                    html += `
-                         <div class="cell">
-                             ${window.lodash.escape(v.name)}
-                         </div>
-                     `
-                })
-                content.html(html)
-
-                spinner.removeClass('active')
-
-            }
-
-            window.get_magic()
-
-
-            $('.dt_date_picker').datepicker({
-                constrainInput: false,
-                dateFormat: 'yy-mm-dd',
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1900:2050",
-            }).each(function() {
-                if (this.value && moment.unix(this.value).isValid()) {
-                    this.value = window.SHAREDFUNCTIONS.formatDate(this.value);
-                }
-            })
-
-
-            $('#submit-form').on("click", function (){
-                $(this).addClass("loading")
-                let start_date = $('#start_date').val()
-                let comment = $('#comment-input').val()
-                let update = {
-                    start_date,
-                    comment
-                }
-
-                window.makeRequest( "POST", jsObject.parts.type, { parts: jsObject.parts, update }, jsObject.parts.root + '/v1/' ).done(function(data){
-                    window.location.reload()
-                })
-                    .fail(function(e) {
-                        console.log(e)
-                        jQuery('#error').html(e)
-                    })
-            })
-        </script>
-        <?php
-        return true;
     }
 
     public function body(){
@@ -355,4 +231,4 @@ class Disciple_Tools_Plugin_Starter_Template_Magic_User_App extends DT_Magic_Url
         return $data;
     }
 }
-Disciple_Tools_Plugin_Starter_Template_Magic_User_App::instance();
+Disciple_Tools_Autolink_Magic_User_App::instance();

@@ -5,14 +5,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
- * Class Disciple_Tools_Plugin_Starter_Template_Workflows
+ * Class Disciple_Tools_Autolink_Workflows
  *
  * @since  1.11.0
  */
-class Disciple_Tools_Plugin_Starter_Template_Workflows {
+class Disciple_Tools_Autolink_Workflows {
 
     /**
-     * Disciple_Tools_Plugin_Starter_Template_Workflows The single instance of Disciple_Tools_Plugin_Starter_Template_Workflows.
+     * Disciple_Tools_Autolink_Workflows The single instance of Disciple_Tools_Autolink_Workflows.
      *
      * @var    object
      * @access private
@@ -21,11 +21,11 @@ class Disciple_Tools_Plugin_Starter_Template_Workflows {
     private static $_instance = null;
 
     /**
-     * Main Disciple_Tools_Plugin_Starter_Template_Workflows Instance
+     * Main Disciple_Tools_Autolink_Workflows Instance
      *
-     * Ensures only one instance of Disciple_Tools_Plugin_Starter_Template_Workflows is loaded or can be loaded.
+     * Ensures only one instance of Disciple_Tools_Autolink_Workflows is loaded or can be loaded.
      *
-     * @return Disciple_Tools_Plugin_Starter_Template_Workflows instance
+     * @return Disciple_Tools_Autolink_Workflows instance
      * @since  1.11.0
      */
     public static function instance() {
@@ -37,7 +37,7 @@ class Disciple_Tools_Plugin_Starter_Template_Workflows {
     }
 
     /**
-     * Disciple_Tools_Plugin_Starter_Template_Workflows constructor.
+     * Disciple_Tools_Autolink_Workflows constructor.
      */
     public function __construct() {
         add_filter( 'dt_workflows', [ $this, 'fetch_default_workflows_filter' ], 10, 2 );
@@ -97,8 +97,8 @@ class Disciple_Tools_Plugin_Starter_Template_Workflows {
             'actions'    => [
                 Disciple_Tools_Workflows_Defaults::new_action( Disciple_Tools_Workflows_Defaults::$action_update,
                     [
-                        'id'    => 'disciple_tools_plugin_starter_template_text',
-                        'label' => $dt_fields['disciple_tools_plugin_starter_template_text']['name']
+                        'id'    => 'disciple_tools_autolink_text',
+                        'label' => $dt_fields['disciple_tools_autolink_text']['name']
                     ], [
                         'id'    => 'Auto Filled By Workflow Engine',
                         'label' => 'Auto Filled By Workflow Engine'
@@ -109,4 +109,4 @@ class Disciple_Tools_Plugin_Starter_Template_Workflows {
     }
 }
 
-Disciple_Tools_Plugin_Starter_Template_Workflows::instance();
+Disciple_Tools_Autolink_Workflows::instance();
