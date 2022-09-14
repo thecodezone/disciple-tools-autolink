@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/thecodezone/disciple-tools-autolink#readme",
   "dependencies": {
-    "dt-web-components": "file:../disciple-tools-web-components",
+    "dt-web-components": "file:../../../../disciple-tools-web-components",
     "lit": "^2.3.0"
   },
   "devDependencies": {
