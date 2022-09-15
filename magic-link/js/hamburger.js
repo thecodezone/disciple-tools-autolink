@@ -3,6 +3,13 @@ import { css, html, LitElement } from 'lit';
 export class DtHamburger extends LitElement {
   static get styles() {
     return css`
+     :root {
+        font-size: inherit;
+      }
+      svg {
+        width: 1em;
+        height: auto;
+      }
       svg use {
         fill: currentcolor;
       }

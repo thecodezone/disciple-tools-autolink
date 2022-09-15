@@ -96,6 +96,19 @@ html {
     --dt-alert-shadow: var(--shadow-0);
     --dt-alert-border-color: var(--surface-0);
     --dt-alert-text-color: var(--text-color);
+
+    --dt-button-padding-x: 13px;
+    --dt-button-padding-y: 10px;
+    --dt-button-text-color-light: #fff;
+    --dt-button-text-color-dark: #000;
+    --dt-button-font-family: var(--font-family);
+    --dt-button-font-size: 13px;;
+    --dt-button-font-weight: 500;
+    --dt-button-background-color: var(--surface-1);
+    --dt-button-shadow: var(--shadow-0);
+    --dt-button-border-color: var(--surface-0);
+    --dt-button-text-color: var(--text-color);
+    --dt-button-border-radius: 6px;
 }
 
 @import "./css/__index.css";

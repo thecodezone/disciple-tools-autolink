@@ -47,9 +47,9 @@
                      type="password"
                      required></dt-text>
 
-            <button class="button button--primary">
+            <dt-button context="success" type="submit" class="button--large button--block">
                 <?php _e( 'Register', 'disciple-tools-autolink' ) ?>
-            </button>
+            </dt-button>
         </form>
     </dt-tile>
 </div>

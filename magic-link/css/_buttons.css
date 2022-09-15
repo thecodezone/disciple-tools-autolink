@@ -1,29 +1,32 @@
-form .button, 
-form .button:active, 
-form .button:focus {
-    background-color: #2DA800;
-    color: #fefefe;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 12px;
+dt-button {
+    --dt-button-text-transform: uppercase;
+    --dt-button-padding-y: 8px;
+    --dt-button-padding-x: 12px;
+    --dt-button-font-size: 12px;
+    --dt-button-line-height: 12px;
+    --dt-button-font-weight: 700;
+    --dt-button-text-color-dark: #5E5E5E;
 }
 
-form .button.button--link {
-    background-color: transparent;
-    color: #5E5E5E;
-    letter-spacing: 0.12em;
-    display: inline-flex;
-    float: right;
+dt-button[context="link"] {
+    --dt-button-letter-spacing: 0.12em;
+    --dt-button-text-decoration: none;
 }
 
-form .button.button--link::after {
-    content: "";
-    margin-left: 0.5em;
-    border: 2px solid #5E5E5E;
-    border-top: 0;
-    border-left: 0;
-    height: 10px;
-    width: 10px;
-    transform: rotate(-45deg);
+dt-button[context="link"] dt-chevron-right {
+    display: inline-block;
+    font-size: 14px;
+    transform: translateY(20%);
+    margin-left: 10px;
+    margin-right: -10px;
+}
+
+
+dt-button.button--large {
+    --dt-button-padding-y: 18px;
+    --dt-button-padding-x: 18px;
+}
+
+dt-button.button--block {
+    display: block;
 }
