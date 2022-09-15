@@ -1,10 +1,6 @@
 form .button, 
-form .button.disabled, 
-form .button.disabled:focus, 
-form .button.disabled:hover, 
-form .button[disabled], 
-form .button[disabled]:focus, 
-form .button[disabled]:hover {
+form .button:active, 
+form .button:focus {
     background-color: #2DA800;
     color: #fefefe;
     text-transform: uppercase;
@@ -21,7 +17,6 @@ form .button.button--link {
     float: right;
 }
 
-/* make an arrow after the link */
 form .button.button--link::after {
     content: "";
     margin-left: 0.5em;
