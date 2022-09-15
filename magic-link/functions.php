@@ -40,12 +40,12 @@ class Disciple_Tools_Autolink_Magic_Functions {
     }
 
     /**
-     * Activate the 3/3rds magic link for the current user
+     * Activate the app if it's not already activated
      */
     public function activate() {
-        $app_user_key = get_user_option( 'dt_autolink' );
-        if ( !$app_user_key ) {
-            update_user_option( get_current_user_id(), 'dt_autolink', dt_create_unique_key() );
+        $value = get_user_option( 'autolink-user' );
+        if ( $value === '' || $value === false || $value === '0' ) {
+            Disciple_Tools_Users::app_switch( get_current_user_id(), 'autolink-user' );
         }
     }
 
@@ -54,9 +54,8 @@ class Disciple_Tools_Autolink_Magic_Functions {
      * @return string
      */
     private function get_app_link() {
-        $app_user_key = get_user_option( 'dt_autolink' );
-        $app_url_base = trim( site_url(), '/' ) .'/autolink/app';
-        return $app_user_key ? $app_url_base . '/' . $app_user_key : '';
+        $app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key('autolink', 'app') );
+        return DT_Magic_URL::get_link_url('autolink', 'app', $app_public_key);
     }
 
     public function redirect_to_app() {

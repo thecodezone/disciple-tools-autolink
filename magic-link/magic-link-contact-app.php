@@ -8,12 +8,12 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
 class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
     public $magic = false;
     public $parts = false;
-    public $page_title = 'Starter - Magic Links - Post Type';
-    public $page_description = 'Post Type - Magic Links.';
+    public $page_title = 'Autolink';
+    public $page_description = 'Autolink contact app';
     public $root = "autolink-contact";
     public $type = 'autolink-contact';
     public $post_type = 'contacts';
-    private $meta_key = '';
+    private $meta_key = 'autolink-contact';
     public $show_bulk_send = false;
     public $show_app_tile = true; // show this magic link in the Apps tile on the post record
     public $functions;

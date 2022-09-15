@@ -6,12 +6,12 @@ if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
  * Class Disciple_Tools_Autolink_Magic_User_App
  */
 class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
-    public $page_title = 'Starter - Magic Links - User App';
-    public $page_description = 'User App - Magic Links.';
+    public $page_title = 'Autolink';
+    public $page_description = 'Autolink user app';
     public $root = "autolink";
     public $type = 'app';
     public $post_type = 'user';
-    private $meta_key = 'dt_autolink';
+    private $meta_key = 'autolink-user';
     public $show_bulk_send = false;
     public $show_app_tile = false;
     public $functions;
@@ -27,7 +27,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     } // End instance()
 
     public function __construct() {
-
         /**
          * Specify metadata structure, specific to the processing of current
          * magic link type.
@@ -74,8 +73,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
             return;
         }
 
-        dd('WE MADE IT TO THE APP!');
-
         /**
          * tests magic link parts are registered and have valid elements
          */
@@ -86,7 +83,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 
 
         // load if valid url
-        add_action( 'dt_blank_body', [ $this, 'body' ] );
+        add_action( 'dt_blank_body', [ $this, 'routes' ] );
         add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
         add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
@@ -127,8 +124,30 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
         return $apps_list;
     }
 
-    public function body(){
-        include('templates/register.php');
+    public function routes() {
+        $action = $_GET['action'] ?? '';
+        $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+        if ($type === 'GET') {
+            switch ( $action ) {
+                default:
+                    $this->show_app();
+                    break;
+            }
+            return;
+        }
+
+        if ($type === 'POST') {
+            switch ( $action ) {
+                default:
+                    wp_redirect( '/' . $this->root );
+            }
+            return;
+        }
+    }
+
+    public function show_app(){
+        include('templates/app.php');
     }
 
     /**
