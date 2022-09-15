@@ -22,7 +22,7 @@
             <?php endif; ?>
 
             <dt-text name="username" placeholder="<?php _e( 'Username', 'dt_autolink' ); ?>" value="" required></dt-text>
-            <dt-text name="password" placeholder="<?php _e( 'Password', 'dt_autolink' ); ?>" value="" required></dt-text>
+            <dt-text name="password" placeholder="<?php _e( 'Password', 'dt_autolink' ); ?>" value="" type="password" required></dt-text>
 
             <button class="button button--primary">
                 <?php _e( 'Login', 'dt_autolink' ) ?>
