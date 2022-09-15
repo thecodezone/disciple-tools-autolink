@@ -31,8 +31,22 @@ class Disciple_Tools_Autolink_Magic_Functions {
                 'map_key' => DT_Mapbox_API::get_key(),
                 'rest_base' => esc_url( rest_url() ),
                 'nonce' => wp_create_nonce( 'wp_rest' ),
+                'urls' => [
+                    'root' => esc_url_raw( trailingslashit( site_url() ) ),
+                    'home' => esc_url_raw( trailingslashit( home_url() ) ),
+                    'current' => esc_url_raw( dt_get_url_path( true ) ),
+                    'app' => esc_url_raw( trailingslashit( $this->get_app_link() ) ),
+                    'link' => esc_url_raw( trailingslashit( $this->get_link_url() ) ),
+                    'survey' => esc_url_raw( trailingslashit( $this->get_app_link() . '?action=survey' ) ),
+                    'logout' => esc_url_raw( trailingslashit( wp_logout_url(  $this->get_link_url() ) ) ),
+                ],
                 'translations' => [
                     'add' => __( 'Add Magic', 'disciple-tools-autolink' ),
+                    'dt_nav_label' => __( 'Go to Disciple.Tools', 'disciple-tools-autolink' ),
+                    'survey_nav_label' => __( 'Update Survey Answers', 'disciple-tools-autolink' ),
+                    'feedback_nav_label' => __( 'Give Feedback', 'disciple-tools-autolink' ),
+                    'logout_nav_label' => __( 'Log Out', 'disciple-tools-autolink' ),
+                    'toggle_menu' => __('Toggle Menu', 'disciple-tools-autolink' ),
                 ]
             ]
         );
@@ -58,13 +72,22 @@ class Disciple_Tools_Autolink_Magic_Functions {
         return DT_Magic_URL::get_link_url('autolink', 'app', $app_public_key);
     }
 
+    /**
+     * Get the magic link url
+     * @return string
+     */
+    public function get_link_url() {
+        return '/autolink';
+    }
+
+
     public function redirect_to_app() {
         wp_redirect( $this->get_app_link() );
         exit;
     }
 
     public function redirect_to_link() {
-        wp_redirect( '/autolink' );
+        wp_redirect( $this->get_link_url() );
         exit;
     }
 

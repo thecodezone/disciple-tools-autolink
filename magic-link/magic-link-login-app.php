@@ -145,7 +145,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         wp_set_auth_cookie( $user->ID );
 
         if (! $user) {
-            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'dt_autolink') ] );
+            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'disciple-tools-autolink') ] );
         }
 
         $this->functions->activate();
@@ -181,7 +181,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         wp_set_auth_cookie( $user->ID );
 
         if (! $user) {
-            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'dt_autolink') ] );
+            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'disciple-tools-autolink') ] );
         }
 
         $this->functions->activate();

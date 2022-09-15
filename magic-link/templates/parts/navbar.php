@@ -2,7 +2,7 @@
 $logo_url = $logo_url ?? $this->functions->fetch_logo();
 
 ?>
-<navbar class="navbar">
+<header class="navbar">
     <img class="navbar__logo" src="<?php echo $logo_url ?>">
-    <i class="fi-list"></i>
-</navbar>
+    <app-menu></app-menu>
+</header>
