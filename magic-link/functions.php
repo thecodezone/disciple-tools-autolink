@@ -81,8 +81,8 @@ class Disciple_Tools_Autolink_Magic_Functions {
      * @return string
      */
     public function get_share_link() {
-        $app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key('autolink', 'app') );
-        return DT_Magic_URL::get_link_url('autolink', 'app', $app_public_key);
+        $app_public_key = get_post_meta( DT_Magic_URL::get_public_key_meta_key('autolink', 'share') );
+        return DT_Magic_URL::get_link_url('autolink', 'share', $app_public_key);
     }
 
     /**

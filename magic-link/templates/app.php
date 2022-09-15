@@ -6,6 +6,9 @@
  * @var $coached_by_label string
  * @var $coach_name string
  * @var $link_heading string
+ * @var $share_link string
+ * @var $share_link_help_text string
+ * @var $churches_heading string
  */
 ?>
 <?php include( 'parts/navbar.php' ); ?>
@@ -19,7 +22,14 @@
         <?php echo esc_html( $coached_by_label ); ?> <?php echo esc_html( $coach_name ); ?>
     </strong>
 
-    <dt-tile>
-        <h2><?php echo esc_html($link_heading); ?></h2>
+    <dt-tile title="<?php echo esc_attr($link_heading); ?>">
+        <!-- TODO: Make this a dt-copy-text component -->
+        <dt-text value="<?php echo esc_attr($share_link); ?>"></dt-text>
+        <span class="help-text">
+            <?php echo esc_html($share_link_help_text) ?>
+        </span>
+    </dt-tile>
+
+    <dt-tile title="<?php echo esc_attr($churches_heading); ?>">
     </dt-tile>
 </div>

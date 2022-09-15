@@ -12,7 +12,7 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
     public $page_description = 'Autolink contact app';
     public $root = "autolink-contact";
     public $type = 'autolink-contact';
-    public $post_type = 'contacts';
+    public $post_type = 'share';
     private $meta_key = 'autolink-contact';
     public $show_bulk_send = false;
     public $show_app_tile = true; // show this magic link in the Apps tile on the post record
