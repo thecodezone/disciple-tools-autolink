@@ -148,6 +148,24 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 
     public function show_app(){
         $logo_url = $this->functions->fetch_logo();
+        $greeting = __( 'Hello,', 'disciple-tools-autolink' );
+        $user_name = dt_get_user_display_name( get_current_user_id() );
+        $coached_by_label = __( 'Coached by', 'disciple-tools-autolink' );
+        $link_heading = __( 'My Link', 'disciple-tools-autolink' );
+
+        $contact =  Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+        $coach = null;
+        $coach_name = '';
+        if ($contact) {
+            $contact = DT_Posts::get_post('contacts', $contact );
+        }
+        if ($contact && count($contact['coached_by'])) {
+            $coach = $contact['coached_by'][0] ?? null;
+            if ($coach) {
+                $coach = DT_Posts::get_post('contacts', $coach['ID'] );
+                $coach_name = $coach['name'] ?? '';
+            }
+        }
 
         include('templates/app.php');
     }

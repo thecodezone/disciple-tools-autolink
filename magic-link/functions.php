@@ -47,6 +47,10 @@ class Disciple_Tools_Autolink_Magic_Functions {
                     'feedback_nav_label' => __( 'Give Feedback', 'disciple-tools-autolink' ),
                     'logout_nav_label' => __( 'Log Out', 'disciple-tools-autolink' ),
                     'toggle_menu' => __('Toggle Menu', 'disciple-tools-autolink' ),
+                    'user_greeting,' => __( 'Hello,', 'disciple-tools-autolink' ),
+                    'coached_by' => __( 'Coached by', 'disciple-tools-autolink' ),
+                    'my_link' => __( 'My Link', 'disciple-tools-autolink' ),
+                    'my_churches' => __( 'My Churches', 'disciple-tools-autolink' ),
                 ]
             ]
         );
@@ -67,7 +71,16 @@ class Disciple_Tools_Autolink_Magic_Functions {
      * Get the magic link url
      * @return string
      */
-    private function get_app_link() {
+    public function get_app_link() {
+        $app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key('autolink', 'app') );
+        return DT_Magic_URL::get_link_url('autolink', 'app', $app_public_key);
+    }
+
+    /**
+     * Get the share link url
+     * @return string
+     */
+    public function get_share_link() {
         $app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key('autolink', 'app') );
         return DT_Magic_URL::get_link_url('autolink', 'app', $app_public_key);
     }
