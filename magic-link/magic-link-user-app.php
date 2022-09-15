@@ -147,6 +147,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     }
 
     public function show_app(){
+        $logo_url = $this->functions->fetch_logo();
+
         include('templates/app.php');
     }
 

@@ -119,11 +119,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     }
 
     public function show_login($params = []) {
-        $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? get_template_directory_uri() . '/dt-assets/images/disciple-tools-logo-white.png';
-        $custom_logo_url = get_option( 'custom_logo_url' );
-        if ( !empty( $custom_logo_url ) ) {
-            $logo_url = $custom_logo_url;
-        }
+        $logo_url = $this->functions->fetch_logo();
         $register_url = '/' . $this->root . '?action=register';
         $form_action = '/' . $this->root . '?action=login';
         $error = $params['error'] ?? '';
@@ -157,11 +153,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     }
 
     public function show_register($params = []) {
-        $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? get_template_directory_uri() . '/dt-assets/images/disciple-tools-logo-white.png';
-        $custom_logo_url = get_option( 'custom_logo_url' );
-        if ( !empty( $custom_logo_url ) ) {
-            $logo_url = $custom_logo_url;
-        }
+        $logo_url = $this->functions->fetch_logo();
         $form_action = '/' . $this->root . '?action=register';
         $error = $params['error'] ?? '';
 

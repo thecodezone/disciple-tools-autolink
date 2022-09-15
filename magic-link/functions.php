@@ -68,4 +68,13 @@ class Disciple_Tools_Autolink_Magic_Functions {
         exit;
     }
 
+    public function fetch_logo() {
+        $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? get_template_directory_uri() . '/dt-assets/images/disciple-tools-logo-white.png';
+        $custom_logo_url = get_option( 'custom_logo_url' );
+        if ( !empty( $custom_logo_url ) ) {
+            $logo_url = $custom_logo_url;
+        }
+        return $logo_url;
+    }
+
 }
