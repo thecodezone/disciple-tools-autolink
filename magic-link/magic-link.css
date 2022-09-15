@@ -30,7 +30,7 @@ html {
 
     --font-family: Helvetica, Arial, sans-serif;
 
-    --dt-form-border-color: var(--border-color);
+    --dt-form-border-color: #E4E4E4;
     --dt-form-background-color: var(--surface-1);
     --dt-form-disabled-background-color: var(--disabled-color);
     --dt-form-text-color: var(--text-color);
@@ -52,9 +52,20 @@ html {
 
     --dt-text-color: var(--dt-form-text-color);
     --dt-text-color-inverse: var(--dt-form-text-color-inverse);
-    --dt-text-background-color: var(--dt-form-background-color);
+    --dt-text-background-color: #F9F9F9;
     --dt-text-border-color: var(--dt-form-border-color);
     --dt-text-disabled-background-color: var(--dt-form-disabled-background-color);
+    --dt-text-border-radius: 4px;
+    --td-text-box-shadow: none;
+
+    --dt-text-placeholder-color: #AEAEAE;
+    --dt-text-placeholder-font-size: 12px;
+    --dt-text-placeholder-font-weight: 700;
+    --dt-text-placeholder-letter-spacing:0.1em;
+    --dt-text-placeholder-transform: uppercase;
+
+
+
     --dt-textarea-border-color: var(--dt-form-border-color);
     --dt-textarea-background-color: var(--dt-form-background-color);
     --dt-textarea-disabled-background-color: var(--dt-form-disabled-background-color);
