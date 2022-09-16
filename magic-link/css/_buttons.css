@@ -21,7 +21,6 @@ dt-button[context="link"] dt-chevron-right {
     margin-right: -10px;
 }
 
-
 dt-button.button--large {
     --dt-button-padding-y: 18px;
     --dt-button-padding-x: 18px;
@@ -29,4 +28,5 @@ dt-button.button--large {
 
 dt-button.button--block {
     display: block;
+    width: 100%;
 }

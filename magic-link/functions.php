@@ -112,5 +112,4 @@ class Disciple_Tools_Autolink_Magic_Functions {
         }
         return $logo_url;
     }
-
 }

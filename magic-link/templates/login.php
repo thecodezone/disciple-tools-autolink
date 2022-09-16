@@ -6,6 +6,8 @@
  * @var $error string
  */
 ?>
+<?php include( 'parts/header.php' ); ?>
+
 <div class="container login">
     <dt-tile>
         <div class="logo">
@@ -51,3 +53,5 @@
         </form>
     </dt-tile>
 </div>
+
+<?php include( 'parts/footer.php' ); ?>

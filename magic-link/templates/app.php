@@ -11,6 +11,7 @@
  * @var $churches_heading string
  */
 ?>
+<?php include( 'parts/header.php' ); ?>
 <?php include( 'parts/navbar.php' ); ?>
 
 <div class="container app">
@@ -33,3 +34,5 @@
     <dt-tile title="<?php echo esc_attr($churches_heading); ?>">
     </dt-tile>
 </div>
+
+<?php include( 'parts/footer.php' ); ?>

@@ -11,11 +11,9 @@ html {
 
     --text-color: #0a0a0a;
     --text-color-inverse: #fefefe;
-
     --surface-0: #e2e2e2;
     --surface-1: #ffffff;
     --surface-2: #f5f5f5;
-
     --border-color: #cecece;
 
     --shadow-0: 0px 0px 10px 3px rgba(0, 0, 0, 0.04), 0px 40px 40px -40px rgba(0, 0, 0, 0.2);

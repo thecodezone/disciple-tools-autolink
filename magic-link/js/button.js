@@ -6,6 +6,8 @@ export class DtButton extends LitElement {
     return css`
       :host {
         display: inline-flex;
+        width: fit-content;
+        height: fit-content;
       }
 
       .dt-button {
