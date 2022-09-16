@@ -61,9 +61,18 @@ class Disciple_Tools_Autolink_Magic_Functions {
      * Activate the app if it's not already activated
      */
     public function activate() {
-        $value = get_user_option( 'autolink-user' );
-        if ( $value === '' || $value === false || $value === '0' ) {
-            Disciple_Tools_Users::app_switch( get_current_user_id(), 'autolink-user' );
+        global $wpdb;
+
+        $preference_key = 'autolink-app';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('autolink', 'app');
+        $secret = get_user_option( $preference_key );
+        $public = get_user_meta( get_current_user_id(), $meta_key, true );
+        delete_user_option( get_current_user_id(), $preference_key );
+        if (! $public) {
+            add_user_meta( get_current_user_id(), $meta_key, DT_Magic_URL::create_unique_key() );
+        }
+        if ($secret === '' || $secret === false || $secret === '0' ) {
+            Disciple_Tools_Users::app_switch( get_current_user_id(), $preference_key );
         }
     }
 

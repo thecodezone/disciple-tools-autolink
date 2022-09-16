@@ -11,7 +11,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
     public $root = "autolink";
     public $type = 'app';
     public $post_type = 'user';
-    private $meta_key = 'autolink-user';
+    private $meta_key = 'autolink-app';
     public $show_bulk_send = false;
     public $show_app_tile = false;
     public $functions;
