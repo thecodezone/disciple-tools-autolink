@@ -11,8 +11,12 @@ header.navbar {
     padding: 17px 20px;
     justify-content: space-between;
     align-items: center;
+    height: 96px;
 }
 
 header.navbar .navbar__logo {
-    width: 50%;
+    height: auto;
+    width: auto;
+    max-height: 63px;
+    max-width: 200px;
 }
