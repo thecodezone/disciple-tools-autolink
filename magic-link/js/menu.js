@@ -8,12 +8,47 @@ export class AppMenu extends LitElement {
      }
     .menu__collapse {
       position: fixed;
-      top: 96px;
+      top: 87px;
       left: 0;
       right: 0;
-      background-color: var(--primary-color);
+      background-color: #2C5364;
       z-index: 99999;
     }
+    
+    .menu__list {
+      margin: 50px 25px;
+      padding: 0;
+    }
+
+    .menu__list .menu__item {
+      /* border: 1px solid #fff;
+      border-radius: 4px;
+      padding: 10px 20px;
+      text-align: center;
+      margin: 10px; */
+      list-style: none;
+    }
+
+    .menu__list a.menu__link {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+
+      border: 1px solid #fff;
+      border-radius: 4px;
+      padding: 10px 20px;
+      text-align: center;
+      margin: 10px;
+      display: block;
+    } 
+    .menu__list a.menu__link.menu__link--logout {
+      background-color: #fff;
+      color: #2C5364;
+
+     
+    }
+
     `;
   }
   static get properties() {
