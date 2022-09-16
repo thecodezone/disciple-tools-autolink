@@ -32,14 +32,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
         if ( ( $this->root ) === $url ) {
 
-            if ( is_user_logged_in() ) {
-                $this->functions->activate();
-                $this->functions->redirect_to_app();
-            }
-
             $this->magic = new DT_Magic_URL( $this->root );
             $this->parts = $this->magic->parse_url_parts();
-
 
             // register url and access
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
@@ -60,7 +54,10 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             add_action( 'dt_blank_head', [ $this, '_header' ] );
             add_action( 'dt_blank_footer', [ $this, '_footer' ] );
 
-            add_action( 'dt_blank_body', [ $this, 'routes' ] ); // body for no post key
+            add_action( 'dt_blank_body', function() {
+                $this->ready();
+                $this->routes();
+            }); // body for no post key
 
 
             add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
@@ -71,6 +68,14 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         if ( dt_is_rest() ) {
             add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
             add_filter( 'dt_allow_rest_access', [ $this, 'authorize_url' ], 10, 1 );
+        }
+    }
+
+    public function ready() {
+        if ( is_user_logged_in() ) {
+            $this->functions->activate();
+            $this->functions->add_session_leader();
+            $this->functions->redirect_to_app();
         }
     }
 
@@ -149,6 +154,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
+        $this->functions->add_session_leader();
         $this->functions->redirect_to_link();
     }
 
@@ -185,6 +191,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
+        $this->functions->add_session_leader();
         $this->functions->redirect_to_link();
     }
 

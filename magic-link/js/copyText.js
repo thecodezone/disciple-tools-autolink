@@ -8,7 +8,7 @@ class DTCopyTextinput extends DtTextField {
       ...DtTextField.styles,
       css`
         .text-input {
-           padding-right: 30px;
+           padding-right: 40px;
         }
 
          .text-input:disabled {

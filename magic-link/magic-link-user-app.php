@@ -83,11 +83,19 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 
 
         // load if valid url
-        add_action( 'dt_blank_body', [ $this, 'routes' ] );
+        wp_set_current_user( $this->parts['post_id'] );
+        add_action( 'dt_blank_body', function() {
+            $this->ready();
+            $this->routes();
+        } );
         add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
         add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
+    }
 
+    public function ready() {
+        wp_set_current_user( $this->parts['post_id'] );
+        $this->functions->add_session_leader();
     }
 
     public function wp_enqueue_scripts() {

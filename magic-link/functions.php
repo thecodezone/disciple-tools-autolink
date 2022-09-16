@@ -57,6 +57,20 @@ class Disciple_Tools_Autolink_Magic_Functions {
         wp_enqueue_style( 'magic_link_css', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../dist/magic-link.css', [], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.css' ) );
     }
 
+    public function is_activated() {
+        global $wpdb;
+        $preference_key = 'autolink-app';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('autolink', 'app');
+        $public = get_user_meta( get_current_user_id(), $meta_key, true );
+        $secret = get_user_option( $preference_key );
+
+        if ($public === '' || $public === false || $public === '0' || $secret === '' || $secret === false || $secret === '0') {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Activate the app if it's not already activated
      */
@@ -65,13 +79,23 @@ class Disciple_Tools_Autolink_Magic_Functions {
 
         $preference_key = 'autolink-app';
         $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('autolink', 'app');
-        $secret = get_user_option( $preference_key );
-        $public = get_user_meta( get_current_user_id(), $meta_key, true );
-        delete_user_option( get_current_user_id(), $preference_key );
-        if (! $public) {
+
+        if (! $this->is_activated()) {
+            delete_user_meta( get_current_user_id(), $meta_key );
+            delete_user_option( get_current_user_id(), $preference_key );
+
             add_user_meta( get_current_user_id(), $meta_key, DT_Magic_URL::create_unique_key() );
+            Disciple_Tools_Users::app_switch( get_current_user_id(), $preference_key );
         }
-        if ($secret === '' || $secret === false || $secret === '0' ) {
+
+        $preference_key = 'autolink-share';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('autolink', 'share');
+
+        if (! $this->is_activated()) {
+            delete_user_meta( get_current_user_id(), $meta_key );
+            delete_user_option( get_current_user_id(), $preference_key );
+
+            add_user_meta( get_current_user_id(), $meta_key, DT_Magic_URL::create_unique_key() );
             Disciple_Tools_Users::app_switch( get_current_user_id(), $preference_key );
         }
     }
@@ -90,8 +114,15 @@ class Disciple_Tools_Autolink_Magic_Functions {
      * @return string
      */
     public function get_share_link() {
-        $app_public_key = get_post_meta( DT_Magic_URL::get_public_key_meta_key('autolink', 'share') );
-        return DT_Magic_URL::get_link_url('autolink', 'share', $app_public_key);
+        $record = DT_Posts::get_post( 'contacts', Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ), true, false );
+        $meta_key = 'autolink_share_magic_key';
+        if ( isset( $record[$meta_key] ) ) {
+            $key = $record[$meta_key];
+        } else {
+            $key = dt_create_unique_key();
+            update_post_meta( get_the_ID(), $meta_key, $key );
+        }
+        return DT_Magic_URL::get_link_url('autolink', 'share', $key);
     }
 
     /**
@@ -120,5 +151,25 @@ class Disciple_Tools_Autolink_Magic_Functions {
             $logo_url = $custom_logo_url;
         }
         return $logo_url;
+    }
+
+    public function add_session_leader() {
+        $leader_id = !empty($_SESSION['dt_autolink_leader_id']) ? sanitize_text_field( $_SESSION['dt_autolink_leader_id'] ) : null;
+        if (!$leader_id) {
+            return;
+        }
+
+        $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+        $fields = [
+            "coached_by" => [
+                "values" => [
+                    [ "value" => $leader_id ],
+                ],
+                "force_values" => false
+            ]
+        ];
+        DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+        unset($_SESSION['dt_autolink_leader_id']);
     }
 }
