@@ -8,7 +8,7 @@ export class AppMenu extends LitElement {
      }
     .menu__collapse {
       position: fixed;
-      top: 87px;
+      top: 100px;
       left: 0;
       right: 0;
       background-color: #2C5364;
@@ -19,34 +19,32 @@ export class AppMenu extends LitElement {
       margin: 50px 25px;
       padding: 0;
     }
-
     .menu__list .menu__item {
-      /* border: 1px solid #fff;
-      border-radius: 4px;
-      padding: 10px 20px;
-      text-align: center;
-      margin: 10px; */
       list-style: none;
     }
-
     .menu__list a.menu__link {
       text-decoration: none;
-      color: #fff;
+      color: var(--surface-1);
       font-weight: 700;
       font-size: 14px;
-
-      border: 1px solid #fff;
+      border: 1px solid var(--surface-1);
       border-radius: 4px;
       padding: 10px 20px;
       text-align: center;
       margin: 10px;
       display: block;
     } 
-    .menu__list a.menu__link.menu__link--logout {
-      background-color: #fff;
+    .menu__list a.menu__link:hover {
+      background-color: var(--surface-1);
       color: #2C5364;
-
-     
+    }
+    .menu__list a.menu__link.menu__link--logout {
+      background-color: var(--surface-1);
+      color: #2C5364;
+    }
+    .menu__list a.menu__link.menu__link--logout:hover {
+      background-color: #2C5364;
+      color:  var(--surface-1);
     }
 
     `;
