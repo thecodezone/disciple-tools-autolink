@@ -9,6 +9,7 @@
  * @var $share_link string
  * @var $share_link_help_text string
  * @var $churches_heading string
+ * @var $churches array;
  */
 ?>
 <?php include( 'parts/header.php' ); ?>
@@ -32,6 +33,16 @@
     </dt-tile>
 
     <dt-tile title="<?php echo esc_attr($churches_heading); ?>">
+
+        <!-- Loop through churches -->
+        <dt-tile title="Church Name" class="church">
+            <div class="church_health">
+                <!-- Add 5 dummy icons with number to represent health metrics -->
+                <!-- Skip the collapse icon and I will add that later -->
+                <!-- Add a gray circle to match figma -->
+                <!-- Church start date -->
+            </div>
+        </dt-tile>
     </dt-tile>
 </div>
 

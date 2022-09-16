@@ -37,7 +37,7 @@ class Disciple_Tools_Autolink_Magic_Functions {
                     'current' => esc_url_raw( dt_get_url_path( true ) ),
                     'app' => esc_url_raw( trailingslashit( $this->get_app_link() ) ),
                     'link' => esc_url_raw( trailingslashit( $this->get_link_url() ) ),
-                    'survey' => esc_url_raw( trailingslashit( $this->get_app_link() . '?action=survey' ) ),
+                    'survey' => esc_url_raw( $this->get_app_link() . '?action=survey' ),
                     'logout' => esc_url_raw( trailingslashit( wp_logout_url(  $this->get_link_url() ) ) ),
                 ],
                 'translations' => [

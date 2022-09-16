@@ -134,10 +134,14 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 
     public function routes() {
         $action = $_GET['action'] ?? '';
+
         $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
         if ($type === 'GET') {
             switch ( $action ) {
+                case 'survey':
+                    $this->show_survey();
+                    break;
                 default:
                     $this->show_app();
                     break;
@@ -179,6 +183,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
         }
 
         include('templates/app.php');
+    }
+
+    public function show_survey() {
+        include('templates/survey.php');
     }
 
     /**
