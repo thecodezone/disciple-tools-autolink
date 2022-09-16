@@ -5,9 +5,9 @@ body#blank-template-body {
 .container {
     --border-color: #fff;
     --font-family: 'Poppins';
-    
+
     width: 100%;
-    max-width: 350px;
+    max-width: 462px;
     margin: 36px auto;
     padding: 25px;
 }
