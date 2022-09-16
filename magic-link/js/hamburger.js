@@ -5,6 +5,7 @@ export class DtHamburger extends LitElement {
     return css`
      :root {
         font-size: inherit;
+        color: inherit;
       }
       svg {
         width: 1em;
@@ -22,13 +23,13 @@ export class DtHamburger extends LitElement {
           <g id="hamburger">
             <g id="Group">
               <g id="Vector">
-                <use xlink:href="#path0_fill" transform="translate(-2612 -6224)" fill="#000000"/>
+                <use xlink:href="#path0_fill" transform="translate(-2612 -6224)"/>
               </g>
               <g id="Vector">
-                <use xlink:href="#path1_fill" transform="translate(-2612 -6234)" fill="#000000"/>
+                <use xlink:href="#path1_fill" transform="translate(-2612 -6234)"/>
               </g>
               <g id="Vector">
-                <use xlink:href="#path1_fill" transform="translate(-2612 -6214.8)" fill="#000000"/>
+                <use xlink:href="#path1_fill" transform="translate(-2612 -6214.8)">
               </g>
             </g>
           </g>

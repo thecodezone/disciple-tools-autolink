@@ -5,6 +5,7 @@ export class DtChevronLeft extends LitElement {
     return css`
       :root {
         font-size: inherit;
+        color: inherit;
       }
       svg {
         width: 1em;
