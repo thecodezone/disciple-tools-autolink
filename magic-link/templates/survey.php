@@ -14,7 +14,8 @@
         ></dt-input>
 
         <div class="question__pagination">
-            <!-- build out pagination -->
+            <span class="pagination__previous pagination__disable"></span>
+            <span class="pagination__next"></span>
         </div>
     </dt-tile>
 </div>

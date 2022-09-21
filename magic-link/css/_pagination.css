@@ -1,0 +1,37 @@
+.question__pagination {
+    display: flex;
+    justify-content: right;
+    gap: 8px;
+}
+
+.pagination__previous,
+.pagination__next {
+    width: 28px;
+    height: 28px;
+    background: #253D46;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination__next:after,
+.pagination__previous:after {
+    display: inline-block;
+    content: "";
+    border: 2px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    height: 10px;
+    width: 10px;
+}
+.pagination__next:after { 
+    transform: rotate(-45deg);
+}
+.pagination__previous:after  { 
+    transform: rotate(135deg);
+}
+
+.pagination__disable {
+    background: rgba(37, 61, 70, 0.2);
+}

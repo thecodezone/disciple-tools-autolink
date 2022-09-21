@@ -3,23 +3,23 @@ html {
     --dt-tile-header-font-weight: 700;
 }
 
-.greeting,
+strong.greeting,
 h1.user_name,
-.coached_by {
+strong.coached_by {
     text-align: center;
     color: var(--primary-color);
     display: block;
     margin-bottom: .5rem;
     font-style: normal;
 }
-.greeting,
-.coached_by  {
+strong.greeting,
+strong.coached_by {
     font-weight: 400;
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
-.greeting {
+strong.greeting {
     margin-bottom: 0;
 }
 h1.user_name {
@@ -27,20 +27,12 @@ h1.user_name {
     font-size: 32px;
     text-transform: capitalize;
 }
-.coached_by {
+strong.coached_by {
     margin-bottom: 3rem;
 }
-
-
 section {
     border-top: 4px solid var(--primary-color);
     margin-bottom: 1rem;
-}
-
-h3.section-header{
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 }
 
 .help-text {
