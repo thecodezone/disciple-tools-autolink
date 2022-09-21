@@ -8,11 +8,11 @@ export class DtHamburger extends LitElement {
         color: inherit;
       }
       svg {
-        width: var(--app-menu-svg-size, 1em);
+        width: 1.5em;
         height: auto;
       }
       svg use {
-        fill: var(--app-menu-svg-fill-color, currentcolor);
+        fill: var(--dt-primary-color);
       }
     `;
   }

@@ -11,7 +11,7 @@ export class AppMenu extends LitElement {
       top: 100px;
       left: 0;
       right: 0;
-      background-color: #2C5364;
+      background-color: var(--primary-color);
       z-index: 99999;
     }
     
@@ -36,14 +36,14 @@ export class AppMenu extends LitElement {
     } 
     .menu__list a.menu__link:hover {
       background-color: var(--surface-1);
-      color: #2C5364;
+      color: var(--primary-color);
     }
     .menu__list a.menu__link.menu__link--logout {
       background-color: var(--surface-1);
-      color: #2C5364;
+      color: var(--primary-color);
     }
     .menu__list a.menu__link.menu__link--logout:hover {
-      background-color: #2C5364;
+      background-color: var(--primary-color);
       color:  var(--surface-1);
     }
 

@@ -1,9 +1,13 @@
+html {
+    --dt-tile-margin: 1rem 0;
+    --dt-tile-header-font-weight: 700;
+}
 
 .greeting,
 h1.user_name,
 .coached_by {
     text-align: center;
-    color: #2C5364;
+    color: var(--primary-color);
     display: block;
     margin-bottom: .5rem;
     font-style: normal;
@@ -21,7 +25,27 @@ h1.user_name,
 h1.user_name {
     font-weight: 700;
     font-size: 32px;
+    text-transform: capitalize;
 }
 .coached_by {
     margin-bottom: 3rem;
+}
+
+
+section {
+    border-top: 4px solid var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+h3.section-header{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-text {
+    font-weight: 400;
+    font-size: 8px;
+    text-align: center;
+    font-style: normal;
 }

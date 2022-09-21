@@ -1,5 +1,5 @@
 body#blank-template-body {
-    border-top: 4px solid #2C5364;
+    border-top: 4px solid var(--primary-color);
 }
 
 .container {
