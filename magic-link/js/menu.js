@@ -31,8 +31,9 @@ export class AppMenu extends LitElement {
       border-radius: 4px;
       padding: 10px 20px;
       text-align: center;
-      margin: 10px;
+      margin: 10px auto;
       display: block;
+      max-width: 342px;
     } 
     .menu__list a.menu__link:hover {
       background-color: var(--surface-1);
