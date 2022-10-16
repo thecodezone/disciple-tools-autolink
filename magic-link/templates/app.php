@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var $logo_url string
  * @var $greeting string
@@ -12,16 +13,16 @@
  * @var $churches array;
  */
 ?>
-<?php include( 'parts/header.php' ); ?>
-<?php include( 'parts/navbar.php' ); ?>
+<?php include('parts/header.php'); ?>
+<?php include('parts/navbar.php'); ?>
 
 <div class="container app">
     <strong class="greeting">
-        <?php echo esc_html( $greeting ); ?>
+        <?php echo esc_html($greeting); ?>
     </strong>
-    <h1 class="user_name"><?php echo esc_html( $user_name ); ?></h1>
+    <h1 class="user_name"><?php echo esc_html($user_name); ?></h1>
     <strong class="coached_by">
-        <?php echo esc_html( $coached_by_label ); ?> <?php echo esc_html( $coach_name ); ?>
+        <?php echo esc_html($coached_by_label); ?> <?php echo esc_html($coach_name); ?>
     </strong>
 
     <dt-tile title="<?php echo esc_attr($link_heading); ?>">
@@ -32,17 +33,15 @@
     </dt-tile>
 
     <dt-tile title="<?php echo esc_attr($churches_heading); ?>">
-
-        <!-- Loop through churches -->
-        <dt-tile title="Church Name" class="church">
-            <div class="church_health">
-                <!-- Add 5 dummy icons with number to represent health metrics -->
-                <!-- Skip the collapse icon and I will add that later -->
-                <!-- Add a gray circle to match figma -->
-                <!-- Church start date -->
-            </div>
-        </dt-tile>
+        <ul class="churches">
+            <?php foreach ($churches as $church) : ?>
+                <dt-tile title="<?php echo $church['post_title']; ?>" class="church">
+                    <?php include("parts/health-counts.php"); ?>
+                    <app-church group='<?php echo wp_json_encode($church); ?>' fields='<?php echo wp_json_encode($church_fields); ?>'>
+                    </app-church>
+                </dt-tile>
+            <?php endforeach; ?>
     </dt-tile>
 </div>
 
-<?php include( 'parts/footer.php' ); ?>
+<?php include('parts/footer.php'); ?>

@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
+import { DTBase } from 'dt-web-components';
 
-export class DtCheckMark extends LitElement {
+export class DtCheckMark extends DTBase {
   static get styles() {
     return css`
       :root {

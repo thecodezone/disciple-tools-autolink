@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
+import { DTBase } from 'dt-web-components';
 
-export class DtHamburger extends LitElement {
+export class DtHamburger extends DTBase {
   static get styles() {
     return css`
      :root {

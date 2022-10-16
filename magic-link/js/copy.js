@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
+import { DTBase } from 'dt-web-components';
 
-export class DtCopy extends LitElement {
+export class DtCopy extends DTBase {
   static get styles() {
     return css`
       :root {

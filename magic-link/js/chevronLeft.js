@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
+import { DTBase } from 'dt-web-components';
 
-export class DtChevronLeft extends LitElement {
+export class DtChevronLeft extends DTBase {
   static get styles() {
     return css`
       :root {
