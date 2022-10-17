@@ -162,6 +162,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         if ($type === 'POST') {
             switch ($action) {
+                case 'survey':
+                    $this->submit_survey();
+                    break;
                 default:
                     wp_redirect('/' . $this->root);
             }
@@ -220,7 +223,47 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function show_survey()
     {
+        $survey = $this->functions->survey();
+        $page = $_GET['paged'] ?? 0;
+        $question = $survey[$page] ?? null;
+        if (!$question) {
+            wp_redirect($this->functions->get_app_link() . '?action=survey');
+            return;
+        }
+        $answer = get_user_meta(get_current_user_id(), $question['name'], true);
+        $answer = $answer ? $answer : 0;
+        $action = $this->functions->get_app_link() . '?action=survey&paged=' . $page;
+        $previous_url = $page > 0 ? $this->functions->get_app_link() . '?action=survey&paged=' . ($page - 1) : null;
+        $progress = $page + 1 / count($survey);
+        $progress = number_format($progress * 100, 2) . '%';
+
         include('templates/survey.php');
+    }
+
+    public function submit_survey()
+    {
+        $survey = $this->functions->survey();
+        $page = $_GET['paged'] ?? 0;
+        $question = $survey[$page] ?? null;
+        $next_page = $page + 1;
+
+        if (!$question) {
+            wp_redirect($this->functions->get_app_link() . '?action=survey');
+            return;
+        }
+        $answer = $_POST[$question['name']] ?? null;
+        if ($answer === null) {
+            wp_redirect($this->functions->get_app_link() . '?action=survey&paged=' . $page);
+            return;
+        }
+        update_user_meta(get_current_user_id(), $question['name'], $answer);
+
+        if (isset($survey[$next_page])) {
+            wp_redirect($this->functions->get_app_link() . '?action=survey&paged=' . $next_page);
+            return;
+        }
+
+        wp_redirect($this->functions->get_app_link());
     }
 
     /**
