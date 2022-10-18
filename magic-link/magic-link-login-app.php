@@ -1,5 +1,7 @@
 <?php
-if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+} // Exit if accessed directly.
 
 /**
  * Adds a non-object (neither post or user) magic link page.
@@ -27,7 +29,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     public function __construct() {
         parent::__construct();
 
-        $url = dt_get_url_path(true);
+        $url = dt_get_url_path( true );
         $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
 
         if ( ( $this->root ) === $url ) {
@@ -37,12 +39,15 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
             // register url and access
             add_action( "template_redirect", [ $this, 'theme_redirect' ] );
-            add_filter( 'dt_blank_access', function (){ return true;
-            }, 100, 1 );
-            add_filter( 'dt_allow_non_login_access', function (){ return true;
-            }, 100, 1 );
-            add_filter( 'dt_override_header_meta', function (){ return true;
-            }, 100, 1 );
+            add_filter('dt_blank_access', function () {
+                return true;
+            }, 100, 1);
+            add_filter('dt_allow_non_login_access', function () {
+                return true;
+            }, 100, 1);
+            add_filter('dt_override_header_meta', function () {
+                return true;
+            }, 100, 1);
 
             // header content
             add_filter( "dt_blank_title", [ $this, "page_tab_title" ] ); // adds basic title to browser tab
@@ -54,7 +59,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             add_action( 'dt_blank_head', [ $this, '_header' ] );
             add_action( 'dt_blank_footer', [ $this, '_footer' ] );
 
-            add_action( 'dt_blank_body', function() {
+            add_action('dt_blank_body', function () {
                 $this->ready();
                 $this->routes();
             }); // body for no post key
@@ -82,7 +87,9 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     public function wp_enqueue_scripts() {
         $this->functions->wp_enqueue_scripts();
         wp_localize_script(
-            'magic_link_scripts', 'magic', [
+            'magic_link_scripts',
+            'magic',
+            [
                 'parts' => $this->parts,
                 'rest_namespace' => $this->root . '/v1/' . $this->type,
             ]
@@ -93,7 +100,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $action = $_GET['action'] ?? '';
         $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-        if ($type === 'GET') {
+        if ( $type === 'GET' ) {
             switch ( $action ) {
                 case 'login':
                     $this->show_login();
@@ -108,7 +115,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             return;
         }
 
-        if ($type === 'POST') {
+        if ( $type === 'POST' ) {
             switch ( $action ) {
                 case 'login':
                     $this->process_login();
@@ -123,7 +130,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
     }
 
-    public function show_login($params = []) {
+    public function show_login( $params = [] ) {
         $logo_url = $this->functions->fetch_logo();
         $register_url = '/' . $this->root . '?action=register';
         $form_action = '/' . $this->root . '?action=login';
@@ -149,8 +156,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
         wp_set_auth_cookie( $user->ID );
 
-        if (! $user) {
-            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'disciple-tools-autolink') ] );
+        if ( !$user ) {
+            return $this->show_login( [ 'error' => _e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
         }
 
         $this->functions->activate();
@@ -158,12 +165,12 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $this->functions->redirect_to_link();
     }
 
-    public function show_register($params = []) {
+    public function show_register( $params = [] ) {
         $logo_url = $this->functions->fetch_logo();
         $form_action = '/' . $this->root . '?action=register';
         $error = $params['error'] ?? '';
 
-        include('templates/register.php');
+        include( 'templates/register.php' );
     }
 
     public function process_register() {
@@ -172,8 +179,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $email = sanitize_text_field( $_POST['email'] ) ?? '';
         $confirm_password = sanitize_text_field( $_POST['confirm_password'] ) ?? '';
 
-        if ($confirm_password !== $password) {
-            return $this->show_login(['error' => 'Passwords do not match']);
+        if ( $confirm_password !== $password ) {
+            return $this->show_login( [ 'error' => 'Passwords do not match' ] );
         }
 
         $user = wp_create_user( $username, $password, $email );
@@ -186,8 +193,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         wp_set_current_user( $user );
         wp_set_auth_cookie( $user->ID );
 
-        if (! $user) {
-            return $this->show_login( [ 'error' => _e('An unexpected error has occurred.', 'disciple-tools-autolink') ] );
+        if ( !$user ) {
+            return $this->show_login( [ 'error' => _e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
         }
 
         $this->functions->activate();
@@ -203,7 +210,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $namespace = $this->root . '/v1';
         register_rest_route(
             $namespace,
-            '/'.$this->type,
+            '/' . $this->type,
             [
                 [
                     'methods'  => WP_REST_Server::CREATABLE,
@@ -216,7 +223,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     public function endpoint( WP_REST_Request $request ) {
         $params = $request->get_params();
 
-        if ( ! isset( $params['parts'], $params['action'] ) ) {
+        if ( !isset( $params['parts'], $params['action'] ) ) {
             return new WP_Error( __METHOD__, "Missing parameters", [ 'status' => 400 ] );
         }
 
@@ -232,6 +239,5 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
                 return true;
         }
     }
-
 }
 Disciple_Tools_Autolink_Login_App::instance();

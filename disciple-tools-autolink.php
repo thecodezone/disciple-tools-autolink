@@ -81,7 +81,7 @@ class Disciple_Tools_Autolink {
     }
 
     private function __construct() {
-        if (!session_id()) {
+        if ( !session_id() ) {
             session_start();
         }
         $is_rest = dt_is_rest();
@@ -90,7 +90,7 @@ class Disciple_Tools_Autolink {
             require_once( 'rest-api/rest-api.php' ); // adds starter rest api class
         }
 
-        require_once ( 'magic-link/functions.php' );
+        require_once( 'magic-link/functions.php' );
         require_once( 'magic-link/magic-link-contact-app.php' );
         require_once( 'magic-link/magic-link-user-app.php' );
         require_once( 'magic-link/magic-link-login-app.php' );
@@ -259,7 +259,7 @@ add_action( 'plugins_loaded', function (){
     if ( is_admin() && !( is_multisite() && class_exists( "DT_Multisite" ) ) || wp_doing_cron() ){
         // Check for plugin updates
         if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-            if ( file_exists( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' )){
+            if ( file_exists( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' ) ){
                 require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
             }
         }

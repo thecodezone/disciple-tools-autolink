@@ -1,11 +1,14 @@
 <?php
-if ( !defined( 'ABSPATH' ) ) { exit; } // Exit if accessed directly.
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+} // Exit if accessed directly.
 
 
 /**
  * Class Disciple_Tools_Autolink_Magic_Link
  */
-class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
+class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
+{
     public $magic = false;
     public $parts = false;
     public $page_title = 'Autolink';
@@ -60,8 +63,8 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
         /**
          * post type and module section
          */
-//        add_action( 'dt_details_additional_section', [ $this, 'dt_details_additional_section' ], 30, 2 );
-//        add_filter( 'dt_details_additional_tiles', [ $this, 'dt_details_additional_tiles' ], 10, 2 );
+        //        add_action( 'dt_details_additional_section', [ $this, 'dt_details_additional_section' ], 30, 2 );
+        //        add_filter( 'dt_details_additional_tiles', [ $this, 'dt_details_additional_tiles' ], 10, 2 );
         add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
 
 
@@ -77,19 +80,19 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
         /**
          * tests magic link parts are registered and have valid elements
          */
-        if ( !$this->check_parts_match() ){
+        if ( !$this->check_parts_match() ) {
             return;
         }
 
         // load if valid url
-        add_action( 'dt_blank_body', [$this, 'ready'] ); // body for no post key
+        add_action( 'dt_blank_body', [ $this, 'ready' ] ); // body for no post key
         add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
         add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
     }
 
     public function ready() {
-        $leader = DT_Posts::get_post($this->post_type, $this->parts['post_id'], true, false );
+        $leader = DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
         $_SESSION['dt_autolink_leader_id'] = $leader['ID'];
         $this->functions->redirect_to_link();
     }
@@ -97,7 +100,9 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base {
     public function wp_enqueue_scripts() {
         $this->functions->wp_enqueue_scripts();
         wp_localize_script(
-            'magic_link_scripts', 'magic', [
+            'magic_link_scripts',
+            'magic',
+            [
                 'parts' => $this->parts,
                 'rest_namespace' => $this->root . '/v1/' . $this->type,
             ]

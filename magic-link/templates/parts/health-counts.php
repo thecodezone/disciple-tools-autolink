@@ -1,8 +1,8 @@
 <?php
-$group = DT_Posts::get_post('groups', $church['ID']);
+$group = DT_Posts::get_post( 'groups', $church['ID'] );
 ?>
 <div class="church-counts">
-    <?php foreach ($church_count_fields as $key => $field) : ?>
+    <?php foreach ( $church_count_fields as $key => $field ) : ?>
         <div class="church-count">
             <span class="church-count__value"><?php echo $group[$key] ?? 0; ?></span>
             <span class="church-count__label"><?php echo $field['name']; ?></span>
