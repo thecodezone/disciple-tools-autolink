@@ -176,8 +176,7 @@ class Disciple_Tools_Autolink_Magic_Functions
         unset( $_SESSION['dt_autolink_leader_id'] );
     }
 
-    public function survey(): array
-    {
+    public function survey(): array {
         $survey = apply_filters('dt_autolink_survey', [
             [
                 'name' => 'dt_autolink_number_of_leaders_coached',
@@ -192,5 +191,16 @@ class Disciple_Tools_Autolink_Magic_Functions
             return [];
         }
         return $survey;
+    }
+
+    public function survey_completed() {
+        $survey = $this->survey();
+        $user_meta = get_user_meta( get_current_user_id() );
+        foreach ( $survey as $question ) {
+            if ( !isset( $user_meta[$question['name']] ) ) {
+                return false;
+            }
+        }
+        return true;
     }
 }
