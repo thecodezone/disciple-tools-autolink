@@ -1,0 +1,21 @@
+.churches {
+    position: relative;
+}
+
+.churches__add {
+    --dt-button-font-size: 25px;
+    position: absolute;
+    top: var(--dt-tile-padding, 15px);
+    right: var(--dt-tile-padding, 15px);
+}
+
+.church {
+    position: relative;
+}
+
+.church__link {
+    --dt-button-font-size: 25px;
+    position: absolute;
+    top: var(--dt-tile-padding, 15px);
+    right: var(--dt-tile-padding, 15px);
+}

@@ -17,6 +17,7 @@ export class DtButton extends DTBase {
         padding: var(--dt-button-padding-y, 10px) var(--dt-button-padding-x, 10px);
         font-family: var(--dt-button-font-family);
         font-size: var(--dt-button-font-size, 14px);
+        line-height: var(--dt-button-line-height, inherit);
         font-weight: var(--dt-button-font-weight, 700);
         background-color: var(--dt-button-context-background-color, var(--dt-button-background-color));
         border: var(--dt-button-border-width, 1px) solid var(--dt-button-context-border-color, var(--dt-button-border-color));
@@ -33,6 +34,8 @@ export class DtButton extends DTBase {
         letter-spacing: var(--dt-button-letter-spacing, normal);
         width: var(--dt-button-width, 100%);
         height: var(--dt-button-height, auto);
+        aspect-ratio: var(--dt-button-aspect-ratio, auto);
+        position: relative;
       }
 
       .dt-button.dt-button--outline {
@@ -119,6 +122,15 @@ export class DtButton extends DTBase {
         --dt-button-context-border-color: var(--disabled-color);
       }
 
+      .dt-button.dt-button--rounded {
+        --dt-button-border-radius: var(--dt-rounded-button-border-radius, 50%);
+        --dt-button-padding-x: var(--dt-rounded-button-padding-x, 0px);
+        --dt-button-padding-y: var(--dt-rounded-button-padding-y, 0px);
+        --dt-button-width: var(--dt-rounded-button-width, 1.2em);
+        --dt-button-aspect-ratio: var(--dt-rounded-button-aspect-ratio, 1/1);
+        --dt-button-line-height: var(--dt-rounded-button-height, 0);
+      }
+
       button.toggle {
         margin-inline-end: 0;
         margin-inline-start: auto;
@@ -140,13 +152,15 @@ export class DtButton extends DTBase {
       href: { type: String },
       title: { type: String },
       onClick: { type: Function },
+      rounded: { type: Boolean },
     };
   }
 
   get classes() {
     const classes = {
       'dt-button': true,
-      'dt-button--outline': this.outline
+      'dt-button--outline': this.outline,
+      'dt-button--rounded': this.rounded,
     }
     const contextClass = `dt-button--${this.context}`
     classes[contextClass] = true;
