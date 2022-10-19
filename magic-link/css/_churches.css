@@ -19,3 +19,13 @@
     top: var(--dt-tile-padding, 15px);
     right: var(--dt-tile-padding, 15px);
 }
+
+.church__counts {
+    display: flex;
+}
+
+.church__count {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
