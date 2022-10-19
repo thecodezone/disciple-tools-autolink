@@ -138,14 +138,16 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     }
 
     public function routes() {
-        $action = $_GET['action'] ?? '';
-
-        $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
+        $type = strtoupper( sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) );
 
         if ( $type === 'GET' ) {
             switch ( $action ) {
                 case 'survey':
                     $this->show_survey();
+                    break;
+                case 'create-group':
+                    $this->show_create_group();
                     break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
@@ -161,6 +163,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             switch ( $action ) {
                 case 'survey':
                     $this->submit_survey();
+                    break;
+                case 'create-group':
+                    $this->create_group();
                     break;
                 default:
                     wp_redirect( '/' . $this->root );
@@ -178,6 +183,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $share_link_help_text = __( 'Copy this link and share it with your coach.', 'disciple-tools-autolink' );
         $churches_heading = __( 'My Churches', 'disciple-tools-autolink' );
         $share_link = $this->functions->get_share_link();
+        $create_church_link = $this->functions->get_app_link() . '?action=create-group';
         $churches = [];
         $group_fields = DT_Posts::get_post_field_settings( 'groups' );
         $church_fields = [
@@ -199,6 +205,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
         $coach = null;
         $coach_name = '';
+        $view_church_label = __( 'View Group', 'disciple-tools-autolink' );
 
         if ( $contact ) {
             $contact = DT_Posts::get_post( 'contacts', $contact );
@@ -219,7 +226,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function show_survey() {
         $survey = $this->functions->survey();
-        $page = $_GET['paged'] ?? 0;
+        $page = sanitize_key( wp_unslash( $_GET['paged'] ?? 0 ) );
         $question = $survey[$page] ?? null;
         if ( !$question ) {
             wp_redirect( $this->functions->get_app_link() . '?action=survey' );
@@ -237,15 +244,20 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function submit_survey() {
         $survey = $this->functions->survey();
-        $page = $_GET['paged'] ?? 0;
+        $page = sanitize_key( wp_unslash( $_GET['paged'] ?? 0 ) );
         $question = $survey[$page] ?? null;
         $next_page = $page + 1;
+        $question_name = $question['name'];
+        $nonce = sanitize_key( wp_unslash( $_POST['nonce'] ?? '' ) );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_survey' );
 
-        if ( !$question ) {
+        if ( !$verify_nonce || !$question ) {
             wp_redirect( $this->functions->get_app_link() . '?action=survey' );
             return;
         }
-        $answer = $_POST[$question['name']] ?? null;
+
+        $answer = sanitize_key( wp_unslash( $_POST[$question_name] ?? null ) );
+
         if ( $answer === null ) {
             wp_redirect( $this->functions->get_app_link() . '?action=survey&paged=' . $page );
             return;
@@ -254,6 +266,42 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         if ( isset( $survey[$next_page] ) ) {
             wp_redirect( $this->functions->get_app_link() . '?action=survey&paged=' . $next_page );
+            return;
+        }
+
+        wp_redirect( $this->functions->get_app_link() );
+    }
+
+    public function show_create_group( $params = '' ) {
+        $heading = __( 'Create a Church', 'disciple-tools-autolink' );
+        $name_label = __( 'Church Name', 'disciple-tools-autolink' );
+        $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
+        $nonce = 'dt_autolink_create_group';
+        $action = $this->functions->get_app_link() . '?action=create-group';
+        $cancel_url = $this->functions->get_app_link();
+        $cancel_label = __( 'Cancel', 'disciple-tools-autolink' );
+        $submit_label = __( 'Create Church', 'disciple-tools-autolink' );
+        $error = $params['error'] ?? '';
+
+        include( 'templates/create-group.php' );
+    }
+
+    public function create_group() {
+        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
+        $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+
+        if ( !$verify_nonce || !$name ) {
+            $this->show_create_group( [ 'error' => 'Invalid request' ] );
+            return;
+        }
+
+        $group = DT_Posts::create_post( 'groups', [
+            'title' => $name
+        ], false, false );
+
+        if ( is_wp_error( $group ) ) {
+            $this->show_create_group( [ 'error' => $group->get_error_message() ] );
             return;
         }
 

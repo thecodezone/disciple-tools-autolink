@@ -11,3 +11,5 @@ import "./js/check";
 import "./js/churchHealthCircle";
 import "./js/collapse";
 import "./js/church";
+import "./js/link";
+import "./js/plus";

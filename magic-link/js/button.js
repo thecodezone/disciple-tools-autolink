@@ -1,5 +1,5 @@
-import {html, css} from 'lit';
-import {classMap} from 'lit/directives/class-map.js';
+import { html, css } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { DTBase } from 'dt-web-components';
 
 export class DtButton extends DTBase {
@@ -31,7 +31,8 @@ export class DtButton extends DTBase {
         text-decoration: var( --dt-button-text-decoration, var(--dt-button-context-text-decoration, none));
         text-transform: var(--dt-button-text-transform, none);
         letter-spacing: var(--dt-button-letter-spacing, normal);
-        width: 100%;
+        width: var(--dt-button-width, 100%);
+        height: var(--dt-button-height, auto);
       }
 
       .dt-button.dt-button--outline {
@@ -133,12 +134,12 @@ export class DtButton extends DTBase {
 
   static get properties() {
     return {
-      context: {type: String},
-      type: {type: String},
-      outline: {type: Boolean},
-      href: {type: String},
-      title: {type: String},
-      onClick: {type: Function},
+      context: { type: String },
+      type: { type: String },
+      outline: { type: Boolean },
+      href: { type: String },
+      title: { type: String },
+      onClick: { type: Function },
     };
   }
 

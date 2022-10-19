@@ -14,7 +14,7 @@ html {
     --surface-0: #e2e2e2;
     --surface-1: #ffffff;
     --surface-2: #f5f5f5;
-    --border-color: #cecece;
+    --border-color: #ffffff;
 
     --shadow-0: 0px 0px 10px 3px rgba(0, 0, 0, 0.04), 0px 40px 40px -40px rgba(0, 0, 0, 0.2);
     --shadow-1: 0 4px 4px rgb(0 0 0 / 25%);
@@ -26,7 +26,7 @@ html {
     --inactive-color: #808080;
     --disabled-color: #e6e6e6;
 
-    --font-family: Helvetica, Arial, sans-serif;
+    --font-family: Poppins, Helvetica, sans-serif;
 
     --dt-form-border-color: #E4E4E4;
     --dt-form-background-color: var(--surface-1);
@@ -59,7 +59,7 @@ html {
     --dt-text-placeholder-color: #AEAEAE;
     --dt-text-placeholder-font-size: 12px;
     --dt-text-placeholder-font-weight: 700;
-    --dt-text-placeholder-letter-spacing:0.1em;
+    --dt-text-placeholder-letter-spacing: 0.1em;
     --dt-text-placeholder-transform: uppercase;
 
 
@@ -77,7 +77,8 @@ html {
     --dt-spinner-color-1: var(--gray-1);
     --dt-spinner-color-2: var(--black);
     --dt-tile-font-family: var(--font-family);
-    --dt-tile-font-size: 14px;;
+    --dt-tile-font-size: 14px;
+    ;
     --dt-tile-font-weight: 700;
     --dt-tile-background-color: var(--surface-1);
     --dt-tile-border-color: var(--surface-1);
@@ -88,7 +89,8 @@ html {
     --dt-alert-text-color-light: #fff;
     --dt-alert-text-color-dark: #000;
     --dt-alert-font-family: var(--font-family);
-    --dt-alert-font-size: 14px;;
+    --dt-alert-font-size: 14px;
+    ;
     --dt-alert-font-weight: 700;
     --dt-alert-background-color: var(--surface-1);
     --dt-alert-shadow: var(--shadow-0);
@@ -100,7 +102,8 @@ html {
     --dt-button-text-color-light: #fff;
     --dt-button-text-color-dark: #000;
     --dt-button-font-family: var(--font-family);
-    --dt-button-font-size: 13px;;
+    --dt-button-font-size: 13px;
+    ;
     --dt-button-font-weight: 500;
     --dt-button-background-color: var(--surface-1);
     --dt-button-shadow: var(--shadow-0);
