@@ -1,3 +1,9 @@
+import { loaded } from './js/helpers'
+
+loaded(() => {
+    document.body.classList.add('dom-loaded');
+})
+
 import "dt-web-components";
 import "./js/hamburger.js";
 import "./js/menu.js";
@@ -13,5 +19,3 @@ import "./js/collapse";
 import "./js/church";
 import "./js/link";
 import "./js/icon";
-
-

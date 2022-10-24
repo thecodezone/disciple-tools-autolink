@@ -2,7 +2,7 @@
     visibility: hidden;
 }
 
-body.dom-loaded .coak {
+body.dom-loaded .cloak {
     visibility: visible;
 }
 
