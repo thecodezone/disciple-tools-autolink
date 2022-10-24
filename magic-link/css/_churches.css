@@ -23,7 +23,7 @@
 .church__counts {
     display: flex;
     gap: .5rem;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .church__count {
