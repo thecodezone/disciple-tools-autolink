@@ -8,3 +8,13 @@
     display: flex;
     justify-content: center;
 }
+
+.login .logo {
+    display: flex;
+    justify-content: center;
+}
+
+.login .logo__image {
+    width: 100%;
+    max-width: 200px;
+}
