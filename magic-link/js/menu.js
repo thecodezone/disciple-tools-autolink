@@ -1,6 +1,9 @@
-import { css, html, LitElement } from 'lit';
+import { css, html, LitElement, nothing } from 'lit';
 import { DTBase } from 'dt-web-components';
 
+/**
+ * The main menu component. Located inside the navbar.
+ */
 export class AppMenu extends DTBase {
   static get styles() {
     return css`
@@ -50,30 +53,73 @@ export class AppMenu extends DTBase {
       background-color: var(--primary-color);
       color:  var(--surface-1);
     }
-
+    .menu__backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
     `;
   }
+
+  /**
+   * The component props
+   */
   static get properties() {
     return {
       show: { type: Boolean, attribute: false }
     };
   }
 
+  /**
+   * The icon code.
+   * @see https://iconify.design/ for more icons
+   */
   get icon() {
     return this.show ? 'ic:sharp-close' : 'ic:sharp-menu';
   }
 
+  /**
+   * Render the component 
+   */
   render() {
     return html`
       <nav class="menu">
         <a @click=${() => this.toggle()} title="${app.translations.toggle_menu}">
           <dt-icon class="menu__toggle" icon="${this.icon}"></dt-icon>
-          ${this.renderCollapse()}
         </a>
+        ${this.renderCollapse()}
       </nav>
+      ${this.renderBackdrop()}
 `;
   }
 
+  /**
+   * Render the backdrop. If clicked, it closes the menu.
+   */
+  renderBackdrop() {
+    if (!this.show) {
+      return nothing
+    }
+
+    return html`
+      <div class="menu__backdrop" @click=${this.handleBackdropClick}></div>
+    `
+  }
+
+  /**
+   * Make sure the backdrop is the specific element clicked
+   */
+  handleBackdropClick(e) {
+    if (e.target === e.currentTarget) {
+      this.close()
+    }
+  }
+
+  /**
+   * Render the collapsable part of the menu
+   */
   renderCollapse() {
     if (!this.show) {
       return '';
@@ -96,8 +142,29 @@ export class AppMenu extends DTBase {
     `;
   }
 
+  /**
+   * Toggle the menu open or closed
+   */
   toggle() {
-    this.show = !this.show;
+    if (this.show) {
+      this.close()
+    } else {
+      this.open()
+    }
+  }
+
+  /**
+   * Close the menu
+   */
+  close() {
+    this.show = false
+  }
+
+  /**
+   * Open the menu
+   */
+  open() {
+    this.show = true
   }
 }
 
