@@ -95,11 +95,6 @@ class Disciple_Tools_Autolink {
         require_once( 'magic-link/magic-link-user-app.php' );
         require_once( 'magic-link/magic-link-login-app.php' );
 
-
-        if ( is_admin() ) {
-            require_once( 'admin/admin-menu-and-tabs.php' ); // adds starter admin page and section for plugin
-        }
-
         $this->i18n();
     }
 
