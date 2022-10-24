@@ -199,7 +199,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         ];
         $church_count_fields = [];
         foreach ( $allowed_church_count_fields as $field ) {
-            $church_count_fields[$field] = $group_fields[$field];
+            //Fields can registered or deregistered by plugins,so check and make sure it exists
+            if ( isset( $group_fields[$field] ) ) {
+                $church_count_fields[$field] = $group_fields[$field];
+            }
         }
 
         $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
@@ -213,13 +216,20 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 $contact = $result;
             }
             $churches = DT_Posts::list_posts('groups', [
-                'assigned_to' => [ get_current_user_id() ]
+                'assigned_to' => [ get_current_user_id() ],
+                'sort' => 'last_modified'
             ], false)['posts'] ?? [];
+            if ( is_wp_error( $churches ) ) {
+                $churches = [];
+            }
         }
         if ( $contact && count( $contact['coached_by'] ) ) {
             $coach = $contact['coached_by'][0] ?? null;
             if ( $coach ) {
                 $coach = DT_Posts::get_post( 'contacts', $coach['ID'], false, false );
+                if ( is_wp_error( $coach ) ) {
+                    $coach = '';
+                }
                 $coach_name = $coach['name'] ?? '';
             }
         }
