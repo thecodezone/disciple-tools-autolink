@@ -52,6 +52,10 @@
             </div>
         </form>
     </dt-tile>
+    <div class="login__footer">
+        <dt-button context="link" href="<?php echo esc_url( $reset_url ); ?>">
+            <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
+        </dt-button>
 </div>
 
 <?php include( 'parts/footer.php' ); ?>

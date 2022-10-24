@@ -134,6 +134,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $logo_url = $this->functions->fetch_logo();
         $register_url = '/' . $this->root . '?action=register';
         $form_action = '/' . $this->root . '?action=login';
+        $reset_url = wp_lostpassword_url( $this->functions->get_link_url() );
         $error = $params['error'] ?? '';
 
         include( 'templates/login.php' );
