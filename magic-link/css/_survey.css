@@ -1,3 +1,7 @@
+:root {
+    --dt-tile-header-text-transform: none;
+}
+
 .question__pagination {
     display: flex;
     justify-content: right;
