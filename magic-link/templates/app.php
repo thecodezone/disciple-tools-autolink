@@ -34,17 +34,16 @@
 
     <dt-tile class="churches" title="<?php echo esc_attr( $churches_heading ); ?>">
      <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
-        <iconify-icon icon="material-symbols:add"></iconify-icon>
+        <dt-icon icon="ic:baseline-plus"></dt-icon>
     </dt-button>
         <ul class="churches__list">
             <?php foreach ( $churches as $church ) : ?>
                 <dt-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
                     <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
-                        <iconify-icon icon="material-symbols:link-rounded"></iconify-icon>
+                        <dt-icon icon="material-symbols:link-rounded"></dt-icon>
                     </dt-button>
                     <?php include( "parts/health-counts.php" ); ?>
-                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>'>
-                    </app-church>
+                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' opened> </app-church>
                 </dt-tile>
             <?php endforeach; ?>
     </dt-tile>

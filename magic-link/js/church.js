@@ -1,3 +1,4 @@
+import { DTBase } from 'dt-web-components';
 import { css, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { AppCollapse } from './collapse';
@@ -5,18 +6,25 @@ import { AppCollapse } from './collapse';
 export class AppChurch extends AppCollapse {
     static get properties() {
         return {
-            group: {type: Object},
-            fields: {type: Object},
-            opened: {type: Boolean, reflect: true},
-            startDateLabel: {type: String},
+            group: { type: Object },
+            fields: { type: Object },
+            opened: { type: Boolean, reflect: true },
+            startDateLabel: { type: String },
         };
     }
-    
+
     static get styles() {
         return css`
         :host {
             color: currentcolor;
             display: block;
+        }
+
+        .collapse__icon{
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+            padding-top: 1rem;
         }
         `
     }
@@ -24,18 +32,14 @@ export class AppChurch extends AppCollapse {
     render() {
         return html`
             <div class="group">
-                ${
-                    this.renderIcon()
-                }
-                ${
-                    this.renderContent()
-                }
+                ${this.renderContent()}
+                ${this.renderIcon()}
             </div>
         `;
     }
 
     renderContent() {
-        const {startDateLabel} = this;
+        const { startDateLabel } = this;
 
         if (this.opened) {
             return html`

@@ -180,11 +180,11 @@ class Disciple_Tools_Autolink_Magic_Functions
         $survey = apply_filters('dt_autolink_survey', [
             [
                 'name' => 'dt_autolink_number_of_leaders_coached',
-                'label' => __( 'Number of leaders coached', 'disciple-tools-autolink' )
+                'label' => __( 'How many leaders are you coaching?', 'disciple-tools-autolink' )
             ],
             [
                 'name' => 'dt_autolink_number_of_churches_led',
-                'label' => __( 'Number of churches led', 'disciple-tools-autolink' )
+                'label' => __( 'How many churches are you leading?', 'disciple-tools-autolink' )
             ]
         ]);
         if ( !is_array( $survey ) ) {

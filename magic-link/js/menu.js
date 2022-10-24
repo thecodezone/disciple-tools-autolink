@@ -6,9 +6,11 @@ export class AppMenu extends DTBase {
     return css`
      .menu__toggle {
       cursor: pointer;
+      font-size: 2.5rem;
      }
+
     .menu__collapse {
-      position: fixed;
+      position: absolute;
       top: 100px;
       left: 0;
       right: 0;
@@ -56,11 +58,16 @@ export class AppMenu extends DTBase {
       show: { type: Boolean, attribute: false }
     };
   }
+
+  get icon() {
+    return this.show ? 'ic:sharp-close' : 'ic:sharp-menu';
+  }
+
   render() {
     return html`
       <nav class="menu">
         <a @click=${() => this.toggle()} title="${app.translations.toggle_menu}">
-          <dt-hamburger class="menu__toggle"></dt-hamburger>
+          <dt-icon class="menu__toggle" icon="${this.icon}"></dt-icon>
           ${this.renderCollapse()}
         </a>
       </nav>

@@ -22,10 +22,26 @@
 
 .church__counts {
     display: flex;
+    gap: .5rem;
+    justify-content: space-between;
 }
 
 .church__count {
+    position: relative;
     display: flex;
     flex-direction: column;
     text-align: center;
+}
+
+.count__value {
+    position: absolute;
+    bottom: 0;
+    transform: translate(50%, 50%);
+    right: 50%;
+    background-color: var(--alert-color);
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    display: block;
+    width: 1.5rem;
+    color: white;
 }

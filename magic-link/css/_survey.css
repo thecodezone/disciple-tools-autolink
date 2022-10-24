@@ -1,0 +1,16 @@
+.question__pagination {
+    display: flex;
+    justify-content: right;
+    gap: 8px;
+}
+
+.question .pagination__next,
+.question .pagination__prev {
+    --dt-button-background-color: var(--primry-dark);
+    --dt-button-text-color: white;
+    --dt-button-width: 3em;
+}
+
+.question .question__pagination dt-icon {
+    font-size: 2rem;
+}

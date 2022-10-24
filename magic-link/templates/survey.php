@@ -11,8 +11,14 @@
         <dt-text class="question__input" type="number" value="<?php echo esc_attr( $answer ); ?>" name="<?php echo esc_attr( $question['name'] ) ?>"></dt-text>
 
         <div class="question__pagination">
-            <?php if ( $previous_url ) : ?><a class="pagination__previous" href="<?php echo esc_url( $previous_url ) ?>"></a><?php endif; ?>
-            <input type="submit" class="pagination__next" value="">
+            <?php if ( $previous_url ) : ?>
+                <dt-button type="submit" class="pagination__previous" href="<?php echo esc_url( $previous_url ) ?>" rounded>
+                    <dt-icon icon="mdi:chevron-left"></dt-icon>
+                </dt-button>
+            <?php endif; ?>
+            <dt-button type="submit" class="pagination__next" rounded>
+                <dt-icon icon="mdi:chevron-right"></dt-icon>
+            </dt-button>
         </div>
     </dt-tile>
     </div>

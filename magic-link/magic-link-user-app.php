@@ -208,7 +208,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $view_church_label = __( 'View Group', 'disciple-tools-autolink' );
 
         if ( $contact ) {
-            $contact = DT_Posts::get_post( 'contacts', $contact );
+            $result = DT_Posts::get_post( 'contacts', $contact, false, false );
+            if ( !is_wp_error( $result ) ) {
+                $contact = $result;
+            }
             $churches = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ]
             ], false)['posts'] ?? [];
@@ -216,7 +219,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         if ( $contact && count( $contact['coached_by'] ) ) {
             $coach = $contact['coached_by'][0] ?? null;
             if ( $coach ) {
-                $coach = DT_Posts::get_post( 'contacts', $coach['ID'] );
+                $coach = DT_Posts::get_post( 'contacts', $coach['ID'], false, false );
                 $coach_name = $coach['name'] ?? '';
             }
         }
@@ -244,11 +247,11 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function submit_survey() {
         $survey = $this->functions->survey();
-        $page = sanitize_key( wp_unslash( $_GET['paged'] ?? 0 ) );
+        $page = (int) sanitize_text_field( wp_unslash( $_GET['paged'] ?? 0 ) );
         $question = $survey[$page] ?? null;
         $next_page = $page + 1;
         $question_name = $question['name'];
-        $nonce = sanitize_key( wp_unslash( $_POST['nonce'] ?? '' ) );
+        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_survey' );
 
         if ( !$verify_nonce || !$question ) {

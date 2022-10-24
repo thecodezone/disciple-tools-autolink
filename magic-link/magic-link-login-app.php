@@ -97,8 +97,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     }
 
     public function routes() {
-        $action = $_GET['action'] ?? '';
-        $type = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $action = sanitize_text_field( wp_unslash( $_GET['action'] ?? '' ) );
+        $type = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) );
 
         if ( $type === 'GET' ) {
             switch ( $action ) {
@@ -141,9 +141,16 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
 
     public function process_login() {
-        $username = sanitize_text_field( $_POST['username'] ) ?? '';
-        $password = sanitize_text_field( $_POST['password'] ) ?? '';
+        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_login' );
 
+        if ( !$verify_nonce ) {
+            return $this->show_login( [ 'error' => 'Unable to verify request.' ] );
+            return;
+        }
+
+        $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
+        $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
         $user = wp_authenticate( $username, $password );
 
         if ( is_wp_error( $user ) ) {
@@ -157,7 +164,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         wp_set_auth_cookie( $user->ID );
 
         if ( !$user ) {
-            return $this->show_login( [ 'error' => _e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
+            return $this->show_login( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
         }
 
         $this->functions->activate();
@@ -174,13 +181,21 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     }
 
     public function process_register() {
-        $username = sanitize_text_field( $_POST['username'] ) ?? '';
-        $password = sanitize_text_field( $_POST['password'] ) ?? '';
-        $email = sanitize_text_field( $_POST['email'] ) ?? '';
-        $confirm_password = sanitize_text_field( $_POST['confirm_password'] ) ?? '';
+        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_register' );
+
+        if ( !$verify_nonce ) {
+            return $this->show_register( [ 'error' => 'Unable to verify request.' ] );
+            return;
+        }
+
+        $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
+        $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
+        $email = sanitize_text_field( wp_unslash( $_POST['email'] ?? '' ) );
+        $confirm_password = sanitize_text_field( wp_unslash( $_POST['confirm_password'] ?? '' ) );
 
         if ( $confirm_password !== $password ) {
-            return $this->show_login( [ 'error' => 'Passwords do not match' ] );
+            return $this->show_register( [ 'error' => 'Passwords do not match' ] );
         }
 
         $user = wp_create_user( $username, $password, $email );
@@ -194,7 +209,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         wp_set_auth_cookie( $user->ID );
 
         if ( !$user ) {
-            return $this->show_login( [ 'error' => _e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
+            return $this->show_register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
         }
 
         $this->functions->activate();

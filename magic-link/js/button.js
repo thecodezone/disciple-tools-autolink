@@ -123,12 +123,12 @@ export class DtButton extends DTBase {
       }
 
       .dt-button.dt-button--rounded {
-        --dt-button-border-radius: var(--dt-rounded-button-border-radius, 50%);
-        --dt-button-padding-x: var(--dt-rounded-button-padding-x, 0px);
-        --dt-button-padding-y: var(--dt-rounded-button-padding-y, 0px);
-        --dt-button-width: var(--dt-rounded-button-width, 1.2em);
-        --dt-button-aspect-ratio: var(--dt-rounded-button-aspect-ratio, 1/1);
-        --dt-button-line-height: var(--dt-rounded-button-height, 0);
+        --dt-button-border-radius: 50%;
+        --dt-button-padding-x: 0px;
+        --dt-button-padding-y: 0px;
+        --dt-button-width: var(--dt-button-width, 1.2em);
+        --dt-button-aspect-ratio: var(--dt-button-aspect-ratio, 1/1);
+        --dt-button-line-height: var(--dt-button-height, 0);
       }
 
       button.toggle {

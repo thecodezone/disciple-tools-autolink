@@ -5,10 +5,10 @@ import { DTBase } from 'dt-web-components';
 export class AppCollapse extends DTBase {
     static get properties() {
         return {
-        opened: { type: Boolean, reflect: true },
+            opened: { type: Boolean, reflect: true },
         };
     }
-    
+
     static get styles() {
         return css`
         :host {
@@ -16,6 +16,10 @@ export class AppCollapse extends DTBase {
             display: block;
         }
         `
+    }
+
+    get icon() {
+        return this.opened ? 'mdi:chevron-up' : 'mdi:chevron-down';
     }
 
     render() {
@@ -34,11 +38,7 @@ export class AppCollapse extends DTBase {
     renderIcon() {
         return html`
             <div class="collapse__icon" @click=${() => this._toggle()}>
-                ${
-                    this.opened 
-                    ? html`<dt-chevron-up></dt-chevron-up>` 
-                    : html`<dt-chevron-down></dt-chevron-down>`
-                }
+               <dt-icon icon="${this.icon}"></dt-icon>
             </div>
         `
     }
@@ -65,7 +65,6 @@ export class AppCollapse extends DTBase {
     _close() {
         this.opened = false
     }
-
 }
 
 window.customElements.define('app-collapse', AppCollapse);

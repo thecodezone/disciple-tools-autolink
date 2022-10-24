@@ -1,3 +1,11 @@
+.cloak {
+    visibility: hidden;
+}
+
+body.dom-loaded .coak {
+    visibility: visible;
+}
+
 .app__wrapper {
     display: flex;
     height: 100%;
