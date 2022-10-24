@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap');
+
 html {
     background: #e2e2e2;
     color-scheme: light;
@@ -26,7 +28,6 @@ html {
     --success-color: #4caf50;
     --inactive-color: #808080;
     --disabled-color: #e6e6e6;
-
     --font-family: Poppins, Helvetica, sans-serif;
 
     --dt-form-border-color: #E4E4E4;
