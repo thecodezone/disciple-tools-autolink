@@ -23,7 +23,7 @@
             <?php if ( !empty( $error ) ) : ?>
                 <dt-alert context="alert"
                           dismissable>
-                    <?php echo esc_html( $error ) ?>
+                    <?php echo esc_html( strip_tags( $error ) ) ?>
                 </dt-alert>
             <?php endif; ?>
 
@@ -55,7 +55,7 @@
     <div class="login__footer">
         <dt-button context="link" href="<?php echo esc_url( $reset_url ); ?>">
             <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
-        </dt-button>
+            </dt-button>
 </div>
 
 <?php include( 'parts/footer.php' ); ?>
