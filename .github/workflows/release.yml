@@ -22,8 +22,10 @@ jobs:
       # Below borrowed from https://github.com/actions/upload-release-asset
       - name: Build project
         run: |
+          npm install
+          npm run prod
           mkdir disciple-tools-autolink
-          cp -r disciple-tools-autolink.php admin charts languages magic-link post-type rest-api site-link tile workflows spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
+          cp -r disciple-tools-autolink.php dist languages magic-link spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
           zip -r disciple-tools-autolink.zip disciple-tools-autolink
       - name: Create Release
         id: create_release
