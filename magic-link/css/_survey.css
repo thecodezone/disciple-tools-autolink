@@ -18,3 +18,9 @@
 .question .question__pagination dt-icon {
     font-size: 2rem;
 }
+
+.question__progress-bar {
+    width: var(--progress);
+    height: 2px;
+    background: blue;
+}

@@ -84,8 +84,17 @@ html {
     --dt-tile-font-weight: 700;
     --dt-tile-background-color: var(--surface-1);
     --dt-tile-border-color: var(--surface-1);
-    --dt-tile-box-shadow: var(--shadow-0);
+    --dt-tile-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 20px 20px -20px rgba(0, 0, 0, 0.2); 
     --dt-tile-header-color: var(--primary-color);
+    --dt-tile-header-margin: 30px 0;
+    --dt-tile-header-justify-content: center;
+    --dt-tile-header-font-weight: 700;
+    --dt-tile-margin: 1rem 0;
+    --dt-tile-border-top: 4px solid var(--primary-color);
+    --dt-tile-border-bottom: 0 solid #DADADA;
+    --dt-tile-border-right: 0 solid #DADADA;
+    --dt-tile-border-left: 0 solid #DADADA;
+    
     --dt-tile-border-radius: 16px;
 
     --dt-alert-text-color-light: #fff;
