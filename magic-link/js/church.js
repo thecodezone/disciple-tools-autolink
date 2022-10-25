@@ -26,6 +26,12 @@ export class AppChurch extends AppCollapse {
             justify-content: center;
             padding-top: 1rem;
         }
+
+        .group__content{
+            font-weight: normal;
+            text-align: center;
+            text-transform: uppercase;
+        }
         `
     }
 

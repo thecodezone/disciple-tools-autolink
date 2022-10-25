@@ -22,8 +22,9 @@
 
 .church__counts {
     display: flex;
-    gap: .5rem;
+    gap: 1rem;
     justify-content: center;
+    margin: 1rem 0;
 }
 
 .church__count {

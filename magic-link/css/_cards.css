@@ -41,13 +41,12 @@ strong.coached_by {
     --dt-tile-header-justify-content: none;
 }
 
-.churches__list {
+ul.churches__list {
     --dt-tile-header-margin: 0;
+    --dt-tile-header-justify-content: center;
     --dt-tile-border-top: 1px solid #DADADA;
     --dt-tile-border-bottom: 1px solid #DADADA;
     --dt-tile-border-right: 1px solid #DADADA;
     --dt-tile-border-left: 1px solid #DADADA;
-    --dt-tile-header-justify-content: center;
-
-    margin: 10px 20px;
+    margin: 10px;
 }

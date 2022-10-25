@@ -9,6 +9,12 @@ class DTCopyTextinput extends DtTextField {
       css`
         .text-input {
            padding-right: 40px;
+           box-shadow: none;
+           font-family: 'Poppins';
+           font-style: normal;
+           font-weight: 700;
+           font-size: 12px;
+           line-height: 12px;
         }
 
          .text-input:disabled {

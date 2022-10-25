@@ -7,7 +7,7 @@ export class DtChurchHealthCircle extends DTBase {
     return css`
       .health-circle {
           display: block;
-          margin: auto;
+          margin: 3rem auto;
           height: 280px;
           width: 280px;
           border-radius: 100%;
@@ -26,15 +26,15 @@ export class DtChurchHealthCircle extends DTBase {
       }
       dt-church-health-icon {
         margin: auto;
-          position: absolute;
-          height: 50px;
-          width: 50px;
-          border-radius: 100%;
-          font-size: 16px;
-          color: black;
-          text-align: center;
-          font-style: italic;
-          cursor: pointer;
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        border-radius: 100%;
+        font-size: 16px;
+        color: black;
+        text-align: center;
+        font-style: italic;
+        cursor: pointer;
       }
     `;
   }
