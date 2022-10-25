@@ -37,6 +37,8 @@ html {
     --dt-form-text-color-inverse: var(--text-color-inverse);
     --dt-form-text-border-color: var(--border-color);
 
+    --dt-form-input-box-shadow: none;
+
     --dt-checkmark-width: 3px;
     --dt-checkmark-color: var(--success-color);
 
@@ -63,8 +65,6 @@ html {
     --dt-text-placeholder-font-weight: 700;
     --dt-text-placeholder-letter-spacing: 0.1em;
     --dt-text-placeholder-transform: uppercase;
-
-
 
     --dt-textarea-border-color: var(--dt-form-border-color);
     --dt-textarea-background-color: var(--dt-form-background-color);

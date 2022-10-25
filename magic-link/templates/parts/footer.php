@@ -1,5 +1,5 @@
 </div> <!-- .app__inner -->
     <footer class="footer">
-        <?php esc_html_e( 'Powered by Disciple.Tools', 'disciple-tools-autolink' ) ?>
+        <p><?php esc_html_e( 'Powered by', 'disciple-tools-autolink' ) ?>  <a href="">Disciple.Tools</a></p>
     </footer>
 </div> <!-- .app__wrapper -->

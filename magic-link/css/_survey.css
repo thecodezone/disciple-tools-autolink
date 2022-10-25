@@ -19,8 +19,13 @@
     font-size: 2rem;
 }
 
+.question {
+    --dt-tile-border-top: 4px solid #CECECE;
+}
+
 .question__progress-bar {
     width: var(--progress);
-    height: 2px;
-    background: blue;
+    height: 4px;
+    background: var(--primary-color);
+    margin-top: -122px;
 }

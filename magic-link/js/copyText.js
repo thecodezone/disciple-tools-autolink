@@ -34,10 +34,10 @@ export class DTCopyText extends LitElement {
       }
 
       .copy-text {
+        --dt-form-text-color: #575757;
          display: flex;
          align-items: center;
          position: relative;
-         color: var(--copy-text-color, var(--form-text-color));
       }
 
       .copy-text__input {
