@@ -40,17 +40,17 @@
             <?php foreach ( $churches as $church ) : ?>
                 <?php
                     //If the church is the first one the tile is open if not it is closed.
-                    $appChurchOpened = "";
-                    if ( $church === $churches[ array_key_first( $churches )]) {
-                        $appChurchOpened = "opened";
-                    }
+                    $app_church_opened = "";
+                if ( $church === $churches[ array_key_first( $churches )] ) {
+                    $app_church_opened = "opened";
+                }
                 ?>
                 <dt-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
                     <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
                         <dt-icon icon="material-symbols:link-rounded"></dt-icon>
                     </dt-button>
                     <?php include( "parts/health-counts.php" ); ?>
-                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' <?php echo $appChurchOpened; ?>> </app-church>
+                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
                 </dt-tile>
             <?php endforeach; ?>
     </dt-tile>
