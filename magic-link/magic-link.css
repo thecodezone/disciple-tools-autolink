@@ -94,8 +94,8 @@ html {
     --dt-tile-border-bottom: 0 solid #DADADA;
     --dt-tile-border-right: 0 solid #DADADA;
     --dt-tile-border-left: 0 solid #DADADA;
-    
-    --dt-tile-border-radius: 16px;
+
+    --dt-tile-border-radius: 1rem;
 
     --dt-alert-text-color-light: #fff;
     --dt-alert-text-color-dark: #000;
