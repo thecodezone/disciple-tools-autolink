@@ -65,7 +65,7 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
          */
         //        add_action( 'dt_details_additional_section', [ $this, 'dt_details_additional_section' ], 30, 2 );
         //        add_filter( 'dt_details_additional_tiles', [ $this, 'dt_details_additional_tiles' ], 10, 2 );
-        add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
+            //    add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
 
 
         /**
