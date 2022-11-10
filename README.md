@@ -1,41 +1,18 @@
 [![Build Status](https://travis-ci.com/thecodezone/disciple-tools-autolink.svg?branch=master)](https://travis-ci.com/thecodezone/disciple-tools-autolink)
 
-## Dev notes, delete me:
-This is a starter plugin to jumpstart your work with Disciple.Tools.
-Click the "Use this template" button above.
-See instructions for refactoring and getting started in the [wiki](https://github.com/thecodezone/disciple-tools-autolink/wiki)
-See instructions for creating releases and publishing your plugin: [wiki](https://github.com/thecodezone/disciple-tools-autolink/wiki)
-In order to display the banner correctly on the Disciple.Tools Community Plugins Site, don't change the 'Plugin Banner' text on line 12; only the URL.
-
 ## readme format:
 
 ![Plugin Banner](/documentation/banner.png)
 
 # Disciple.Tools - Autolink
 
-Description Description Description Description Description Description Description
-Description Description Description Description Description Description Description
+A simple user interface for users to add churches and groups into Disciple Tools.
 
 ## Purpose
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
+The Autolink plugin provides a simple way to create a specialized link for each person that is leading churches or training leaders. You can then send that custom link to the leader who can enter information about the groups and churches that they are leading and their current health status.
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-
-## Usage
-
-#### Will Do
-
-- Item
-- Item
-- Item
-
-#### Will Not Do
-
-- Item
-- Item
+This provides a quick and easy way for you to track the health of churches and groups without having to create user account and passwords, and training local leaders how to use Disciple Tools. You can collect the data you need quickly from one simple link.
 
 ## Requirements
 
