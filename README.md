@@ -9,7 +9,7 @@ In order to display the banner correctly on the Disciple.Tools Community Plugins
 
 ## readme format:
 
-![Plugin Banner](https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/banner.png)
+![Plugin Banner](/documentation/banner.png)
 
 # Disciple.Tools - Autolink
 
@@ -58,6 +58,6 @@ system for git. For a more details on contribution see the
 
 ## Screenshots
 
-![screenshot](https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/screenshot_1.png)
-![screenshot](https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/screenshot_2.png)
-![screenshot](https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/screenshot_3.png)
+![screenshot](/documentation/screenshot_1.png)
+![screenshot](/documentation/screenshot_2.png)
+![screenshot](/documentation/screenshot_3.png)
