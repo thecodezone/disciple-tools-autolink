@@ -91,6 +91,7 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
     }
 
+    // get the user id from the contact record and redirect to the user magic link
     public function ready() {
         $leader = DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
         $_SESSION['dt_autolink_leader_id'] = $leader['ID'];
