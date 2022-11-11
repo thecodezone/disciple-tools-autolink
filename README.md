@@ -1,41 +1,18 @@
-[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-autolink.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-autolink)
-
-## Dev notes, delete me:
-This is a starter plugin to jumpstart your work with Disciple.Tools.
-Click the "Use this template" button above.
-See instructions for refactoring and getting started in the [wiki](https://github.com/DiscipleTools/disciple-tools-autolink/wiki)
-See instructions for creating releases and publishing your plugin: [wiki](https://github.com/DiscipleTools/disciple-tools-autolink/wiki)
-In order to display the banner correctly on the Disciple.Tools Community Plugins Site, don't change the 'Plugin Banner' text on line 12; only the URL.
+[![Build Status](https://travis-ci.com/thecodezone/disciple-tools-autolink.svg?branch=master)](https://travis-ci.com/thecodezone/disciple-tools-autolink)
 
 ## readme format:
 
-![Plugin Banner](https://raw.githubusercontent.com/DiscipleTools/disciple-tools-autolink/b30402d97895e3f911efcb47fb8f29ccd1eb92e5/documentation/banner.png)
+![Plugin Banner](/documentation/banner.png)
 
 # Disciple.Tools - Autolink
 
-Description Description Description Description Description Description Description
-Description Description Description Description Description Description Description
+A simple user interface for users to add churches and groups into Disciple Tools.
 
 ## Purpose
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
+The Autolink plugin provides a simple way to create a specialized link for each person that is leading churches or training leaders. You can then send that custom link to the leader who can enter information about the groups and churches that they are leading and their current health status.
 
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose
-
-## Usage
-
-#### Will Do
-
-- Item
-- Item
-- Item
-
-#### Will Not Do
-
-- Item
-- Item
+This provides a quick and easy way for you to track the health of churches and groups without having to create user account and passwords, and training local leaders how to use Disciple Tools. You can collect the data you need quickly from one simple link.
 
 ## Requirements
 
@@ -49,13 +26,15 @@ Purpose purpose purpose purpose purpose purpose purpose purpose purpose purpose 
 ## Contribution
 
 Contributions welcome. You can report issues and bugs in the
-[Issues](https://github.com/DiscipleTools/disciple-tools-autolink/issues) section of the repo. You can present ideas
-in the [Discussions](https://github.com/DiscipleTools/disciple-tools-autolink/discussions) section of the repo. And
-code contributions are welcome using the [Pull Request](https://github.com/DiscipleTools/disciple-tools-autolink/pulls)
+[Issues](https://github.com/thecodezone/disciple-tools-autolink/issues) section of the repo. You can present ideas
+in the [Discussions](https://github.com/thecodezone/disciple-tools-autolink/discussions) section of the repo. And
+code contributions are welcome using the [Pull Request](https://github.com/thecodezone/disciple-tools-autolink/pulls)
 system for git. For a more details on contribution see the
-[contribution guidelines](https://github.com/DiscipleTools/disciple-tools-autolink/blob/master/CONTRIBUTING.md).
+[contribution guidelines](https://github.com/thecodezone/disciple-tools-autolink/blob/master/CONTRIBUTING.md).
 
 
 ## Screenshots
 
-![screenshot](documentation/community/starter-banners/banner-blue-green.png)
+![screenshot](/documentation/screenshot_1.png)
+![screenshot](/documentation/screenshot_2.png)
+![screenshot](/documentation/screenshot_3.png)

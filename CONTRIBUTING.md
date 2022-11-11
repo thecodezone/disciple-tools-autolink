@@ -1,4 +1,16 @@
-Thank you for joining us in contributing to Disciple.Tools! These are the guidelines we expect you to follow in writing code that will be used in or with D.T.
+Thank you for joining us in contributing to Disciple.Tools! These are the guidelines we expect you to follow in writing code that will be used in or with in the D.T AutoLink plugin
+
+### Getting Started
+Once you have downloaded the [plugin source code] (https://github.com/thecodezone/disciple-tools-autolink) you will need to install it in your local development environment. You can find instructions on how to do this in the [Disciple.Tools Developer Documentation](https://disciple-tools.github.io/developer-documentation/).
+
+You will then need to open a terminal and navigate to the plugin directory. Once there you will need to run the following command to install the dependencies:
+```npm install```
+
+To compile the code and watch for changes during development run the following command:
+```npm run watch```
+
+To compile the code for production run the following command:
+```npm run prod```
 
 ### Translations
 D.T  is already being used in multiple languages. Please help us make D.T translable by taking  full advantage of Wordpress’ translatable strings. Any string that will be read by the user must be marked as translatable. Ex:

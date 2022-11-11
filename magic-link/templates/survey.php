@@ -6,7 +6,13 @@
 
     <dt-tile title="<?php echo esc_attr( $question['label'] ); ?>" class="question">
         <div class="question__progress-bar" style="
-            '--progress': <?php echo esc_attr( $progress ); ?>;"></div>
+            --progress: <?php echo esc_attr( $progress ); ?>;
+            --progress-border-radius: <?php
+            if ( $progress < 99 ) {
+                echo '20rem';
+            } else {
+                echo '0';
+            }; ?>"></div>
 
         <dt-text class="question__input" type="number" value="<?php echo esc_attr( $answer ); ?>" name="<?php echo esc_attr( $question['name'] ) ?>"></dt-text>
 

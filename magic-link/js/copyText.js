@@ -1,6 +1,6 @@
-import {css, html, LitElement} from 'lit';
-import {DtTextField} from 'dt-web-components';
-import {styleMap} from 'lit-html/directives/style-map.js';
+import { css, html, LitElement } from 'lit';
+import { DtTextField } from 'dt-web-components';
+import { styleMap } from 'lit-html/directives/style-map.js';
 
 class DTCopyTextinput extends DtTextField {
   static get styles() {
@@ -9,6 +9,12 @@ class DTCopyTextinput extends DtTextField {
       css`
         .text-input {
            padding-right: 40px;
+           box-shadow: none;
+           font-family: 'Poppins';
+           font-style: normal;
+           font-weight: 700;
+           font-size: 12px;
+           line-height: 12px;
         }
 
          .text-input:disabled {
@@ -28,10 +34,10 @@ export class DTCopyText extends LitElement {
       }
 
       .copy-text {
+        --dt-form-text-color: #575757;
          display: flex;
          align-items: center;
          position: relative;
-         color: var(--copy-text-color, var(--form-text-color));
       }
 
       .copy-text__input {
@@ -53,9 +59,9 @@ export class DTCopyText extends LitElement {
 
   static get properties() {
     return {
-      value: {type: String},
-      success: {type: Boolean},
-      error: {type: Boolean},
+      value: { type: String },
+      success: { type: Boolean },
+      error: { type: Boolean },
     };
   }
 
@@ -64,7 +70,7 @@ export class DTCopyText extends LitElement {
       return {
         '--dt-text-border-color': 'var(--copy-text-success-color, var(--success-color))',
         '--dt-form-text-color': 'var( --copy-text-success-color, var(--success-color))',
-        color:  'var( --copy-text-success-color, var(--success-color))',
+        color: 'var( --copy-text-success-color, var(--success-color))',
       }
     } else if (this.error) {
       return {
@@ -76,12 +82,15 @@ export class DTCopyText extends LitElement {
     return {}
   }
 
+  get icon() {
+    return this.success ? "ic:round-check" : "ic:round-content-copy"
+  }
+
   async copy() {
     try {
       this.success = false
       this.error = false
       await navigator.clipboard.writeText(this.value);
-      console.log('here')
       this.success = true
       this.error = false
     } catch (err) {
@@ -97,10 +106,7 @@ export class DTCopyText extends LitElement {
         <dt-copy-text-input class="copy-text__input"
                  value="${this.value}"
                  disabled></dt-copy-text-input>
-        <div class="copy_icon"
-             @click=${() => this.copy()}>
-          ${this.success ? html`<dt-check/>` :  html`<dt-copy/>`}
-        </div>
+        <dt-icon class="copy_icon" icon="${this.icon}" @click="${this.copy}"></dt-icon>
       </div>
     `
   }

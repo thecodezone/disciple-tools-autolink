@@ -249,9 +249,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $answer = $answer ? $answer : 0;
         $action = $this->functions->get_app_link() . '?action=survey&paged=' . $page;
         $previous_url = $page > 0 ? $this->functions->get_app_link() . '?action=survey&paged=' . ( $page - 1 ) : null;
-        $progress = $page + 1 / count( $survey );
+        $progress = ( $page + 1 ) / count( $survey );
         $progress = number_format( $progress * 100, 0 ) . '%';
-
         include( 'templates/survey.php' );
     }
 

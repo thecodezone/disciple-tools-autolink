@@ -18,3 +18,17 @@
 .question .question__pagination dt-icon {
     font-size: 2rem;
 }
+
+.question {
+    --dt-tile-border-top: 4px solid #CECECE;
+}
+
+.question__progress-bar {
+    width: calc(var(--progress) + 2.2em);
+    height: 0.85em;
+    background: var(--primary-color);
+    transform: translate(-1.1em, -6.2em);
+    border-top-right-radius: 20rem;
+    border-top-left-radius: 20rem;
+    border-bottom-right-radius: var(--progress-border-radius);
+}

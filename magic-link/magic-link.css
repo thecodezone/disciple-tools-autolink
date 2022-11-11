@@ -27,7 +27,7 @@ html {
     --caution-color: #f2c962;
     --success-color: #4caf50;
     --inactive-color: #808080;
-    --disabled-color: #e6e6e6;
+    --disabled-color: #F9F9F9;
     --font-family: Poppins, Helvetica, sans-serif;
 
     --dt-form-border-color: #E4E4E4;
@@ -36,6 +36,8 @@ html {
     --dt-form-text-color: var(--text-color);
     --dt-form-text-color-inverse: var(--text-color-inverse);
     --dt-form-text-border-color: var(--border-color);
+
+    --dt-form-input-box-shadow: none;
 
     --dt-checkmark-width: 3px;
     --dt-checkmark-color: var(--success-color);
@@ -64,8 +66,6 @@ html {
     --dt-text-placeholder-letter-spacing: 0.1em;
     --dt-text-placeholder-transform: uppercase;
 
-
-
     --dt-textarea-border-color: var(--dt-form-border-color);
     --dt-textarea-background-color: var(--dt-form-background-color);
     --dt-textarea-disabled-background-color: var(--dt-form-disabled-background-color);
@@ -84,9 +84,18 @@ html {
     --dt-tile-font-weight: 700;
     --dt-tile-background-color: var(--surface-1);
     --dt-tile-border-color: var(--surface-1);
-    --dt-tile-box-shadow: var(--shadow-0);
+    --dt-tile-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 20px 20px -20px rgba(0, 0, 0, 0.2); 
     --dt-tile-header-color: var(--primary-color);
-    --dt-tile-border-radius: 16px;
+    --dt-tile-header-margin: 20px 0;
+    --dt-tile-header-justify-content: center;
+    --dt-tile-header-font-weight: 700;
+    --dt-tile-margin: 1rem 0;
+    --dt-tile-border-top: 4px solid var(--primary-color);
+    --dt-tile-border-bottom: 0 solid #DADADA;
+    --dt-tile-border-right: 0 solid #DADADA;
+    --dt-tile-border-left: 0 solid #DADADA;
+
+    --dt-tile-border-radius: 1rem;
 
     --dt-alert-text-color-light: #fff;
     --dt-alert-text-color-dark: #000;

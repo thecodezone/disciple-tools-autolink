@@ -3,10 +3,10 @@
 }
 
 .churches__add {
-    --dt-button-font-size: 25px;
+    --dt-button-font-size: 1.7rem;
     position: absolute;
-    top: var(--dt-tile-padding, 15px);
-    right: var(--dt-tile-padding, 15px);
+    top: var(--dt-tile-padding, 1.2rem);
+    right: var(--dt-tile-padding, 1rem);
 }
 
 .church {
@@ -14,16 +14,17 @@
 }
 
 .church__link {
-    --dt-button-font-size: 25px;
+    --dt-button-font-size: 1.7rem;
     position: absolute;
-    top: var(--dt-tile-padding, 15px);
-    right: var(--dt-tile-padding, 15px);
+    transform: translateY(var(--dt-tile-padding, -3rem));
+    right: var(--dt-tile-padding, 1rem);
 }
 
 .church__counts {
     display: flex;
-    gap: .5rem;
+    gap: 1.5rem;
     justify-content: center;
+    margin: 1rem 0;
 }
 
 .church__count {
