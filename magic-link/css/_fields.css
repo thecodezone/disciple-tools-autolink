@@ -26,3 +26,7 @@ dt-input.question__input {
     border: 1px solid #E4E4E4;
     border-radius: 4px;
 }
+dt-text.question__input:focus {
+    border: none;
+    box-shadow: none;
+}
