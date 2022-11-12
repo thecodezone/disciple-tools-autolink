@@ -9,7 +9,7 @@
             --progress: <?php echo esc_attr( $progress ); ?>;
             --progress-border-radius: <?php
             if ( $progress < 99 ) {
-                echo '20rem';
+                echo '50rem';
             } else {
                 echo '0';
             }; ?>"></div>

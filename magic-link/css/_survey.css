@@ -24,11 +24,11 @@
 }
 
 .question__progress-bar {
-    width: calc(var(--progress) + 2.2em);
-    height: 0.85em;
+    width: calc(var(--progress) + 1.2em);
+    height: 0.2rem;
     background: var(--primary-color);
-    transform: translate(-1.1em, -6.2em);
-    border-top-right-radius: 20rem;
-    border-top-left-radius: 20rem;
+    transform: translate(-0.65em, -6.17em);
+    border-top-right-radius: 50rem;
+    border-top-left-radius: 50rem;
     border-bottom-right-radius: var(--progress-border-radius);
 }
