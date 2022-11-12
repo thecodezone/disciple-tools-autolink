@@ -8,9 +8,12 @@ header.navbar {
     align-items: center;
     height: 96px;
 }
+header.navbar a {
+    display: flex;
+}
 header.navbar .navbar__logo {
     height: auto;
     width: auto;
-    max-height: 63px;
-    max-width: 200px;
+    max-height: 40px;
+    max-width: 130px;
 }
