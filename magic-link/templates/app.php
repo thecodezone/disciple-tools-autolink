@@ -50,10 +50,9 @@
                         <dt-icon icon="material-symbols:link-rounded"></dt-icon>
                     </dt-button>
                     <?php include( "parts/health-counts.php" ); ?>
-                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
+                    <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' <?php echo esc_attr( $app_church_opened ); ?> apiRoot=<?php echo esc_attr( get_site_url() ); ?>> </app-church>
                 </dt-tile>
             <?php endforeach; ?>
     </dt-tile>
 </div>
-
 <?php include( 'parts/footer.php' ); ?>

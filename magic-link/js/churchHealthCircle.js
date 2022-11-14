@@ -167,11 +167,12 @@ export class DtChurchHealthCircle extends DTBase {
         })}>
           <div class="health-circle__grid">
             ${this.metrics.map(([key, metric]) =>
-              html`<dt-church-health-icon 
+              html`<dt-church-health-icon
                 key="${key}"
                 .group="${this.group}"
-                .metric=${metric} 
-                .active=${practicedItems.indexOf(key) !== -1}>
+                .metric=${metric}
+                .active=${practicedItems.indexOf(key) !== -1}
+                .apiRoot=${this.apiRoot}>
                 </dt-church-health-icon>`
             )}
           </div>
@@ -271,16 +272,17 @@ class DtChurchHealthIcon extends LitElement {
   async _handleClick() {
     const active = !this.active;
     this.active = active
-    const payload = { 
-      'health_metrics': { 
-        values: [ { 
+    const payload = {
+      'health_metrics': {
+        values: [ {
           value : this.key,
           delete: !active
-        } ] 
-      } 
+        } ]
+      }
     };
     try {
-      API.update_post( 'groups', this.group.ID, payload)
+
+      this.api.updatePost('groups', this.apiRoot, payload, 'dt-posts/v2/');
       if (active) {
         this.group.health_metrics.push(this.key);
       } else {

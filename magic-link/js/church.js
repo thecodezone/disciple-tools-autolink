@@ -10,6 +10,7 @@ export class AppChurch extends AppCollapse {
             fields: { type: Object },
             opened: { type: Boolean, reflect: true },
             startDateLabel: { type: String },
+            apiRoot: {type: String, reflect: false},
         };
     }
 
@@ -61,9 +62,10 @@ export class AppChurch extends AppCollapse {
     renderChurchHealth() {
         return html`
             <div class="church_health">
-                <dt-church-health-circle 
-                    .group=${this.group} 
+                <dt-church-health-circle
+                    .group=${this.group}
                     .settings=${this.fields.health_metrics}
+                    .apiRoot=${this.apiRoot}
                 ></dt-church-health-circle>
             </div>
         `
