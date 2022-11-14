@@ -281,6 +281,11 @@ class DtChurchHealthIcon extends LitElement {
     };
     try {
       API.update_post( 'groups', this.group.ID, payload)
+      if (active) {
+        this.group.health_metrics.push(this.key);
+      } else {
+        this.group.health_metrics.pop(this.key);
+      }
     } catch (err) {
       console.log(err)
     }
