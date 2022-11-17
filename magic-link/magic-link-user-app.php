@@ -180,7 +180,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $user_name = dt_get_user_display_name( get_current_user_id() );
         $coached_by_label = __( 'Coached by', 'disciple-tools-autolink' );
         $link_heading = __( 'My Link', 'disciple-tools-autolink' );
-        $share_link_help_text = __( 'Copy this link and share it with your coach.', 'disciple-tools-autolink' );
+        $share_link_help_text = __( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' );
         $churches_heading = __( 'My Churches', 'disciple-tools-autolink' );
         $share_link = $this->functions->get_share_link();
         $create_church_link = $this->functions->get_app_link() . '?action=create-group';
