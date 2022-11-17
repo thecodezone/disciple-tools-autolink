@@ -169,7 +169,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         }
 
         $this->functions->activate();
-        $this->functions->add_session_leader();
+        // $this->functions->add_session_leader();
         $this->functions->redirect_to_link();
     }
 
