@@ -1,8 +1,8 @@
 import { css, html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 
-export class DtChurchHealthCircle extends DTBase {
+export class DtChurchHealthCircle extends DtBase {
   static get styles() {
     return css`
       .health-circle {
@@ -109,7 +109,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Fetch the group data if it's not already set
-   * @returns 
+   * @returns
    */
   fetchGroup() {
     if (this.group) {
@@ -120,7 +120,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Fetch the settings data if not already set
-   * @returns 
+   * @returns
    */
   fetchSettings() {
     if (this.settings) {
@@ -131,8 +131,8 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Find a metric by key
-   * @param {*} key 
-   * @returns 
+   * @param {*} key
+   * @returns
    */
   findMetric( key ) {
     const metric = this.metrics.find( (item) => item.key === key );
@@ -141,7 +141,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Render the component
-   * @returns 
+   * @returns
    */
   render() {
     //Show the spinner if we don't have data
@@ -167,10 +167,10 @@ export class DtChurchHealthCircle extends DTBase {
         })}>
           <div class="health-circle__grid">
             ${this.metrics.map(([key, metric]) =>
-              html`<dt-church-health-icon 
+              html`<dt-church-health-icon
                 key="${key}"
                 .group="${this.group}"
-                .metric=${metric} 
+                .metric=${metric}
                 .active=${practicedItems.indexOf(key) !== -1}>
                 </dt-church-health-icon>`
             )}
@@ -271,13 +271,13 @@ class DtChurchHealthIcon extends LitElement {
   async _handleClick() {
     const active = !this.active;
     this.active = active
-    const payload = { 
-      'health_metrics': { 
-        values: [ { 
+    const payload = {
+      'health_metrics': {
+        values: [ {
           value : this.key,
           delete: !active
-        } ] 
-      } 
+        } ]
+      }
     };
     try {
       API.update_post( 'groups', this.group.ID, payload)

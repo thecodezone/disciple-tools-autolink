@@ -1,4 +1,4 @@
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 import { css, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { AppCollapse } from './collapse';
@@ -61,8 +61,8 @@ export class AppChurch extends AppCollapse {
     renderChurchHealth() {
         return html`
             <div class="church_health">
-                <dt-church-health-circle 
-                    .group=${this.group} 
+                <dt-church-health-circle
+                    .group=${this.group}
                     .settings=${this.fields.health_metrics}
                 ></dt-church-health-circle>
             </div>

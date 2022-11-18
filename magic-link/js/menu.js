@@ -1,10 +1,10 @@
 import { css, html, LitElement, nothing } from 'lit';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 
 /**
  * The main menu component. Located inside the navbar.
  */
-export class AppMenu extends DTBase {
+export class AppMenu extends DtBase {
   static get styles() {
     return css`
      .menu__toggle {
@@ -20,7 +20,7 @@ export class AppMenu extends DTBase {
       background-color: var(--primary-color);
       z-index: 99999;
     }
-    
+
     .menu__list {
       margin: 50px 25px;
       padding: 0;
@@ -40,7 +40,7 @@ export class AppMenu extends DTBase {
       margin: 10px auto;
       display: block;
       max-width: 342px;
-    } 
+    }
     .menu__list a.menu__link:hover {
       background-color: var(--surface-1);
       color: var(--primary-color);
@@ -81,7 +81,7 @@ export class AppMenu extends DTBase {
   }
 
   /**
-   * Render the component 
+   * Render the component
    */
   render() {
     return html`
