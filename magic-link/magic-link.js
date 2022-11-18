@@ -2,6 +2,15 @@ import { loaded } from './js/helpers'
 
 loaded(() => {
     document.body.classList.add('dom-loaded');
+    //Event Listener to update the church count number when the user updated the input in the modal.
+    document.addEventListener('change', event => {
+      let postID = event.srcElement.postID
+      let updatedValue = event.detail.newValue;
+      let counter = document. querySelector('[data-churchid="' + postID + '"][data-field="' + event.srcElement.name + '"]')
+
+      let numberBadge = counter.querySelector( "dt-modal > div > span")
+      numberBadge.innerHTML = updatedValue;
+     });
 })
 
 import "dt-web-components";
