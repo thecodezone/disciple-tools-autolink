@@ -1,8 +1,8 @@
 import { css, html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 
-export class AppCollapse extends DTBase {
+export class AppCollapse extends DtBase {
     static get properties() {
         return {
             opened: { type: Boolean, reflect: true },

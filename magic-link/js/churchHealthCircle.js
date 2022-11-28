@@ -1,15 +1,16 @@
 import { css, html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 
-export class DtChurchHealthCircle extends DTBase {
+export class DtChurchHealthCircle extends DtBase {
   static get styles() {
     return css`
       .health-circle {
           display: block;
           margin: 3rem auto;
-          height: 280px;
-          width: 280px;
+          height: auto;
+          width: 100%;
+          aspect-ratio: 1/1;
           border-radius: 100%;
           border: 3px darkgray dashed;
       }
@@ -20,7 +21,25 @@ export class DtChurchHealthCircle extends DTBase {
           width: 100%;
           margin-left: auto;
           margin-right: auto;
+
+          --d: 50px; /* image size */
+          --rel: .5; /* how much extra space we want between images, 1 = one image size */
+          --r: calc(0.7*var(--d)/var(--tan)); /* circle radius */
+          --s: calc(2.75*var(--r));
+          position: relative;
+          width: var(--s);
+          max-width: 100%;
+          height: auto;
+          aspect-ratio: 1 / 1;
       }
+
+      @media (min-width: 420px) {
+        .health-circle__grid {
+          --r: calc(0.85*var(--d)/var(--tan)); /* circle radius */
+
+        }
+      }
+
       .health-circle--committed {
           border: 3px #4caf50 solid !important;
       }
@@ -35,6 +54,16 @@ export class DtChurchHealthCircle extends DTBase {
         text-align: center;
         font-style: italic;
         cursor: pointer;
+
+        position: absolute;
+        top: 50%; left: 50%;
+        margin: calc(-.5*var(--d));
+        width: var(--d); height: var(--d);
+        --az: calc(var(--i)*1turn/var(--m));
+        transform:
+          rotate(var(--az))
+          translate(var(--r))
+          rotate(calc(-1*var(--az)))
       }
     `;
   }
@@ -109,7 +138,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Fetch the group data if it's not already set
-   * @returns 
+   * @returns
    */
   fetchGroup() {
     if (this.group) {
@@ -120,7 +149,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Fetch the settings data if not already set
-   * @returns 
+   * @returns
    */
   fetchSettings() {
     if (this.settings) {
@@ -131,8 +160,8 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Find a metric by key
-   * @param {*} key 
-   * @returns 
+   * @param {*} key
+   * @returns
    */
   findMetric( key ) {
     const metric = this.metrics.find( (item) => item.key === key );
@@ -141,7 +170,7 @@ export class DtChurchHealthCircle extends DTBase {
 
   /**
    * Render the component
-   * @returns 
+   * @returns
    */
   render() {
     //Show the spinner if we don't have data
@@ -166,14 +195,16 @@ export class DtChurchHealthCircle extends DTBase {
           'health-circle--committed': practicedItems.indexOf( 'church_commitment' ) !== -1
         })}>
           <div class="health-circle__grid">
-            ${this.metrics.map(([key, metric]) =>
-              html`<dt-church-health-icon 
+            ${this.metrics.map(([key, metric], index) =>
+              html`<dt-church-health-icon
                 key="${key}"
                 .group="${this.group}"
-                .metric=${metric} 
-                .active=${practicedItems.indexOf(key) !== -1}>
+                .metric=${metric}
+                .active=${practicedItems.indexOf(key) !== -1}
+                .style="--i: ${index + 1}">
                 </dt-church-health-icon>`
             )}
+
           </div>
         </div>
       </div>
@@ -185,47 +216,15 @@ export class DtChurchHealthCircle extends DTBase {
    * according to amount of health metric elements
    */
   distributeItems() {
-    const container = this.renderRoot.querySelector('.health-circle');
+    const container = this.renderRoot.querySelector('.health-circle__grid');
     const items = container.querySelectorAll('dt-church-health-icon')
 
-    let radius = 75;
-    let item_count = items.length,
-      width = container.offsetWidth,
-      height = container.offsetHeight + 66,
-      angle = 0,
-      step = (2*Math.PI) / items.length,
-      y_offset = -35;
+    let n_items = items.length;
+    let m = n_items; /* how many are ON the circle */
+    let tan = Math.tan(Math.PI/m); /* tangent of half the base angle */
 
-    if ( item_count >= 5 && item_count < 7 ) {
-      radius = 90;
-    }
-
-    if ( item_count >= 7 & item_count < 11 ) {
-      radius = 100;
-    }
-
-    if ( item_count >= 11 ) {
-      radius = 110;
-    }
-
-    if ( item_count == 3 ) {
-      angle = 22.5;
-    }
-
-    Array.from(items).forEach(function(item) {
-      let x = Math.round( width / 2 + radius * Math.cos(angle) - item.offsetWidth / 2 );
-      let y = Math.round( height / 2 + radius * Math.sin(angle) - item.offsetHeight / 2 ) + y_offset;
-
-      if ( item_count == 1 ) {
-        x = 112.5;
-        y = 68;
-      }
-
-      item.style.left = x + 'px';
-      item.style.top = y + 'px';
-
-      angle += step;
-    });
+    container.style.setProperty('--m', m);
+    container.style.setProperty('--tan', +tan.toFixed(2));
   }
 }
 
@@ -271,13 +270,13 @@ class DtChurchHealthIcon extends LitElement {
   async _handleClick() {
     const active = !this.active;
     this.active = active
-    const payload = { 
-      'health_metrics': { 
-        values: [ { 
+    const payload = {
+      'health_metrics': {
+        values: [ {
           value : this.key,
           delete: !active
-        } ] 
-      } 
+        } ]
+      }
     };
     try {
       API.update_post( 'groups', this.group.ID, payload)
