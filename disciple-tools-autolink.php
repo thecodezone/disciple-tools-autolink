@@ -5,7 +5,7 @@
  * Description: Disciple.Tools - Autolink is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.4.5
+ * Version:  0.4.6
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
  * Requires at least: 4.7.0
