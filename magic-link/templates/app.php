@@ -26,7 +26,7 @@
     </strong>
 
     <dt-tile title="<?php echo esc_attr( $link_heading ); ?>">
-        <dt-copy-text value="<?php echo esc_attr( $share_link ); ?>"></dt-copy-text>
+        <dt-copy-text value="<?php echo esc_attr( $share_link ); ?>" <?php language_attributes(); ?>></dt-copy-text>
         <span class="help-text cloak">
             <?php echo esc_html( $share_link_help_text ) ?>
         </span>

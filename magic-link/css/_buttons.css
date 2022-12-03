@@ -17,8 +17,8 @@ dt-button[context="link"] dt-chevron-right {
     display: inline-block;
     font-size: 14px;
     transform: translateY(20%);
-    margin-left: 10px;
-    margin-right: -10px;
+    margin-inline-start: 10px;
+    margin-inline-end: -10px;
 }
 
 dt-button.button--large {

@@ -8,7 +8,7 @@ class DTCopyTextinput extends DtText {
       ...DtText.styles,
       css`
         .text-input {
-          padding-right: 40px;
+          padding-inline-end: 40px;
           box-shadow: none;
           font-family: "Poppins";
           font-style: normal;
@@ -39,6 +39,7 @@ export class DTCopyText extends LitElement {
         display: flex;
         align-items: center;
         position: relative;
+        width: calc(100% + 20px);
       }
 
       .copy-text__input {
@@ -46,14 +47,15 @@ export class DTCopyText extends LitElement {
       }
 
       .copy_icon {
-        position: absolute;
         cursor: copy;
-        top: 50%;
-        right: 10px;
         font-size: 16px;
         display: block;
-        transform: translateY(calc(-50% - 5px));
+        transform: translate(-24px, -5px);
         width: 20px;
+      }
+
+      :host([dir="rtl"]) .copy_icon {
+        transform: translate(24px, -5px);
       }
     `;
   }
