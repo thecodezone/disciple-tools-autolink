@@ -35,10 +35,7 @@
 }
 
 .count__value {
-    position: absolute;
-    bottom: 0;
-    transform: translate(50%, 50%);
-    right: 50%;
+    transform: translate( calc(50% - .75rem), calc( 100% + 1.2rem) );
     background-color: var(--alert-color);
     border-radius: 50%;
     aspect-ratio: 1/1;

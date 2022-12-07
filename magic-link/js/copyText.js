@@ -1,11 +1,11 @@
 import { css, html, LitElement } from 'lit';
-import { DtTextField } from 'dt-web-components';
+import { DtText } from 'dt-web-components';
 import { styleMap } from 'lit-html/directives/style-map.js';
 
-class DTCopyTextinput extends DtTextField {
+class DTCopyTextinput extends DtText {
   static get styles() {
     return [
-      ...DtTextField.styles,
+      ...DtText.styles,
       css`
         .text-input {
            padding-right: 40px;

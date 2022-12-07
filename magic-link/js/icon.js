@@ -1,8 +1,8 @@
 import { css, html } from 'lit';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 import 'iconify-icon';
 
-export class DtIcon extends DTBase {
+export class DtIcon extends DtBase {
     static get styles() {
         return css`
             :root {

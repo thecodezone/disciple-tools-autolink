@@ -1,8 +1,8 @@
 import { html, css } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { DTBase } from 'dt-web-components';
+import { DtBase } from 'dt-web-components';
 
-export class DtButton extends DTBase {
+export class DtButton extends DtBase {
   static get styles() {
     return css`
       :host {
