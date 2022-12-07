@@ -71,9 +71,9 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
         /**
          * tests if other URL
          */
-        $url = dt_get_url_path();
-
-        if ( strpos( $url, $this->root . '/' . $this->type ) === false ) {
+        $url = dt_get_url_path();   
+        $expected_url = $this->root . '/' . $this->type;
+        if ( strpos( $url, $expected_url ) === false ) {
             return;
         }
 
