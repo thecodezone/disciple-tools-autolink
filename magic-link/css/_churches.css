@@ -9,6 +9,11 @@
     right: var(--dt-tile-padding, 1rem);
 }
 
+[dir='rtl'] .churches__add {
+    left: var(--dt-tile-padding, -1rem);
+    right: auto;
+}
+
 .church {
     position: relative;
 }
@@ -18,6 +23,10 @@
     position: absolute;
     transform: translateY(var(--dt-tile-padding, -3rem));
     right: var(--dt-tile-padding, 1rem);
+}
+[dir='rtl'] .church__link {
+    left: var(--dt-tile-padding, 1rem);
+    right: auto;
 }
 
 .church__counts {

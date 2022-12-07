@@ -1,6 +1,12 @@
 let mix = require('laravel-mix');
 const {browserSync} = require("laravel-mix");
 
+mix.webpackConfig({
+  output: {
+    publicPath: "/wp-content/plugins/disciple-tools-autolink/dist/",
+  }
+})
+
 mix.setPublicPath('dist')
   .js('magic-link/magic-link.js', 'dist/magic-link.js')
   .postCss('magic-link/magic-link.css', 'dist/magic-link.css')

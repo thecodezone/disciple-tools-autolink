@@ -1,6 +1,6 @@
-import { css, html, LitElement } from 'lit';
-import { DtText } from 'dt-web-components';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { css, html, LitElement } from "lit";
+import { DtText } from "@disciple.tools/web-components";
+import { styleMap } from "lit-html/directives/style-map.js";
 
 class DTCopyTextinput extends DtText {
   static get styles() {
@@ -8,23 +8,24 @@ class DTCopyTextinput extends DtText {
       ...DtText.styles,
       css`
         .text-input {
-           padding-right: 40px;
-           box-shadow: none;
-           font-family: 'Poppins';
-           font-style: normal;
-           font-weight: 700;
-           font-size: 12px;
-           line-height: 12px;
+          padding-inline-end: 40px;
+          box-shadow: none;
+          font-family: "Poppins";
+          font-style: normal;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: 12px;
         }
 
-         .text-input:disabled {
-            cursor: text;
+        .text-input:disabled {
+          cursor: text;
         }
-    `];
+      `,
+    ];
   }
 }
 
-window.customElements.define('dt-copy-text-input', DTCopyTextinput);
+window.customElements.define("dt-copy-text-input", DTCopyTextinput);
 
 export class DTCopyText extends LitElement {
   static get styles() {
@@ -35,9 +36,10 @@ export class DTCopyText extends LitElement {
 
       .copy-text {
         --dt-form-text-color: #575757;
-         display: flex;
-         align-items: center;
-         position: relative;
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: calc(100% + 20px);
       }
 
       .copy-text__input {
@@ -45,14 +47,15 @@ export class DTCopyText extends LitElement {
       }
 
       .copy_icon {
-        position: absolute;
         cursor: copy;
-        top: 50%;
-        right: 10px;
         font-size: 16px;
         display: block;
-        transform: translateY(calc(-50% - 5px));
+        transform: translate(-24px, -5px);
         width: 20px;
+      }
+
+      :host([dir="rtl"]) .copy_icon {
+        transform: translate(24px, -5px);
       }
     `;
   }
@@ -68,48 +71,58 @@ export class DTCopyText extends LitElement {
   get inputStyles() {
     if (this.success) {
       return {
-        '--dt-text-border-color': 'var(--copy-text-success-color, var(--success-color))',
-        '--dt-form-text-color': 'var( --copy-text-success-color, var(--success-color))',
-        color: 'var( --copy-text-success-color, var(--success-color))',
-      }
+        "--dt-text-border-color":
+          "var(--copy-text-success-color, var(--success-color))",
+        "--dt-form-text-color":
+          "var( --copy-text-success-color, var(--success-color))",
+        color: "var( --copy-text-success-color, var(--success-color))",
+      };
     } else if (this.error) {
       return {
-        '---dt-text-border-color': 'var(--copy-text-alert-color, var(--alert-color))',
-        '--dt-form-text-color': 'var(--copy-text-alert-color, var(--alert-color))',
-      }
+        "---dt-text-border-color":
+          "var(--copy-text-alert-color, var(--alert-color))",
+        "--dt-form-text-color":
+          "var(--copy-text-alert-color, var(--alert-color))",
+      };
     }
 
-    return {}
+    return {};
   }
 
   get icon() {
-    return this.success ? "ic:round-check" : "ic:round-content-copy"
+    return this.success ? "ic:round-check" : "ic:round-content-copy";
   }
 
   async copy() {
     try {
-      this.success = false
-      this.error = false
+      this.success = false;
+      this.error = false;
       await navigator.clipboard.writeText(this.value);
-      this.success = true
-      this.error = false
+      this.success = true;
+      this.error = false;
     } catch (err) {
-      console.log(err)
-      this.success = false
-      this.error = true
+      console.log(err);
+      this.success = false;
+      this.error = true;
     }
   }
 
   render() {
     return html`
       <div class="copy-text" style=${styleMap(this.inputStyles)}>
-        <dt-copy-text-input class="copy-text__input"
-                 value="${this.value}"
-                 disabled></dt-copy-text-input>
-        <dt-icon class="copy_icon" icon="${this.icon}" @click="${this.copy}"></dt-icon>
+        <dt-copy-text-input
+          class="copy-text__input"
+          value="${this.value}"
+          disabled
+        ></dt-copy-text-input>
+        <dt-icon
+          class="copy_icon"
+          icon="${this.icon}"
+          @click="${this.copy}"
+        ></dt-icon>
       </div>
-    `
+    `;
   }
 }
 
-window.customElements.define('dt-copy-text', DTCopyText);
+window.customElements.define("dt-copy-text", DTCopyText);
