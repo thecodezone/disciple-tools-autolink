@@ -168,8 +168,10 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             return $this->show_login( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
         }
 
+        wp_set_current_user( $user->ID);
+
         $this->functions->activate();
-        // $this->functions->add_session_leader();
+        $this->functions->add_session_leader();
         $this->functions->redirect_to_link();
     }
 
@@ -206,8 +208,10 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             return $this->show_register( [ 'error' => $error ] );
         }
 
+        $userObj = get_user_by('id', $user);
+
         wp_set_current_user( $user );
-        wp_set_auth_cookie( $user->ID );
+        wp_set_auth_cookie( $userObj->ID );
 
         if ( !$user ) {
             return $this->show_register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
