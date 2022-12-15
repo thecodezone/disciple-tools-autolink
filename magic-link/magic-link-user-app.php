@@ -71,8 +71,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
          * tests if other URL
          */
         $url = dt_get_url_path();
+        $current_url = $this->root . '/' . $this->type;
 
-        if ( strpos( $url, $this->root . '/' . $this->type ) === false ) {
+        if ( strpos( $url, $current_url) === false ) {
             return;
         }
 
@@ -87,6 +88,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         // load if valid url
         wp_set_current_user( $this->parts['post_id'] );
+        add_filter( 'user_has_cap', [ $this, 'user_has_cap' ], 100, 3 );
         add_action('dt_blank_body', function () {
             $this->ready();
             $this->routes();
@@ -402,6 +404,21 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $data[] = [ 'name' => 'List item' ]; // @todo remove example
 
         return $data;
+    }
+
+    /**
+     * Make sure the user can do everything we need them to do during this request.
+     * 
+     * @see WP_User::has_cap() in wp-includes/capabilities.php
+     * @param  array  $allcaps Existing capabilities for the user
+     * @param  string $caps    Capabilities provided by map_meta_cap()
+     * @param  array  $args    Arguments for current_user_can()
+     * @return array
+     */
+    public function user_has_cap( $allcaps, $caps, $args )
+    {
+        $allcaps['view_any_contacts'] = true;
+        return $allcaps;
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();
