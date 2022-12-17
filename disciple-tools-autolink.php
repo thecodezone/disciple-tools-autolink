@@ -81,9 +81,6 @@ class Disciple_Tools_Autolink {
     }
 
     private function __construct() {
-        if ( !session_id() ) {
-            session_start();
-        }
         $is_rest = dt_is_rest();
 
         if ( $is_rest && strpos( dt_get_url_path(), 'disciple-tools-autolink' ) !== false ) {

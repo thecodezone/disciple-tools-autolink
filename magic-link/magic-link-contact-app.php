@@ -71,7 +71,7 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
         /**
          * tests if other URL
          */
-        $url = dt_get_url_path();   
+        $url = dt_get_url_path();
         $expected_url = $this->root . '/' . $this->type;
         if ( strpos( $url, $expected_url ) === false ) {
             return;
@@ -94,7 +94,8 @@ class Disciple_Tools_Autolink_Magic_Contact_App extends DT_Magic_Url_Base
     // get the user id from the contact record and redirect to the user magic link
     public function ready() {
         $leader = DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
-        $_SESSION['dt_autolink_leader_id'] = $leader['ID'];
+        set_transient('dt_autolink_leader_id', $leader['ID'], 300);
+
         $this->functions->redirect_to_link();
     }
 

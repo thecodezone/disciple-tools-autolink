@@ -128,10 +128,10 @@ class Disciple_Tools_Autolink_Magic_Functions
             update_post_meta( get_the_ID(), $meta_key, $key );
         }
 
-        return DT_Magic_URL::get_link_url_for_post( 
-            'contacts', 
-            $record['ID'], 
-            'autolink', 
+        return DT_Magic_URL::get_link_url_for_post(
+            'contacts',
+            $record['ID'],
+            'autolink',
             'share'
         );
     }
@@ -165,7 +165,7 @@ class Disciple_Tools_Autolink_Magic_Functions
     }
 
     public function add_session_leader() {
-        $leader_id = !empty( $_SESSION['dt_autolink_leader_id'] ) ? sanitize_text_field( $_SESSION['dt_autolink_leader_id'] ) : null;
+        $leader_id = get_transient( 'dt_autolink_leader_id' ) ? sanitize_text_field( get_transient( 'dt_autolink_leader_id' ) ) : null;
         if ( !$leader_id ) {
             return;
         }
@@ -181,7 +181,7 @@ class Disciple_Tools_Autolink_Magic_Functions
             ]
         ];
         DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
-        unset( $_SESSION['dt_autolink_leader_id'] );
+        delete_transient( 'dt_autolink_leader_id' );
     }
 
     public function survey(): array {
