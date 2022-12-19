@@ -310,9 +310,24 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             return;
         }
 
-        $group = DT_Posts::create_post( 'groups', [
-            'title' => $name
-        ], false, false );
+        $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+        $fields = [
+            "title" => $name,
+            "members" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ],
+            "leaders" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ]
+        ];
+
+        $group = DT_Posts::create_post( 'groups', $fields, false, false );
+
 
         if ( is_wp_error( $group ) ) {
             $this->show_create_group( [ 'error' => $group->get_error_message() ] );
