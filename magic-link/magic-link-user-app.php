@@ -73,7 +73,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $url = dt_get_url_path();
         $current_url = $this->root . '/' . $this->type;
 
-        if ( strpos( $url, $current_url) === false ) {
+        if ( strpos( $url, $current_url ) === false ) {
             return;
         }
 
@@ -430,8 +430,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
      * @param  array  $args    Arguments for current_user_can()
      * @return array
      */
-    public function user_has_cap( $allcaps, $caps, $args )
-    {
+    public function user_has_cap( $allcaps, $caps, $args ) {
         $allcaps['view_any_contacts'] = true;
         return $allcaps;
     }
