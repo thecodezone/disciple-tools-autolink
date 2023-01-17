@@ -56,8 +56,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         $this->meta_key = $this->root . '_' . $this->type . '_magic_key';
 
-        require_once get_template_directory() . "/dt-core/libraries/posts-to-posts/posts-to-posts.php";
-
         parent::__construct();
 
         $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
@@ -98,7 +96,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
         add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
         add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
-        add_action( 'init', [ $this, 'process' ], 1 );
     }
 
     public function ready() {
@@ -146,43 +143,36 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
         $type = strtoupper( sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) );
 
-        if ( $type !== 'GET' ) {
+        if ( $type === 'GET' ) {
+            switch ( $action ) {
+                case 'survey':
+                    $this->show_survey();
+                    break;
+                case 'create-group':
+                    $this->show_create_group();
+                    break;
+                default:
+                    if ( !$this->functions->survey_completed() ) {
+                        return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
+                    }
+                    $this->show_app();
+                    break;
+            }
             return;
         }
 
-        switch ( $action ) {
-            case 'survey':
-                $this->show_survey();
-                break;
-            case 'create-group':
-                $this->show_create_group();
-                break;
-            default:
-                if ( !$this->functions->survey_completed() ) {
-                    return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
-                }
-                $this->show_app();
-                break;
-        }
-    }
-
-    public function process() {
-        $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
-        $type = strtoupper( sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) );
-
-        if ( $type !== 'POST' ) {
+        if ( $type === 'POST' ) {
+            switch ( $action ) {
+                case 'survey':
+                    $this->submit_survey();
+                    break;
+                case 'create-group':
+                    $this->create_group();
+                    break;
+                default:
+                    wp_redirect( '/' . $this->root );
+            }
             return;
-        }
-
-        switch ( $action ) {
-            case 'survey':
-                $this->submit_survey();
-                break;
-            case 'create-group':
-                $this->create_group();
-                break;
-            default:
-                wp_redirect( '/' . $this->root );
         }
     }
 
@@ -311,11 +301,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     }
 
     public function create_group() {
-        global $wpdb;
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
-        $user_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
         if ( !$verify_nonce || !$name ) {
             $this->show_create_group( [ 'error' => 'Invalid request' ] );
@@ -444,7 +432,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
      */
     public function user_has_cap( $allcaps, $caps, $args ) {
         $allcaps['view_any_contacts'] = true;
-        $allcaps['create_groups'] = true;
         return $allcaps;
     }
 }
