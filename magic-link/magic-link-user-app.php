@@ -322,40 +322,24 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             return;
         }
 
-        /**
-         * TODO: There is a bug where P2P connections initialized yet.
-         * THey are initalized at https://github.com/DiscipleTools/disciple-tools-theme/blob/master/dt-core/libraries/posts-to-posts/posts-to-posts.php
-         * in the wp_loaded hook, but wp_loaded is not fired in the magic link request.
-         *
-         * As a workaround, we are using a direct SQL query to create the connection. This is not ideal, but it works for now.
-         */
-        $group = DT_Posts::create_post('groups', [
-            'title' => $name,
-            // "members" => [
-            //     "values" => [
-            //         ["value" => $users_contact_id]
-            //     ]
-            // ],
-            // "leaders" => [
-            //     "values" => [
-            //         ["value" => $users_contact_id]
-            //     ]
-            // ]
-        ], false, false);
+        $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
-        $group_id = $group['ID'] ?? null;
+        $fields = [
+            "title" => $name,
+            "members" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ],
+            "leaders" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ]
+        ];
 
-        if ( !$group_id ) {
-            throw new Exception( 'Group could not be created' );
-        }
+        $group = DT_Posts::create_post( 'groups', $fields, false, false );
 
-        $wpdb->query("
-            INSERT INTO {$wpdb->p2p} ( p2p_from, p2p_to, p2p_type ) VALUES ({$user_contact_id}, {$group_id}, 'contacts_to_groups')
-        ");
-
-        $wpdb->query("
-            INSERT INTO {$wpdb->p2p} ( p2p_from, p2p_to, p2p_type ) VALUES ({$group_id}, {$user_contact_id}, 'groups_to_leaders')
-        ");
 
         if ( is_wp_error( $group ) ) {
             $this->show_create_group( [ 'error' => $group->get_error_message() ] );
