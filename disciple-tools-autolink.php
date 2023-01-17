@@ -6,7 +6,7 @@
  * Description: Disciple.Tools - Autolink is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.8.1
+ * Version:  0.9
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
  * Requires at least: 4.7.0
@@ -36,7 +36,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * @return object|bool
  */
 function disciple_tools_autolink() {
-    $disciple_tools_autolink_required_dt_theme_version = '1.19';
+    $disciple_tools_autolink_required_dt_theme_version = '1.35';
     $wp_theme = wp_get_theme();
     $version = $wp_theme->version;
 
