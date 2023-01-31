@@ -26,4 +26,5 @@ import "./js/copyText";
 import "./js/churchHealthCircle";
 import "./js/collapse";
 import "./js/church";
+import "./js/church-tile";
 import "./js/icon";

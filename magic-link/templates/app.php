@@ -45,13 +45,13 @@
                     $app_church_opened = "opened";
                 }
                 ?>
-                <dt-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
+                <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
                     <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
                         <dt-icon icon="material-symbols:link-rounded"></dt-icon>
                     </dt-button>
                     <?php include( "parts/health-counts.php" ); ?>
                     <app-church group='<?php echo wp_json_encode( $church ); ?>' fields='<?php echo wp_json_encode( $church_fields ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
-                </dt-tile>
+                </church-tile>
             <?php endforeach; ?>
     </dt-tile>
 </div>
