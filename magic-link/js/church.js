@@ -81,6 +81,13 @@ export class AppChurch extends AppCollapse {
     }
   }
 
+  _isChecked() {
+    if (this.group && this.group.health_metrics && this.group.health_metrics.includes("church_commitment")) {
+      return "checked";
+    }
+    return false;
+  }
+
   renderChurchHealth() {
     return html`
       <div class="church_health">
@@ -89,7 +96,7 @@ export class AppChurch extends AppCollapse {
           .settings=${this.fields.health_metrics}
         ></dt-church-health-circle>
 
-        <dt-toggle name="church-commitment" label="Church Commitment" requiredmessage="" icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" iconalttext="Icon Alt Text" privatelabel="" @click="${this.toggleClick}" ?checked=${this.group.health_metrics.includes("church_commitment")}>
+        <dt-toggle name="church-commitment" label="Church Commitment" requiredmessage="" icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" iconalttext="Icon Alt Text" privatelabel="" @click="${this.toggleClick}" ?checked=${ this._isChecked }>
         </dt-toggle>
       </div>
     `;
