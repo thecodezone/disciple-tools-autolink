@@ -10,9 +10,18 @@ export class AppChurch extends AppCollapse {
       fields: { type: Object },
       opened: { type: Boolean, reflect: true },
       startDateLabel: { type: String },
+      isChurch: { type: Boolean },
     };
   }
 
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.isChurch = (Object.hasOwn(this.group, 'health_metrics') && this.group.health_metrics.includes("church_commitment")) ? true : false;
+  }
   static get styles() {
     return css`
       :host {
@@ -82,10 +91,13 @@ export class AppChurch extends AppCollapse {
   }
 
   _isChecked() {
-    if (this.group && this.group.health_metrics && this.group.health_metrics.includes("church_commitment")) {
-      return "checked";
+    if (Object.hasOwn(this.group, 'health_metrics')) {
+      if (this.group.health_metrics.includes("church_commitment")) {
+        return this.isChurch = true;
+      }
+      return this.isChurch = false;
     }
-    return false;
+    return this.isChurch = false;
   }
 
   renderChurchHealth() {
@@ -96,7 +108,7 @@ export class AppChurch extends AppCollapse {
           .settings=${this.fields.health_metrics}
         ></dt-church-health-circle>
 
-        <dt-toggle name="church-commitment" label="Church Commitment" requiredmessage="" icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" iconalttext="Icon Alt Text" privatelabel="" @click="${this.toggleClick}" ?checked=${ this._isChecked }>
+        <dt-toggle name="church-commitment" label="Church Commitment" requiredmessage="" icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" iconalttext="Icon Alt Text" privatelabel="" @click="${this.toggleClick}" ?checked=${this.isChurch}>
         </dt-toggle>
       </div>
     `;
