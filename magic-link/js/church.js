@@ -20,7 +20,14 @@ export class AppChurch extends AppCollapse {
 
   connectedCallback() {
     super.connectedCallback();
-    this.isChurch = (Object.hasOwn(this.group, 'health_metrics') && this.group.health_metrics.includes("church_commitment")) ? true : false;
+    if (Object.hasOwn(this.group, 'health_metrics')) {
+      if (this.group.health_metrics.includes("church_commitment")) {
+        return this.isChurch = true;
+      }
+      return this.isChurch = false;
+    } else {
+      return this.isChurch = false;
+    }
   }
   static get styles() {
     return css`
