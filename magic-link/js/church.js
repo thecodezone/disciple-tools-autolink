@@ -56,6 +56,31 @@ export class AppChurch extends AppCollapse {
     return nothing;
   }
 
+  toggleClick(e) {
+    let toggle = this.renderRoot.querySelector('dt-toggle');
+    let church_commitment = toggle.toggleAttribute("checked");
+    const payload = {
+      health_metrics: {
+        values: [
+          {
+            value: "church_commitment",
+            delete: !church_commitment,
+          },
+        ],
+      },
+    };
+    try {
+      API.update_post("groups", this.group.ID, payload);
+      if (church_commitment) {
+        this.group.health_metrics.push("church_commitment");
+      } else {
+        this.group.health_metrics.pop("church_commitment");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   renderChurchHealth() {
     return html`
       <div class="church_health">
@@ -63,6 +88,9 @@ export class AppChurch extends AppCollapse {
           .group=${this.group}
           .settings=${this.fields.health_metrics}
         ></dt-church-health-circle>
+
+        <dt-toggle name="church-commitment" label="Church Commitment" requiredmessage="" icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" iconalttext="Icon Alt Text" privatelabel="" @click="${this.toggleClick}" ?checked=${this.group.health_metrics.includes("church_commitment")}>
+        </dt-toggle>
       </div>
     `;
   }
