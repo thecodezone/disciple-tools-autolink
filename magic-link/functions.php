@@ -165,7 +165,10 @@ class Disciple_Tools_Autolink_Magic_Functions
     }
 
     public function add_session_leader() {
-        $leader_id =  $_COOKIE['dt_autolink_leader_id'] ?? null;
+        if ( !isset( $_COOKIE['dt_autolink_leader_id'] ) ) {
+            return;
+        }
+        $leader_id = esc_attr( wp_unslash( $_COOKIE['dt_autolink_leader_id'] ) ) ?? null;
         if ( !$leader_id ) {
             return;
         }
@@ -181,7 +184,7 @@ class Disciple_Tools_Autolink_Magic_Functions
             ]
         ];
         DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
-        if (isset( $_COOKIE['dt_autolink_leader_id'] ) ) {
+        if ( isset( $_COOKIE['dt_autolink_leader_id'] ) ) {
             unset( $_COOKIE['dt_autolink_leader_id'] );
             setcookie( 'dt_autolink_leader_id', '', time() - 3600, '/' );
         }
