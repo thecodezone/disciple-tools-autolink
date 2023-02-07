@@ -84,7 +84,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             return;
         }
 
-
+        // if the user is not logged in, redirect to login page.
+        if ( !is_user_logged_in() ) {
+            $this->functions->redirect_to_link();
+        }
 
         // load if valid url
         wp_set_current_user( $this->parts['post_id'] );
@@ -178,7 +181,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function show_app() {
         $logo_url = $this->functions->fetch_logo();
-        $greeting = __( 'Hello,', 'disciple-tools-autolink' );
+        $greeting = __( 'Hello!,', 'disciple-tools-autolink' );
         $user_name = dt_get_user_display_name( get_current_user_id() );
         $coached_by_label = __( 'Coached by', 'disciple-tools-autolink' );
         $link_heading = __( 'My Link', 'disciple-tools-autolink' );
