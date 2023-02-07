@@ -28,3 +28,9 @@ import "./js/collapse";
 import "./js/church";
 import "./js/church-tile";
 import "./js/icon";
+
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/tab-group/tab-group.js';
+import '@shoelace-style/shoelace/dist/components/tab/tab.js';
+import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
+

@@ -22,6 +22,7 @@
   "dependencies": {
     "@disciple.tools/web-components": "^0.2.4",
     "@lit/localize": "^0.11.4",
+    "@shoelace-style/shoelace": "^2.0.0",
     "element-internals-polyfill": "^1.1.15",
     "iconify-icon": "^1.0.1",
     "lit": "^2.3.0"

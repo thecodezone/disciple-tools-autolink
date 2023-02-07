@@ -36,23 +36,40 @@
      <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
         <dt-icon icon="ic:baseline-plus"></dt-icon>
     </dt-button>
-        <ul class="churches__list">
-            <?php foreach ( $churches as $church ) : ?>
-                <?php
-                    //If the church is the first one the tile is open if not it is closed.
-                    $app_church_opened = "";
-                if ( $church === $churches[ array_key_first( $churches )] ) {
-                    $app_church_opened = "opened";
-                }
-                ?>
-                <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
-                    <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
-                        <dt-icon icon="material-symbols:link-rounded"></dt-icon>
-                    </dt-button>
-                    <?php include( "parts/health-counts.php" ); ?>
-                    <app-church group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>' fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
-                </church-tile>
-            <?php endforeach; ?>
+
+    <sl-tab-group placement="top">
+        <sl-tab slot="nav" panel="churches">My Churches</sl-tab>
+        <sl-tab slot="nav" panel="tree">Tree View</sl-tab>
+        <sl-tab slot="nav" panel="GenMap">GenMap</sl-tab>
+
+        <sl-tab-panel name="churches">
+            <ul class="churches__list">
+                <?php foreach ( $churches as $church ) : ?>
+                    <?php
+                        //If the church is the first one the tile is open if not it is closed.
+                        $app_church_opened = "";
+                    if ( $church === $churches[ array_key_first( $churches )] ) {
+                        $app_church_opened = "opened";
+                    }
+                    ?>
+                    <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
+                        <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
+                            <dt-icon icon="material-symbols:link-rounded"></dt-icon>
+                        </dt-button>
+                        <?php include( "parts/health-counts.php" ); ?>
+                        <app-church group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>' fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
+                    </church-tile>
+                <?php endforeach; ?>
+            </ul>
+        </sl-tab-panel>
+
+        <sl-tab-panel name="tree">
+            <p>Tree View</p>
+        </sl-tab-panel>
+        <sl-tab-panel name="GenMap">
+            <p>GenMap View</p>
+        </sl-tab-panel>
+    </sl-tab-group>
     </dt-tile>
 </div>
 
