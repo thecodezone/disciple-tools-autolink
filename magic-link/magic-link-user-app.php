@@ -293,6 +293,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $heading = __( 'Create a Church', 'disciple-tools-autolink' );
         $name_label = __( 'Church Name', 'disciple-tools-autolink' );
         $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
+        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
         $nonce = 'dt_autolink_create_group';
         $action = $this->functions->get_app_link() . '?action=create-group';
         $cancel_url = $this->functions->get_app_link();
@@ -307,6 +308,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+        $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
 
         if ( !$verify_nonce || !$name ) {
             $this->show_create_group( [ 'error' => 'Invalid request' ] );
@@ -326,7 +328,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 "values" => [
                     [ "value" => $users_contact_id ]
                 ]
-            ]
+            ],
+            "start_date" => $start_date
         ];
 
         $group = DT_Posts::create_post( 'groups', $fields, false, false );

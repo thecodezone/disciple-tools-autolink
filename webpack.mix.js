@@ -9,6 +9,7 @@ mix.webpackConfig({
 
 mix.setPublicPath('dist')
   .js('magic-link/magic-link.js', 'dist/magic-link.js')
+  .sourceMaps()
   .postCss('magic-link/magic-link.css', 'dist/magic-link.css')
   .browserSync({
     proxy: "https://discipletools.test",
