@@ -29,6 +29,8 @@
 
             <dt-text class="create-group__input" label="<?php echo esc_html( $name_label ); ?>" type="text" name="name" value="" placeholder="<?php echo esc_attr( $name_placeholder ); ?>"></dt-text>
 
+            <dt-date name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>"></dt-date>
+
             <div class="buttons">
                 <dt-button context="success"
                            type="submit">

@@ -89,6 +89,7 @@ class Disciple_Tools_Autolink
         }
 
         require_once( 'magic-link/functions.php' );
+        require_once( 'queries.php' );
         require_once( 'magic-link/magic-link-contact-app.php' );
         require_once( 'magic-link/magic-link-user-app.php' );
         require_once( 'magic-link/magic-link-login-app.php' );

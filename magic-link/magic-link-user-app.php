@@ -108,6 +108,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function wp_enqueue_scripts() {
         $this->functions->wp_enqueue_scripts();
+        // dd( http_build_query( [ 'parts' => $this->parts ] ) );
         wp_localize_script(
             'magic_link_scripts',
             'magic',
@@ -293,6 +294,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $heading = __( 'Create a Church', 'disciple-tools-autolink' );
         $name_label = __( 'Church Name', 'disciple-tools-autolink' );
         $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
+        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
         $nonce = 'dt_autolink_create_group';
         $action = $this->functions->get_app_link() . '?action=create-group';
         $cancel_url = $this->functions->get_app_link();
@@ -307,6 +309,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+        $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
 
         if ( !$verify_nonce || !$name ) {
             $this->show_create_group( [ 'error' => 'Invalid request' ] );
@@ -326,7 +329,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 "values" => [
                     [ "value" => $users_contact_id ]
                 ]
-            ]
+            ],
+            "start_date" => $start_date
         ];
 
         $group = DT_Posts::create_post( 'groups', $fields, false, false );
@@ -410,18 +414,33 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         return true;
     }
 
+    /**
+     * Route REST endpointS by action
+     *
+     * @param WP_REST_Request $request
+     */
     public function endpoint_get( WP_REST_Request $request ) {
         $params = $request->get_params();
         if ( !isset( $params['parts'], $params['action'] ) ) {
             return new WP_Error( __METHOD__, "Missing parameters", [ 'status' => 400 ] );
         }
 
-        $data = [];
+        switch ( $params['action'] ) {
+            case 'groups_tree':
+                return $this->get_groups_tree( $request, $params );
+            default:
+                return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
+        }
+    }
 
-        $data[] = [ 'name' => 'List item' ]; // @todo remove example
-        $data[] = [ 'name' => 'List item' ]; // @todo remove example
-
-        return $data;
+    public function get_groups_tree( WP_REST_Request $request, $params ) {
+        $groups = Disciple_Tools_Posts::search_viewable_post( 'groups', [], false );
+        $group_ids = array_map(function ( $group ) {
+            return $group->ID;
+        }, $groups['posts']);
+        $args = [ 'ids' => $group_ids ];
+        $result = dt_autolink_queries()->tree( 'groups', $args );
+        echo wp_json_encode( $result );
     }
 
     /**
