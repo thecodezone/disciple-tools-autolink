@@ -108,7 +108,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function wp_enqueue_scripts() {
         $this->functions->wp_enqueue_scripts();
-        dd( http_build_query( [ 'parts' => $this->parts ] ) );
+        // dd( http_build_query( [ 'parts' => $this->parts ] ) );
         wp_localize_script(
             'magic_link_scripts',
             'magic',
