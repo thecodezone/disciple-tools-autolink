@@ -2,11 +2,15 @@ body#blank-template-body {
     border-top: 4px solid var(--primary-color);
 }
 
-.container {
+.container,
+.container--wide {
     width: 100%;
-    max-width: 462px;
     margin: 36px auto;
     padding: 25px;
+}
+
+.continer {
+    max-width: 462px;
 }
 
 .container .logo {

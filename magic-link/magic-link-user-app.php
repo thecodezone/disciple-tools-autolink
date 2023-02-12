@@ -60,6 +60,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
 
+        if ( class_exists( 'DT_Genmapper_Metrics' ) ) {
+            require_once( __DIR__ . "/../charts/groups-genmap.php" );
+            new DT_Genmapper_Groups_Genmap();
+        }
 
         /**
          * user_app and module section
@@ -108,13 +112,12 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function wp_enqueue_scripts() {
         $this->functions->wp_enqueue_scripts();
-        dd( http_build_query( [ 'parts' => $this->parts ] ) );
         wp_localize_script(
             'magic_link_scripts',
             'magic',
             [
                 'parts' => $this->parts,
-                'rest_namespace' => $this->root . '/v1/' . $this->type,
+                'rest_namespace' => $this->root . '/v1/' . $this->type
             ]
         );
     }
@@ -154,6 +157,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                     break;
                 case 'create-group':
                     $this->show_create_group();
+                    break;
+                case 'genmap':
+                    $this->show_genmap();
                     break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
@@ -241,6 +247,14 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
 
         include( 'templates/app.php' );
+    }
+
+    public function show_genmap() {
+        if ( !class_exists( 'DT_Genmapper_Groups_chart' ) ) {
+            wp_redirect( $this->functions->get_app_link() );
+        }
+
+        include( 'templates/genmap.php' );
     }
 
     public function show_survey() {
@@ -426,21 +440,11 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
 
         switch ( $params['action'] ) {
-            case 'groups_tree':
-                return $this->get_groups_tree( $request, $params );
+            //case 'groups_tree':
+            //    return $this->get_groups_tree( $request, $params );
             default:
                 return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
         }
-    }
-
-    public function get_groups_tree( WP_REST_Request $request, $params ) {
-        $groups = Disciple_Tools_Posts::search_viewable_post( 'groups', [], false );
-        $group_ids = array_map(function ( $group ) {
-            return $group->ID;
-        }, $groups['posts']);
-        $args = [ 'ids' => $group_ids ];
-        $result = dt_autolink_queries()->tree( 'groups', $args );
-        echo wp_json_encode( $result );
     }
 
     /**

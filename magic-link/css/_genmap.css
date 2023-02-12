@@ -1,0 +1,7 @@
+.genmap {
+    grid-column: span 12;
+}
+
+.genmap #left-menu button {
+    width: auto;
+}

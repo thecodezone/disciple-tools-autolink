@@ -14,11 +14,24 @@ class Disciple_Tools_Autolink_Magic_Functions
 
     public function dt_magic_url_base_allowed_js( $allowed_js ) {
         $allowed_js[] = 'magic_link_scripts';
+        $allowed_js[] = 'gen-template';
+        $allowed_js[] = 'genApiTemplate';
+        $allowed_js[] = 'genmapper';
+        $allowed_js[] = "d3";
+        $allowed_js[] = "dt_groups_wpApiGenmapper";
+        $allowed_js[] = 'wp-i18n';
+        $allowed_js[] = 'jquery';
+        $allowed_js[] = 'jquery-ui-core';
+        $allowed_js[] = 'dt_groups_script';
         return $allowed_js;
     }
 
     public function dt_magic_url_base_allowed_css( $allowed_css ) {
         $allowed_css[] = 'magic_link_css';
+        $allowed_css[] = "hint";
+        $allowed_css[] = 'group-styles';
+        $allowed_css[] = "styles";
+        $allowed_css[] = 'chart-styles';
         return $allowed_css;
     }
 
@@ -27,6 +40,7 @@ class Disciple_Tools_Autolink_Magic_Functions
             'jquery',
             'lodash',
         ], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.js' ), true);
+
         wp_localize_script(
             'magic_link_scripts',
             'app',
@@ -58,6 +72,7 @@ class Disciple_Tools_Autolink_Magic_Functions
                 ]
             ]
         );
+
         wp_enqueue_style( 'magic_link_css', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../dist/magic-link.css', [], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.css' ) );
     }
 
@@ -190,7 +205,8 @@ class Disciple_Tools_Autolink_Magic_Functions
         }
     }
 
-    public function survey(): array {
+    public function survey(): array
+    {
         $survey = apply_filters('dt_autolink_survey', [
             [
                 'name' => 'dt_autolink_number_of_leaders_coached',

@@ -208,10 +208,10 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             return $this->show_register( [ 'error' => $error ] );
         }
 
-        $userObj = get_user_by( 'id', $user );
+        $user_obj = get_user_by( 'id', $user );
 
         wp_set_current_user( $user );
-        wp_set_auth_cookie( $userObj->ID );
+        wp_set_auth_cookie( $user_obj->ID );
 
         if ( !$user ) {
             return $this->show_register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );

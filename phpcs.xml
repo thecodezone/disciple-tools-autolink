@@ -179,6 +179,9 @@
   <rule ref="Generic.PHP.LowerCaseConstant"/>
   <rule ref="Generic.PHP.LowerCaseKeyword"/>
   <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+   <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNewLine">
+        <severity>0</severity>
+    </rule>
   <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
   <rule ref="Generic.WhiteSpace.ScopeIndent">
     <properties>
@@ -195,6 +198,9 @@
     </properties>
   </rule>
   <rule ref="Squiz.PHP.DiscouragedFunctions"/>
+  <rule ref="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis">
+    <exclude-pattern>*.tpl</exclude-pattern>
+ </rule>
   <rule ref="PEAR.Functions.FunctionCallSignature">
     <properties>
       <property name="requiredSpacesAfterOpen" value="1"/>
@@ -206,6 +212,7 @@
   </rule>
   <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
   <rule ref="PEAR.NamingConventions.ValidClassName"/>
+  
 
   <!-- Maybe these rules will be enabled in the future: -->
   <!-- <rule ref="Generic.Files.LineLength"/> -->
