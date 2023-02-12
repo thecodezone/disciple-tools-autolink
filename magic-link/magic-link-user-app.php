@@ -117,7 +117,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             'magic',
             [
                 'parts' => $this->parts,
-                'rest_namespace' => $this->root . '/v1/' . $this->type
+                'rest_namespace' => $this->root . '/v1/' . $this->type,
             ]
         );
     }
