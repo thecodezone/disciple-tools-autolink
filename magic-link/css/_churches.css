@@ -9,7 +9,7 @@
     right: var(--dt-tile-padding, 1rem);
 }
 
-[dir='rtl'] .churches__add {
+[dir="rtl"] .churches__add {
     left: var(--dt-tile-padding, -1rem);
     right: auto;
 }
@@ -24,16 +24,15 @@
     transform: translateY(var(--dt-tile-padding, -3rem));
     right: var(--dt-tile-padding, 1rem);
 }
-[dir='rtl'] .church__link {
+[dir="rtl"] .church__link {
     left: var(--dt-tile-padding, 1rem);
     right: auto;
 }
 
 .church__counts {
     display: flex;
-    gap: 1.5rem;
     justify-content: center;
-    margin: 1rem 0;
+    margin: 0;
 }
 
 .church__count {
@@ -44,7 +43,8 @@
 }
 
 .count__value {
-    transform: translate( calc(50% - .75rem), calc( 100% + 1.2rem) );
+    transform: translate(calc(50% - 0.75rem), calc(100% - 3px));
+    position: absolute;
     background-color: var(--alert-color);
     border-radius: 50%;
     aspect-ratio: 1/1;

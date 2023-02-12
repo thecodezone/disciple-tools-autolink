@@ -7,7 +7,7 @@ export class DtChurchHealthCircle extends DtBase {
     return css`
       .health-circle {
         display: block;
-        margin: 3rem auto;
+        margin: 1rem auto;
         height: auto;
         width: 100%;
         aspect-ratio: 1/1;
