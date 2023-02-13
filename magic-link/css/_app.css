@@ -28,3 +28,11 @@ body.dom-loaded .cloak {
     flex-direction: column;
     justify-content: space-between;
 }
+
+.section__inner {
+    grid-column: span 2;
+}
+
+.app {
+    padding: 25px;
+}

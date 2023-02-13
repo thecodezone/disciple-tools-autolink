@@ -22,9 +22,9 @@ export class DtChurchHealthCircle extends DtBase {
         margin-left: auto;
         margin-right: auto;
 
-        --d: 50px; /* image size */
+        --d: 40px; /* image size */
         --rel: 0.5; /* how much extra space we want between images, 1 = one image size */
-        --r: calc(0.7 * var(--d) / var(--tan)); /* circle radius */
+        --r: calc(0.8 * var(--d) / var(--tan)); /* circle radius */
         --s: calc(2.75 * var(--r));
         position: relative;
         width: var(--s);
@@ -35,7 +35,8 @@ export class DtChurchHealthCircle extends DtBase {
 
       @media (min-width: 420px) {
         .health-circle__grid {
-          --r: calc(0.85 * var(--d) / var(--tan)); /* circle radius */
+          --d: 50px;
+          --r: calc(1 * var(--d) / var(--tan)); /* circle radius */
         }
       }
 

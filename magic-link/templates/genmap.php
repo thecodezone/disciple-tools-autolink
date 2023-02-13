@@ -1,9 +1,9 @@
-<?php include( 'parts/header.php' ); ?>
-<?php include( 'parts/navbar.php' ); ?>
+<?php include( 'parts/app-header.php' ); ?>
 
+<?php include( 'parts/church-view-tabs.php' ); ?>
 
 <div class="container--wide">
-    <dt-tile title="<?php echo _e( 'Group Geneartion Map' ); ?>">
+    <dt-tile title="<?php esc_html_e( 'Group Geneartion Map' ); ?>">
         <div class="genmap">
                <div id ="chart"> </div >
         </div
@@ -11,4 +11,4 @@
 </div>
 
 
-<?php include( 'parts/footer.php' ); ?>
+<?php include( 'parts/app-footer.php' ); ?>

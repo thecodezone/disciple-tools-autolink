@@ -13,41 +13,22 @@
  * @var $churches array;
  */
 ?>
-<?php include( 'parts/header.php' ); ?>
-<?php include( 'parts/navbar.php' ); ?>
+<?php include( 'parts/app-header.php' ); ?>
 
-<div class="container app">
-    <strong class="greeting">
-        <?php echo esc_html( $greeting ); ?>
-    </strong>
-    <h1 class="user_name"><?php echo esc_html( $user_name ); ?></h1>
-    <strong class="coached_by">
-        <?php echo esc_html( $coached_by_label ); ?> <?php echo esc_html( $coach_name ); ?>
-    </strong>
+<?php include( 'parts/church-view-tabs.php' ); ?>
 
-    <dt-tile title="<?php echo esc_attr( $link_heading ); ?>">
-        <dt-copy-text value="<?php echo esc_attr( $share_link ); ?>" <?php language_attributes(); ?>></dt-copy-text>
-        <span class="help-text cloak">
-            <?php echo esc_html( $share_link_help_text ) ?>
-        </span>
-    </dt-tile>
-
+<div class="container">
     <dt-tile class="churches" title="<?php echo esc_attr( $churches_heading ); ?>">
-     <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
-        <dt-icon icon="ic:baseline-plus"></dt-icon>
-    </dt-button>
-
-    <sl-tab-group placement="top">
-        <sl-tab slot="nav" panel="churches">My Churches</sl-tab>
-        <sl-tab slot="nav" panel="tree">Tree View</sl-tab>
-        <sl-tab slot="nav" panel="GenMap">GenMap</sl-tab>
-
-        <sl-tab-panel name="churches">
+        <div class="section__inner">
+            <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
+                <dt-icon icon="ic:baseline-plus"></dt-icon>
+            </dt-button>
+            
             <ul class="churches__list">
                 <?php foreach ( $churches as $church ) : ?>
                     <?php
-                        //If the church is the first one the tile is open if not it is closed.
-                        $app_church_opened = "";
+                    //If the church is the first one the tile is open if not it is closed.
+                    $app_church_opened = "";
                     if ( $church === $churches[ array_key_first( $churches )] ) {
                         $app_church_opened = "opened";
                     }
@@ -61,16 +42,10 @@
                     </church-tile>
                 <?php endforeach; ?>
             </ul>
-        </sl-tab-panel>
-
-        <sl-tab-panel name="tree">
-            <p>Tree View</p>
-        </sl-tab-panel>
-        <sl-tab-panel name="GenMap">
-            <p>GenMap View</p>
-        </sl-tab-panel>
-    </sl-tab-group>
+        </div>
     </dt-tile>
 </div>
 
-<?php include( 'parts/footer.php' ); ?>
+
+<?php include( 'parts/app-footer.php' ); ?>
+
