@@ -31,6 +31,14 @@
 
             <dt-date name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>"></dt-date>
 
+            <?php
+                $post_settings = DT_Posts::get_post_settings( 'groups' );
+                $post_settings['fields']['location_grid']['hidden'] = false;
+
+                render_field_for_display( 'location_grid', $post_settings['fields'], [] );
+                render_field_for_display( 'location_grid_meta', $post_settings['fields'], [] );
+            ?>
+
             <div class="buttons">
                 <dt-button context="success"
                            type="submit">
