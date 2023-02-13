@@ -149,6 +149,15 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         return $apps_list;
     }
 
+    public function header_style() {
+        DT_Mapbox_API::mapbox_search_widget_css();
+    }
+
+    public function header_javascript() {
+        DT_Mapbox_API::load_mapbox_header_scripts();
+        DT_Mapbox_API::load_mapbox_search_widget_users();
+    }
+
     public function routes() {
         $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
         $type = strtoupper( sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) );
@@ -343,6 +352,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $cancel_label = __( 'Cancel', 'disciple-tools-autolink' );
         $submit_label = __( 'Create Church', 'disciple-tools-autolink' );
         $error = $params['error'] ?? '';
+        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
 
         include( 'templates/create-group.php' );
     }

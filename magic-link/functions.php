@@ -23,6 +23,11 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_js[] = 'jquery';
         $allowed_js[] = 'jquery-ui-core';
         $allowed_js[] = 'dt_groups_script';
+        $allowed_js[] = 'mapbox-search-widget';
+        $allowed_js[] = 'mapbox-gl';
+        $allowed_js[] = 'mapbox-cookie';
+        $allowed_js[] = 'jquery-cookie';
+        $allowed_js[] = 'mapbox -search -widget';
         return $allowed_js;
     }
 
@@ -32,6 +37,7 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_css[] = 'group-styles';
         $allowed_css[] = "styles";
         $allowed_css[] = 'chart-styles';
+        $allowed_css[] = 'mapbox-gl-css';
         return $allowed_css;
     }
 
