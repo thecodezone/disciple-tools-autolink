@@ -27,7 +27,6 @@ import "./js/churchHealthCircle";
 import "./js/collapse";
 import "./js/church";
 import "./js/church-tile";
-import "./js/icon";
 import "./js/lazyReveal";
 
 import "@shoelace-style/shoelace/dist/themes/light.css";

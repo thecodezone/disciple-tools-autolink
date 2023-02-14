@@ -3,7 +3,7 @@
 <?php include( 'parts/church-view-tabs.php' ); ?>
 
 <div class="container--wide">
-    <dt-tile title="<?php esc_html_e( 'Group Geneartion Map' ); ?>">
+    <dt-tile title="<?php esc_html_e( 'Group Generation Map' ); ?>">
         <div class="section__inner">
             <div class="genmap">
                 <div id ="chart"></div>
