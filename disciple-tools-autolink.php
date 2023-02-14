@@ -6,7 +6,7 @@
  * Description: Disciple.Tools - Autolink is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.14
+ * Version:  0.15.1
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
  * Requires at least: 4.7.0
@@ -190,7 +190,7 @@ class Disciple_Tools_Autolink
      * @since  0.1
      * @access public
      */
-    public function __call( $method = '', $args = array() ) {
+    public function __call( $method = '', $args = [] ) {
         _doing_it_wrong( "disciple_tools_autolink::" . esc_html( $method ), 'Method does not exist.', '0.1' );
         unset( $method, $args );
         return null;
