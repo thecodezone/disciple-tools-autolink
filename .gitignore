@@ -8,3 +8,4 @@ dist/*
 /disciple-tools-autolink.code-workspace
 /.vscode/settings.json
 /requests
+.env
