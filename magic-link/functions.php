@@ -45,7 +45,10 @@ class Disciple_Tools_Autolink_Magic_Functions
     }
 
     public function wp_enqueue_scripts() {
-        wp_enqueue_script('magic_link_scripts', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../dist/magic-link.js', [
+        $plugin_url = plugins_url() . '/disciple-tools-autolink';
+        $plugin_path = WP_PLUGIN_DIR . '/disciple-tools-autolink';
+
+        wp_enqueue_script('magic_link_scripts', $plugin_url . '/dist/magic-link.js', [
             'jquery',
             'lodash',
         ], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.js' ), true);
@@ -54,11 +57,11 @@ class Disciple_Tools_Autolink_Magic_Functions
         wp_register_script( 'jquery-touch-punch', '/wp-includes/js/jquery/jquery.ui.touch-punch.js' ); // @phpcs:ignore
 
         /* domenu */
-        wp_enqueue_script( 'portal-app-domenu-js', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'jquery.domenu-0.100.77.min.js', [ 'jquery' ],
-        filemtime( trailingslashit( plugin_dir_path( __FILE__ ) ) .'jquery.domenu-0.100.77.min.js' ), true );
+        wp_enqueue_script( 'portal-app-domenu-js', $plugin_url . '/magic-link/jquery.domenu-0.100.77.min.js', [ 'jquery' ],
+        filemtime( $plugin_path . '/magic-link/jquery.domenu-0.100.77.min.js' ), true );
 
-        wp_enqueue_style( 'portal-app-domenu-css', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'jquery.domenu-0.100.77.css', [],
-        filemtime( trailingslashit( plugin_dir_path( __FILE__ ) ) .'jquery.domenu-0.100.77.css' ) );
+        wp_enqueue_style( 'portal-app-domenu-css', $plugin_url . '/magic-link/jquery.domenu-0.100.77.css', [],
+        filemtime( $plugin_path . '/magic-link/jquery.domenu-0.100.77.css' ) );
 
         wp_localize_script(
             'magic_link_scripts',
@@ -92,7 +95,7 @@ class Disciple_Tools_Autolink_Magic_Functions
             ]
         );
 
-        wp_enqueue_style( 'magic_link_css', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../dist/magic-link.css', [], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.css' ) );
+        wp_enqueue_style( 'magic_link_css', $plugin_url . '/dist/magic-link.css', [], filemtime( $plugin_path . '/dist/magic-link.css' ) );
     }
 
     public function is_activated() {

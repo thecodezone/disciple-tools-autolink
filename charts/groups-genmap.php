@@ -31,6 +31,8 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
      */
     public function scripts() {
 
+        $plugin_url = plugins_url() . '/disciple-tools-autolink';
+        $plugin_path = WP_PLUGIN_DIR . '/disciple-tools-autolink';
         $genmapper_plugin_url = plugins_url() . '/disciple-tools-genmapper';
         $genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
@@ -54,10 +56,10 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
             ]
         );
 
-        wp_enqueue_script('dt_' . $this->slug . '_script', trailingslashit( plugin_dir_url( __FILE__ ) ) . '../magic-link/js/churchCirclesGenmap.js', [
+        wp_enqueue_script('dt_' . $this->slug . '_script', $plugin_url . '/magic-link/js/churchCirclesGenmap.js', [
             'jquery',
             'genmapper',
-        ], filemtime( trailingslashit( plugin_dir_path( __FILE__ ) ) . '../magic-link/js/churchCirclesGenmap.js' ), true);
+        ], filemtime( $plugin_path . '/magic-link/js/churchCirclesGenmap.js' ), true);
 
 
         wp_enqueue_script('genmapper', $genmapper_plugin_url . "/includes/charts/genmapper.js", [
