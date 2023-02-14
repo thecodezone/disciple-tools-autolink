@@ -37,8 +37,8 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         $genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
         wp_enqueue_style( "hint", "https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.1/hint.min.css", [], "2.5.1" );
-        wp_enqueue_style( "group-styles", $genmapper_plugin_url . "/includes/charts/church-circles/style.css", [], $genmapper_plugin_path . "/includes/charts/church-circles/style.css" );
-        wp_enqueue_style( "chart-styles", $genmapper_plugin_url . "/includes/charts/style.css", [], $genmapper_plugin_path . "/includes/charts/style.css" );
+        wp_enqueue_style( "group-styles", $genmapper_plugin_url . "/includes/charts/church-circles/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/style.css" ) );
+        wp_enqueue_style( "chart-styles", $genmapper_plugin_url . "/includes/charts/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/style.css" ) );
         wp_register_script( 'd3', 'https://d3js.org/d3.v5.min.js', false, '5' );
 
 
