@@ -4,9 +4,11 @@
 
 <div class="container--wide">
     <dt-tile title="<?php esc_html_e( 'Group Geneartion Map' ); ?>">
-        <div class="genmap">
-               <div id ="chart"> </div >
-        </div
+        <div class="section__inner">
+            <div class="genmap">
+                <div id ="chart"></div>
+            </div>
+        </div>
     </dt-tile>
 </div>
 
