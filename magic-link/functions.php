@@ -27,7 +27,9 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_js[] = 'mapbox-gl';
         $allowed_js[] = 'mapbox-cookie';
         $allowed_js[] = 'jquery-cookie';
-        $allowed_js[] = 'mapbox -search -widget';
+        $allowed_js[] = 'mapbox-search-widget';
+        $allowed_js[] = 'jquery-touch-punch';
+        $allowed_js[] = 'portal-app-domenu-js';
         return $allowed_js;
     }
 
@@ -38,6 +40,7 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_css[] = "styles";
         $allowed_css[] = 'chart-styles';
         $allowed_css[] = 'mapbox-gl-css';
+        $allowed_css[] = 'portal-app-domenu-css';
         return $allowed_css;
     }
 
@@ -46,6 +49,16 @@ class Disciple_Tools_Autolink_Magic_Functions
             'jquery',
             'lodash',
         ], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.js' ), true);
+
+        wp_enqueue_script( 'lodash' );
+        wp_register_script( 'jquery-touch-punch', '/wp-includes/js/jquery/jquery.ui.touch-punch.js' ); // @phpcs:ignore
+
+        /* domenu */
+        wp_enqueue_script( 'portal-app-domenu-js', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'jquery.domenu-0.100.77.min.js', [ 'jquery' ],
+        filemtime( trailingslashit( plugin_dir_path( __FILE__ ) ) .'jquery.domenu-0.100.77.min.js' ), true );
+
+        wp_enqueue_style( 'portal-app-domenu-css', trailingslashit( plugin_dir_url( __FILE__ ) ) . 'jquery.domenu-0.100.77.css', [],
+        filemtime( trailingslashit( plugin_dir_path( __FILE__ ) ) .'jquery.domenu-0.100.77.css' ) );
 
         wp_localize_script(
             'magic_link_scripts',

@@ -173,6 +173,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'genmap':
                     $this->show_genmap();
                     break;
+                case 'tree':
+                    $this->show_tree();
+                    break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
                         return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
@@ -292,6 +295,52 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $action = 'genmap';
 
         include( 'templates/genmap.php' );
+    }
+
+    public function show_tree() {
+        $data = $this->app_view_data();
+        extract( $data );
+        $action = 'tree';
+        $fetch_url = '/wp-json/autolink/v1/' . $this->parts['type'];
+        $parts = $this->parts;
+
+        include( 'templates/tree.php' );
+    }
+
+    public function build_tree( WP_REST_Request $request, $params, $user_id ) {
+        $tree = [];
+        $title_list = [];
+        $pre_tree = [];
+        $list = DT_Posts::list_posts('groups', [
+            'assigned_to' => [ get_current_user_id() ],
+        ], false );
+
+        if ( ! empty( $list['posts'] ) ) {
+            foreach ( $list['posts'] as $p ) {
+                if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
+                    foreach ( $p['child_groups'] as $children ) {
+                        $pre_tree[$children['ID']] = $p['ID'];
+                    }
+                }
+                if ( empty( $p['parent_groups'] ) ) {
+                    $pre_tree[$p['ID']] = null;
+                }
+                $title = $p['name'];
+                $title_list[$p['ID']] = $title;
+            }
+            $tree = $this->parse_tree( $pre_tree, $title_list );
+        }
+
+
+        if ( is_null( $tree ) ) {
+            $tree = [];
+        }
+
+        echo wp_json_encode([
+            'parent_list' => $pre_tree,
+            'title_list' => $title_list,
+            'tree' => $tree
+        ]);
     }
 
     public function show_survey() {
@@ -423,7 +472,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             [
             [
                 'methods'  => "POST",
-                'callback' => [ $this, 'update_record' ],
+                'callback' => [ $this, 'endpoint_post' ],
                 'permission_callback' => function ( WP_REST_Request $request ) {
                     $magic = new DT_Magic_URL( $this->root );
 
@@ -434,36 +483,26 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         );
     }
 
-    public function update_record( WP_REST_Request $request ) {
+    public function endpoint_post( WP_REST_Request $request ) {
         $params = $request->get_params();
         $params = dt_recursive_sanitize_array( $params );
-        $post_id = $params["parts"]["post_id"]; //has been verified in verify_rest_endpoint_permissions_on_post()
+        $$user_id = get_current_user_id();
 
-
-        $args = [];
-        if ( !is_user_logged_in() ) {
-            $args["comment_author"] = "Magic Link Submission";
-            wp_set_current_user( 0 );
-            $current_user = wp_get_current_user();
-            $current_user->add_cap( "magic_link" );
-            $current_user->display_name = "Magic Link Submission";
+        if ( !isset( $params['parts'], $params['action'] ) ) {
+            return new WP_Error( __METHOD__, "Missing parameters", [ 'status' => 400 ] );
         }
 
-        if ( isset( $params["update"]["comment"] ) && !empty( $params["update"]["comment"] ) ) {
-            $update = DT_Posts::add_post_comment( $this->post_type, $post_id, $params["update"]["comment"], "comment", $args, false );
-            if ( is_wp_error( $update ) ) {
-                return $update;
-            }
+        switch ( $params['action'] ) {
+            case 'tree':
+                return $this->build_tree( $request, $params, $user_id );
+            case 'onItemDrop':
+                return $this->update_tree_group( $request, $params, $user_id );
+            case 'update_group_title':
+                $new_value = $params['data']['new_value'];
+                return DT_Posts::update_post( 'groups', $group_id, [ 'title' => trim( $new_value ) ], false, false );
+            default:
+                return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
         }
-
-        if ( isset( $params["update"]["start_date"] ) && !empty( $params["update"]["start_date"] ) ) {
-            $update = DT_Posts::update_post( $this->post_type, $post_id, [ "start_date" => $params["update"]["start_date"] ], false, false );
-            if ( is_wp_error( $update ) ) {
-                return $update;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -478,11 +517,58 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
 
         switch ( $params['action'] ) {
-            //case 'groups_tree':
-            //    return $this->get_groups_tree( $request, $params );
+            //case 'tree':fetch
+            //    return $this->build_tree( $request, $params );
             default:
                 return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
         }
+    }
+
+    public function parse_tree( $tree, $title_list, $root = null ) {
+        $return = [];
+        # Traverse the tree and search for direct children of the root
+        foreach ( $tree as $child => $parent ) {
+            # A direct child is found
+            if ( $parent == $root ) {
+                # Remove item from tree (we don't need to traverse this again)
+                unset( $tree[$child] );
+                # Append the child into result array and parse its children
+                $return[] = [
+                    'id' => $child,
+                    'title' => $child,
+                    'name' => $title_list[$child] ?? 'No Name',
+                    'children' => $this->parse_tree( $tree, $title_list, $child ),
+                    '__domenu_params' => []
+                ];
+            }
+        }
+
+        return empty( $return ) ? null : $return;
+    }
+
+    public function update_tree_group( WP_REST_Request $request, $params, $user_id ) {
+        if ( !isset( $params['data']['previous_parent'] ) ) {
+            $params['data']['previous_parent'] = 'domenu-0';
+        }
+        if ( ( ! isset( $params['data']['new_parent'] ) || ( ! isset( $params['data']['self'] ) ) ) ) {
+            return 'false';
+        }
+
+        global $wpdb;
+        if ( 'domenu-0' !== $params['data']['previous_parent'] ) {
+            $wpdb->query( $wpdb->prepare(
+                "DELETE
+                FROM $wpdb->p2p
+                WHERE p2p_from = %s
+                    AND p2p_to = %s
+                    AND p2p_type = 'groups_to_groups'", $params['data']['self'], $params['data']['previous_parent'] ) );
+        }
+
+        $wpdb->query( $wpdb->prepare(
+            "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
+                    VALUES (%s, %s, 'groups_to_groups');
+            ", $params['data']['self'], $params['data']['new_parent'] ) );
+        return true;
     }
 
     /**
