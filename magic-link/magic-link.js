@@ -28,6 +28,7 @@ import "./js/collapse";
 import "./js/church";
 import "./js/church-tile";
 import "./js/icon";
+import "./js/lazyReveal";
 
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js";

@@ -43,8 +43,7 @@
 }
 
 .count__value {
-    transform: translate(calc(50% - 0.75rem), calc(100% - 3px));
-    position: absolute;
+    transform: translateY(-7px);
     background-color: var(--alert-color);
     border-radius: 50%;
     aspect-ratio: 1/1;
