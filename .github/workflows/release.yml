@@ -3,11 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - '*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - "*.*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +24,7 @@ jobs:
           npm install
           npm run prod
           mkdir disciple-tools-autolink
-          cp -r disciple-tools-autolink.php dist languages magic-link spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
+          cp -r disciple-tools-autolink.php dist charts queries.php languages magic-link spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
           rm -r disciple-tools-autolink/magic-link/css disciple-tools-autolink/magic-link/js disciple-tools-autolink/magic-link/magic-link.js disciple-tools-autolink/magic-link/magic-link.css
           zip -r disciple-tools-autolink.zip disciple-tools-autolink
       - name: Create Release
