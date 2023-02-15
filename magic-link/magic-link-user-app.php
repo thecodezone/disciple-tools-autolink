@@ -203,6 +203,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
     public function app_view_data() {
         $data = [];
+        $post_type = get_post_type_object( 'groups' );
+        $group_labels = get_post_type_labels( $post_type );
         $data['logo_url'] = $this->functions->fetch_logo();
         $data['greeting'] = __( 'Hello,', 'disciple-tools-autolink' );
         $data['user_name'] = dt_get_user_display_name( get_current_user_id() );
@@ -210,14 +212,14 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $data['coached_by_label'] = __( 'Coached by', 'disciple-tools-autolink' );
         $data['link_heading'] = __( 'My Link', 'disciple-tools-autolink' );
         $data['share_link_help_text'] = __( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' );
-        $data['churches_heading'] = __( 'My Churches', 'disciple-tools-autolink' );
+        $data['churches_heading'] = __( "My ", 'disciple-tools-autolink' ) . $group_labels->name;
         $data['share_link'] = $this->functions->get_share_link();
         $data['create_church_link'] = $this->functions->get_app_link() . '?action=create-group';
         $data['group_fields'] = DT_Posts::get_post_field_settings( 'groups' );
         $data['contact'] = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
         $data['coach'] = null;
         $data['coach_name'] = '';
-        $data['view_church_label'] = __( 'View Group', 'disciple-tools-autolink' );
+        $data['view_church_label'] = __( 'View ' . $group_labels->name, 'disciple-tools-autolink' );
         $data['churches'] = [];
 
         if ( $data['contact'] ) {
