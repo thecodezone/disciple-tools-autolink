@@ -258,7 +258,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $action = '';
         $churches = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ],
-                'sort' => 'last_modified'
+                'dt_recent' => true
         ], false)['posts'] ?? [];
         if ( is_wp_error( $churches ) ) {
             $churches = [];
