@@ -1,13 +1,13 @@
 <?php include( 'header.php' ); ?>
 <?php include( 'navbar.php' ); ?>
 
-<div class="app">
+<div class="app cloak">
     <div class="container">
         <strong class="greeting">
             <?php echo esc_html( $greeting ); ?>
         </strong>
         <h1 class="user_name"><?php echo esc_html( $user_name ); ?></h1>
-        
+
         <?php if ( $coach_name ): ?>
             <strong class="coached_by">
                 <?php echo esc_html( $coached_by_label ); ?> <?php echo esc_html( $coach_name ); ?>
