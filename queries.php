@@ -165,8 +165,6 @@ class Disciple_Tools_Autolink_Queries
                       ON genddate1.post_id=p.p2p_from
                       AND genddate1.meta_key = 'end_date'
                     WHERE p.p2p_type = 'groups_to_groups'
-                    AND p.p2p_to $in_ids
-                    AND p.p2p_from $in_ids
                 ", ARRAY_A);
             break;
 
