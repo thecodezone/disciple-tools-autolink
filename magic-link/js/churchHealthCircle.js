@@ -22,10 +22,10 @@ export class DtChurchHealthCircle extends DtBase {
         margin-left: auto;
         margin-right: auto;
 
-        --d: 40px; /* image size */
+        --d: 50px; /* image size */
         --rel: 0.5; /* how much extra space we want between images, 1 = one image size */
-        --r: calc(0.8 * var(--d) / var(--tan)); /* circle radius */
-        --s: calc(2.75 * var(--r));
+        --r: calc(1 * var(--d) / var(--tan)); /* circle radius */
+        --s: calc(3 * var(--r));
         position: relative;
         width: var(--s);
         max-width: 100%;
@@ -33,10 +33,20 @@ export class DtChurchHealthCircle extends DtBase {
         aspect-ratio: 1 / 1;
       }
 
-      @media (min-width: 420px) {
+      @media (max-width: 519px) {
+        .health-circle {
+          max-width: 300px;
+          min-width: 300px;
+        }
+
         .health-circle__grid {
-          --d: 50px;
-          --r: calc(1 * var(--d) / var(--tan)); /* circle radius */
+          --r: calc(0.8 * var(--d) / var(--tan)); /* circle radius */
+        }
+      }
+
+      @media (min-width: 520px) {
+        .health-circle__grid {
+          --r: calc(1.1 * var(--d) / var(--tan)); /* circle radius */
         }
       }
 
