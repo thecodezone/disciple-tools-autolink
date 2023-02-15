@@ -21,7 +21,7 @@
 window.load_tree = () => {
   jQuery('#wrapper').html(`
 <div class="dd" id="domenu-0">
-  <button class="dd-new-item">+</button>
+  <button class="dd-new-item" style="display: none;">+</button>
   <li class="dd-item-blueprint">
     <button class="collapse" data-action="collapse" type="button" style="display: none;">–</button>
     <button class="expand" data-action="expand" type="button" style="display: none;">+</button>
