@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html, css } from "lit";
 import { DtTile } from "@disciple.tools/web-components";
 
 export class ChurchTile extends DtTile {
@@ -12,16 +12,20 @@ export class ChurchTile extends DtTile {
           text-overflow: ellipsis;
           text-align: center;
           display: block;
-          margin: 0px 6%;
+          margin: 0px 6% 15px;
+        }
+
+        dt-toggle {
+          margin: 0 auto;
         }
       `,
-    ]
+    ];
   }
 
   static get properties() {
     return {
       ...super.properties,
-    }
+    };
   }
 
   constructor() {
@@ -30,15 +34,14 @@ export class ChurchTile extends DtTile {
 
   render() {
     return html`
-    <section>
-      ${this.renderHeading()}
-      <div class="section-body ${this.collapsed ? 'collapsed' : null}">
-        <slot></slot>
-      </div>
-    </section>
-  `;
+      <section>
+        ${this.renderHeading()}
+        <div class="section-body ${this.collapsed ? "collapsed" : null}">
+          <slot></slot>
+        </div>
+      </section>
+    `;
   }
-
 }
 
-window.customElements.define('church-tile', ChurchTile);
+window.customElements.define("church-tile", ChurchTile);
