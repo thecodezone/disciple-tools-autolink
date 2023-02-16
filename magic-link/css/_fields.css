@@ -18,12 +18,14 @@ dt-text[type] {
     -webkit-transition: none;
     transition: none;
     width: initial;
+    border: none !important;
+    display: block;
 }
 
 dt-input.question__input {
     width: 50%;
-    background: #F9F9F9;
-    border: 1px solid #E4E4E4;
+    background: #f9f9f9;
+    border: 1px solid #e4e4e4;
     border-radius: 4px;
 }
 dt-text.question__input:focus {
