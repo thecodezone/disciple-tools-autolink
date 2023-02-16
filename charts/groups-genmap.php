@@ -237,6 +237,8 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
             }
         }
 
-        return array_unique( $ids );
+        $ids = array_unique( $ids );
+
+        return $ids;
     }
 }
