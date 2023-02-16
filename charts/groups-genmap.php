@@ -126,7 +126,6 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         }, $groups['posts']);
         $args = [ 'ids' => $group_ids ];
 
-        global $wpdb;
         $prepared_array = [
             [
                 "id" => 0,
@@ -152,8 +151,6 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
 
             $groups = array_merge( [ $node ], $this->get_node_descendants( $groups, [ $params["node"] ] ) );
         }
-
-        $groups = $this->filter_nodes_in( $groups, $group_ids );
 
         foreach ( $groups as $group ) {
             $lines = [];
@@ -207,38 +204,5 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         } else {
             return $prepared_array;
         }
-    }
-
-    public function filter_nodes_in( $nodes, $ids ){
-        $merged = $ids;
-        foreach ( $ids as $id ) {
-            $this->merge_decendent_ids( $nodes, $id, $merged );
-        }
-
-        return array_map( function ( $id ) use ( $nodes ) {
-            foreach ( $nodes as $node ) {
-                if ( $node["id"] === $id ) {
-                    return $node;
-                }
-            }
-        }, $merged );
-    }
-
-    public function merge_decendent_ids( $nodes, $id, &$ids, &$checked = [] ){
-        if ( in_array( $id, $checked ) ) {
-            return $ids;
-        }
-        $checked[] = $id;
-
-        foreach ( $nodes as $node ) {
-            if ( $node["parent_id"] === $id ) {
-                $ids[] = $node["id"];
-                array_merge( $ids, $this->merge_decendent_ids( $nodes, $node["id"], $ids, $checked ) );
-            }
-        }
-
-        $ids = array_unique( $ids );
-
-        return $ids;
     }
 }

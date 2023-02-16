@@ -319,12 +319,26 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $tree = [];
         $title_list = [];
         $pre_tree = [];
-        $list = DT_Posts::list_posts('groups', [
+         $groups = dt_autolink_queries()->tree( 'groups', $args );
+
+        if ( is_wp_error( $groups ) ) {
+            return $groups;
+        }
+
+        $groups = DT_Posts::list_posts('groups', [
             'assigned_to' => [ get_current_user_id() ],
         ], false );
 
-        if ( ! empty( $list['posts'] ) ) {
-            foreach ( $list['posts'] as $p ) {
+        $group_ids = array_map(function ( $group ) {
+            return $group['ID'];
+        }, $groups['posts']);
+        $args = [ 'ids' => $group_ids ];
+
+        $groups = dt_autolink_queries()->tree( 'groups', $args );
+
+        if ( ! empty( $groups ) ) {
+            foreach ( $groups as $group ) {
+                $p = DT_Posts::get_post( 'groups', $group['id'], false, false );
                 if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
                     foreach ( $p['child_groups'] as $children ) {
                         $pre_tree[$children['ID']] = $p['ID'];

@@ -168,7 +168,44 @@ class Disciple_Tools_Autolink_Queries
             $list[$q['id']] = $q;
         }
 
+        if ( isset( $args['ids'] ) ) {
+            $list = $this->filter_nodes_in( $list, $args['ids'] );
+        }
+
         return dt_queries()->check_tree_health( $list );
+    }
+
+    public function filter_nodes_in( $nodes, $ids ){
+        $merged = $ids;
+        foreach ( $ids as $id ) {
+            $this->merge_decendent_ids( $nodes, $id, $merged );
+        }
+
+        return array_map( function ( $id ) use ( $nodes ) {
+            foreach ( $nodes as $node ) {
+                if ( $node["id"] === $id ) {
+                    return $node;
+                }
+            }
+        }, $merged );
+    }
+
+    public function merge_decendent_ids( $nodes, $id, &$ids, &$checked = [] ){
+        if ( in_array( $id, $checked ) ) {
+            return $ids;
+        }
+        $checked[] = $id;
+
+        foreach ( $nodes as $node ) {
+            if ( $node["parent_id"] === $id ) {
+                $ids[] = $node["id"];
+                array_merge( $ids, $this->merge_decendent_ids( $nodes, $node["id"], $ids, $checked ) );
+            }
+        }
+
+        $ids = array_unique( $ids );
+
+        return $ids;
     }
 }
 
