@@ -256,13 +256,19 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $data = $this->app_view_data();
         extract( $data );
         $action = '';
+
         $churches = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ],
-                'dt_recent' => true
         ], false)['posts'] ?? [];
+
         if ( is_wp_error( $churches ) ) {
             $churches = [];
         }
+
+        usort( $churches, function ( $a, $b ) {
+            return $a['last_modified'] < $b['last_modified'] ? 1 : -1;
+        });
+
         $group_fields = DT_Posts::get_post_field_settings( 'groups' );
         $church_fields = [
         'health_metrics' => $group_fields['health_metrics']['default'] ?? [],

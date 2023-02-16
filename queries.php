@@ -30,15 +30,6 @@ class Disciple_Tools_Autolink_Queries
 
         switch ( $query_name ) {
             case 'groups':
-
-                //Filter by group ids
-                $group_ids = !empty( $args['ids'] ) ? $args['ids'] : null;
-                $in_ids = "IS NOT NULL";
-                if ( $group_ids ) {
-                    $group_ids = implode( ',', $group_ids );
-                    $in_ids = "IN(" . $group_ids . ")";
-                }
-
                 $query = $wpdb->get_results("
                     SELECT
                       a.ID         as id,
@@ -101,7 +92,6 @@ class Disciple_Tools_Autolink_Queries
                       ON enddate1.post_id=a.ID
                       AND enddate1.meta_key = 'end_date'
                     WHERE a.post_status = 'publish'
-                    AND a.ID $in_ids
                     AND a.post_type = 'groups'
                     AND a.ID NOT IN (
                       SELECT DISTINCT (p2p_from)
