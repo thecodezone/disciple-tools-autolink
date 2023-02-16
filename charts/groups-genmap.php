@@ -13,7 +13,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
     public $js_object_name = 'wpApiGenmapper'; // This object will be loaded into the metrics.js file by the wp_localize_script.
     public $js_file_name = 'groups.js'; // should be full file name plus extension
     public $deep_link_hash = '#groups'; // should be the full hash name. #genmapper_of_hash
-    public $permissions = [ 'dt_all_access_contacts', 'view_project_metrics' ];
+    public $permissions = [];
     public $namespace = "dt/v1/autolink";
 
     public function __construct() {
