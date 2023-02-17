@@ -36,6 +36,9 @@
                         <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
                             <?php include( "parts/health-counts.php" ); ?>
                             <app-church group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>' fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
+                            <dt-button class="church__link" context="link">
+                                <dt-icon icon="ic:baseline-link"></dt-icon>
+                            </dt-button>
                         </church-tile>
                     <?php endforeach; ?>
                 </lazy-reveal>
