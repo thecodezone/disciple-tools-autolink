@@ -319,27 +319,37 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $tree = [];
         $title_list = [];
         $pre_tree = [];
-         $groups = dt_autolink_queries()->tree( 'groups', $args );
-
-        if ( is_wp_error( $groups ) ) {
-            return $groups;
-        }
-
         $groups = DT_Posts::list_posts('groups', [
             'assigned_to' => [ get_current_user_id() ],
         ], false );
 
-        $group_ids = array_map(function ( $group ) {
-            return $group['ID'];
-        }, $groups['posts']);
-        $args = [ 'ids' => $group_ids ];
+        $groups = $groups['posts'] ?? [];
 
-        $groups = dt_autolink_queries()->tree( 'groups', $args );
+        $contact = DT_Posts::list_posts('contacts', [
+            'corresponds_to_user' => get_current_user_id(),
+        ], false )['posts'][0];
+
+        if ( isset( $contact['coaching'] ) ) {
+            foreach ( $contact['coaching'] as $contact ) {
+                    $contact = DT_Posts::get_post( 'contacts', $contact['ID'], false );
+                    $child_groups = DT_Posts::list_posts('groups', [
+                        'assigned_to' => [ $contact['corresponds_to_user'] ],
+                    ], false );
+                if ( !empty( $child_groups['posts'] ) ) {
+                    $groups = array_merge( $groups, array_map(function( $g ) {
+                        $g['post_title'] = 'post_title: ' . $g['post_title'];
+                        return $g;
+                    }, $child_groups['posts'] ) );
+                }
+            }
+        }
+
 
         if ( ! empty( $groups ) ) {
-            foreach ( $groups as $group ) {
-                $p = DT_Posts::get_post( 'groups', $group['id'], false, false );
-                if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
+            foreach ( $groups as $p ) {
+                $assigned_to = $p['assigned_to']['id'] ?? [];
+
+                if ( $assigned_to == get_current_user_id() && isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
                     foreach ( $p['child_groups'] as $children ) {
                         $pre_tree[$children['ID']] = $p['ID'];
                     }
