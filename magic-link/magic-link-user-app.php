@@ -429,11 +429,18 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     }
 
     public function create_group() {
+
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
         $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
-        $mapbox_search = sanitize_text_field( wp_unslash( $_POST['mapbox_search'] ?? '' ) );
+        $location = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
+        $location = $location ? json_decode( $location, true ) : '';
+
+        if ( isset( $location['user_location'] )
+        && isset( $location['user_location']['location_grid_meta'] ) ) {
+            $location = $location['user_location']['location_grid_meta'];
+        }
 
         if ( !$verify_nonce || !$name ) {
             $this->show_create_group( [ 'error' => 'Invalid request' ] );
@@ -441,17 +448,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
 
         $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-
-        $loation_grid_id = '';
-        if ( !empty( $mapbox_search ) ) {
-            $location_results = Disciple_Tools_Mapping_Queries::search_location_grid_by_name( [
-                'search_query' => explode( ',', $mapbox_search )[0],
-                'filter' => 'all'
-            ] );
-            if ( $location_results['total'] > 0 ) {
-                $loation_grid_id = $location_results['location_grid'][0]['grid_id'];
-            }
-        }
 
         $fields = [
         "title" => $name,
@@ -468,11 +464,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         "start_date" => $start_date
         ];
 
-        if ( !empty( $loation_grid_id ) ) {
-            $fields['location_grid'] = [
-                "values" => [
-                    [ "value" => $loation_grid_id ]
-                ]
+        if ( !empty( $location ) ) {
+            $fields['location_grid_meta'] = [
+                "values" => $location
             ];
         }
 

@@ -63,14 +63,17 @@ export class AppChurch extends AppCollapse {
 
   renderContent() {
     const { startDateLabel } = this;
+    const startDate = this.group.start_date?.formatted;
 
     if (this.opened) {
       return html`
         ${this.renderChurchHealth()}
-        <div class="group__content">
-          ${startDateLabel ? startDateLabel : "Church start date"} :
-          ${this.group.start_date.formatted}
-        </div>
+        ${startDate
+          ? html`<div class="group__content">
+              ${startDateLabel ? startDateLabel : "Church start date"} :
+              ${this.group.start_date?.formatted}
+            </div>`
+          : nothing}
       `;
     }
     return nothing;

@@ -32,10 +32,14 @@
 
                 <dt-date name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>"></dt-date>
 
-                <?php
-                    render_field_for_display( 'location_grid', $group_fields, [] );
-                    render_field_for_display( 'location_grid_meta', $group_fields, [] );
-                ?>
+                <div class="location-field">
+                    <?php
+                        render_field_for_display( 'location_grid', $group_fields, [] );
+                        render_field_for_display( 'location_grid_meta', $group_fields, [] );
+                    ?>
+                    <input type="hidden" name="location">
+                </div>
+               
 
                 <div class="buttons">
                     <dt-button context="success"
