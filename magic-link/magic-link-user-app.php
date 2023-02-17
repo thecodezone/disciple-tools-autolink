@@ -433,6 +433,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
         $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
+        $mapbox_search = sanitize_text_field( wp_unslash( $_POST['mapbox_search'] ?? '' ) );
 
         if ( !$verify_nonce || !$name ) {
             $this->show_create_group( [ 'error' => 'Invalid request' ] );
@@ -440,6 +441,17 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
 
         $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+        $loation_grid_id = '';
+        if ( !empty( $mapbox_search ) ) {
+            $location_results = Disciple_Tools_Mapping_Queries::search_location_grid_by_name( [
+                'search_query' => explode( ',', $mapbox_search )[0],
+                'filter' => 'all'
+            ] );
+            if ( $location_results['total'] > 0 ) {
+                $loation_grid_id = $location_results['location_grid'][0]['grid_id'];
+            }
+        }
 
         $fields = [
         "title" => $name,
@@ -456,8 +468,15 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         "start_date" => $start_date
         ];
 
-        $group = DT_Posts::create_post( 'groups', $fields, false, false );
+        if ( !empty( $loation_grid_id ) ) {
+            $fields['location_grid'] = [
+                "values" => [
+                    [ "value" => $loation_grid_id ]
+                ]
+            ];
+        }
 
+        $group = DT_Posts::create_post( 'groups', $fields, false, false );
 
         if ( is_wp_error( $group ) ) {
             $this->show_create_group( [ 'error' => $group->get_error_message() ] );
