@@ -359,10 +359,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                     'corresponds_to_user' => $assigned_to_user['id'],
                 ], false )['posts'][0];
                 $is_allowed_contact = in_array( $assigned_to_contact['ID'], $allowed_contact_ids );
+
                 $has_allowed_parent = !empty( $p['parent_groups'] ) && array_filter($p['parent_groups'], function( $parent ) use ( $allowed_group_ids ) {
                     return in_array( $parent['ID'], $allowed_group_ids );
                 });
-
 
                 if ( !$is_allowed_contact ) {
                     continue;
@@ -379,7 +379,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 $title = $p['name'];
                 $title_list[$p['ID']] = $title;
             }
-            $tree = $this->parse_tree( $pre_tree, $title_list );
+
+            $tree = $this->parse_tree( $pre_tree, $title_list, null, $allowed_group_ids );
         }
 
 
@@ -588,12 +589,12 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
     }
 
-    public function parse_tree( $tree, $title_list, $root = null ) {
+    public function parse_tree( $tree, $title_list, $root = null, $allowed_group_ids = [] ) {
         $return = [];
         # Traverse the tree and search for direct children of the root
         foreach ( $tree as $child => $parent ) {
             # A direct child is found
-            if ( $parent == $root ) {
+            if ( $parent == $root && in_array( $child, $allowed_group_ids ) ) {
                 # Remove item from tree (we don't need to traverse this again)
                 unset( $tree[$child] );
                 # Append the child into result array and parse its children
@@ -601,7 +602,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                     'id' => $child,
                     'title' => $child,
                     'name' => $title_list[$child] ?? 'No Name',
-                    'children' => $this->parse_tree( $tree, $title_list, $child ),
+                    'children' => $this->parse_tree( $tree, $title_list, $child, $allowed_group_ids ),
                     '__domenu_params' => []
                 ];
             }
