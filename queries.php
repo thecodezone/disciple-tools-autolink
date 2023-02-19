@@ -196,7 +196,7 @@ class Disciple_Tools_Autolink_Queries
         }, $merged );
 
         foreach ( $nodes as $i => $node ) {
-            if ( !in_array( $node['parent_id'], $ids ) ) {
+            if ( !in_array( $node['parent_id'], $merged ) ) {
                 $nodes[$i]['parent_id'] = 0;
             }
         }
