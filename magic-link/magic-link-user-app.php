@@ -328,33 +328,52 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $contact = DT_Posts::list_posts('contacts', [
             'corresponds_to_user' => get_current_user_id(),
         ], false )['posts'][0];
+        $allowed_contact_ids = [
+            $contact['ID']
+        ];
+        $allowed_group_ids = array_map( function ( $group ) {
+            return (int) $group['ID'];
+        }, $groups );
 
         if ( isset( $contact['coaching'] ) ) {
-            foreach ( $contact['coaching'] as $contact ) {
-                    $contact = DT_Posts::get_post( 'contacts', $contact['ID'], false );
-                    $child_groups = DT_Posts::list_posts('groups', [
-                        'assigned_to' => [ $contact['corresponds_to_user'] ],
-                    ], false );
-                if ( !empty( $child_groups['posts'] ) ) {
-                    $groups = array_merge( $groups, array_map(function( $g ) {
-                        $g['post_title'] = 'post_title: ' . $g['post_title'];
-                        return $g;
-                    }, $child_groups['posts'] ) );
+            foreach ( $contact['coaching'] as $child_contact ) {
+                $allowed_contact_ids[] = $child_contact['ID'];
+                $child_contact = DT_Posts::get_post( 'contacts', $child_contact['ID'], false );
+                $child_groups = DT_Posts::list_posts('groups', [
+                    'assigned_to' => [ $child_contact['corresponds_to_user'] ],
+                ], false );
+
+                if ( count( $child_groups['posts'] ) ) {
+                    foreach ( $child_groups['posts'] as $child_group ) {
+                        $allowed_group_ids[] = $child_group['ID'];
+                        $groups[] = $child_group;
+                    }
                 }
             }
         }
 
-
         if ( ! empty( $groups ) ) {
             foreach ( $groups as $p ) {
-                $assigned_to = $p['assigned_to']['id'] ?? [];
+                $assigned_to_user = $p['assigned_to'] ?? [];
+                $assigned_to_contact = DT_Posts::list_posts('contacts', [
+                    'corresponds_to_user' => $assigned_to_user['id'],
+                ], false )['posts'][0];
+                $is_allowed_contact = in_array( $assigned_to_contact['ID'], $allowed_contact_ids );
+                $has_allowed_parent = !empty( $p['parent_groups'] ) && array_filter($p['parent_groups'], function( $parent ) use ( $allowed_group_ids ) {
+                    return in_array( $parent['ID'], $allowed_group_ids );
+                });
 
-                if ( $assigned_to == get_current_user_id() && isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
+
+                if ( !$is_allowed_contact ) {
+                    continue;
+                }
+
+                if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
                     foreach ( $p['child_groups'] as $children ) {
                         $pre_tree[$children['ID']] = $p['ID'];
                     }
                 }
-                if ( empty( $p['parent_groups'] ) ) {
+                if ( !$has_allowed_parent ) {
                     $pre_tree[$p['ID']] = null;
                 }
                 $title = $p['name'];

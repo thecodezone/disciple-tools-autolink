@@ -162,15 +162,22 @@ class Disciple_Tools_Autolink_Queries
             break;
         }
 
-      // guarantee only one record with one parent.
+        //guarantee only one record with one parent.
         $list = [];
         foreach ( $query as $q ) {
             $list[$q['id']] = $q;
         }
 
+
         if ( isset( $args['ids'] ) ) {
             $list = $this->filter_nodes_in( $list, $args['ids'] );
         }
+
+        $list = array_filter( $list, function ( $current ) use ( $list ) {
+            return count(array_filter( $list, function ( $group ) use ( $current ) {
+                return $current->id === $group->parent_id;
+            } )) > 0;
+        } );
 
         return dt_queries()->check_tree_health( $list );
     }
@@ -181,13 +188,21 @@ class Disciple_Tools_Autolink_Queries
             $this->merge_decendent_ids( $nodes, $id, $merged );
         }
 
-        return array_map( function ( $id ) use ( $nodes ) {
+        $nodes = array_map( function ( $id ) use ( $nodes ) {
             foreach ( $nodes as $node ) {
                 if ( $node["id"] === $id ) {
                     return $node;
                 }
             }
         }, $merged );
+
+        foreach ( $nodes as $i => $node ) {
+            if ( !in_array( $node['parent_id'], $ids ) ) {
+                $nodes[$i]['parent_id'] = 0;
+            }
+        }
+
+        return $nodes;
     }
 
     public function merge_decendent_ids( $nodes, $id, &$ids, &$checked = [] ){
