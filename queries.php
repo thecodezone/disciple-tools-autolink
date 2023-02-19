@@ -187,7 +187,6 @@ class Disciple_Tools_Autolink_Queries
         foreach ( $ids as $id ) {
             $this->merge_decendent_ids( $nodes, $id, $merged );
         }
-
         $nodes = array_map( function ( $id ) use ( $nodes ) {
             foreach ( $nodes as $node ) {
                 if ( $node["id"] === $id ) {
