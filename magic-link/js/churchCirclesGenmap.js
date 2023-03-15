@@ -126,7 +126,7 @@
     let loading_spinner = $(".loading-spinner");
     loading_spinner.addClass("active");
     let fields = {
-      title: "New Group",
+      title: "New",
       parent_groups: { values: [{ value: parent.data.id }] },
       group_type: "group",
     };

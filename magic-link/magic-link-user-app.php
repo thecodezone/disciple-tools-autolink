@@ -205,6 +205,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $data = [];
         $post_type = get_post_type_object( 'groups' );
         $group_labels = get_post_type_labels( $post_type );
+
         $data['logo_url'] = $this->functions->fetch_logo();
         $data['greeting'] = __( 'Hello,', 'disciple-tools-autolink' );
         $data['user_name'] = dt_get_user_display_name( get_current_user_id() );
@@ -214,13 +215,16 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $data['share_link_help_text'] = __( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' );
         $data['churches_heading'] = __( "My ", 'disciple-tools-autolink' ) . $group_labels->name;
         $data['share_link'] = $this->functions->get_share_link();
-        $data['create_church_link'] = $this->functions->get_app_link() . '?action=create-group';
         $data['group_fields'] = DT_Posts::get_post_field_settings( 'groups' );
+        $data['create_church_link'] = $this->functions->get_app_link() . '?action=create-group';
         $data['contact'] = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
         $data['coach'] = null;
         $data['coach_name'] = '';
-        $data['view_church_label'] = __( 'View ' . $group_labels->name, 'disciple-tools-autolink' );
+        $data['view_church_label'] = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $data['churches'] = [];
+        $data['church_health_label'] = $group_labels->singular_name . ' ' . __( 'Health', 'disciple-tools-autolink' );
+        $data['tree_label'] = __( 'Tree', 'disciple-tools-autolink' );
+        $data['genmap_label'] = __( 'GenMap', 'disciple-tools-autolink' );
 
         if ( $data['contact'] ) {
             $result = null;
@@ -228,11 +232,13 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             if ( !is_wp_error( $result ) ) {
                 $data['contact'] = $result;
             }
-            $data['churches'] = DT_Posts::list_posts('groups', [
+            $posts_response = $data['churches'] = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ],
                 'sort' => 'last_modified'
-            ], false)['posts'] ?? [];
-            if ( is_wp_error( $data['churches'] ) ) {
+            ], false);
+            if ( is_wp_error( $result ) ) {
+                $data['churches'] = $posts_response['posts'] ?? [];
+            } else {
                 $data['churches'] = [];
             }
         }

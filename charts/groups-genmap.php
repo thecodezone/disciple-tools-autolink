@@ -18,9 +18,11 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
 
     public function __construct() {
         parent::__construct();
+
         if ( !$this->has_permission() ) {
             return;
         }
+
         // only load scripts if exact url
         add_action( 'rest_api_init', [ $this, 'add_api_routes' ], 99 );
         add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ], 99 );

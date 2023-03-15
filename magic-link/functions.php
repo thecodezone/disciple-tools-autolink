@@ -229,6 +229,9 @@ class Disciple_Tools_Autolink_Magic_Functions
 
     public function survey(): array
     {
+        $post_type = get_post_type_object( 'groups' );
+        $group_labels = get_post_type_labels( $post_type );
+
         $survey = apply_filters('dt_autolink_survey', [
             [
                 'name' => 'dt_autolink_number_of_leaders_coached',
@@ -236,7 +239,8 @@ class Disciple_Tools_Autolink_Magic_Functions
             ],
             [
                 'name' => 'dt_autolink_number_of_churches_led',
-                'label' => __( 'How many churches are you leading?', 'disciple-tools-autolink' )
+                'label' => __( 'How many', 'disciple-tools-autolink' ) . ' ' . strtolower( $group_labels->name ) . ' ' .  __( 'are you leading?', 'disciple-tools-autolink' ),
+
             ]
         ]);
         if ( !is_array( $survey ) ) {
