@@ -53,6 +53,7 @@ export class DtChurchHealthCircle extends DtBase {
       .health-circle--committed {
         border: 3px #4caf50 solid !important;
       }
+
       dt-church-health-icon {
         margin: auto;
         position: absolute;
@@ -102,6 +103,18 @@ export class DtChurchHealthCircle extends DtBase {
 
     //We don't want to show church commitment in the circle
     return entries.filter(([key, value]) => key !== "church_commitment");
+  }
+
+  get isCommited() {
+    if (!this.group) {
+      return false;
+    }
+
+    if (!this.group.health_metrics) {
+      return false;
+    }
+
+    return this.group.health_metrics.includes("church_commitment");
   }
 
   /**
@@ -206,8 +219,7 @@ export class DtChurchHealthCircle extends DtBase {
         <div
           class=${classMap({
             "health-circle": true,
-            "health-circle--committed":
-              practicedItems.indexOf("church_commitment") !== -1,
+            "health-circle--committed": this.isCommited,
           })}
         >
           <div class="health-circle__grid">
@@ -224,6 +236,18 @@ export class DtChurchHealthCircle extends DtBase {
             )}
           </div>
         </div>
+
+        <dt-toggle
+          name="church-commitment"
+          label="Church Commitment"
+          requiredmessage=""
+          icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
+          iconalttext="Icon Alt Text"
+          privatelabel=""
+          @click="${this.toggleClick}"
+          ?checked=${this.isCommited}
+        >
+        </dt-toggle>
       </div>
     `;
   }
@@ -242,6 +266,47 @@ export class DtChurchHealthCircle extends DtBase {
 
     container.style.setProperty("--m", m);
     container.style.setProperty("--tan", +tan.toFixed(2));
+  }
+
+  toggleClick(e) {
+    let toggle = this.renderRoot.querySelector("dt-toggle");
+    let church_commitment = toggle.toggleAttribute("checked");
+
+    const payload = {
+      health_metrics: {
+        values: [
+          {
+            value: "church_commitment",
+            delete: !church_commitment,
+          },
+        ],
+      },
+    };
+    try {
+      API.update_post("groups", this.group.ID, payload);
+      if (!this.group.health_metrics) {
+        this.group.health_metrics = [];
+      }
+      if (church_commitment) {
+        this.group.health_metrics.push("church_commitment");
+      } else {
+        this.group.health_metrics.pop("church_commitment");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.requestUpdate();
+  }
+
+  _isChecked() {
+    if (Object.hasOwn(this.group, "health_metrics")) {
+      if (this.group.health_metrics.includes("church_commitment")) {
+        return (this.isChurch = true);
+      }
+      return (this.isChurch = false);
+    }
+    return (this.isChurch = false);
   }
 }
 
@@ -306,9 +371,7 @@ class DtChurchHealthIcon extends LitElement {
       } else {
         this.group.health_metrics.pop(this.key);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 }
 
