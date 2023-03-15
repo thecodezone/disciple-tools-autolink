@@ -239,7 +239,7 @@ export class DtChurchHealthCircle extends DtBase {
 
         <dt-toggle
           name="church-commitment"
-          label="Church Commitment"
+          label="${this.settings.church_commitment.label}"
           requiredmessage=""
           icon="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"
           iconalttext="Icon Alt Text"
