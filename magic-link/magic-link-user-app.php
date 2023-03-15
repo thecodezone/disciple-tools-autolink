@@ -268,6 +268,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 'assigned_to' => [ get_current_user_id() ],
         ], false)['posts'] ?? [];
 
+
         if ( is_wp_error( $churches ) ) {
             $churches = [];
         }
@@ -276,17 +277,27 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             return $a['last_modified'] < $b['last_modified'] ? 1 : -1;
         });
 
+        //Apply WP formatting to all date fields.
+        $churches = array_map( function ( $church ) {
+            foreach ( $church as $key => $value ) {
+                if ( is_array( $value ) && isset( $value['timestamp'] ) ) {
+                    $church[$key]['formatted'] = dt_format_date( $value['timestamp'], get_option( 'date_format' ) );
+                }
+            }
+            return $church;
+        }, $churches );
+
         $group_fields = DT_Posts::get_post_field_settings( 'groups' );
         $church_fields = [
-        'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
+            'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
         ];
         $church_health_field = $church_fields['health_metrics'];
         $allowed_church_count_fields = [
-        'member_count',
-        'leader_count',
-        'believer_count',
-        'baptized_count',
-        'baptized_in_group_count'
+            'member_count',
+            'leader_count',
+            'believer_count',
+            'baptized_count',
+            'baptized_in_group_count'
         ];
         $church_count_fields = [];
 
