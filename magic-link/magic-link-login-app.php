@@ -205,6 +205,10 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         $email = sanitize_text_field( wp_unslash( $_POST['email'] ?? '' ) );
         $confirm_password = sanitize_text_field( wp_unslash( $_POST['confirm_password'] ?? '' ) );
 
+        if ( !$username || !$password || !$email ) {
+            return $this->show_register( [ 'error' => 'Please fill out all fields.' ] );
+        }
+
         if ( $confirm_password !== $password ) {
             return $this->show_register( [ 'error' => 'Passwords do not match' ] );
         }
