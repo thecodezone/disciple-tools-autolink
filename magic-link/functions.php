@@ -77,7 +77,7 @@ class Disciple_Tools_Autolink_Magic_Functions
                     'app' => esc_url_raw( trailingslashit( $this->get_app_link() ) ),
                     'link' => esc_url_raw( trailingslashit( $this->get_link_url() ) ),
                     'survey' => esc_url_raw( $this->get_app_link() . '?action=survey' ),
-                    'logout' => wp_logout_url( $this->get_link_url() ),
+                    'logout' => $this->get_app_link() . '?action=logout',
                     'reset_password' => wp_lostpassword_url( $this->get_link_url() )
                 ],
                 'translations' => [

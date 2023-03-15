@@ -176,6 +176,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'tree':
                     $this->show_tree();
                     break;
+                case 'logout':
+                    $this->logout();
+                    break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
                         return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
@@ -666,6 +669,15 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public function user_has_cap( $allcaps, $caps, $args ) {
         $allcaps['view_any_contacts'] = true;
         return $allcaps;
+    }
+
+    /**
+     * Log the user out
+     */
+    public function logout() {
+        wp_logout();
+        $this->functions->redirect_to_link();
+        exit;
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();
