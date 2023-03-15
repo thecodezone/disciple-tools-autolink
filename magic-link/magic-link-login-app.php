@@ -64,9 +64,12 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
                 $this->routes();
             }); // body for no post key
 
-
             add_filter( 'dt_magic_url_base_allowed_css', [ $this->functions, 'dt_magic_url_base_allowed_css' ], 10, 1 );
             add_filter( 'dt_magic_url_base_allowed_js', [ $this->functions, 'dt_magic_url_base_allowed_js' ], 10, 1 );
+
+            add_filter( 'login_errors', [ $this, 'login_errors' ] );
+            remove_all_actions( 'wp_login_failed' );
+
             add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
         }
 
@@ -142,6 +145,7 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
 
     public function process_login() {
+        global $errors;
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_login' );
 
@@ -152,10 +156,14 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
         $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
         $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
+
         $user = wp_authenticate( $username, $password );
 
         if ( is_wp_error( $user ) ) {
-            $error = $user->get_error_message();
+            //phpcs:ignore
+            $errors = $user;
+            $error = $errors->get_error_message();
+            $error = apply_filters( 'login_errors', $error );
 
             //If the error links to lost password, inject the 3/3rds redirect
             $error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/' . $this->root, $error );
@@ -263,6 +271,20 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
             default:
                 return true;
         }
+    }
+
+    /**
+     * change the error message if it is invalid_username or incorrect password
+     *
+     * @param $message string Error string provided by WordPress
+     * @return $message string Modified error string
+     */
+    public function login_errors( $message ){
+        global $errors;
+        if ( isset( $errors->errors['invalid_username'] ) || isset( $errors->errors['incorrect_password'] ) || isset( $errors->errors['invalid_email'] ) ) {
+            $message = __( 'Error: Invalid username/password combination.', 'disciple-tools-autolink' );
+        }
+        return $message;
     }
 }
 Disciple_Tools_Autolink_Login_App::instance();
