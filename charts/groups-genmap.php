@@ -64,12 +64,12 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         ], filemtime( $plugin_path . '/magic-link/js/churchCirclesGenmap.js' ), true);
 
 
-        wp_enqueue_script('genmapper', $genmapper_plugin_url . "/includes/charts/genmapper.js", [
+        wp_enqueue_script('genmapper', $plugin_url . '/magic-link/js/genmapper.js', [
             'jquery',
             'jquery-ui-core',
             'd3',
             'gen-template',
-        ], filemtime( $genmapper_plugin_path . "/includes/charts/genmapper.js" ), true);
+        ], filemtime( $plugin_path . '/magic-link/js/genmapper.js' ), true);
         wp_localize_script(
             'genmapper', 'genApiTemplate', [
                 'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
