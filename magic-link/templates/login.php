@@ -30,7 +30,7 @@
 
                 <dt-text name="username"
                         placeholder="<?php esc_attr_e( 'Username', 'disciple-tools-autolink' ); ?>"
-                        value=""
+                        value="<?php echo esc_attr( $username ); ?>"
                         required
                         tabindex="1"
                         ></dt-text>
