@@ -31,21 +31,26 @@
                 <dt-text name="username"
                         placeholder="<?php esc_attr_e( 'Username', 'disciple-tools-autolink' ); ?>"
                         value=""
-                        required></dt-text>
+                        required
+                        tabindex="1"
+                        ></dt-text>
                 <dt-text name="password"
                         placeholder="<?php esc_attr_e( 'Password', 'disciple-tools-autolink' ); ?>"
                         value=""
                         type="password"
+                        tabindex="2"
                         required></dt-text>
 
                 <div class="login__buttons">
                     <dt-button context="success"
+                            tabindex="3"
                             type="submit">
                         <?php esc_html_e( 'Login', 'disciple-tools-autolink' ) ?>
                     </dt-button>
 
                     <dt-button context="link"
                             href="<?php echo esc_url( $register_url ); ?>"
+                            tabindex="`4"
                             title="<?php esc_attr_e( 'Create Account', 'disciple-tools-autolink' ); ?>">
                         <?php esc_html_e( 'Create Account', 'disciple-tools-autolink' ) ?>
                         <dt-chevron-right></dt-chevron-right>
