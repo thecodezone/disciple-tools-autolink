@@ -342,12 +342,14 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $pre_tree = [];
         $groups = DT_Posts::list_posts('groups', [
             'assigned_to' => [ get_current_user_id() ],
+            'limit' => 1000
         ], false );
 
         $groups = $groups['posts'] ?? [];
 
         $contact = DT_Posts::list_posts('contacts', [
             'corresponds_to_user' => get_current_user_id(),
+            'limit' => 1000
         ], false )['posts'][0];
         $allowed_contact_ids = [
             $contact['ID']
@@ -362,6 +364,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 $child_contact = DT_Posts::get_post( 'contacts', $child_contact['ID'], false );
                 $child_groups = DT_Posts::list_posts('groups', [
                     'assigned_to' => [ $child_contact['corresponds_to_user'] ],
+                    'limit' => 1000
                 ], false );
 
                 if ( count( $child_groups['posts'] ) ) {
@@ -378,6 +381,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 $assigned_to_user = $p['assigned_to'] ?? [];
                 $assigned_to_contact = DT_Posts::list_posts('contacts', [
                     'corresponds_to_user' => $assigned_to_user['id'],
+                    'limit' => 1000
                 ], false )['posts'][0];
                 $is_allowed_contact = in_array( $assigned_to_contact['ID'], $allowed_contact_ids );
 
