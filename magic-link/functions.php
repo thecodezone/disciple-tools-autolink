@@ -30,6 +30,8 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_js[] = 'mapbox-search-widget';
         $allowed_js[] = 'jquery-touch-punch';
         $allowed_js[] = 'portal-app-domenu-js';
+        $allowed_js[] = 'google-search-widget';
+        $allowed_js[] = 'shared-functions';
         return $allowed_js;
     }
 
