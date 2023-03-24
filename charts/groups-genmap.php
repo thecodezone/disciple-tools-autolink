@@ -128,6 +128,8 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         }, $groups['posts']);
         $args = [ 'ids' => $group_ids ];
 
+        $date_format = get_option( 'date_format' );
+
         $prepared_array = [
             [
                 "id" => 0,
@@ -164,7 +166,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 $lines[] = $group['location_name'];
             }
             if ( $group['start_date'] ) {
-                $lines[] = gmdate( get_option( 'date_format' ), intval( $group['start_date'] ) );
+                $lines[] = gmdate( $date_format, intval( $group['start_date'] ) );
             }
 
             $values = [
@@ -182,7 +184,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 "post_type" => "groups",
                 "coach" => $group["coach"],
                 "location" => $group["location_name"],
-                "start_date" => $group['start_date'] ? gmdate( get_option( 'date_format' ), strtotime( $group['start_date'] ) ) : null,
+                "start_date" => $group['start_date'] ? gmdate( $date_format, strtotime( $group['start_date'] ) ) : null,
                 "attenders" => (int) $group['total_members'],
                 "believers" => (int) $group['total_believers'],
                 "baptized" => (int) $group['total_baptized'],

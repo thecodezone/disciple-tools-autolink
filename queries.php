@@ -173,10 +173,12 @@ class Disciple_Tools_Autolink_Queries
             $list = $this->filter_nodes_in( $list, $args['ids'] );
         }
 
-        $list = array_filter( $list, function ( $current ) use ( $list ) {
-            return count(array_filter( $list, function ( $group ) use ( $current ) {
-                return $current->id === $group->parent_id;
-            } )) > 0;
+        $allowed_parents =  array_map( function ( $node ) {
+            return $node->id;
+        }, $list );
+
+        $list = array_filter( $list, function ( $current ) use ( $allowed_parents ) {
+            return in_array( $current->parent_id, $allowed_parents );
         } );
 
         return dt_queries()->check_tree_health( $list );
