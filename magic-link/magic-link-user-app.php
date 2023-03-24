@@ -658,6 +658,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
                     VALUES (%s, %s, 'groups_to_groups');
             ", $params['data']['self'], $params['data']['new_parent'] ) );
+
+        do_action( 'p2p_created_connection', $wpdb->insert_id );
+
         return true;
     }
 
