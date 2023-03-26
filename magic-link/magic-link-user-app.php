@@ -170,6 +170,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'create-group':
                     $this->show_create_group();
                     break;
+                case 'delete-group':
+                    $this->delete_group();
+                    break;
                 case 'genmap':
                     $this->show_genmap();
                     break;
@@ -262,15 +265,23 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         return $data;
     }
 
-    public function show_app() {
+    public function show_app( $params = []) {
         $data = $this->app_view_data();
+        $post_type = get_post_type_object( 'groups' );
+        $group_labels = get_post_type_labels( $post_type );
+
         extract( $data );
         $action = '';
-
+        $delete_group_nonce = wp_create_nonce( 'dt_autolink_delete_group' );
+        $delete_group_link = $this->functions->get_app_link() . '?action=delete-group&_wpnonce=' . $delete_group_nonce;
+        $delete_group_label = __( 'Delete', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+        $delete_group_confirm = __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . $group_labels->singular_name . '?';
+        $view_group_label = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $churches = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ],
         ], false)['posts'] ?? [];
 
+        $error = $params['error'] ?? false;
 
         if ( is_wp_error( $churches ) ) {
             $churches = [];
@@ -481,6 +492,27 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
 
         include( 'templates/create-group.php' );
+    }
+
+    public function delete_group() {
+        $nonce = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_delete_group' );
+        $group_id = sanitize_text_field( wp_unslash( $_GET['post'] ?? '' ) );
+
+        if(!$verify_nonce) {
+            $this->show_app( [ 'error' => __('Unauthorized action. Please refresh the page and try again.', 'disciple-tools-autolink' ) ] );
+            return;
+        }
+
+        $group_id = (int) $group_id;
+
+        $result = DT_Posts::delete_post( 'groups', $group_id, false );
+
+        if ( is_wp_error( $result ) ) {
+            $this->show_app( [ 'error' => $result->get_error_message() ] );
+        }
+
+        $this->show_app();
     }
 
     public function create_group() {

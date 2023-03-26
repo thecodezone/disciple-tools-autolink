@@ -157,6 +157,7 @@ export class DtButton extends DtBase {
       title: { type: String },
       onClick: { type: Function },
       rounded: { type: Boolean },
+      confirm: { type: String },
     };
   }
 
@@ -178,6 +179,12 @@ export class DtButton extends DtBase {
   }
 
   handleClick(e) {
+    if (this.confirm) {
+      if (!confirm(this.confirm)) {
+        e.preventDefault();
+        return;
+      }
+    }
     if (this.onClick) {
       e.preventDefault();
       this.onClick(e);
