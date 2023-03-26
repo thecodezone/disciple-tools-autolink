@@ -5,15 +5,45 @@ import { DtBase } from "@disciple.tools/web-components";
 export class DtChurchHealthCircle extends DtBase {
   static get styles() {
     return css`
+      .health-circle__container {
+        --d: 50px; /* image size */
+        --rel: 0.5; /* how much extra space we want between images, 1 = one image size */
+        --r: calc(1 * var(--d) / var(--tan)); /* circle radius */
+        --s: calc(3 * var(--r));
+
+        margin: 1rem auto;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+
+        @supports (aspect-ratio) {
+          aspect-ratio: 1/1;
+        }
+        @supports not (aspect-ratio) {
+          padding-top: 100%;
+          height: 0;
+          position: relative;
+          overflow: visible;
+        }
+      }
+
       .health-circle {
         display: block;
-        margin: 1rem auto;
         height: auto;
-        width: 100%;
-        aspect-ratio: 1/1;
         border-radius: 100%;
         border: 3px darkgray dashed;
+        max-width: 100%;
+
+        @supports not (aspect-ratio) {
+          position: absolute;
+          transform: translate(-50%, -50%);
+          left: 50%;
+          top: 50%;
+          width: calc(100% - 8px);
+          height: auto;
+        }
       }
+
       .health-circle__grid {
         display: inline-block;
         position: relative;
@@ -21,11 +51,6 @@ export class DtChurchHealthCircle extends DtBase {
         width: 100%;
         margin-left: auto;
         margin-right: auto;
-
-        --d: 50px; /* image size */
-        --rel: 0.5; /* how much extra space we want between images, 1 = one image size */
-        --r: calc(1 * var(--d) / var(--tan)); /* circle radius */
-        --s: calc(3 * var(--r));
         position: relative;
         width: var(--s);
         max-width: 100%;
@@ -39,13 +64,13 @@ export class DtChurchHealthCircle extends DtBase {
           min-width: 300px;
         }
 
-        .health-circle__grid {
+        .health-circle__container {
           --r: calc(0.8 * var(--d) / var(--tan)); /* circle radius */
         }
       }
 
       @media (min-width: 520px) {
-        .health-circle__grid {
+        .health-circle__container {
           --r: calc(1.1 * var(--d) / var(--tan)); /* circle radius */
         }
       }
@@ -215,25 +240,27 @@ export class DtChurchHealthCircle extends DtBase {
 
     //Render the group circle
     return html`
-      <div>
-        <div
-          class=${classMap({
-            "health-circle": true,
-            "health-circle--committed": this.isCommited,
-          })}
-        >
-          <div class="health-circle__grid">
-            ${this.metrics.map(
-              ([key, metric], index) =>
-                html`<dt-church-health-icon
-                  key="${key}"
-                  .group="${this.group}"
-                  .metric=${metric}
-                  .active=${practicedItems.indexOf(key) !== -1}
-                  .style="--i: ${index + 1}"
-                >
-                </dt-church-health-icon>`
-            )}
+      <div class="health-circle__wrapper">
+        <div class="health-circle__container">
+          <div
+            class=${classMap({
+              "health-circle": true,
+              "health-circle--committed": this.isCommited,
+            })}
+          >
+            <div class="health-circle__grid">
+              ${this.metrics.map(
+                ([key, metric], index) =>
+                  html`<dt-church-health-icon
+                    key="${key}"
+                    .group="${this.group}"
+                    .metric=${metric}
+                    .active=${practicedItems.indexOf(key) !== -1}
+                    .style="--i: ${index + 1}"
+                  >
+                  </dt-church-health-icon>`
+              )}
+            </div>
           </div>
         </div>
 
@@ -257,7 +284,9 @@ export class DtChurchHealthCircle extends DtBase {
    * according to amount of health metric elements
    */
   distributeItems() {
-    const container = this.renderRoot.querySelector(".health-circle__grid");
+    const container = this.renderRoot.querySelector(
+      ".health-circle__container"
+    );
     const items = container.querySelectorAll("dt-church-health-icon");
 
     let n_items = items.length;
