@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple Tools - Autolink\n"
-"POT-Creation-Date: 2023-03-24 14:41-0500\n"
+"POT-Creation-Date: 2023-03-27 09:06-0500\n"
 "PO-Revision-Date: 2018-01-29 05:53-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
@@ -62,15 +62,15 @@ msgstr ""
 msgid "Toggle Menu"
 msgstr ""
 
-#: magic-link/functions.php:92 magic-link/magic-link-user-app.php:213
+#: magic-link/functions.php:92 magic-link/magic-link-user-app.php:216
 msgid "Hello,"
 msgstr ""
 
-#: magic-link/functions.php:93 magic-link/magic-link-user-app.php:216
+#: magic-link/functions.php:93 magic-link/magic-link-user-app.php:219
 msgid "Coached by"
 msgstr ""
 
-#: magic-link/functions.php:94 magic-link/magic-link-user-app.php:217
+#: magic-link/functions.php:94 magic-link/magic-link-user-app.php:220
 msgid "My Link"
 msgstr ""
 
@@ -103,52 +103,65 @@ msgstr ""
 msgid "Error: Invalid username/password combination."
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:218
+#: magic-link/magic-link-user-app.php:221
 msgid "Copy this link and share it with people you are coaching."
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:219
+#: magic-link/magic-link-user-app.php:222
 msgid "My "
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:226
+#: magic-link/magic-link-user-app.php:229
+#: magic-link/magic-link-user-app.php:279
 msgid "View"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:228
+#: magic-link/magic-link-user-app.php:231
 msgid "Health"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:229
+#: magic-link/magic-link-user-app.php:232
 msgid "Tree"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:230
+#: magic-link/magic-link-user-app.php:233
 msgid "GenMap"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:471
+#: magic-link/magic-link-user-app.php:277
+msgid "Delete"
+msgstr ""
+
+#: magic-link/magic-link-user-app.php:278
+msgid "Are you sure you want to delete this "
+msgstr ""
+
+#: magic-link/magic-link-user-app.php:482
 msgid "Create a Church"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:472
+#: magic-link/magic-link-user-app.php:483
 msgid "Church Name"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:473
+#: magic-link/magic-link-user-app.php:484
 msgid "Enter name..."
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:474
+#: magic-link/magic-link-user-app.php:485
 msgid "Church Start Date"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:478
+#: magic-link/magic-link-user-app.php:489
 msgid "Cancel"
 msgstr ""
 
-#: magic-link/magic-link-user-app.php:479
+#: magic-link/magic-link-user-app.php:490
 msgid "Create Church"
+msgstr ""
+
+#: magic-link/magic-link-user-app.php:503
+msgid "Unauthorized action. Please refresh the page and try again."
 msgstr ""
 
 #: magic-link/templates/genmap.php:6

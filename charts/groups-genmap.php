@@ -49,6 +49,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
             'jquery',
             'jquery-ui-core',
         ], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/template.js" ), true);
+
         wp_localize_script(
             'gen-template', 'genApiTemplate', [
                 'plugin_uri' => $genmapper_plugin_url,
