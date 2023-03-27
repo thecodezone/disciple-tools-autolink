@@ -317,7 +317,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         foreach ( $allowed_church_count_fields as $field ) {
             //Fields can registered or deregistered by plugins,so check and make sure it exists
-            if ( isset( $group_fields[$field] ) ) {
+            if ( isset( $group_fields[$field] ) && ( !isset($group_fields[$field]['hidden']) || ! $group_fields[$field]['hidden'] ) ) {
                 $church_count_fields[$field] = $group_fields[$field];
             }
         }
