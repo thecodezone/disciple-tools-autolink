@@ -3,7 +3,6 @@ if ( !defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly.
 
-
 /**
  * Class Disciple_Tools_Autolink_Magic_User_App
  */
@@ -182,6 +181,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'logout':
                     $this->logout();
                     break;
+                case 'group':
+                    $this->show_group_frame();
+                    break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
                         return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
@@ -277,6 +279,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $delete_group_label = __( 'Delete', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $delete_group_confirm = __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . $group_labels->singular_name . '?';
         $view_group_label = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+        $group_link = $this->functions->get_app_link() . '?action=group';
+        $app_link = $this->functions->get_app_link();
         $churches = DT_Posts::list_posts('groups', [
                 'assigned_to' => [ get_current_user_id() ],
         ], false)['posts'] ?? [];
@@ -717,6 +721,31 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         wp_logout();
         $this->functions->redirect_to_link();
         exit;
+    }
+
+    /**
+     * Group page in frame
+     */
+    public function show_group_frame() {
+        $post_id = wp_unslash( $_GET['post'] ?? '' );
+        $back_link = wp_unslash( $_GET['return'] ?? '' );
+        $back_label = __('Back to AutoLink', 'disciple-tools-autolink' );
+
+        if (!$post_id || !$back_link) {
+            $this->functions->redirect_to_app();
+            return;
+        }
+
+        $group = DT_Posts::get_post( 'groups', $post_id);
+
+        if ( is_wp_error( $group ) ) {
+            $this->functions->redirect_to_app();
+            return;
+        }
+
+        $src = get_the_permalink( $group['ID'] );
+
+        include( 'templates/frame.php' );
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();

@@ -96,7 +96,6 @@ class Disciple_Tools_Autolink
         '/magic-link/magic-link-user-app.php' );
         require_once( __DIR__ .
         '/magic-link/magic-link-login-app.php' );
-        require_once(__DIR__ . '/magic-link/magic-link-back-widget.php');
 
         $this->i18n();
     }

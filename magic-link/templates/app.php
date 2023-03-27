@@ -46,7 +46,7 @@
                                 fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
                             </app-church>
                             <app-church-menu>
-                                 <dt-button context="primary" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] . '?' . http_build_query([ 'back_to_autolink' => $app_url]) ) ); ?>">
+                                 <dt-button context="primary" href="<?php echo esc_url( $group_link . '&' . http_build_query([ 'post' => $church['ID'], 'return' => $app_link ]) ); ?>">
                                     <?php echo esc_html( $view_group_label ); ?>
                                 </dt-button>
                                  <dt-button context="alert" href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' =>  $church['ID'] ] )); ?>" confirm="<?php echo esc_html( $delete_group_confirm ) ?>">

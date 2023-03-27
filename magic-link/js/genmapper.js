@@ -260,11 +260,10 @@ class GenMapper {
   }
 
   openRecord(d) {
+    console.log("here");
     let id = d.data.id;
-    let url = `${wpApiShare.site_url}/${window.lodash.escape(
-      d.data.post_type || "contacts"
-    )}/${window.lodash.escape(id)}/`;
-    let query = `?back_to_autolink=${window.location.href}`;
+    let url = genApiTemplate.app_url;
+    let query = `?action=group&post=${id}&return=${window.location.href}`;
 
     var win = window.open(url + query, "_blank");
     win.focus();

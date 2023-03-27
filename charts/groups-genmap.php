@@ -75,6 +75,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
             'genmapper', 'genApiTemplate', [
                 'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
                 'show_icons' => get_option( "dt_genmapper_show_health_icons", true ),
+                'app_url' => Disciple_Tools_Autolink_Magic_Functions::instance()->get_app_link(),
             ]
         );
         // Localize script with array data
