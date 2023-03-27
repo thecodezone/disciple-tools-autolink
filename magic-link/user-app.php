@@ -207,7 +207,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                     $this->login_controller->logout();
                     break;
                 case 'group':
-                    $this->show_group_frame();
+                    $this->group_controller->show();
                     break;
                 default:
                     if ( !$this->functions->survey_completed() ) {
