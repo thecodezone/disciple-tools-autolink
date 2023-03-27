@@ -16,6 +16,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     public $type_name = 'Auto Link';
     public static $token = 'autolink_login';
     public $functions;
+    public  $login_controller;
+    public  $register_controller;
 
     private static $_instance = null;
     public static function instance() {
@@ -30,7 +32,9 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         parent::__construct();
 
         $url = dt_get_url_path( true );
-        $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
+        $this->functions = new Disciple_Tools_Autolink_Magic_Functions();
+        $this->login_controller = new Disciple_Tools_Autolink_Login_Controller();
+        $this->register_controller = new Disciple_Tools_Autolink_Register_Controller();
 
         if ( ( $this->root ) === $url ) {
 
@@ -72,11 +76,6 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
 
             add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 100 );
         }
-
-        if ( dt_is_rest() ) {
-            add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
-            add_filter( 'dt_allow_rest_access', [ $this, 'authorize_url' ], 10, 1 );
-        }
     }
 
     public function ready() {
@@ -106,13 +105,13 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         if ( $type === 'GET' ) {
             switch ( $action ) {
                 case 'login':
-                    $this->show_login();
+                    $this->login_controller->show();
                     break;
                 case 'register':
-                    $this->show_register();
+                    $this->register_controller->show();
                     break;
                 default:
-                    $this->show_login();
+                    $this->login_controller->show();
                     break;
             }
             return;
@@ -121,161 +120,15 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
         if ( $type === 'POST' ) {
             switch ( $action ) {
                 case 'login':
-                    $this->process_login();
+                    $this->login_controller->process();
                     break;
                 case 'register':
-                    $this->process_register();
+                    $this->register_controller->process();
                     break;
                 default:
                     wp_redirect( '/' . $this->root );
             }
             return;
-        }
-    }
-
-    public function show_login( $params = [] ) {
-        $logo_url = $this->functions->fetch_logo();
-        $register_url = '/' . $this->root . '?action=register';
-        $form_action = '/' . $this->root . '?action=login';
-        $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
-        $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
-        $reset_url = wp_lostpassword_url( $this->functions->get_link_url() );
-        $error = $params['error'] ?? '';
-
-        include( 'templates/login.php' );
-    }
-
-
-    public function process_login() {
-        global $errors;
-        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_login' );
-
-        if ( !$verify_nonce ) {
-            return $this->show_login( [ 'error' => 'Unable to verify request.' ] );
-            return;
-        }
-
-        $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
-        $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
-
-        $user = wp_authenticate( $username, $password );
-
-        if ( is_wp_error( $user ) ) {
-            //phpcs:ignore
-            $errors = $user;
-            $error = $errors->get_error_message();
-            $error = apply_filters( 'login_errors', $error );
-
-            //If the error links to lost password, inject the 3/3rds redirect
-            $error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/' . $this->root, $error );
-            return $this->show_login( [ 'error' => $error ] );
-        }
-
-        wp_set_auth_cookie( $user->ID );
-
-        if ( !$user ) {
-            return $this->show_login( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
-        }
-
-        wp_set_current_user( $user->ID );
-
-        $this->functions->activate();
-        $this->functions->add_session_leader();
-        $this->functions->redirect_to_link();
-    }
-
-    public function show_register( $params = [] ) {
-        $logo_url = $this->functions->fetch_logo();
-        $form_action = '/' . $this->root . '?action=register';
-        $error = $params['error'] ?? '';
-
-        include( 'templates/register.php' );
-    }
-
-    public function process_register() {
-        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_register' );
-
-        if ( !$verify_nonce ) {
-            return $this->show_register( [ 'error' => 'Unable to verify request.' ] );
-            return;
-        }
-
-        $username = sanitize_text_field( wp_unslash( $_POST['username'] ?? '' ) );
-        $password = sanitize_text_field( wp_unslash( $_POST['password'] ?? '' ) );
-        $email = sanitize_text_field( wp_unslash( $_POST['email'] ?? '' ) );
-        $confirm_password = sanitize_text_field( wp_unslash( $_POST['confirm_password'] ?? '' ) );
-
-        if ( !$username || !$password || !$email ) {
-            return $this->show_register( [ 'error' => 'Please fill out all fields.' ] );
-        }
-
-        if ( $confirm_password !== $password ) {
-            return $this->show_register( [ 'error' => 'Passwords do not match' ] );
-        }
-
-        $user = wp_create_user( $username, $password, $email );
-
-        if ( is_wp_error( $user ) ) {
-            $error = $user->get_error_message();
-            return $this->show_register( [ 'error' => $error ] );
-        }
-
-        $user_obj = get_user_by( 'id', $user );
-
-        wp_set_current_user( $user );
-        wp_set_auth_cookie( $user_obj->ID );
-
-        if ( !$user ) {
-            return $this->show_register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ) ] );
-        }
-
-        $this->functions->activate();
-        $this->functions->add_session_leader();
-        $this->functions->redirect_to_link();
-    }
-
-    /**
-     * Register REST Endpoints
-     * @link https://github.com/DiscipleTools/disciple-tools-theme/wiki/Site-to-Site-Link for outside of wordpress authentication
-     */
-    public function add_endpoints() {
-        $namespace = $this->root . '/v1';
-        register_rest_route(
-            $namespace,
-            '/' . $this->type,
-            [
-                [
-                    'methods'  => WP_REST_Server::CREATABLE,
-                    'callback' => [ $this, 'endpoint' ],
-                    'permission_callback' => function ( WP_REST_Request $request ) {
-                        $magic = new DT_Magic_URL( $this->root );
-
-                        return $magic->verify_rest_endpoint_permissions_on_post( $request );
-                    },
-                ],
-            ]
-        );
-    }
-
-    public function endpoint( WP_REST_Request $request ) {
-        $params = $request->get_params();
-
-        if ( !isset( $params['parts'], $params['action'] ) ) {
-            return new WP_Error( __METHOD__, "Missing parameters", [ 'status' => 400 ] );
-        }
-
-        $params = dt_recursive_sanitize_array( $params );
-
-        switch ( $params['action'] ) {
-            case 'get':
-                // do something
-                return true;
-            case 'excited':
-                // do something else
-            default:
-                return true;
         }
     }
 

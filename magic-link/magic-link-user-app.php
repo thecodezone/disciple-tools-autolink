@@ -17,6 +17,12 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public $show_bulk_send = false;
     public $show_app_tile = false;
     public $functions;
+    public $survey_controller;
+    public $app_controller;
+    public $genmap_controller;
+    public $group_controller;
+    public $tree_controller;
+    public $login_controller;
 
     private static $_instance = null;
     public $meta = []; // Allows for instance specific data.
@@ -59,6 +65,12 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
 
         $this->functions = Disciple_Tools_Autolink_Magic_Functions::instance();
+        $this->survey_controller = new Disciple_Tools_Autolink_Survey_Controller();
+        $this->app_controller = new Disciple_Tools_Autolink_App_Controller();
+        $this->genmap_controller = new Disciple_Tools_Autolink_Genmap_Controller();
+        $this->group_controller = new Disciple_Tools_Autolink_Group_Controller();
+        $this->tree_controller = new Disciple_Tools_Autolink_Tree_Controller();
+        $this->login_controller = new Disciple_Tools_Autolink_Login_Controller();
 
         $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
         if ( dt_is_rest() || $action === 'genmap'
@@ -148,15 +160,28 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         return $apps_list;
     }
 
+    /**
+     * Handle the header style hook
+     *
+     * Register the mapbox search widget css
+     */
     public function header_style() {
         DT_Mapbox_API::mapbox_search_widget_css();
     }
 
+    /**
+     * Handle the header javascript hook
+     *
+     * Register the mapbox search widget js
+     */
     public function header_javascript() {
         DT_Mapbox_API::load_mapbox_header_scripts();
         DT_Mapbox_API::load_mapbox_search_widget_users();
     }
 
+    /**
+     * Map routes to controllers
+     */
     public function routes() {
         $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
         $type = strtoupper( sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) ) );
@@ -164,22 +189,22 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         if ( $type === 'GET' ) {
             switch ( $action ) {
                 case 'survey':
-                    $this->show_survey();
+                    $this->survey_controller->show();
                     break;
                 case 'create-group':
-                    $this->show_create_group();
+                    $this->group_controller->create();
                     break;
                 case 'delete-group':
-                    $this->delete_group();
+                    $this->group_controller->delete();
                     break;
                 case 'genmap':
-                    $this->show_genmap();
+                    $this->genmap_controller->show();
                     break;
                 case 'tree':
-                    $this->show_tree();
+                    $this->tree_controller->show();
                     break;
                 case 'logout':
-                    $this->logout();
+                    $this->login_controller->logout();
                     break;
                 case 'group':
                     $this->show_group_frame();
@@ -188,7 +213,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                     if ( !$this->functions->survey_completed() ) {
                         return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
                     }
-                    $this->show_app();
+                    $this->app_controller->show();
                     break;
             }
             return;
@@ -197,10 +222,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         if ( $type === 'POST' ) {
             switch ( $action ) {
                 case 'survey':
-                    $this->submit_survey();
+                    $this->survey_controller->process();
                     break;
                 case 'create-group':
-                    $this->create_group();
+                    $this->group_controller->process();
                     break;
                 default:
                     wp_redirect( '/' . $this->root );
@@ -209,367 +234,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
     }
 
-    public function app_view_data() {
-        $data = [];
-        $post_type = get_post_type_object( 'groups' );
-        $group_labels = get_post_type_labels( $post_type );
-
-        $data['logo_url'] = $this->functions->fetch_logo();
-        $data['greeting'] = __( 'Hello,', 'disciple-tools-autolink' );
-        $data['user_name'] = dt_get_user_display_name( get_current_user_id() );
-        $data['app_url'] = $this->functions->get_app_link();
-        $data['coached_by_label'] = __( 'Coached by', 'disciple-tools-autolink' );
-        $data['link_heading'] = __( 'My Link', 'disciple-tools-autolink' );
-        $data['share_link_help_text'] = __( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' );
-        $data['churches_heading'] = __( "My ", 'disciple-tools-autolink' ) . $group_labels->name;
-        $data['share_link'] = $this->functions->get_share_link();
-        $data['group_fields'] = DT_Posts::get_post_field_settings( 'groups' );
-        $data['create_church_link'] = $this->functions->get_app_link() . '?action=create-group';
-        $data['contact'] = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-        $data['coach'] = null;
-        $data['coach_name'] = '';
-        $data['view_church_label'] = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
-        $data['churches'] = [];
-        $data['church_health_label'] = $group_labels->singular_name . ' ' . __( 'Health', 'disciple-tools-autolink' );
-        $data['tree_label'] = __( 'Tree', 'disciple-tools-autolink' );
-        $data['genmap_label'] = __( 'GenMap', 'disciple-tools-autolink' );
-
-        if ( $data['contact'] ) {
-            $result = null;
-            $data['contact'] = DT_Posts::get_post( 'contacts', $data['contact'], false, false );
-            if ( !is_wp_error( $result ) ) {
-                $data['contact'] = $result;
-            }
-            $posts_response = $data['churches'] = DT_Posts::list_posts('groups', [
-                'assigned_to' => [ get_current_user_id() ],
-                'orderby' => 'modified',
-                'order' => 'DESC',
-            ], false);
-            if ( is_wp_error( $result ) ) {
-                $data['churches'] = $posts_response['posts'] ?? [];
-            } else {
-                $data['churches'] = [];
-            }
-        }
-
-        if ( $data['contact'] && count( $data['contact']['coached_by'] ) ) {
-            $coach = $data['contact']['coached_by'][0] ?? null;
-            if ( $coach ) {
-                $coach = DT_Posts::get_post( 'contacts', $coach['ID'], false, false );
-                if ( is_wp_error( $coach ) ) {
-                    $coach = '';
-                }
-                $coach_name = $coach['name'] ?? '';
-            }
-            $data['coach'] = $coach;
-        }
-
-        return $data;
-    }
-
-    public function show_app( $params = []) {
-        $data = $this->app_view_data();
-        $post_type = get_post_type_object( 'groups' );
-        $group_labels = get_post_type_labels( $post_type );
-
-        extract( $data );
-        $action = '';
-        $delete_group_nonce = wp_create_nonce( 'dt_autolink_delete_group' );
-        $delete_group_link = $this->functions->get_app_link() . '?action=delete-group&_wpnonce=' . $delete_group_nonce;
-        $delete_group_label = __( 'Delete', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
-        $delete_group_confirm = __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . $group_labels->singular_name . '?';
-        $view_group_label = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
-        $group_link = $this->functions->get_app_link() . '?action=group';
-        $app_link = $this->functions->get_app_link();
-        $churches = DT_Posts::list_posts('groups', [
-                'assigned_to' => [ get_current_user_id() ],
-        ], false)['posts'] ?? [];
-
-        $error = $params['error'] ?? false;
-
-        if ( is_wp_error( $churches ) ) {
-            $churches = [];
-        }
-
-        usort( $churches, function ( $a, $b ) {
-            return $a['last_modified'] < $b['last_modified'] ? 1 : -1;
-        });
-
-        //Apply WP formatting to all date fields.
-        $churches = array_map( function ( $church ) {
-            foreach ( $church as $key => $value ) {
-                if ( is_array( $value ) && isset( $value['timestamp'] ) ) {
-                    $church[$key]['formatted'] = dt_format_date( $value['timestamp'], get_option( 'date_format' ) );
-                }
-            }
-            return $church;
-        }, $churches );
-
-        $group_fields = DT_Posts::get_post_field_settings( 'groups' );
-        $church_fields = [
-            'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
-        ];
-        $church_health_field = $church_fields['health_metrics'];
-        $allowed_church_count_fields = [
-            'member_count',
-            'leader_count',
-            'believer_count',
-            'baptized_count',
-            'baptized_in_group_count'
-        ];
-        $church_count_fields = [];
-
-        foreach ( $allowed_church_count_fields as $field ) {
-            //Fields can registered or deregistered by plugins,so check and make sure it exists
-            if ( isset( $group_fields[$field] ) && ( !isset($group_fields[$field]['hidden']) || ! $group_fields[$field]['hidden'] ) ) {
-                $church_count_fields[$field] = $group_fields[$field];
-            }
-        }
-
-        include( 'templates/app.php' );
-    }
-
-    public function show_genmap() {
-        if ( !class_exists( 'DT_Genmapper_Groups_chart' ) ) {
-            wp_redirect( $this->functions->get_app_link() );
-        }
-
-        $data = $this->app_view_data();
-        extract( $data );
-        $action = 'genmap';
-
-        include( 'templates/genmap.php' );
-    }
-
-    public function show_tree() {
-        $data = $this->app_view_data();
-        extract( $data );
-        $action = 'tree';
-        $fetch_url = '/wp-json/autolink/v1/' . $this->parts['type'];
-        $parts = $this->parts;
-
-        include( 'templates/tree.php' );
-    }
-
-    public function build_tree( WP_REST_Request $request, $params, $user_id ) {
-        $tree = [];
-        $title_list = [];
-        $pre_tree = [];
-        $groups = DT_Posts::list_posts('groups', [
-            'assigned_to' => [ get_current_user_id() ],
-            'limit' => 1000
-        ], false );
-
-        $groups = $groups['posts'] ?? [];
-
-        $contact = DT_Posts::list_posts('contacts', [
-            'corresponds_to_user' => get_current_user_id(),
-            'limit' => 1000
-        ], false )['posts'][0];
-        $allowed_contact_ids = [
-            $contact['ID']
-        ];
-        $allowed_group_ids = array_map( function ( $group ) {
-            return (int) $group['ID'];
-        }, $groups );
-
-        if ( isset( $contact['coaching'] ) ) {
-            foreach ( $contact['coaching'] as $child_contact ) {
-                $allowed_contact_ids[] = $child_contact['ID'];
-                $child_contact = DT_Posts::get_post( 'contacts', $child_contact['ID'], false );
-                $child_groups = DT_Posts::list_posts('groups', [
-                    'assigned_to' => [ $child_contact['corresponds_to_user'] ],
-                    'limit' => 1000
-                ], false );
-
-                if ( count( $child_groups['posts'] ) ) {
-                    foreach ( $child_groups['posts'] as $child_group ) {
-                        $allowed_group_ids[] = $child_group['ID'];
-                        $groups[] = $child_group;
-                    }
-                }
-            }
-        }
-
-        if ( ! empty( $groups ) ) {
-            foreach ( $groups as $p ) {
-                $assigned_to_user = $p['assigned_to'] ?? [];
-                $assigned_to_contact = DT_Posts::list_posts('contacts', [
-                    'corresponds_to_user' => $assigned_to_user['id'],
-                    'limit' => 1000
-                ], false )['posts'][0];
-                $is_allowed_contact = in_array( $assigned_to_contact['ID'], $allowed_contact_ids );
-
-                $has_allowed_parent = !empty( $p['parent_groups'] ) && array_filter($p['parent_groups'], function( $parent ) use ( $allowed_group_ids ) {
-                    return in_array( $parent['ID'], $allowed_group_ids );
-                });
-
-                if ( !$is_allowed_contact ) {
-                    continue;
-                }
-
-                if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
-                    foreach ( $p['child_groups'] as $children ) {
-                        $pre_tree[$children['ID']] = $p['ID'];
-                    }
-                }
-                if ( !$has_allowed_parent ) {
-                    $pre_tree[$p['ID']] = null;
-                }
-                $title = $p['name'];
-                $title_list[$p['ID']] = $title;
-            }
-
-            $tree = $this->parse_tree( $pre_tree, $title_list, null, $allowed_group_ids );
-        }
-
-
-        if ( is_null( $tree ) ) {
-            $tree = [];
-        }
-
-        echo wp_json_encode([
-            'parent_list' => $pre_tree,
-            'title_list' => $title_list,
-            'tree' => $tree
-        ]);
-    }
-
-    public function show_survey() {
-        $survey = $this->functions->survey();
-        $page = sanitize_key( wp_unslash( $_GET['paged'] ?? 0 ) );
-        $question = $survey[$page] ?? null;
-        if ( !$question ) {
-            wp_redirect( $this->functions->get_app_link() . '?action=survey' );
-            return;
-        }
-        $answer = get_user_meta( get_current_user_id(), $question['name'], true );
-        $answer = $answer ? $answer : 0;
-        $action = $this->functions->get_app_link() . '?action=survey&paged=' . $page;
-        $previous_url = $page > 0 ? $this->functions->get_app_link() . '?action=survey&paged=' . ( $page - 1 ) : null;
-        $progress = ( $page + 1 ) / count( $survey );
-        $progress = number_format( $progress * 100, 0 ) . '%';
-        include( 'templates/survey.php' );
-    }
-
-    public function submit_survey() {
-        $survey = $this->functions->survey();
-        $page = (int) sanitize_text_field( wp_unslash( $_GET['paged'] ?? 0 ) );
-        $question = $survey[$page] ?? null;
-        $next_page = $page + 1;
-        $question_name = $question['name'];
-        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_survey' );
-
-        if ( !$verify_nonce || !$question ) {
-            wp_redirect( $this->functions->get_app_link() . '?action=survey' );
-            return;
-        }
-
-        $answer = sanitize_key( wp_unslash( $_POST[$question_name] ?? null ) );
-
-        if ( $answer === null ) {
-            wp_redirect( $this->functions->get_app_link() . '?action=survey&paged=' . $page );
-            return;
-        }
-        update_user_meta( get_current_user_id(), $question['name'], $answer );
-
-        if ( isset( $survey[$next_page] ) ) {
-            wp_redirect( $this->functions->get_app_link() . '?action=survey&paged=' . $next_page );
-            return;
-        }
-
-        wp_redirect( $this->functions->get_app_link() );
-    }
-
-    public function show_create_group( $params = '' ) {
-        $heading = __( 'Create a Church', 'disciple-tools-autolink' );
-        $name_label = __( 'Church Name', 'disciple-tools-autolink' );
-        $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
-        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
-        $nonce = 'dt_autolink_create_group';
-        $action = $this->functions->get_app_link() . '?action=create-group';
-        $cancel_url = $this->functions->get_app_link();
-        $cancel_label = __( 'Cancel', 'disciple-tools-autolink' );
-        $submit_label = __( 'Create Church', 'disciple-tools-autolink' );
-        $error = $params['error'] ?? '';
-        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
-
-        include( 'templates/create-group.php' );
-    }
-
-    public function delete_group() {
-        $nonce = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_delete_group' );
-        $group_id = sanitize_text_field( wp_unslash( $_GET['post'] ?? '' ) );
-
-        if(!$verify_nonce) {
-            $this->show_app( [ 'error' => __('Unauthorized action. Please refresh the page and try again.', 'disciple-tools-autolink' ) ] );
-            return;
-        }
-
-        $group_id = (int) $group_id;
-
-        $result = DT_Posts::delete_post( 'groups', $group_id, false );
-
-        if ( is_wp_error( $result ) ) {
-            $this->show_app( [ 'error' => $result->get_error_message() ] );
-        }
-
-        $this->show_app();
-    }
-
-    public function create_group() {
-
-        $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
-        $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
-        $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
-        $location = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
-        $location = $location ? json_decode( $location, true ) : '';
-
-        if ( isset( $location['user_location'] )
-        && isset( $location['user_location']['location_grid_meta'] ) ) {
-            $location = $location['user_location']['location_grid_meta'];
-        }
-
-        if ( !$verify_nonce || !$name ) {
-            $this->show_create_group( [ 'error' => 'Invalid request' ] );
-            return;
-        }
-
-        $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-
-        $fields = [
-        "title" => $name,
-        "members" => [
-            "values" => [
-                [ "value" => $users_contact_id ]
-            ]
-        ],
-        "leaders" => [
-            "values" => [
-                [ "value" => $users_contact_id ]
-            ]
-        ],
-        "start_date" => $start_date
-        ];
-
-        if ( !empty( $location ) ) {
-            $fields['location_grid_meta'] = [
-                "values" => $location
-            ];
-        }
-
-        $group = DT_Posts::create_post( 'groups', $fields, false, false );
-
-        if ( is_wp_error( $group ) ) {
-            $this->show_create_group( [ 'error' => $group->get_error_message() ] );
-            return;
-        }
-
-        wp_redirect( $this->functions->get_app_link() );
-    }
 
     /**
      * Register REST Endpoints
@@ -612,7 +276,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public function endpoint_post( WP_REST_Request $request ) {
         $params = $request->get_params();
         $params = dt_recursive_sanitize_array( $params );
-        $$user_id = get_current_user_id();
+        $user_id = get_current_user_id();
 
         if ( !isset( $params['parts'], $params['action'] ) ) {
             return new WP_Error( __METHOD__, "Missing parameters", [ 'status' => 400 ] );
@@ -620,12 +284,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
 
         switch ( $params['action'] ) {
             case 'tree':
-                return $this->build_tree( $request, $params, $user_id );
+                return $this->tree_controller->data( $request, $params, $user_id );
             case 'onItemDrop':
-                return $this->update_tree_group( $request, $params, $user_id );
-            case 'update_group_title':
-                $new_value = $params['data']['new_value'];
-                return DT_Posts::update_post( 'groups', $group_id, [ 'title' => trim( $new_value ) ], false, false );
+                return $this->tree_controller->process( $request, $params, $user_id );
             default:
                 return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
         }
@@ -650,57 +311,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         }
     }
 
-    public function parse_tree( $tree, $title_list, $root = null, $allowed_group_ids = [] ) {
-        $return = [];
-        # Traverse the tree and search for direct children of the root
-        foreach ( $tree as $child => $parent ) {
-            # A direct child is found
-            if ( $parent == $root && in_array( $child, $allowed_group_ids ) ) {
-                # Remove item from tree (we don't need to traverse this again)
-                unset( $tree[$child] );
-                # Append the child into result array and parse its children
-                $return[] = [
-                    'id' => $child,
-                    'title' => $child,
-                    'name' => $title_list[$child] ?? 'No Name',
-                    'children' => $this->parse_tree( $tree, $title_list, $child, $allowed_group_ids ),
-                    '__domenu_params' => []
-                ];
-            }
-        }
-
-        return empty( $return ) ? null : $return;
-    }
-
-    public function update_tree_group( WP_REST_Request $request, $params, $user_id ) {
-        if ( !isset( $params['data']['previous_parent'] ) ) {
-            $params['data']['previous_parent'] = 'domenu-0';
-        }
-        if ( ( ! isset( $params['data']['new_parent'] ) || ( ! isset( $params['data']['self'] ) ) ) ) {
-            return 'false';
-        }
-
-        global $wpdb;
-        if ( 'domenu-0' !== $params['data']['previous_parent'] ) {
-            $wpdb->query( $wpdb->prepare(
-                "DELETE
-                FROM $wpdb->p2p
-                WHERE p2p_from = %s
-                    AND p2p_to = %s
-                    AND p2p_type = 'groups_to_groups'", $params['data']['self'], $params['data']['previous_parent'] ) );
-        }
-
-        $wpdb->query( $wpdb->prepare(
-            "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
-                    VALUES (%s, %s, 'groups_to_groups');
-            ", $params['data']['self'], $params['data']['new_parent'] ) );
-
-        do_action( 'p2p_created_connection', $wpdb->insert_id );
-
-        return true;
-    }
-
-    /**
+      /**
      * Make sure the user can do everything we need them to do during this request.
      *
      * @see WP_User::has_cap() in wp-includes/capabilities.php
@@ -712,40 +323,6 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public function user_has_cap( $allcaps, $caps, $args ) {
         $allcaps['view_any_contacts'] = true;
         return $allcaps;
-    }
-
-    /**
-     * Log the user out
-     */
-    public function logout() {
-        wp_logout();
-        $this->functions->redirect_to_link();
-        exit;
-    }
-
-    /**
-     * Group page in frame
-     */
-    public function show_group_frame() {
-        $post_id = wp_unslash( $_GET['post'] ?? '' );
-        $back_link = wp_unslash( $_GET['return'] ?? '' );
-        $back_label = __('Back to AutoLink', 'disciple-tools-autolink' );
-
-        if (!$post_id || !$back_link) {
-            $this->functions->redirect_to_app();
-            return;
-        }
-
-        $group = DT_Posts::get_post( 'groups', $post_id);
-
-        if ( is_wp_error( $group ) ) {
-            $this->functions->redirect_to_app();
-            return;
-        }
-
-        $src = get_the_permalink( $group['ID'] );
-
-        include( 'templates/frame.php' );
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();
