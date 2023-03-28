@@ -1,10 +1,6 @@
 import { loaded } from "./js/helpers";
 
-import "@disciple.tools/web-components";
 import "./js/menu.js";
-import "./js/button.js";
-import "./js/copyText";
-import "./js/churchHealthCircle";
 import "./js/collapse";
 import "./js/church";
 import "./js/church-tile";
