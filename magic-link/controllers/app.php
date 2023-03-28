@@ -18,6 +18,8 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
         $delete_group_link = $this->functions->get_app_link() . '?action=delete-group&_wpnonce=' . $delete_group_nonce;
         $delete_group_label = __( 'Delete', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $delete_group_confirm = __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . $group_labels->singular_name . '?';
+        $edit_group_link = $this->functions->get_app_link() . '?action=group-form';
+        $edit_group_label = __( 'Edit', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $view_group_label = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $group_link = $this->functions->get_app_link() . '?action=group';
         $app_link = $this->functions->get_app_link();

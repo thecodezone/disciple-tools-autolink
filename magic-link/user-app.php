@@ -191,8 +191,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'survey':
                     $this->survey_controller->show();
                     break;
-                case 'create-group':
-                    $this->group_controller->create();
+                case 'group-form':
+                    $this->group_controller->form();
                     break;
                 case 'delete-group':
                     $this->group_controller->delete();
@@ -224,7 +224,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'survey':
                     $this->survey_controller->process();
                     break;
-                case 'create-group':
+                case 'group-form':
                     $this->group_controller->process();
                     break;
                 default:

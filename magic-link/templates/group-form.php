@@ -28,18 +28,18 @@
                     wp_nonce_field( $nonce );
                 ?>
 
-                <dt-text class="create-group__input" label="<?php echo esc_html( $name_label ); ?>" type="text" name="name" value="" placeholder="<?php echo esc_attr( $name_placeholder ); ?>"></dt-text>
+                <dt-text class="create-group__input" label="<?php echo esc_html( $name_label ); ?>" type="text" name="name" value="<?php echo esc_attr($name) ?>" placeholder="<?php echo esc_attr( $name_placeholder ); ?>"></dt-text>
 
-                <dt-date name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>"></dt-date>
+                <dt-date format="" name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>" value="<?php echo esc_attr($start_date) ?>"></dt-date>
 
                 <div class="location-field">
                     <?php
-                        render_field_for_display( 'location_grid', $group_fields, [] );
-                        render_field_for_display( 'location_grid_meta', $group_fields, [] );
+                        render_field_for_display( 'location_grid', $group_fields, $group );
+                        render_field_for_display( 'location_grid_meta', $group_fields, $group );
                     ?>
                     <input type="hidden" name="location">
                 </div>
-               
+
 
                 <div class="buttons">
                     <dt-button context="success"

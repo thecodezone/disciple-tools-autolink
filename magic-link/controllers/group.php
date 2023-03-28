@@ -1,6 +1,8 @@
 <?php
 
 class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_Controller {
+    const nonce = 'dt_autolink_group';
+
     /**
      * Show the DT group in an iframe
      */
@@ -29,20 +31,36 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
     /**
      * Show the create group form
      */
-    public function create( $params = [] ) {
+    public function form( $params = [] ) {
+        $group_id = sanitize_key( wp_unslash( $_GET['post'] ?? "" ) );
+        if ($group_id) {
+            $group = DT_Posts::get_post( 'groups', $group_id );
+            if (!$group || is_wp_error( $group )) {
+                $this->functions->redirect_to_app();
+                exit;
+            }
+        }
+
+        $group = $group ?? [];
         $heading = __( 'Create a Church', 'disciple-tools-autolink' );
         $name_label = __( 'Church Name', 'disciple-tools-autolink' );
         $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
         $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
-        $nonce = 'dt_autolink_create_group';
-        $action = $this->functions->get_app_link() . '?action=create-group';
+        $nonce = self::nonce;
+        $action = $this->functions->get_app_link() . '?action=group-form';
         $cancel_url = $this->functions->get_app_link();
         $cancel_label = __( 'Cancel', 'disciple-tools-autolink' );
-        $submit_label = __( 'Create Church', 'disciple-tools-autolink' );
+        $submit_label = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
         $error = $params['error'] ?? '';
         $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
 
-        include( __DIR__ . '/../templates/create-group.php' );
+        $name = $_POST['name'] ?? $group['title'] ?? '';
+        $start_date = $_POST['start_date'] ?? $group['start_date'] ?? '';
+        if ($start_date) {
+            $start_date = $start_date ? dt_format_date( $start_date['timestamp'] ) : '';
+        }
+
+        include( __DIR__ . '/../templates/group-form.php' );
     }
 
     /**
@@ -52,7 +70,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         $app_controller = new Disciple_Tools_Autolink_App_Controller();
 
         $nonce = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_delete_group' );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, self::nonce );
         $group_id = sanitize_text_field( wp_unslash( $_GET['post'] ?? '' ) );
 
         if(!$verify_nonce) {
@@ -71,12 +89,14 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         $app_controller->show();
     }
 
-     /**
+    /**
      * Process the create group form
      */
     public function process($params = []) {
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_create_group' );
+        $verify_nonce = $nonce && wp_verify_nonce( $nonce, self::nonce );
+
+        $id = sanitize_key( wp_unslash( $_POST['id'] ?? '' ) );
         $name = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
         $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
         $location = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
@@ -88,7 +108,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         }
 
         if ( !$verify_nonce || !$name ) {
-            $this->create( [ 'error' => 'Invalid request' ] );
+            $this->form( [ 'error' => 'Invalid request' ] );
             return;
         }
 
@@ -115,10 +135,20 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             ];
         }
 
-        $group = DT_Posts::create_post( 'groups', $fields, false, false );
+        if ( $id ) {
+            $post = DT_Posts::get_post( 'groups', $id, true, false );
+            if ( is_wp_error( $post ) ) {
+                $this->form( [ 'error' => $post->get_error_message() ] );
+                return;
+            }
+            $fields = array_merge( $post, $fields );
+            $group = DT_Posts::update_post( 'groups', $id, $fields, false, false );
+        } else {
+            $group = DT_Posts::create_post( 'groups', $fields, false, false );
+        }
 
         if ( is_wp_error( $group ) ) {
-            $this->create( [ 'error' => $group->get_error_message() ] );
+            $this->form( [ 'error' => $group->get_error_message() ] );
             return;
         }
 

@@ -49,6 +49,9 @@
                                  <dt-button context="primary" href="<?php echo esc_url( $group_link . '&' . http_build_query([ 'post' => $church['ID'], 'return' => $app_link ]) ); ?>">
                                     <?php echo esc_html( $view_group_label ); ?>
                                 </dt-button>
+                                <dt-button context="primary" href="<?php echo esc_url( $edit_group_link . '&' . http_build_query([ 'post' => $church['ID'] ]) ); ?>">
+                                    <?php echo esc_html( $edit_group_label ); ?>
+                                </dt-button>
                                  <dt-button context="alert" href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' =>  $church['ID'] ] )); ?>" confirm="<?php echo esc_html( $delete_group_confirm ) ?>">
                                      <?php echo esc_html( $delete_group_label ); ?>
                                 </dt-button>

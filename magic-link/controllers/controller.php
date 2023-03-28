@@ -26,7 +26,7 @@ abstract class Disciple_Tools_Autolink_Controller {
         $data['churches_heading'] = __( "My ", 'disciple-tools-autolink' ) . $group_labels->name;
         $data['share_link'] = $this->functions->get_share_link();
         $data['group_fields'] = DT_Posts::get_post_field_settings( 'groups' );
-        $data['create_church_link'] = $this->functions->get_app_link() . '?action=create-group';
+        $data['create_church_link'] = $this->functions->get_app_link() . '?action=group-form';
         $data['contact'] = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
         $data['coach'] = null;
         $data['coach_name'] = '';
