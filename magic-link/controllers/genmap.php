@@ -10,6 +10,6 @@ class Disciple_Tools_Autolink_Genmap_Controller extends Disciple_Tools_Autolink_
         extract( $data );
         $action = 'genmap';
 
-        include( 'templates/genmap.php' );
+        include( __DIR__ . '/../templates/genmap.php' );
     }
 }

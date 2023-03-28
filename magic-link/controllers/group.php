@@ -29,7 +29,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
     }
 
     /**
-     * Show the create group form
+     * Show the edit/create group form
      */
     public function form( $params = [] ) {
         $group_id = sanitize_key( wp_unslash( $_GET['post'] ?? "" ) );
@@ -90,7 +90,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
     }
 
     /**
-     * Process the create group form
+     * Process the edit/create group form
      */
     public function process($params = []) {
         $nonce = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
