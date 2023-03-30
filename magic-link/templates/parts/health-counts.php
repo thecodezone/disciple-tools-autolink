@@ -12,16 +12,16 @@ $group = DT_Posts::get_post( 'groups', $church['ID'], false, false );
                 <span class="count__value"><?php echo esc_html( $group[$key] ?? 0 ); ?></span>
             </div>
             <span slot="content">
-                <dt-number 
-                id="<?php echo esc_attr( 'group_' . $church['ID'] . '_' . $field_name ); ?>" 
-                name="<?php echo esc_attr( $field_name ); ?>" 
-                icon="<?php echo esc_html( $field['icon'] ); ?>" 
-                label="<?php echo esc_attr( $field['name'] ); ?>" 
-                onchange="" 
-                value="<?php echo esc_html( $meta[$key] ?? 0 ); ?>" 
-                postType="groups" postID= <?php echo esc_attr( $church['ID'] ) ?> 
-                apiRoot=<?php echo esc_attr( "/wp-json/" ) ?> 
-                nonce=<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?> 
+                <dt-number
+                id="<?php echo esc_attr( 'group_' . $church['ID'] . '_' . $field_name ); ?>"
+                name="<?php echo esc_attr( $field_name ); ?>"
+                icon="<?php echo esc_html( $field['icon'] ); ?>"
+                label="<?php echo esc_attr( $field['name'] ); ?>"
+                onchange=""
+                value="<?php echo esc_html( $group[$key] ?? 0 ); ?>"
+                postType="groups" postID= <?php echo esc_attr( $church['ID'] ) ?>
+                apiRoot=<?php echo esc_attr( "/wp-json/" ) ?>
+                nonce=<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>
                 ></dt-number>
             </span>
             </dt-modal>

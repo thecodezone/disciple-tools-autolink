@@ -4,13 +4,10 @@ class GenMapper {
   // https://github.com/dvopalecky/gen-mapper
   // Copyright (c) 2016-2018 Daniel Vopalecky, MIT license
 
-  constructor(el, template, config) {
-    this.el = el;
-    this.template = template;
-    this.config = config;
-    this.plugin_uri = config.plugin_uri;
-    this.showMetrics = config.show_metrics === "1";
-    this.showIcons = config.show_icons === "1";
+  constructor() {
+    this.plugin_uri = window.wpApiGenmapper.plugin_uri;
+    this.showMetrics = window.genApiTemplate.show_metrics === "1";
+    this.showIcons = window.genApiTemplate.show_icons === "1";
     this.appVersion = "0.2.16";
 
     this.language = "en";
@@ -23,77 +20,77 @@ class GenMapper {
     this.zoom = d3
       .zoom()
       .scaleExtent([0.15, 2])
-      .on("zoom", () => {
-        d3.select(this.svgEl.querySelector("g")).attr(
-          "transform",
-          d3.zoom.transform
-        );
+      .on("zoom", function zoomed() {
+        d3.select("g").attr("transform", d3.event.transform);
       });
 
     this.setSvgHeight();
-    this.svgEl = el.querySelector("#genmapper-graph-svg");
-    this.svg = d3.select(this.svgEl).call(this.zoom).on("dblclick.zoom", null);
+    this.svg = d3
+      .select("#genmapper-graph-svg")
+      .call(this.zoom)
+      .on("dblclick.zoom", null);
     this.g = this.svg.append("g").attr("id", "maingroup");
     this.gLinks = this.g.append("g").attr("class", "group-links");
     this.gLinksText = this.g.append("g").attr("class", "group-links-text");
     this.gNodes = this.g.append("g").attr("class", "group-nodes");
 
     this.csvHeader =
-      this.template.fields.map((field) => field.header).join(",") + "\n";
+      template.fields.map((field) => field.header).join(",") + "\n";
     this.initialCsv =
       this.csvHeader +
-      this.template.fields
-        .map((field) => this.getInitialValue(field))
-        .join(",");
+      template.fields.map((field) => this.getInitialValue(field)).join(",");
     this.data = this.parseCsvData(this.initialCsv);
     this.nodes;
 
     this.origPosition();
-    this.redraw(this.template);
+    this.redraw(template);
 
-    this.alertElement = this.el.querySelector("#alert-message");
-    this.editGroupElement = this.el.querySelector("#edit-group");
+    this.alertElement = document.getElementById("alert-message");
+    this.editGroupElement = document.getElementById("edit-group");
 
     this.setKeyboardShorcuts();
 
-    document.querySelector("body").onresize = this.setSvgHeight;
+    document.getElementsByTagName("body")[0].onresize = this.setSvgHeight;
   }
 
   // Beginning of function definitions
   setKeyboardShorcuts() {
-    this.el.addEventListener("keyup", (e) => {
+    document.addEventListener("keyup", (e) => {
       if (e.keyCode === 27) {
         if (this.alertElement.classList.contains("alert-message--active")) {
           this.alertElement.classList.remove("alert-message--active");
         } else {
-          this.el.querySelector("#intro").classList.remove("intro--active");
+          document.getElementById("intro").classList.remove("intro--active");
           this.editGroupElement.classList.remove("edit-group--active");
         }
       } else if (e.keyCode === 13) {
         // hitting enter is like submitting changes in the edit window
         if (this.editGroupElement.classList.contains("edit-group--active")) {
-          this.el.querySelector("#edit-submit").click();
+          document.getElementById("edit-submit").click();
         }
       }
     });
   }
 
   setSvgHeight() {
-    const windowHeight = this.el.clientHeight;
-    const leftMenuHeight = this.el.querySelector("#left-menu").clientHeight;
+    const windowHeight = document.documentElement.clientHeight;
+    const leftMenuHeight = document.getElementById("left-menu").clientHeight;
     const height = Math.max(windowHeight, leftMenuHeight + 10);
-    d3.select(this.svgEl).attr("height", height);
+    d3.select("#genmapper-graph-svg").attr("height", height);
   }
 
   loadHTMLContent() {
-    this.el.querySelector("#left-menu").innerHTML = `<div id="template-logo">
+    document.getElementById("left-menu").innerHTML = `<div id="template-logo">
+    <!--<button onclick="genmapper.introSwitchVisibility()" class="hint--rounded hint--right" aria-label="Help / About">
+      <img src="${this.plugin_uri}/charts/icons/266-question.svg">
+      </button> -->
     <button onclick="genmapper.origData();" class="hint--rounded hint--right" aria-label="Original Zoom &amp; Position"><img src="${this.plugin_uri}/charts/icons/refresh.svg"></i></button>
     <button onclick="genmapper.zoomIn();" class="hint--rounded hint--right" aria-label="Zoom In"><img src="${this.plugin_uri}/charts/icons/136-zoom-in.svg"></i></button>
     <button onclick="genmapper.zoomOut();" class="hint--rounded hint--right" aria-label="Zoom Out"><img src="${this.plugin_uri}/charts/icons/137-zoom-out.svg"></i></button>
   `;
 
-    this.el.querySelector(
-      "#edit-group"
+    document.getElementById(
+      "edit-group"
     ).innerHTML = `<div id="edit-group-content">
      <h1> Edit Record</h1>
      <form>
@@ -105,16 +102,43 @@ class GenMapper {
        </table>
      </form>
      <div id="edit-buttons">
+       <button id="edit-submit"> Save Changes  </button>
+       <button id="edit-cancel"> Cancel  </button>
+       <button id="open-record"> Open Record  </button>
        <button id="rebase-node"> Center on this node  </button>
      </div>
     </div>`;
 
-    this.el.querySelector(
-      "#alert-message"
+    // document.getElementById('intro-content').innerHTML = `<h2>
+    // GenMapper Help
+    // </h2>
+    // <p>${ __( "Hello, this app should serve for mapping generations of simple churches. I pray it serves you to advance Jesus' kingdom.", 'disciple_tools' ) }</p>
+    // Legend
+    // <h3>Panning / Zooming</h3>
+    // <p>You can pan by draging the map and zoom by mouse wheel or using buttons on the left.</p>
+    // <h3>Credits</h3>
+    // <p>Thanks to Curtis Sergeant for the idea of generational mapping and for providing useful feedback.<br>
+    // JavaScript/CSS libraries used
+    // : <a href="https://github.com/chinchang/hint.css/">hint.css</a>, <a href="https://d3js.org">d3.js</a>,
+    // <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a>, <a href="https://github.com/SheetJS/js-xlsx">js-xlsx</a>,
+    // <a href="https://lodash.com">lodash</a>
+    // Icons used
+    // : <a href="https://github.com/Keyamoon/IcoMoon-Free">IcoMoon-Free</a><br><br>
+    // Copyright (c) 2016 - 2018 Daniel Vopalecky<br>
+    // Licensed with MIT Licence<br>
+    // <a href="https://github.com/dvopalecky/gen-mapper">Github repository</a><br>
+    // <br></p>
+    // <button onclick="genmapper.introSwitchVisibility()">Close</button>`
+
+    document.getElementById(
+      "alert-message"
     ).innerHTML = `<div id="alert-message-content">
       <p id="alert-message-text"></p>
       <button onclick="genmapper.closeAlert()">OK</button>
     </div>`;
+
+    // document.getElementById('gen-mapper-version').innerHTML = this.appVersion
+    // document.getElementById('template-version').innerHTML = template.name
   }
 
   getInitialValue(field) {
@@ -131,7 +155,7 @@ class GenMapper {
 
   origData() {
     this.data = this.masterData;
-    this.redraw(this.template);
+    this.redraw(template);
     this.origPosition(true);
   }
 
@@ -139,9 +163,8 @@ class GenMapper {
     this.zoom.scaleTo(this.svg, 1);
     const origX =
       this.margin.left +
-      this.el.querySelector("#genmapper-graph").clientWidth / 2;
+      document.getElementById("genmapper-graph").clientWidth / 2;
     const origY = this.margin.top - (atRoot ? 150 : 0);
-    console.log(this.g.attr("transform"));
     const parsedTransform = this.parseTransform(this.g.attr("transform"));
     this.zoom.translateBy(
       this.svg,
@@ -151,28 +174,28 @@ class GenMapper {
   }
 
   onLoad(fileInputElementId) {
-    const fileInput = this.el.querySelector(`#${fileInputElementId}`);
+    const fileInput = document.getElementById(fileInputElementId);
     fileInput.value = "";
     fileInput.click();
   }
 
   displayAlert(message) {
     this.alertElement.classList.add("alert-message--active");
-    this.el.querySelector("#alert-message-text").innerHTML = message;
+    document.getElementById("alert-message-text").innerHTML = message;
   }
 
   closeAlert() {
     this.alertElement.classList.remove("alert-message--active");
-    this.el.querySelector("#alert-message-text").innerHTML = null;
+    document.getElementById("alert-message-text").innerHTML = null;
   }
 
   introSwitchVisibility() {
-    this.el.querySelector("#intro").classList.toggle("intro--active");
+    document.getElementById("intro").classList.toggle("intro--active");
   }
 
   popupEditGroupModal(d) {
     this.editGroupElement.classList.add("edit-group--active");
-    this.template.fields.forEach((field) => {
+    template.fields.forEach((field) => {
       if (field.type === "text") {
         this.editFieldElements[field.header].value = d.data[field.header] || "";
       } else if (field.type === "radio") {
@@ -191,16 +214,16 @@ class GenMapper {
     this.editParentElement.innerHTML = d.parent ? d.parent.data.name : "N/A";
     const groupData = d.data;
     const group = d;
-    d3.select(this.el.querySelector("#edit-submit")).on("click", () => {
+    d3.select("#edit-submit").on("click", () => {
       this.editGroup(groupData);
     });
-    d3.select(this.el.querySelector("#edit-cancel")).on("click", () => {
+    d3.select("#edit-cancel").on("click", () => {
       this.editGroupElement.classList.remove("edit-group--active");
     });
-    d3.select(this.el.querySelector("#open-record")).on("click", () => {
+    d3.select("#open-record").on("click", () => {
       this.openRecord(group);
     });
-    d3.select(this.el.querySelector("#rebase-node")).on("click", () => {
+    d3.select("#rebase-node").on("click", () => {
       this.rebaseOnNode(group);
       this.editGroupElement.classList.remove("edit-group--active");
     });
@@ -208,7 +231,7 @@ class GenMapper {
 
   editGroup(groupData) {
     let groupFields = {};
-    this.template.fields.forEach((field) => {
+    template.fields.forEach((field) => {
       if (field.type === "text") {
         groupData[field.header] = this.editFieldElements[field.header].value;
         if (field.header === "name") {
@@ -226,20 +249,23 @@ class GenMapper {
         groupData[field.header] = this.editFieldElements[field.header].checked;
       }
     });
-    jQuery(el).trigger("node-updated", [groupData.id, groupData, groupFields]);
+    jQuery("#chart").trigger("node-updated", [
+      groupData.id,
+      groupData,
+      groupFields,
+    ]);
 
     this.editGroupElement.classList.remove("edit-group--active");
-    this.redraw(this.template);
+    this.redraw(template);
   }
 
   openRecord(d) {
+    console.log("here");
     let id = d.data.id;
-    var win = window.open(
-      `${wpApiShare.site_url}/${window.lodash.escape(
-        d.data.post_type || "contacts"
-      )}/${window.lodash.escape(id)}/`,
-      "_blank"
-    );
+    let url = genApiTemplate.app_url;
+    let query = `?action=group&post=${id}&return=${window.location.href}`;
+
+    var win = window.open(url + query, "_blank");
     win.focus();
   }
 
@@ -291,7 +317,24 @@ class GenMapper {
           (d.parent.y + boxHeight)
         );
       });
-
+    // update the link text between the nodes
+    // const LINK_TEXT_POSITION = 0.3 // 1 -> parent, 0 -> child
+    // const linkText = this.gLinksText.selectAll('.link-text')
+    //       .data(this.nodes.descendants().slice(1))
+    // linkText.exit()
+    //     .remove()
+    // linkText.enter()
+    //     .append('text')
+    //   .merge(linkText)
+    //     .attr('class', function (d) {
+    //       return 'link-text ' + (d.data.active ? ' link-text--active' : ' link-text--inactive')
+    //     })
+    //     .attr('x', function (d) { return d.x * (1 - LINK_TEXT_POSITION) + d.parent.x * LINK_TEXT_POSITION })
+    //     .attr('y', function (d) { return d.y * (1 - LINK_TEXT_POSITION) + (d.parent.y + boxHeight) * LINK_TEXT_POSITION })
+    //     .text(function (d) {
+    //       return d.data.coach
+    //     })
+    // update nodes
     const node = this.gNodes.selectAll(".node").data(this.nodes.descendants());
 
     node.enter().text(function (d) {
@@ -563,19 +606,19 @@ class GenMapper {
       return;
     }
     // this.validTree(tmp)
-    jQuery(el).trigger("add-node-requested", [d]);
+    jQuery("#chart").trigger("add-node-requested", [d]);
   }
   /* required: id, parentId, name
    *
    */
   createNode(newNode) {
-    this.template.fields.forEach((field) => {
+    template.fields.forEach((field) => {
       if (!newNode[field.header]) {
         newNode[field.header] = this.getInitialValue(field);
       }
     });
     this.data.push(newNode);
-    this.redraw(this.template);
+    this.redraw(template);
     let node = this.findNodeById(newNode.id);
     if (node) {
       this.popupEditGroupModal(node);
@@ -621,12 +664,18 @@ class GenMapper {
   }
 
   rebaseOnNode(d) {
-    jQuery(el).trigger("rebase-node-requested", [d]);
+    //fetch from server because the local tree might not be complete
+    jQuery("#chart").trigger("rebase-node-requested", [d]);
+    // const tmpData = window.lodash.cloneDeep(d.descendants().map(x => x.data))
+    // tmpData[0].parentId = ''
+    // this.data = tmpData
+    // this.redraw(template)
+    // this.origPosition()
   }
 
   rebaseOnNodeID(id) {
     this.data = this.masterData;
-    this.redraw(this.template);
+    this.redraw(template);
     let node = this.findNodeById(id);
     if (node) {
       this.rebaseOnNode(node);
@@ -635,10 +684,29 @@ class GenMapper {
 
   removeNode(d) {
     console.log("remove");
+    // if (!d.parent) {
+    //   this.displayAlert(i18next.t('messages.errDeleteRoot'))
+    // } else {
+    //   let confirmMessage
+    //   if (!d.children) {
+    //     confirmMessage = i18next.t('messages.confirmDeleteGroup', {groupName: d.data.name})
+    //   } else {
+    //     confirmMessage = i18next.t('messages.confirmDeleteGroupWithChildren', {groupName: d.data.name})
+    //   }
+    //   if (window.confirm(confirmMessage)) {
+    //     this.deleteAllDescendants(d)
+    //     const nodeToDelete = window.lodash.filter(this.data, {id: d.data.id})
+    //     if (nodeToDelete) {
+    //       this.data = window.lodash.without(this.data, nodeToDelete[0])
+    //     }
+    //   }
+    // }
+    // this.editGroupElement.classList.remove('edit-group--active')
+    // this.redraw(template)
   }
 
   parseCsvData(csvData) {
-    return d3.csvParse(csvData, (d) => {
+    return d3.csvParse(csvData, function (d) {
       const parsedId = parseInt(d.id);
       if (parsedId < 0 || isNaN(parsedId)) {
         throw new Error("Group id must be integer >= 0.");
@@ -646,7 +714,7 @@ class GenMapper {
       const parsedLine = {};
       parsedLine["id"] = parsedId;
       parsedLine["parentId"] = d.parentId !== "" ? parseInt(d.parentId) : "";
-      this.template.fields.forEach((field) => {
+      template.fields.forEach((field) => {
         if (field.type === "checkbox") {
           const fieldValue = d[field.header].toUpperCase();
           parsedLine[field.header] = !!["TRUE", "1"].includes(fieldValue);
@@ -660,9 +728,6 @@ class GenMapper {
 
   parseTransform(a) {
     const b = {};
-    if (!a) {
-      return 0;
-    }
     for (let i in (a = a.match(/(\w+\((-?\d+.?\d*e?-?\d*,?)+\))+/g))) {
       const c = a[i].match(/[\w.-]+/g);
       b[c.shift()] = c;
@@ -689,7 +754,7 @@ class GenMapper {
       this.masterData = tree;
     }
     this.data = tree;
-    this.redraw(this.template);
+    this.redraw(template);
   }
 
   /**
@@ -730,7 +795,9 @@ class GenMapper {
         }
       );
       idsToDelete = idsToDelete.concat(childrenIdsToDelete);
-      const nodeToDelete = window.lodash.filter(this.data, { id: currentId });
+      const nodeToDelete = window.lodash.filter(this.data, {
+        id: currentId,
+      });
       if (nodeToDelete) {
         this.data = window.lodash.without(this.data, nodeToDelete[0]);
       }
@@ -774,23 +841,37 @@ class GenMapper {
 
   updateDOMafterLangSwitch() {
     this.loadHTMLContent();
-    this.addFieldsToEditWindow(this.template);
-
+    this.addFieldsToEditWindow(template);
+    // document.getElementById('lang-' + this.language).className = 'current-lang'
+    // d3.select('#project-name')
+    //   .attr('aria-label', i18next.t('messages.editProjectName') + ': ' + this.projectName)
+    //   .on('click', () => {
+    //     let userInput = window.prompt(i18next.t('messages.editProjectName'), this.projectName)
+    //     if (userInput === null) { return }
+    //     userInput = userInput.trim()
+    //     if (userInput === '') { this.displayAlert(i18next.t('messages.errProjectNameEmpty')) } else {
+    //       this.projectName = userInput
+    //       d3.select('#project-name')
+    //         .attr('aria-label', i18next.t('messages.editProjectName') + ': ' + this.projectName)
+    //     }
+    //   })
     this.editFieldElements = {};
-    this.template.fields.forEach((field) => {
+    template.fields.forEach((field) => {
       if (field.type === "radio") {
         field.values.forEach((value) => {
           this.editFieldElements[field.header + "-" + value.header] =
-            this.el.querySelector("#edit-" + field.header + "-" + value.header);
+            document.getElementById(
+              "edit-" + field.header + "-" + value.header
+            );
         });
       } else if (field.type) {
-        this.editFieldElements[field.header] = this.el.querySelector(
-          "#edit-" + field.header
+        this.editFieldElements[field.header] = document.getElementById(
+          "edit-" + field.header
         );
       }
     });
-    this.editParentElement = this.el.querySelector("#edit-parent");
+    this.editParentElement = document.getElementById("edit-parent");
   }
 }
 
-export default GenMapper;
+window.genMapperClass = GenMapper;

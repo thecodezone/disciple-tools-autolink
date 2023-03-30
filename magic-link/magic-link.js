@@ -1,5 +1,19 @@
 import { loaded } from "./js/helpers";
 
+import "./js/menu.js";
+import "./js/collapse";
+import "./js/church";
+import "./js/church-tile";
+import "./js/lazyReveal";
+import "./js/churchMenu";
+
+import "@shoelace-style/shoelace/dist/themes/light.css";
+import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js";
+import "@shoelace-style/shoelace/dist/components/tab/tab.js";
+import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js";
+
+import locationField from "./js/locationField";
+
 loaded(() => {
   document.body.classList.add("dom-loaded");
 
@@ -24,20 +38,3 @@ loaded(() => {
     numberBadge.innerHTML = updatedValue;
   });
 });
-
-import "@disciple.tools/web-components";
-import "./js/menu.js";
-import "./js/button.js";
-import "./js/copyText";
-import "./js/churchHealthCircle";
-import "./js/collapse";
-import "./js/church";
-import "./js/church-tile";
-import "./js/lazyReveal";
-
-import "@shoelace-style/shoelace/dist/themes/light.css";
-import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js";
-import "@shoelace-style/shoelace/dist/components/tab/tab.js";
-import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js";
-
-import locationField from "./js/locationField";

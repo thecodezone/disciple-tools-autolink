@@ -18,6 +18,12 @@
 <?php include( 'parts/church-view-tabs.php' ); ?>
 
 <div class="container">
+     <?php if ( $error ): ?>
+                <dt-alert context="alert"
+                        dismissable>
+                    <?php echo esc_html( $error ); ?>
+                </dt-alert>
+            <?php endif; ?>
     <dt-tile class="churches" title="<?php echo esc_attr( $churches_heading ); ?>">
         <div class="section__inner">
             <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
@@ -35,10 +41,21 @@
                         ?>
                         <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
                             <?php include( "parts/health-counts.php" ); ?>
-                            <app-church group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>' fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>> </app-church>
-                            <dt-button class="church__link" context="link" href="<?php echo esc_url( site_url( 'groups/' . $church['ID'] ) ); ?>">
-                                <dt-icon icon="ic:baseline-link"></dt-icon>
-                            </dt-button>
+                            <app-church
+                                group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>'
+                                fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
+                            </app-church>
+                            <app-church-menu>
+                                 <dt-button context="primary" href="<?php echo esc_url( $group_link . '&' . http_build_query([ 'post' => $church['ID'], 'return' => $app_link ]) ); ?>">
+                                    <?php echo esc_html( $view_group_label ); ?>
+                                </dt-button>
+                                <dt-button context="primary" href="<?php echo esc_url( $edit_group_link . '&' . http_build_query([ 'post' => $church['ID'] ]) ); ?>">
+                                    <?php echo esc_html( $edit_group_label ); ?>
+                                </dt-button>
+                                 <dt-button context="alert" href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' =>  $church['ID'] ] )); ?>" confirm="<?php echo esc_html( $delete_group_confirm ) ?>">
+                                     <?php echo esc_html( $delete_group_label ); ?>
+                                </dt-button>
+                            </app-church-menu>
                         </church-tile>
                     <?php endforeach; ?>
                 </lazy-reveal>

@@ -6,6 +6,8 @@ export class AppCollapse extends DtBase {
   static get properties() {
     return {
       opened: { type: Boolean, reflect: true },
+      openIcon: { type: String },
+      closeIcon: { type: String },
     };
   }
 
@@ -19,7 +21,13 @@ export class AppCollapse extends DtBase {
   }
 
   get icon() {
-    return this.opened ? "mdi:chevron-up" : "mdi:chevron-down";
+    return this.opened ? this.openIcon : this.closeIcon;
+  }
+
+  constructor() {
+    super();
+    this.openIcon = "mdi:chevron-up";
+    this.closeIcon = "mdi:chevron-down";
   }
 
   render() {

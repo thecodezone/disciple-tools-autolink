@@ -30,6 +30,8 @@ class Disciple_Tools_Autolink_Magic_Functions
         $allowed_js[] = 'mapbox-search-widget';
         $allowed_js[] = 'jquery-touch-punch';
         $allowed_js[] = 'portal-app-domenu-js';
+        $allowed_js[] = 'google-search-widget';
+        $allowed_js[] = 'shared-functions';
         return $allowed_js;
     }
 
@@ -77,7 +79,7 @@ class Disciple_Tools_Autolink_Magic_Functions
                     'app' => esc_url_raw( trailingslashit( $this->get_app_link() ) ),
                     'link' => esc_url_raw( trailingslashit( $this->get_link_url() ) ),
                     'survey' => esc_url_raw( $this->get_app_link() . '?action=survey' ),
-                    'logout' => wp_logout_url( $this->get_link_url() ),
+                    'logout' => $this->get_app_link() . '?action=logout',
                     'reset_password' => wp_lostpassword_url( $this->get_link_url() )
                 ],
                 'translations' => [
@@ -229,6 +231,9 @@ class Disciple_Tools_Autolink_Magic_Functions
 
     public function survey(): array
     {
+        $post_type = get_post_type_object( 'groups' );
+        $group_labels = get_post_type_labels( $post_type );
+
         $survey = apply_filters('dt_autolink_survey', [
             [
                 'name' => 'dt_autolink_number_of_leaders_coached',
@@ -236,7 +241,8 @@ class Disciple_Tools_Autolink_Magic_Functions
             ],
             [
                 'name' => 'dt_autolink_number_of_churches_led',
-                'label' => __( 'How many churches are you leading?', 'disciple-tools-autolink' )
+                'label' => __( 'How many', 'disciple-tools-autolink' ) . ' ' . strtolower( $group_labels->name ) . ' ' .  __( 'are you leading?', 'disciple-tools-autolink' ),
+
             ]
         ]);
         if ( !is_array( $survey ) ) {
@@ -254,5 +260,63 @@ class Disciple_Tools_Autolink_Magic_Functions
             }
         }
         return true;
+    }
+
+    public function shared_app_data() {
+        $data = [];
+        $post_type = get_post_type_object( 'groups' );
+        $group_labels = get_post_type_labels( $post_type );
+
+        $data['logo_url'] = $this->fetch_logo();
+        $data['greeting'] = __( 'Hello,', 'disciple-tools-autolink' );
+        $data['user_name'] = dt_get_user_display_name( get_current_user_id() );
+        $data['app_url'] = $this->get_app_link();
+        $data['coached_by_label'] = __( 'Coached by', 'disciple-tools-autolink' );
+        $data['link_heading'] = __( 'My Link', 'disciple-tools-autolink' );
+        $data['share_link_help_text'] = __( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' );
+        $data['churches_heading'] = __( "My ", 'disciple-tools-autolink' ) . $group_labels->name;
+        $data['share_link'] = $this->get_share_link();
+        $data['group_fields'] = DT_Posts::get_post_field_settings( 'groups' );
+        $data['create_church_link'] = $this->get_app_link() . '?action=create-group';
+        $data['contact'] = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+        $data['coach'] = null;
+        $data['coach_name'] = '';
+        $data['view_church_label'] = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+        $data['churches'] = [];
+        $data['church_health_label'] = $group_labels->singular_name . ' ' . __( 'Health', 'disciple-tools-autolink' );
+        $data['tree_label'] = __( 'Tree', 'disciple-tools-autolink' );
+        $data['genmap_label'] = __( 'GenMap', 'disciple-tools-autolink' );
+
+        if ( $data['contact'] ) {
+            $result = null;
+            $data['contact'] = DT_Posts::get_post( 'contacts', $data['contact'], false, false );
+            if ( !is_wp_error( $result ) ) {
+                $data['contact'] = $result;
+            }
+            $posts_response = $data['churches'] = DT_Posts::list_posts('groups', [
+                'assigned_to' => [ get_current_user_id() ],
+                'orderby' => 'modified',
+                'order' => 'DESC',
+            ], false);
+            if ( is_wp_error( $result ) ) {
+                $data['churches'] = $posts_response['posts'] ?? [];
+            } else {
+                $data['churches'] = [];
+            }
+        }
+
+        if ( $data['contact'] && count( $data['contact']['coached_by'] ) ) {
+            $coach = $data['contact']['coached_by'][0] ?? null;
+            if ( $coach ) {
+                $coach = DT_Posts::get_post( 'contacts', $coach['ID'], false, false );
+                if ( is_wp_error( $coach ) ) {
+                    $coach = '';
+                }
+                $coach_name = $coach['name'] ?? '';
+            }
+            $data['coach'] = $coach;
+        }
+
+        return $data;
     }
 }

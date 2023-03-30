@@ -18,9 +18,11 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
 
     public function __construct() {
         parent::__construct();
+
         if ( !$this->has_permission() ) {
             return;
         }
+
         // only load scripts if exact url
         add_action( 'rest_api_init', [ $this, 'add_api_routes' ], 99 );
         add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ], 99 );
@@ -47,6 +49,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
             'jquery',
             'jquery-ui-core',
         ], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/template.js" ), true);
+
         wp_localize_script(
             'gen-template', 'genApiTemplate', [
                 'plugin_uri' => $genmapper_plugin_url,
@@ -62,16 +65,17 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         ], filemtime( $plugin_path . '/magic-link/js/churchCirclesGenmap.js' ), true);
 
 
-        wp_enqueue_script('genmapper', $genmapper_plugin_url . "/includes/charts/genmapper.js", [
+        wp_enqueue_script('genmapper', $plugin_url . '/magic-link/js/genmapper.js', [
             'jquery',
             'jquery-ui-core',
             'd3',
             'gen-template',
-        ], filemtime( $genmapper_plugin_path . "/includes/charts/genmapper.js" ), true);
+        ], filemtime( $plugin_path . '/magic-link/js/genmapper.js' ), true);
         wp_localize_script(
             'genmapper', 'genApiTemplate', [
                 'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
                 'show_icons' => get_option( "dt_genmapper_show_health_icons", true ),
+                'app_url' => Disciple_Tools_Autolink_Magic_Functions::instance()->get_app_link(),
             ]
         );
         // Localize script with array data
@@ -126,6 +130,8 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
         }, $groups['posts']);
         $args = [ 'ids' => $group_ids ];
 
+        $date_format = get_option( 'date_format' );
+
         $prepared_array = [
             [
                 "id" => 0,
@@ -162,7 +168,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 $lines[] = $group['location_name'];
             }
             if ( $group['start_date'] ) {
-                $lines[] = gmdate( get_option( 'date_format' ), intval( $group['start_date'] ) );
+                $lines[] = gmdate( $date_format, intval( $group['start_date'] ) );
             }
 
             $values = [
@@ -180,7 +186,7 @@ class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 "post_type" => "groups",
                 "coach" => $group["coach"],
                 "location" => $group["location_name"],
-                "start_date" => $group['start_date'] ? gmdate( get_option( 'date_format' ), strtotime( $group['start_date'] ) ) : null,
+                "start_date" => $group['start_date'] ? gmdate( $date_format, strtotime( $group['start_date'] ) ) : null,
                 "attenders" => (int) $group['total_members'],
                 "believers" => (int) $group['total_believers'],
                 "baptized" => (int) $group['total_baptized'],
