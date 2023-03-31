@@ -5,9 +5,8 @@ if ( !defined( 'ABSPATH' ) ) {
 
 require_once( WP_PLUGIN_DIR . '/disciple-tools-genmapper/includes/charts/charts-base.php' );
 
-class DT_Genmapper_Groups_Genmap extends DT_Genmapper_Metrics_Chart_Base
+class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
 {
-
     public $title = 'Groups';
     public $slug = 'groups'; // lowercase
     public $js_object_name = 'wpApiGenmapper'; // This object will be loaded into the metrics.js file by the wp_localize_script.

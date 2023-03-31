@@ -56,14 +56,6 @@ class Disciple_Tools_Autolink_Magic_Functions
         ], filemtime( plugin_dir_path( __FILE__ ) . 'magic-link.js' ), true);
 
         wp_enqueue_script( 'lodash' );
-        wp_register_script( 'jquery-touch-punch', '/wp-includes/js/jquery/jquery.ui.touch-punch.js' ); // @phpcs:ignore
-
-        /* domenu */
-        wp_enqueue_script( 'portal-app-domenu-js', $plugin_url . '/magic-link/jquery.domenu-0.100.77.min.js', [ 'jquery' ],
-        filemtime( $plugin_path . '/magic-link/jquery.domenu-0.100.77.min.js' ), true );
-
-        wp_enqueue_style( 'portal-app-domenu-css', $plugin_url . '/magic-link/jquery.domenu-0.100.77.css', [],
-        filemtime( $plugin_path . '/magic-link/jquery.domenu-0.100.77.css' ) );
 
         wp_localize_script(
             'magic_link_scripts',

@@ -36,3 +36,9 @@ body.dom-loaded .cloak {
 .app {
     padding: 25px;
 }
+
+.loading-spinner__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

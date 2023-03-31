@@ -29,7 +29,7 @@
                 <?php endif; ?>
 
                 <dt-text name="username"
-                        placeholder="<?php esc_attr_e( 'Username', 'disciple-tools-autolink' ); ?>"
+                        placeholder="<?php esc_attr_e( 'Username or Email Address', 'disciple-tools-autolink' ); ?>"
                         value="<?php echo esc_attr( $username ); ?>"
                         required
                         tabindex="1"
