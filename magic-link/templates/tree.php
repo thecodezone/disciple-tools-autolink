@@ -30,6 +30,18 @@
         text-shadow: 0 1px 0 #333;
     }
 
+    .dd-item--owned > .dd-list > .dd-item--coaching * {
+        pointer-events: none;
+    }
+
+    .dd-item--owned > .dd-list > .dd-item--coaching > .dd-handle {
+        pointer-events: all;
+    }
+
+    .dd-item--owned > .dd-list > .dd-item--coaching > button {
+        display: none !important;
+    }
+
 </style>
 
 <?php include( 'parts/app-header.php' ); ?>
