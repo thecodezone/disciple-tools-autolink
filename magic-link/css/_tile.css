@@ -1,3 +1,14 @@
 dt-tile {
     --dt-tile-header-margin: 0 0 1.5rem;
+    position: relative;
+}
+
+dt-tile .loading-spinner,
+dt-tile .loading-spinner.active {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
 }

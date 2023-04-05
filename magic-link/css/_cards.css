@@ -4,7 +4,7 @@ strong.coached_by {
     text-align: center;
     color: var(--primary-color);
     display: block;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     font-style: normal;
 }
 
@@ -44,9 +44,9 @@ strong.coached_by {
 ul.churches__list {
     --dt-tile-header-margin: 0;
     --dt-tile-header-justify-content: center;
-    --dt-tile-border-top: 1px solid #DADADA;
-    --dt-tile-border-bottom: 1px solid #DADADA;
-    --dt-tile-border-right: 1px solid #DADADA;
-    --dt-tile-border-left: 1px solid #DADADA;
+    --dt-tile-border-top: 1px solid #dadada;
+    --dt-tile-border-bottom: 1px solid #dadada;
+    --dt-tile-border-right: 1px solid #dadada;
+    --dt-tile-border-left: 1px solid #dadada;
     margin: 10px;
 }
