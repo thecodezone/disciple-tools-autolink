@@ -311,4 +311,11 @@ class Disciple_Tools_Autolink_Magic_Functions
 
         return $data;
     }
+
+    function init_genmapper() {
+        if( function_exists( 'dt_genmapper_metrics' ) ) {
+            dt_genmapper_metrics();
+            DT_genmapper_Metrics::instance();
+        }
+    }
 }
