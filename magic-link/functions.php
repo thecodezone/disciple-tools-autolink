@@ -186,6 +186,11 @@ class Disciple_Tools_Autolink_Magic_Functions
         exit;
     }
 
+    public function is_json( $string ) {
+        json_decode( $string );
+        return ( json_last_error() == JSON_ERROR_NONE );
+    }
+
     public function fetch_logo() {
         $logo_url = $dt_nav_tabs['admin']['site']['icon'] ?? plugin_dir_url( __FILE__ ) . '/images/logo-color.png';
         $custom_logo_url = get_option( 'custom_logo_url' );

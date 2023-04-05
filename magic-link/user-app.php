@@ -345,7 +345,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     }
 
     function autolink_updatable_group_fields( $fields ) {
-        return $this->autolink_health_fields( $fields );
+        return array_merge( $this->autolink_health_fields( $fields ), [
+            'health_metrics'
+        ] );
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();

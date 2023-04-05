@@ -23,17 +23,23 @@ class Disciple_Tools_Autolink_Field_Controller extends Disciple_Tools_Autolink_C
         $id = array_shift( $field_info );
         $field = implode( "_", $field_info );
 
-        $value = sanitize_text_field( wp_unslash( $body['value'] ) );
+        $value = wp_unslash( $body['value'] );
+        if ( !is_array($value) ) {
+            $value = sanitize_text_field( $value );
+        }
+
         $is_allowed = in_array( $field, $whitelist );
 
         if (!$is_allowed) {
             wp_send_json_error( [ "message" => "Invalid request" ] );
         }
 
+        $payload = [
+            $field => $value
+        ];
+
         try {
-            $result = DT_Posts::update_post( $post_type, $id, [
-                $field => $value
-            ] );
+            $result = DT_Posts::update_post( $post_type, $id, $payload );
         } catch (Exception $e) {
             wp_send_json_error( [ "message" => $e->getMessage() ] );
         }

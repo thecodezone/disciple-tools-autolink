@@ -67,12 +67,43 @@ export class AppChurch extends AppCollapse {
     return nothing;
   }
 
+  async handleSave(group_id, { health_metrics }) {
+    const params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-WP-Nonce": window.app.nonce,
+      },
+      body: JSON.stringify({
+        id: `groups_${group_id}_health_metrics`,
+        value: health_metrics,
+        action: "update_field",
+        parts: window.magic.parts,
+      }),
+    };
+
+    const response = await fetch(
+      window.app.rest_base + window.magic.rest_namespace,
+      params
+    );
+    const body = await response.json();
+
+    if (body.data && body.data.status && body.data.status !== 200) {
+      throw new Error(body.message);
+    } else if (body.success == false) {
+      throw new Error(body.data.message);
+    }
+
+    return body;
+  }
+
   renderChurchHealth() {
     return html`
       <div class="church_health">
         <dt-church-health-circle
           .group=${this.group}
           .settings=${this.fields.health_metrics}
+          .handleSave=${this.handleSave.bind(this)}
         ></dt-church-health-circle>
       </div>
     `;
