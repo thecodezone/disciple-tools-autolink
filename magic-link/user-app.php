@@ -81,7 +81,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         if ( dt_is_rest() || $action === 'genmap'
             && class_exists( 'DT_Genmapper_Metrics' ) ) {
             require_once( __DIR__ . "/../charts/groups-genmap.php" );
-            new DT_Genmapper_Groups_Genmap();
+            new Disciple_Tools_Autolink_Genmap();
         }
 
         /**
@@ -340,7 +340,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
             'leader_count',
             'believer_count',
             'baptized_count',
-            'baptized_in_group_count',
+            'baptized_in_group_count'
         ], $fields );
     }
 

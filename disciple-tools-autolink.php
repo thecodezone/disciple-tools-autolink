@@ -82,12 +82,6 @@ class Disciple_Tools_Autolink
     }
 
     private function __construct() {
-        $is_rest = dt_is_rest();
-
-        if ( $is_rest && strpos( dt_get_url_path(), 'disciple-tools-autolink' ) !== false ) {
-            require_once( 'rest-api/rest-api.php' ); // adds starter rest api class
-        }
-
         require_once( __DIR__ . '/magic-link/functions.php' );
         require_once( __DIR__ . '/queries.php' );
         require_once( __DIR__ . '/magic-link/controllers/controller.php' );
@@ -99,6 +93,8 @@ class Disciple_Tools_Autolink
         require_once( __DIR__ . '/magic-link/controllers/group.php' );
         require_once( __DIR__ . '/magic-link/controllers/tree.php' );
         require_once( __DIR__ . '/magic-link/controllers/field.php' );
+        require_once( __DIR__ . '/charts/groups-tree.php' );
+
 
         require_once( __DIR__ .
         '/magic-link/contact-app.php' );

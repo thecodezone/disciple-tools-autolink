@@ -113,20 +113,35 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         }
 
         $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+        $contact = DT_Posts::get_post( 'contacts', $users_contact_id, true, false );
+        $coach = null;
+        if (isset($contact['coached_by'][0])) {
+            $coach = DT_Posts::get_post( 'contacts', $contact['coached_by'][0]['ID'], true, false );
+        }
 
         $fields = [
-        "title" => $name,
-        "members" => [
-            "values" => [
-                [ "value" => $users_contact_id ]
-            ]
-        ],
-        "leaders" => [
-            "values" => [
-                [ "value" => $users_contact_id ]
-            ]
-        ],
-        "start_date" => $start_date
+            "title" => $name,
+            "members" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ],
+            "leaders" => [
+                "values" => [
+                    [ "value" => $users_contact_id ]
+                ]
+            ],
+            "coaches" => $coach ? [
+                "values" => [
+                    [ "value" => $coach['ID'] ]
+                ]
+            ] : null,
+            "parent_groups" => [
+                "values" => [
+                    [ "value" => 0 ]
+                ]
+            ],
+            "start_date" => $start_date
         ];
 
         if ( !empty( $location ) ) {
@@ -143,8 +158,18 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             }
             $fields = array_merge( $post, $fields );
             $group = DT_Posts::update_post( 'groups', $id, $fields, false, false );
+            if ( is_wp_error( $group ) ) {
+                $this->form( [ 'error' => $group->get_error_message() ] );
+                return;
+            }
+            do_action( 'dt_autolink_group_updated', $group);
         } else {
             $group = DT_Posts::create_post( 'groups', $fields, false, false );
+            if ( is_wp_error( $group ) ) {
+                $this->form( [ 'error' => $group->get_error_message() ] );
+                return;
+            }
+            do_action( 'dt_autolink_group_created', $group);
         }
 
         if ( is_wp_error( $group ) ) {
