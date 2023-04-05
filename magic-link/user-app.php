@@ -23,6 +23,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public $group_controller;
     public $tree_controller;
     public $login_controller;
+    public $field_controller;
 
     private static $_instance = null;
     public $meta = []; // Allows for instance specific data.
@@ -71,6 +72,10 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
         $this->group_controller = new Disciple_Tools_Autolink_Group_Controller();
         $this->tree_controller = new Disciple_Tools_Autolink_Tree_Controller();
         $this->login_controller = new Disciple_Tools_Autolink_Login_Controller();
+        $this->field_controller = new Disciple_Tools_Autolink_Field_Controller();
+
+        //Genmapper isn't loaded on every request
+        $this->functions->init_genmapper();
 
         $action = sanitize_key( wp_unslash( $_GET['action'] ?? '' ) );
         if ( dt_is_rest() || $action === 'genmap'
@@ -83,6 +88,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
          * user_app and module section
          */
         add_filter( 'dt_settings_apps_list', [ $this, 'dt_settings_apps_list' ], 10, 1 );
+        add_filter( 'autolink_health_fields', 'autolink_health_fields',  10, 1 );
+        add_filter( 'autolink_updatable_group_fields', [ $this, 'autolink_updatable_group_fields' ], 10, 1);
         add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
 
         /**
@@ -287,6 +294,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 return $this->tree_controller->data( $request, $params, $user_id );
             case 'onItemDrop':
                 return $this->tree_controller->process( $request, $params, $user_id );
+            case 'update_field':
+                return $this->field_controller->update( $request, $params, $user_id );
             default:
                 return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
         }
@@ -323,6 +332,22 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
     public function user_has_cap( $allcaps, $caps, $args ) {
         $allcaps['view_any_contacts'] = true;
         return $allcaps;
+    }
+
+    function autolink_health_fields( $fields ) {
+        return array_merge( [
+            'member_count',
+            'leader_count',
+            'believer_count',
+            'baptized_count',
+            'baptized_in_group_count',
+        ], $fields );
+    }
+
+    function autolink_updatable_group_fields( $fields ) {
+        return array_merge( $this->autolink_health_fields( $fields ), [
+            'health_metrics'
+        ] );
     }
 }
 Disciple_Tools_Autolink_Magic_User_App::instance();

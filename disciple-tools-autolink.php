@@ -98,6 +98,7 @@ class Disciple_Tools_Autolink
         require_once( __DIR__ . '/magic-link/controllers/genmap.php' );
         require_once( __DIR__ . '/magic-link/controllers/group.php' );
         require_once( __DIR__ . '/magic-link/controllers/tree.php' );
+        require_once( __DIR__ . '/magic-link/controllers/field.php' );
 
         require_once( __DIR__ .
         '/magic-link/contact-app.php' );

@@ -2,11 +2,17 @@
     position: relative;
 }
 
-.churches__add {
+dt-button.churches__add {
     --dt-button-font-size: 1.7rem;
+    --dt-button-height: 28px;
+    --dt-button-width: 28px;
     position: absolute;
     top: var(--dt-tile-padding, 1.2rem);
     right: var(--dt-tile-padding, 1rem);
+}
+
+dt-button.churches__add dt-icon {
+    display: flex;
 }
 
 [dir="rtl"] .churches__add {
