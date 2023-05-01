@@ -175,6 +175,15 @@ class Disciple_Tools_Autolink_Magic_Functions
         return get_site_url( null, 'autolink' );
     }
 
+    public function get_create_group_url() {
+        return $this->get_app_link() . '?action=create-group';
+    }
+
+    public function get_edit_group_url() {
+        return $this->get_app_link() . '?action=edit-group';
+    }
+
+
 
     public function redirect_to_app() {
         wp_redirect( $this->get_app_link() );

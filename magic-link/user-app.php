@@ -198,8 +198,11 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'survey':
                     $this->survey_controller->show();
                     break;
-                case 'group-form':
-                    $this->group_controller->form();
+                case 'edit-group':
+                    $this->group_controller->edit();
+                    break;
+                case 'create-group':
+                    $this->group_controller->create();
                     break;
                 case 'delete-group':
                     $this->group_controller->delete();
@@ -231,8 +234,11 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base
                 case 'survey':
                     $this->survey_controller->process();
                     break;
-                case 'group-form':
-                    $this->group_controller->process();
+                case "create-group":
+                    $this->group_controller->store();
+                    break;
+                case 'edit-group':
+                    $this->group_controller->update();
                     break;
                 default:
                     wp_redirect( '/' . $this->root );

@@ -8,6 +8,7 @@
  * @var $cancel_url string
  * @var $submit_label string
  * @var $cancel_label string
+ * @var $id string
  * @var $error string
  */
 ?>
@@ -28,9 +29,25 @@
                     wp_nonce_field( $nonce );
                 ?>
 
-                <dt-text class="create-group__input" label="<?php echo esc_html( $name_label ); ?>" type="text" name="name" value="<?php echo esc_attr($name) ?>" placeholder="<?php echo esc_attr( $name_placeholder ); ?>"></dt-text>
+                <?php if ( !empty( $group_id ) ): ?>
+                    <input type="hidden" name="id" value="<?php echo esc_attr( $group_id ); ?>">
+                <?php endif; ?>
 
-                <dt-date format="" name="start_date"  label="<?php echo esc_html( $start_date_label ); ?>" value="<?php echo esc_attr($start_date) ?>"></dt-date>
+                <dt-text
+                    class="create-group__input"
+                    label="<?php echo esc_html( $name_label ); ?>"
+                    type="text"
+                    name="name"
+                    value="<?php echo esc_attr($name) ?>"
+                    placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
+                ></dt-text>
+
+                <dt-date
+                    format=""
+                    name="start_date"
+                    label="<?php echo esc_html( $start_date_label ); ?>"
+                    value="<?php echo esc_attr($start_date) ?>"
+                ></dt-date>
 
                 <div class="location-field">
                     <?php

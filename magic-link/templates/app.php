@@ -11,6 +11,32 @@
  * @var $share_link_help_text string
  * @var $churches_heading string
  * @var $churches array;
+ * @var $church_health_label string
+ * @var $tree_label string
+ * @var $genmap_label string
+ * @var $view_church_label string
+ * @var $create_church_link string
+ * @var $edit_church_link string
+ * @var $contact array
+ * @var $coach array
+ * @var $group_fields array
+ * @var $error string
+ * @var $app_church_opened string
+ * @var $app_link string
+ * @var $app_url string
+ * @var $app_link_label string
+ * @var $app_link_help_text string
+ * @var $church_fields array
+ * @var $group_link string
+ * @var $view_group_label string
+ * @var $create_group_link string
+ * @var $edit_group_link string
+ * @var $group_health_label string
+ * @var $group array
+ * @var $edit_group_label string
+ * @var $delete_group_label string
+ * @var $delete_group_link string
+ * @var $delete_group_confirm string
  */
 ?>
 <?php include( 'parts/app-header.php' ); ?>
@@ -26,7 +52,7 @@
             <?php endif; ?>
     <dt-tile class="churches" title="<?php echo esc_attr( $churches_heading ); ?>">
         <div class="section__inner">
-            <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_church_link ); ?>" rounded>
+            <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_group_link ); ?>" rounded>
                 <dt-icon icon="ic:baseline-plus"></dt-icon>
             </dt-button>
             <div class="churches__list">
