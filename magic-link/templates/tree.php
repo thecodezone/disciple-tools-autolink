@@ -129,6 +129,8 @@ const domenu = jQuery( '#domenu-0' ).domenu({
             let new_parent = e[0].parentNode.parentNode.id
             let self = e[0].id
 
+            setListData(data)
+
             let prev_parent_object = jQuery( '#' +e[0].id )
             let previous_parent = prev_parent_object.data( 'prev_parent' )
 
@@ -177,15 +179,21 @@ const domenu = jQuery( '#domenu-0' ).domenu({
             jQuery( this ).parent().parent().addClass( 'dd-item--has-parent' )
         }
     })
+
     // set the previous parent data element
-    jQuery.each( data.parent_list, function( ii,vv ) {
-        if ( vv !== null && vv !== "undefined" ) {
-            let target = jQuery( '#' +ii )
-            if ( target.length > 0 ) {
-                target.attr( 'data-prev_parent', vv )
+    function setListData(data) {
+        jQuery.each(data.parent_list, function (ii, vv) {
+            if (vv !== null && vv !== "undefined") {
+                let target = jQuery('#' + ii)
+                if (target.length > 0) {
+                    target.attr('data-prev_parent', vv)
+                }
             }
-        }
-    })
+        })
+    }
+
+    setListData(data)
+
     // show delete for last item
     jQuery( "li:not(:has(>ol)) .item-remove" ).show()
     // set properties
