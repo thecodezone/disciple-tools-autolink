@@ -41,6 +41,14 @@
         display: none !important;
     }
 
+    dt-alert {
+        display: none;
+    }
+
+    dt-alert.active {
+        display: block;
+    }
+
 </style>
 
 <?php include( 'parts/app-header.php' ); ?>
@@ -54,6 +62,12 @@
                 <div class="loading-spinner__wrapper">
                     <div class="loading-spinner active"></div>
                 </div>
+                <dt-alert class="alert--error" context="alert">
+                    <?php esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ); ?>
+                </dt-alert>
+                <dt-alert class="alert--root-child" context="alert">
+                    <?php esc_html_e( 'First generation groups must be assigned to you.', 'disciple-tools-autolink' ); ?>
+                </dt-alert>
                 <div id="wrapper"></div>
             </div>
         </div>
@@ -86,8 +100,9 @@ window.load_tree = () => {
   `)
   window.post_item( 'tree', {} )
     .done(function(data){
-      window.load_domenu(data)
-      jQuery('#initial-loading-spinner').hide()
+        jQuery( '.loading-spinner' ).addClass( 'active' )
+        window.load_domenu(data)
+        jQuery( '.loading-spinner' ).removeClass( 'active' )
     })
 }
 
@@ -138,8 +153,16 @@ const domenu = jQuery( '#domenu-0' ).domenu({
 
 
             if ( new_parent !== previous_parent ) {
-                window.post_item( 'onItemDrop', { new_parent: new_parent, self, previous_parent: previous_parent } ).done(function( drop_data ){
-                    jQuery( '.loading-spinner' ).removeClass( 'active' )
+                jQuery('dt-alert').each(function() {
+                    jQuery(this).removeClass('active')
+                });
+                window.post_item( 'onItemDrop', { new_parent: new_parent, self, previous_parent: previous_parent } ).done(function( result ){
+                    if (result === 'reload') {
+                        jQuery( '.alert--root-child' ).addClass( 'active' )
+                        load_tree()
+                    } else if (!result) {
+                        jQuery( '.alert--error' ).addClass( 'active' )
+                    }
                 })
             }
         }

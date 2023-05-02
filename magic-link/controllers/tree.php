@@ -32,6 +32,12 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
             return 'false';
         }
 
+        $group = DT_Posts::get_post('groups', $params['data']['self'], true, false);
+
+        if ($params['data']['new_parent'] == 'domenu-0'
+            && ((int) $group["assigned_to"]["id"] !== $user_id)) {
+            return "reload";
+        }
         global $wpdb;
 
         $wpdb->query($wpdb->prepare(
@@ -44,15 +50,17 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
             $params['data']['previous_parent']
         ));
 
-        $wpdb->query($wpdb->prepare(
-            "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
+        if ($params['data']['new_parent'] !== 'domenu-0') {
+            $wpdb->query($wpdb->prepare(
+                "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
                     VALUES (%s, %s, 'groups_to_groups');
             ",
-            $params['data']['self'],
-            $params['data']['new_parent']
-        ));
+                $params['data']['self'],
+                $params['data']['new_parent']
+            ));
 
-        do_action('p2p_created_connection', $wpdb->insert_id);
+            do_action('p2p_created_connection', $wpdb->insert_id);
+        }
 
         return true;
     }
