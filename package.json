@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/thecodezone/disciple-tools-autolink#readme",
   "dependencies": {
-    "@disciple.tools/web-components": "file:../../../../../../Packages/disciple-tools-web-components",
+    "@disciple.tools/web-components": "github:thecodezone/disciple-tools-web-components",
     "@lit/localize": "^0.11.4",
     "@shoelace-style/shoelace": "^2.0.0",
     "element-internals-polyfill": "^1.1.15",
