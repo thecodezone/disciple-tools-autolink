@@ -1,12 +1,12 @@
 <style>
     .dd3-content {
-        background: -webkit-linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
-        background: linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
+        background: -webkit-linear-gradient(top, #f4f4f4 10%, #c9c9c900 25%);
+        background: linear-gradient(top, #f4f4f4 10%, #c9c9c900 25%);
     }
 
     .dd-item--owned > .dd3-content {
-        background: -webkit-linear-gradient(top, #f4f4f4 10%, #c9c9c900 25%);
-        background: linear-gradient(top, #f4f4f4 10%, #c9c9c900 25%);
+        background: -webkit-linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
+        background: linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
     }
 
     #u .dd3-content {
