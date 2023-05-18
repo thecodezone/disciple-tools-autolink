@@ -1,7 +1,8 @@
 <?php include( 'parts/header.php' ); ?>
 <?php include( 'parts/navbar.php' ); ?>
 
-<form class="container" action="<?php echo esc_url( $action ); ?>" method="POST">
+<form class="survey container" action="<?php echo esc_url( $action ); ?>" method="POST">
+
     <?php wp_nonce_field( 'dt_autolink_survey' ); ?>
 
     <dt-tile title="<?php echo esc_attr( $question['label'] ); ?>" class="question">
