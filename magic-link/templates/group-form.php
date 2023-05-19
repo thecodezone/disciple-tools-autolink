@@ -51,7 +51,7 @@
                     class="create-group__input"
                     label="<?php echo esc_html( $leaders_label ); ?>"
                     name="leaders"
-                    values="<?php echo esc_attr( json_encode( $leader_values ) ) ?>"
+                    value="<?php echo esc_attr( json_encode( $leader_ids ) ) ?>"
                     options='<?php echo esc_attr( json_encode( $leader_options ) ) ?>'
                 ></dt-tags>
 

@@ -34,32 +34,35 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             }
         }
 
-        $group               = $group ?? [];
-        $heading             = __( 'Create a Church', 'disciple-tools-autolink' );
-        $name_label          = __( 'Church Name', 'disciple-tools-autolink' );
-        $name_placeholder    = __( 'Enter name...', 'disciple-tools-autolink' );
-        $start_date_label    = __( 'Church Start Date', 'disciple-tools-autolink' );
-        $nonce               = self::NONCE;
-        $action              = $params['action'];
-        $cancel_url          = $this->functions->get_app_link();
-        $cancel_label        = __( 'Cancel', 'disciple-tools-autolink' );
-        $submit_label        = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
-        $error               = $params['error'] ?? '';
-        $group_fields        = DT_Posts::get_post_settings( 'groups' )['fields'];
-        $name                = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
-        $contacts            = DT_Posts::list_posts( 'contacts', [
-            "limit" => 1000,
-        ] )['posts'] ?? [];
-        $leaders_label       = __( 'Leaders', 'disciple-tools-autolink' );
-        $leader_ids          = $params['leaders'] ?? array_map( function ( $leaders ) {
-            return $leaders['ID'];
+        $group            = $group ?? [];
+        $user             = wp_get_current_user();
+        $contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
+        $heading          = __( 'Create a Church', 'disciple-tools-autolink' );
+        $name_label       = __( 'Church Name', 'disciple-tools-autolink' );
+        $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
+        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
+        $nonce            = self::NONCE;
+        $action           = $params['action'];
+        $cancel_url       = $this->functions->get_app_link();
+        $cancel_label     = __( 'Cancel', 'disciple-tools-autolink' );
+        $submit_label     = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
+        $error            = $params['error'] ?? '';
+        $group_fields     = DT_Posts::get_post_settings( 'groups' )['fields'];
+        $name             = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
+        $contacts         = [ DT_Posts::get_post( 'contacts', $contact_id ) ];
+        $this->functions->coaching_tree( $contact_id, $contacts );
+        $leaders_label = __( 'Leaders', 'disciple-tools-autolink' );
+        $leader_ids    = $params['leaders'] ?? array_map( function ( $leaders ) {
+            return (string) $leaders['ID'];
         }, $group['leaders'] ?? [] );
-        $leader_options      = array_map( function ( $contact ) {
+
+        $leader_options = array_map( function ( $contact ) {
             return [
                 'id' => (string) $contact['ID'],
-                'label' => $contact['post_title'],
+                'label' => $contact['name'],
             ];
         }, $contacts );
+
         $show_location_field = DT_Mapbox_API::is_active_mapbox_key();
 
         if ( ! $name ) {
@@ -85,6 +88,12 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
     public function create( $params = [] ) {
         $group_id         = sanitize_key( wp_unslash( $_GET['post'] ?? "" ) );
         $params['action'] = $this->functions->get_create_group_url();
+
+        // Default the current user as the leader
+        $params['leaders'] = [
+            (string) Disciple_Tools_Users::get_contact_for_user( get_current_user_id() )
+        ];
+
         if ( $group_id ) {
             $this->functions->redirect_to_app();
             exit;
@@ -189,13 +198,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         $location   = $location ? json_decode( $location, true ) : '';
         $action     = $params['action'];
 
-        $get_params       = [
+        $get_params = [
             'action' => $action,
             'name' => $name,
             'leaders' => $leaders,
         ];
-        $users_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-        $contact          = DT_Posts::get_post( 'contacts', $users_contact_id, true, false );
 
         if ( isset( $location['user_location'] )
              && isset( $location['user_location']['location_grid_meta'] ) ) {
@@ -227,17 +234,20 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             }
         }
 
-        $leaders[] = $users_contact_id;
-        $leaders   = array_map( function ( $leader_id ) {
-            return [ 'value' => abs( (int) $leader_id ) ];
-        }, $leaders );
+        // Leaders with a negative number need to be removed.
+        $leaders = array_reduce( $leaders, function ( $leaders, $leader_id ) {
+            $leader_id = (int) $leader_id;
+            if ( $leader_id > 0 ) {
+                $leaders[] = [ 'value' => $leader_id ];
+            }
+
+            return $leaders;
+        }, [] );
 
         $fields = [
             "title" => $name,
             "leaders" => [
-                "values" => $leaders
-            ],
-            "coaches" => [
+                "force_values" => true,
                 "values" => $leaders
             ],
             "parent_groups" => [
