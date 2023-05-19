@@ -46,14 +46,14 @@
                     placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
                 ></dt-text>
 
-                <dt-multi-select
-                    allowNew
+                <dt-tags
+                    allowAdd
                     class="create-group__input"
                     label="<?php echo esc_html( $leaders_label ); ?>"
                     name="leaders"
-                    value='<?php echo esc_attr( json_encode( $leader_ids ) ) ?>'
+                    values="<?php echo esc_attr( json_encode( $leader_values ) ) ?>"
                     options='<?php echo esc_attr( json_encode( $leader_options ) ) ?>'
-                ></dt-multi-select>
+                ></dt-tags>
 
                 <dt-date
                     format=""

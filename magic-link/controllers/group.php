@@ -176,16 +176,18 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
      * Process the edit/create group form
      */
     private function process( $params = [] ) {
+
         $nonce        = sanitize_key( wp_unslash( $_POST['_wpnonce'] ?? '' ) );
         $verify_nonce = $nonce && wp_verify_nonce( $nonce, self::NONCE );
 
-        $id               = sanitize_key( wp_unslash( $_POST['id'] ?? '' ) );
-        $name             = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
-        $start_date       = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
-        $location         = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
-        $leaders          = explode( ',', sanitize_text_field( wp_unslash( $_POST['leaders'] ?? '' ) ) );
-        $location         = $location ? json_decode( $location, true ) : '';
-        $action           = $params['action'];
+        $id         = sanitize_key( wp_unslash( $_POST['id'] ?? '' ) );
+        $name       = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
+        $start_date = strtotime( sanitize_text_field( wp_unslash( $_POST['start_date'] ?? '' ) ) );
+        $location   = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
+        $leaders    = dt_recursive_sanitize_array( $_POST['leaders'] ?? '' );
+        $location   = $location ? json_decode( $location, true ) : '';
+        $action     = $params['action'];
+
         $get_params       = [
             'action' => $action,
             'name' => $name,
@@ -208,9 +210,9 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             return;
         }
 
-        foreach ( $leaders as $idx => $leader_id ) {
-            if ( str_contains( $leader_id, 'new' ) ) {
-                $title           = str_replace( 'new-', '', $leader_id );
+        foreach ( $leaders as $idx => $value ) {
+            if ( ! is_numeric( $value ) ) {
+                $title           = $value;
                 $contact         = DT_Posts::create_post( 'contacts',
                     [
                         'name' => $title,
