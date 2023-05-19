@@ -34,32 +34,33 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             }
         }
 
-        $group            = $group ?? [];
-        $heading          = __( 'Create a Church', 'disciple-tools-autolink' );
-        $name_label       = __( 'Church Name', 'disciple-tools-autolink' );
-        $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
-        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
-        $nonce            = self::NONCE;
-        $action           = $params['action'];
-        $cancel_url       = $this->functions->get_app_link();
-        $cancel_label     = __( 'Cancel', 'disciple-tools-autolink' );
-        $submit_label     = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
-        $error            = $params['error'] ?? '';
-        $group_fields     = DT_Posts::get_post_settings( 'groups' )['fields'];
-        $name             = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
-        $contacts         = DT_Posts::list_posts( 'contacts', [
+        $group               = $group ?? [];
+        $heading             = __( 'Create a Church', 'disciple-tools-autolink' );
+        $name_label          = __( 'Church Name', 'disciple-tools-autolink' );
+        $name_placeholder    = __( 'Enter name...', 'disciple-tools-autolink' );
+        $start_date_label    = __( 'Church Start Date', 'disciple-tools-autolink' );
+        $nonce               = self::NONCE;
+        $action              = $params['action'];
+        $cancel_url          = $this->functions->get_app_link();
+        $cancel_label        = __( 'Cancel', 'disciple-tools-autolink' );
+        $submit_label        = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
+        $error               = $params['error'] ?? '';
+        $group_fields        = DT_Posts::get_post_settings( 'groups' )['fields'];
+        $name                = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
+        $contacts            = DT_Posts::list_posts( 'contacts', [
             "limit" => 1000,
         ] )['posts'] ?? [];
-        $leaders_label    = __( 'Leaders', 'disciple-tools-autolink' );
-        $leader_ids       = $params['leaders'] ?? array_map( function ( $leaders ) {
+        $leaders_label       = __( 'Leaders', 'disciple-tools-autolink' );
+        $leader_ids          = $params['leaders'] ?? array_map( function ( $leaders ) {
             return $leaders['ID'];
         }, $group['leaders'] ?? [] );
-        $leader_options   = array_map( function ( $contact ) {
+        $leader_options      = array_map( function ( $contact ) {
             return [
                 'id' => (string) $contact['ID'],
                 'label' => $contact['post_title'],
             ];
         }, $contacts );
+        $show_location_field = DT_Mapbox_API::is_active_mapbox_key();
 
         if ( ! $name ) {
             $name = $group['name'] ?? '';

@@ -62,14 +62,19 @@
                     value="<?php echo esc_attr( $start_date ) ?>"
                 ></dt-date>
 
-                <div class="location-field">
-                    <?php
-                    render_field_for_display( 'location_grid', $group_fields, $group );
-                    render_field_for_display( 'location_grid_meta', $group_fields, $group );
-                    ?>
+                <?php if ( $show_location_field ): ?>
+                    <div class="location-field">
+                        <?php
+                        render_field_for_display( 'location_grid', $group_fields, $group );
+                        render_field_for_display( 'location_grid_meta', $group_fields, $group );
+                        ?>
+                        <input type="hidden"
+                               name="location">
+                    </div>
+                <?php else : ?>
                     <input type="hidden"
                            name="location">
-                </div>
+                <?php endif; ?>
 
 
                 <div class="buttons">
