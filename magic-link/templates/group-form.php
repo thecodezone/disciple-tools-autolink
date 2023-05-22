@@ -10,13 +10,26 @@
  * @var $cancel_label string
  * @var $id string
  * @var $error string
+ * @var $group_id string
+ * @var $name string
+ * @var $leaders array
+ * @var $leaders_label string
+ * @var $leader_options array
+ * @var $leader_ids array
+ * @var $start_date_label string
+ * @var $start_date string
+ * @var $location_label string
+ * @var $location string
+ * @var $show_location_field boolean
+ * @var $group_fields array
+ * @var $group array
  */
 ?>
 <?php include( 'parts/header.php' ); ?>
 <?php include( 'parts/navbar.php' ); ?>
 
 <div class="container login">
-    <dt-tile>
+    <dt-tile title="<?php echo esc_attr( $heading ); ?>">
         <div class="section__inner">
             <?php if ( $error ): ?>
                 <dt-alert context="alert"
@@ -65,7 +78,6 @@
                 <?php if ( $show_location_field ): ?>
                     <div class="location-field">
                         <?php
-                        render_field_for_display( 'location_grid', $group_fields, $group );
                         render_field_for_display( 'location_grid_meta', $group_fields, $group );
                         ?>
                         <input type="hidden"
