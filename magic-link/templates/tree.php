@@ -4,7 +4,7 @@
         background: linear-gradient(top, #f4f4f4 10%, #c9c9c900 25%);
     }
 
-    .dd-item--owned > .dd3-content {
+    .dd-item--assigned > .dd3-content {
         background: -webkit-linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
         background: linear-gradient(top, #fdfdfd 10%, #c1efc3 100%);
     }
@@ -29,15 +29,15 @@
         text-shadow: 0 1px 0 #333;
     }
 
-    .dd-item--owned > .dd-list > .dd-item--coaching * {
+    .dd-item--assigned > .dd-list > .dd-item--assigned * {
         pointer-events: none;
     }
 
-    .dd-item--owned > .dd-list > .dd-item--coaching > .dd-handle {
+    .dd-item--assigned > .dd-list > .dd-item--assigned > .dd-handle {
         pointer-events: all;
     }
 
-    .dd-item--owned > .dd-list > .dd-item--coaching > button {
+    .dd-item--assigned > .dd-list > .dd-item--assigned > button {
         display: none !important;
     }
 
@@ -199,10 +199,8 @@
             if (!item) {
                 return;
             }
-            if (item['coaching']) {
-                jQuery(this).parent().parent().addClass('dd-item--coaching')
-            } else {
-                jQuery(this).parent().parent().addClass('dd-item--owned')
+            if (item['assigned']) {
+                jQuery(this).parent().parent().addClass('dd-item--assigned')
             }
             if (item && item['has_parent']) {
                 jQuery(this).parent().parent().addClass('dd-item--has-parent')
