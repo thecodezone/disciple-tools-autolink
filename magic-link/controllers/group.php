@@ -133,7 +133,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
      */
     public function show( $params = [] ) {
         $post_id    = sanitize_key( wp_unslash( $_GET['post'] ?? '' ) );
-        $back_link  = sanitize_key( wp_unslash( $_GET['return'] ?? '' ) );
+        $back_link  = $this->functions->get_app_link();
         $back_label = __( 'Back to AutoLink', 'disciple-tools-autolink' );
 
         if ( ! $post_id || ! $back_link ) {

@@ -44,15 +44,19 @@
 <?php include( 'parts/church-view-tabs.php' ); ?>
 
 <div class="container">
-     <?php if ( $error ): ?>
-                <dt-alert context="alert"
-                        dismissable>
-                    <?php echo esc_html( $error ); ?>
-                </dt-alert>
-            <?php endif; ?>
-    <dt-tile class="churches" title="<?php echo esc_attr( $churches_heading ); ?>">
+    <?php if ( $error ): ?>
+        <dt-alert context="alert"
+                  dismissable>
+            <?php echo esc_html( $error ); ?>
+        </dt-alert>
+    <?php endif; ?>
+    <dt-tile class="churches"
+             title="<?php echo esc_attr( $churches_heading ); ?>">
         <div class="section__inner">
-            <dt-button class="churches__add" context="success" href="<?php echo esc_url( $create_group_link ); ?>" rounded>
+            <dt-button class="churches__add"
+                       context="success"
+                       href="<?php echo esc_url( $create_group_link ); ?>"
+                       rounded>
                 <dt-icon icon="ic:baseline-plus"></dt-icon>
             </dt-button>
             <div class="churches__list">
@@ -61,25 +65,30 @@
                         <?php
                         //If the church is the first one the tile is open if not it is closed.
                         $app_church_opened = "";
-                        if ( $church === $churches[ array_key_first( $churches )] ) {
+                        if ( $church === $churches[ array_key_first( $churches ) ] ) {
                             $app_church_opened = "opened";
                         }
                         ?>
-                        <church-tile class="church" title="<?php echo esc_attr( $church['post_title'] ); ?>">
+                        <church-tile class="church"
+                                     title="<?php echo esc_attr( $church['post_title'] ); ?>">
                             <?php include( "parts/health-counts.php" ); ?>
                             <app-church
                                 group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>'
                                 fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
                             </app-church>
                             <app-church-menu>
-                                 <dt-button context="primary" href="<?php echo esc_url( $group_link . '&' . http_build_query([ 'post' => $church['ID'], 'return' => $app_link ]) ); ?>">
+                                <dt-button context="primary"
+                                           href="<?php echo esc_url( $group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>">
                                     <?php echo esc_html( $view_group_label ); ?>
                                 </dt-button>
-                                <dt-button context="primary" href="<?php echo esc_url( $edit_group_link . '&' . http_build_query([ 'post' => $church['ID'] ]) ); ?>">
+                                <dt-button context="primary"
+                                           href="<?php echo esc_url( $edit_group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>">
                                     <?php echo esc_html( $edit_group_label ); ?>
                                 </dt-button>
-                                 <dt-button context="alert" href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' =>  $church['ID'] ] )); ?>" confirm="<?php echo esc_html( $delete_group_confirm ) ?>">
-                                     <?php echo esc_html( $delete_group_label ); ?>
+                                <dt-button context="alert"
+                                           href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>"
+                                           confirm="<?php echo esc_html( $delete_group_confirm ) ?>">
+                                    <?php echo esc_html( $delete_group_label ); ?>
                                 </dt-button>
                             </app-church-menu>
                         </church-tile>
