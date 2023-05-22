@@ -34,25 +34,28 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             }
         }
 
+        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
+
+        $post_type        = get_post_type_object( 'groups' );
+        $group_labels     = get_post_type_labels( $post_type );
         $group            = $group ?? [];
         $user             = wp_get_current_user();
         $contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
-        $heading          = __( 'Create a Church', 'disciple-tools-autolink' );
-        $name_label       = __( 'Church Name', 'disciple-tools-autolink' );
-        $name_placeholder = __( 'Enter name...', 'disciple-tools-autolink' );
-        $start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
+        $heading          = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+        $name_label       = $group_fields['name']['name'];
+        $name_placeholder = $group_fields['name']['name'];
+        $start_date_label = $group_fields['start_date']['name'];
+        $leaders_label    = $group_fields['leaders']['name'];
         $nonce            = self::NONCE;
         $action           = $params['action'];
         $cancel_url       = $this->functions->get_app_link();
         $cancel_label     = __( 'Cancel', 'disciple-tools-autolink' );
-        $submit_label     = $group_id ? __( 'Edit Church', 'disciple-tools-autolink' ) : __( 'Create Church', 'disciple-tools-autolink' );
+        $submit_label     = $group_id ? __( 'Edit', 'disciple-tools-autolink' ) : __( 'Create', 'disciple-tools-autolink' );
         $error            = $params['error'] ?? '';
-        $group_fields     = DT_Posts::get_post_settings( 'groups' )['fields'];
         $name             = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
         $contacts         = [ DT_Posts::get_post( 'contacts', $contact_id ) ];
         $this->functions->coaching_tree( $contact_id, $contacts );
-        $leaders_label = __( 'Leaders', 'disciple-tools-autolink' );
-        $leader_ids    = $params['leaders'] ?? array_map( function ( $leaders ) {
+        $leader_ids = $params['leaders'] ?? array_map( function ( $leaders ) {
             return (string) $leaders['ID'];
         }, $group['leaders'] ?? [] );
 
