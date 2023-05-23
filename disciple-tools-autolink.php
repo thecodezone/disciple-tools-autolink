@@ -6,7 +6,7 @@
  * Description: Disciple.Tools - Autolink is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.20.3
+ * Version:  0.21.0
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
  * Requires at least: 4.7.0
@@ -76,14 +76,6 @@ class Disciple_Tools_Autolink {
 
     private static $_instance = null;
 
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
-    }
-
     private function __construct() {
         require_once( __DIR__ . '/magic-link/functions.php' );
         require_once( __DIR__ . '/queries.php' );
@@ -110,19 +102,23 @@ class Disciple_Tools_Autolink {
     }
 
     /**
-     * Filters the array of row meta for each/specific plugin in the Plugins list table.
-     * Appends additional links below each/specific plugin on the plugins page.
+     * Loads the translation files.
+     *
+     * @return void
+     * @since  0.1
+     * @access public
      */
-    public function plugin_description_links( $links_array, $plugin_file_name, $plugin_data, $status ) {
-        if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-            // You can still use `array_unshift()` to add links at the beginning.
+    public function i18n() {
+        $domain = 'disciple-tools-autolink';
+        load_plugin_textdomain( $domain, false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) . 'languages' );
+    }
 
-            $links_array[] = '<a href="https://disciple.tools">Disciple.Tools Community</a>';
-            $links_array[] = '<a href="https://www.eastwest.org">EastWest</a>';
-            $links_array[] = '<a href="https://codezone.io">CodeZone</a>';
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
         }
 
-        return $links_array;
+        return self::$_instance;
     }
 
     /**
@@ -149,15 +145,19 @@ class Disciple_Tools_Autolink {
     }
 
     /**
-     * Loads the translation files.
-     *
-     * @return void
-     * @since  0.1
-     * @access public
+     * Filters the array of row meta for each/specific plugin in the Plugins list table.
+     * Appends additional links below each/specific plugin on the plugins page.
      */
-    public function i18n() {
-        $domain = 'disciple-tools-autolink';
-        load_plugin_textdomain( $domain, false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) . 'languages' );
+    public function plugin_description_links( $links_array, $plugin_file_name, $plugin_data, $status ) {
+        if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
+            // You can still use `array_unshift()` to add links at the beginning.
+
+            $links_array[] = '<a href="https://disciple.tools">Disciple.Tools Community</a>';
+            $links_array[] = '<a href="https://www.eastwest.org">EastWest</a>';
+            $links_array[] = '<a href="https://codezone.io">CodeZone</a>';
+        }
+
+        return $links_array;
     }
 
     /**
