@@ -1,0 +1,16 @@
+@media print {
+    .app__link,
+    dt-button,
+    header.navbar,
+    .greeting,
+    .user_name {
+        display: none !important;
+    }
+
+    .app,
+    .container {
+        padding: 0;
+        max-width: 95%;
+        margin: 0 auto;
+    }
+}

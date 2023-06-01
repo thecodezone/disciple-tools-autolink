@@ -1,5 +1,5 @@
 let mix = require("laravel-mix");
-const { browserSync } = require("laravel-mix");
+const {browserSync} = require("laravel-mix");
 require("dotenv").config();
 
 mix.webpackConfig({
