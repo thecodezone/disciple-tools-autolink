@@ -1,4 +1,9 @@
 @media print {
+    body#blank-template-body {
+        border: none;
+    }
+
+
     .app__link,
     dt-button,
     header.navbar,
@@ -7,8 +12,15 @@
         display: none !important;
     }
 
-    .app,
-    .container {
+    .app--genmap dt-tile {
+        --dt-tile-background-color: transparent;
+        --dt-tile-border-top: none;
+        --dt-tile-box-shadow: none;
+    }
+
+
+    .app--genmap .app,
+    .app--genmap .container {
         padding: 0;
         max-width: 95%;
         margin: 0 auto;
