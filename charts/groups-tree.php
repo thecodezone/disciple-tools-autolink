@@ -68,7 +68,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
      */
     public function p2p_created_connection( $connection_id ) {
         $connection = p2p_get_connection( $connection_id );
-        if ( $connection ) {
+        if ( ! $connection ) {
             return;
         }
         if ( $connection->p2p_type == 'groups_to_groups' ) {
@@ -105,7 +105,9 @@ class Disciple_Tools_Autolink_Groups_Tree {
             foreach ( $contact['coaching'] as $child_contact ) {
                 $allowed_contact_ids[] = $child_contact['ID'];
                 $child_contact         = DT_Posts::get_post( 'contacts', $child_contact['ID'], false );
-                $allowed_user_ids[]    = $child_contact['corresponds_to_user'];
+                if ( isset( $child_contact['corresponds_to_user'] ) ) {
+                    $allowed_user_ids[] = $child_contact['corresponds_to_user'];
+                }
             }
         }
 
