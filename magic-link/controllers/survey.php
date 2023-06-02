@@ -17,7 +17,7 @@ class Disciple_Tools_Autolink_Survey_Controller extends Disciple_Tools_Autolink_
         $answer       = $answer ? $answer : 0;
         $action       = $this->functions->get_app_link() . '?action=survey&paged=' . $page;
         $previous_url = $page > 0 ? $this->functions->get_app_link() . '?action=survey&paged=' . ( $page - 1 ) : null;
-        $progress     = ( $page + 1 ) / count( $survey );
+        $progress     = $page / count( $survey );
         $progress     = number_format( $progress * 100, 0 ) . '%';
         include( __DIR__ . '/../templates/survey.php' );
     }
