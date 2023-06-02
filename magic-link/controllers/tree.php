@@ -40,15 +40,18 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
         }
         global $wpdb;
 
-        $wpdb->query( $wpdb->prepare(
-            "DELETE
+        if ( $params['data']['previous_parent'] ) {
+            $wpdb->query( $wpdb->prepare(
+                "DELETE
                 FROM $wpdb->p2p
                 WHERE p2p_from = %s
                     AND p2p_to = %s
                     AND p2p_type = 'groups_to_groups'",
-            $params['data']['self'],
-            $params['data']['previous_parent']
-        ) );
+                $params['data']['self'],
+                $params['data']['previous_parent']
+            ) );
+        }
+
 
         if ( $params['data']['new_parent'] !== 'domenu-0' ) {
             $wpdb->query( $wpdb->prepare(
