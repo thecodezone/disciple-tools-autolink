@@ -1,4 +1,3 @@
-import { html, css } from "lit";
 import { DtNumberField } from "@disciple.tools/web-components";
 
 export class ChurchHealthField extends DtNumberField {
@@ -6,6 +5,14 @@ export class ChurchHealthField extends DtNumberField {
     return {
       ...super.properties,
     };
+  }
+
+  get value() {
+    return this._value === "0" ? "" : this._value;
+  }
+
+  set value(value) {
+    this._value = value ? value : "0";
   }
 
   get action() {

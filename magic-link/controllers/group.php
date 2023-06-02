@@ -25,6 +25,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             $this->functions->redirect_to_app();
             exit;
         }
+        $group    = null;
         $group_id = sanitize_key( wp_unslash( $_GET['post'] ?? $params['post'] ?? null ) );
         if ( $group_id ) {
             $group = DT_Posts::get_post( 'groups', $group_id );
@@ -33,6 +34,30 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
                 exit;
             }
         }
+
+        DT_Mapbox_API::load_mapbox_header_scripts();
+        DT_Mapbox_API::load_mapbox_search_widget();
+
+        wp_localize_script(
+            'mapbox-search-widget', 'dtMapbox', [
+            'post_type' => 'groups',
+            'post_id' => $group_id ?? 0,
+            'post' => $group ?? false,
+            'map_key' => DT_Mapbox_API::get_key(),
+            'mirror_source' => dt_get_location_grid_mirror( true ),
+            'google_map_key' => ( class_exists( 'Disciple_Tools_Google_Geocode_API' ) && Disciple_Tools_Google_Geocode_API::get_key() ) ? Disciple_Tools_Google_Geocode_API::get_key() : false,
+            'spinner_url' => get_stylesheet_directory_uri() . '/spinner.svg',
+            'theme_uri' => get_stylesheet_directory_uri(),
+            'translations' => [
+                'add' => __( 'add', 'disciple_tools' ),
+                'use' => __( 'Use', 'disciple_tools' ),
+                'search_location' => __( 'Search Location', 'disciple_tools' ),
+                'delete_location' => __( 'Delete Location', 'disciple_tools' ),
+                'open_mapping' => __( 'Open Mapping', 'disciple_tools' ),
+                'clear' => __( 'Clear', 'disciple_tools' )
+            ]
+        ] );
+
 
         $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
 
@@ -199,7 +224,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         $location   = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
         $leaders    = dt_recursive_sanitize_array( $_POST['leaders'] ?? '' );
         $location   = $location ? json_decode( $location, true ) : '';
-        $action     = $params['action'];
+
+        $action = $params['action'];
 
         $get_params = [
             'action' => $action,
@@ -207,9 +233,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             'leaders' => $leaders,
         ];
 
-        if ( isset( $location['user_location'] )
-             && isset( $location['user_location']['location_grid_meta'] ) ) {
-            $location = $location['user_location']['location_grid_meta'];
+        if ( isset( $location['location_grid_meta'] ) ) {
+            $location = $location['location_grid_meta'];
         }
 
         if ( ! $verify_nonce || ! $name ) {
@@ -232,7 +257,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
                                 [ "value" => $contact['ID'] ]
                             ]
                         ]
-                ], true, false );
+                    ], true, false );
                 $leaders[ $idx ] = $contact['ID'];
             }
         }

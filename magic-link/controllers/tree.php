@@ -1,5 +1,7 @@
 <?php
 
+use jobs\DiscipleToolsAutolinkSaveTreeJob;
+
 class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Controller {
     const nonce = 'dt_autolink_tree';
     private $tree_chart = null;
@@ -21,6 +23,8 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
     }
 
     public function process( WP_REST_Request $request, $params, $user_id ) {
+        global $wpdb;
+
         if ( ! isset( $params['data']['previous_parent'] ) ) {
             $params['data']['previous_parent'] = 'domenu-0';
         }
@@ -38,20 +42,24 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
                    && ( (int) $new_group['assigned_to']["id"] !== $user_id ) ) {
             return "reload";
         }
-        global $wpdb;
 
-        $wpdb->query( $wpdb->prepare(
-            "DELETE
+        $wpdb->query( "START TRANSACTION" );
+
+        if ( $params['data']['previous_parent'] ) {
+            $wpdb->query( $wpdb->prepare(
+                "DELETE
                 FROM $wpdb->p2p
                 WHERE p2p_from = %s
                     AND p2p_to = %s
                     AND p2p_type = 'groups_to_groups'",
-            $params['data']['self'],
-            $params['data']['previous_parent']
-        ) );
+                $params['data']['self'],
+                $params['data']['previous_parent']
+            ) );
+        }
 
-        if ( $params['data']['new_parent'] !== 'domenu-0' ) {
-            $wpdb->query( $wpdb->prepare(
+
+        if ( $params['data']['new_parent'] && $params['data']['new_parent'] !== 'domenu-0' ) {
+            $response = $wpdb->query( $wpdb->prepare(
                 "INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
                     VALUES (%s, %s, 'groups_to_groups');
             ",
@@ -59,8 +67,15 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
                 $params['data']['new_parent']
             ) );
 
-            do_action( 'p2p_created_connection', $wpdb->insert_id );
+
+            if ( ! $response ) {
+                $wpdb->query( "ROLLBACK" );
+
+                return false;
+            }
         }
+
+        $wpdb->query( "COMMIT" );
 
         return true;
     }
