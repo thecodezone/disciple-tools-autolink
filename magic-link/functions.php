@@ -198,10 +198,11 @@ class Disciple_Tools_Autolink_Magic_Functions {
     }
 
     public function survey_completed() {
-        $survey    = $this->survey();
-        $user_meta = get_user_meta( get_current_user_id() );
+        $survey     = $this->survey();
+        $contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id(), true );
+        $post_meta  = get_post_meta( $contact_id );
         foreach ( $survey as $question ) {
-            if ( ! isset( $user_meta[ $question['name'] ] ) ) {
+            if ( ! isset( $post_meta[ $question['name'] ] ) ) {
                 return false;
             }
         }

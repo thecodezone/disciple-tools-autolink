@@ -50,6 +50,8 @@ class Disciple_Tools_Autolink_Survey_Controller extends Disciple_Tools_Autolink_
             return;
         }
 
+        update_post_meta( $contact_id, $question_name, $answer );
+
         dt_activity_insert(
             [
                 'action' => "comment",
