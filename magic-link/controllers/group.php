@@ -232,8 +232,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             'leaders' => $leaders,
         ];
 
-        if ( isset( $location['location_grid_meta'] ) ) {
-            $location = $location['location_grid_meta'];
+        if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
+            $location = $location['location_grid_meta']['values'];
         }
 
         if ( ! $verify_nonce || ! $name ) {
@@ -287,7 +287,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 
         if ( ! empty( $location ) ) {
             $fields['location_grid_meta'] = [
-                "values" => $location
+                'force_values' => true,
+                'values' => $location
             ];
         }
 
