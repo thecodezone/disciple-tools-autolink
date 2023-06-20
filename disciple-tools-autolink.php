@@ -6,7 +6,7 @@
  * Description: Disciple.Tools - Autolink is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.22.1
+ * Version:  0.22.2
  * Author URI: https://github.com/DiscipleTools
  * GitHub Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
  * Requires at least: 4.7.0
@@ -92,11 +92,11 @@ class Disciple_Tools_Autolink {
 
 
         require_once( __DIR__ .
-        '/magic-link/contact-app.php' );
+                      '/magic-link/contact-app.php' );
         require_once( __DIR__ .
-        '/magic-link/user-app.php' );
+                      '/magic-link/user-app.php' );
         require_once( __DIR__ .
-        '/magic-link/login-app.php' );
+                      '/magic-link/login-app.php' );
 
         $this->i18n();
     }
