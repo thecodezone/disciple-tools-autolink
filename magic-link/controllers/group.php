@@ -134,10 +134,9 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
      */
     public function delete( $params = [] ) {
         $app_controller = new Disciple_Tools_Autolink_App_Controller();
-
-        $nonce        = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
-        $verify_nonce = $nonce && wp_verify_nonce( $nonce, self::NONCE );
-        $group_id     = sanitize_text_field( wp_unslash( $_GET['post'] ?? '' ) );
+        $nonce          = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
+        $verify_nonce   = $nonce && wp_verify_nonce( $nonce, 'dt_autolink_delete_group' );
+        $group_id       = sanitize_text_field( wp_unslash( $_GET['post'] ?? '' ) );
 
         if ( ! $verify_nonce ) {
             $app_controller->show( [ 'error' => __( 'Unauthorized action. Please refresh the page and try again.', 'disciple-tools-autolink' ) ] );
@@ -233,8 +232,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
             'leaders' => $leaders,
         ];
 
-        if ( isset( $location['location_grid_meta'] ) ) {
-            $location = $location['location_grid_meta'];
+        if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
+            $location = $location['location_grid_meta']['values'];
         }
 
         if ( ! $verify_nonce || ! $name ) {
@@ -288,7 +287,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 
         if ( ! empty( $location ) ) {
             $fields['location_grid_meta'] = [
-                "values" => $location
+                'force_values' => true,
+                'values' => $location
             ];
         }
 
