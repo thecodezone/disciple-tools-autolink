@@ -160,7 +160,7 @@ function open_modal_address_listener() {
   });
 }
 
-function load_modal(lng, lat, level, label, grid_id) {
+function load_modal(lng, lat, level, label) {
   let spinner = '<span class="loading-spinner active"></span>';
 
   let container = jQuery("#mapping-modal");
@@ -190,7 +190,7 @@ function load_modal(lng, lat, level, label, grid_id) {
 
   jQuery("#map").empty();
   mapboxgl.accessToken = dtMapbox.map_key;
-  var map = new mapboxgl.Map({
+  new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/streets-v11",
     center: [lng, lat],
@@ -198,7 +198,7 @@ function load_modal(lng, lat, level, label, grid_id) {
     zoom: zoom,
   });
 
-  var marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+  new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
 }
 
 // resets the tiles for new spacing
