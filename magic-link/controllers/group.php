@@ -223,6 +223,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
         $location   = sanitize_text_field( wp_unslash( $_POST['location'] ?? '' ) );
         $leaders    = dt_recursive_sanitize_array( $_POST['leaders'] ?? '' );
         $location   = $location ? json_decode( $location, true ) : '';
+        $user             = wp_get_current_user();
+        $contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
 
         $action = $params['action'];
 
@@ -253,7 +255,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
                         'name' => $title,
                         'coached_by' => [
                             "values" => [
-                                [ "value" => $contact['ID'] ]
+                                [ "value" => $contact_id ]
                             ]
                         ]
                     ], true, false );
