@@ -1,0 +1,15 @@
+#. Plugin Name of the plugin
+msgid "Disciple.Tools - Autolink"
+msgstr ""
+
+#. Description of the plugin
+msgid "Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree."
+msgstr ""
+
+# Author URI of the plugin
+msgid "https://www.eastwest.org"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/thecodezone/disciple-tools-autolink"
+msgstr ""
