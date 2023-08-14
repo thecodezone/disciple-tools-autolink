@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
-"POT-Creation-Date: 2023-03-24 14:43-0500\n"
-"PO-Revision-Date: 2023-03-24 14:46-0500\n"
+"POT-Creation-Date: 2023-08-14 15:42-0500\n"
+"PO-Revision-Date: 2023-08-14 15:42-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ne_NP\n"
@@ -10,163 +10,190 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;"
+"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
+"__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
+"X-Poedit-SearchPathExcluded-3: *.js\n"
 
-#: charts/groups-genmap.php:90
+#: charts/groups-genmap.php:91
 msgid "Group Generation Tree"
 msgstr "समूह सिर्जना ट्री"
 
-#: charts/groups-genmap.php:91
-msgid "This tree shows your groups and your descendants."
-msgstr "यो रूखले तिमीहरूका समूहहरू र तिम्रा सन्तानहरूलाई देखाउँछ।"
-
 #: charts/groups-genmap.php:92
+msgid "This tree shows your groups and your descendants."
+msgstr "यो रूखले तिमीहरूका समूहहरू र तिम्रा सन्तानहरूलाई देखाउँ."
+
+#: charts/groups-genmap.php:93
 msgid "See descendants of a specific group"
 msgstr "एउटा खास समूहका वंशजहरू हेर्नुहोस्"
 
-#: charts/groups-genmap.php:93
+#: charts/groups-genmap.php:94
 msgid "Reset"
 msgstr "रिसेट गर्नुहोस्"
 
-#: magic-link/functions.php:86
-msgid "Add Magic"
-msgstr "म्याजिक थप्नुहोस्"
+#: charts/groups-tree.php:198
+msgid "Coached without Parent Group"
+msgstr "अभिभावक समूह बिना प्रशिक्षित"
 
-#: magic-link/functions.php:87
-msgid "Go to Disciple.Tools"
-msgstr "चेलामा जानुहोस्।औजारहरू"
+#: magic-link/controllers/app.php:19
+msgid "Delete"
+msgstr "मेट्नुहोस्"
 
-#: magic-link/functions.php:88
-msgid "Update Survey Answers"
-msgstr "सर्वेक्षण उत्तर अद्यावधिक गर्नुहोस्"
+#: magic-link/controllers/app.php:20
+msgid "Are you sure you want to delete this "
+msgstr "तपाईँ यसलाई मेट्न निश्चित हुनुहुन्छ ? "
 
-#: magic-link/functions.php:89
-msgid "Give Feedback"
-msgstr "प्रतिक्रिया दिनुहोस्"
+#: magic-link/controllers/app.php:21 magic-link/controllers/group.php:78
+msgid "Edit"
+msgstr "सम्पादन गर्नुहोस्"
 
-#: magic-link/functions.php:90
-msgid "Log Out"
-msgstr "लग आउट गर्नुहोस्"
-
-#: magic-link/functions.php:91
-msgid "Toggle Menu"
-msgstr "मेनु टगल गर्नुहोस्"
-
-#: magic-link/functions.php:92 magic-link/magic-link-user-app.php:213
-msgid "Hello,"
-msgstr "नमस्ते"
-
-#: magic-link/functions.php:93 magic-link/magic-link-user-app.php:216
-msgid "Coached by"
-msgstr "द्वारा प्रशिक्षित"
-
-#: magic-link/functions.php:94 magic-link/magic-link-user-app.php:217
-msgid "My Link"
-msgstr "मेरो लिङ्क"
-
-#: magic-link/functions.php:95
-msgid "My Churches"
-msgstr "मेरा मण्डलीहरू"
-
-#: magic-link/functions.php:240
-msgid "How many leaders are you coaching?"
-msgstr "तपाईं कति जना नेतालाई प्रशिक्षण दिइरहनुभएको छ?"
-
-#: magic-link/functions.php:244
-msgid "How many"
-msgstr "कति धेरै"
-
-#: magic-link/functions.php:244
-msgid "are you leading?"
-msgstr "के तपाईं नेतृत्व गर्दै हुनुहुन्छ?"
-
-#: magic-link/js/genmapper.js:568
-msgid "Delete group &amp; subtree"
-msgstr "समूह र उप-ट्री मेट्नुहोस्"
-
-#: magic-link/magic-link-back-widget.php:28
-msgid "Back to AutoLink"
-msgstr "स्वत: लिङ्कमा फर्कनुहोस्"
-
-#: magic-link/magic-link-login-app.php:178
-#: magic-link/magic-link-login-app.php:231
-msgid "An unexpected error has occurred."
-msgstr "एउटा अनपेक्षित त्रुटि उत्पन्न भएको छ ।"
-
-#: magic-link/magic-link-login-app.php:291
-msgid "Error: Invalid username/password combination."
-msgstr "त्रुटि: अवैध प्रयोगकर्ता नाम/पासवर्ड संयोजन ।"
-
-#: magic-link/magic-link-user-app.php:218
-msgid "Copy this link and share it with people you are coaching."
-msgstr ""
-"यो लिङ्क प्रतिलिपि बनाउनुहोस् र यसलाई तपाईंले प्रशिक्षण दिइरहनुभएको व्यक्तिहरूसँग "
-"साझेदारी गर्नुहोस्।"
-
-#: magic-link/magic-link-user-app.php:219
-msgid "My "
-msgstr "मेरा "
-
-#: magic-link/magic-link-user-app.php:226
+#: magic-link/controllers/app.php:22 magic-link/controllers/controller.php:34
+#: magic-link/functions.php:254
 msgid "View"
 msgstr "दृश्य"
 
-#: magic-link/magic-link-user-app.php:228
+#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
+#: magic-link/functions.php:241
+msgid "Hello,"
+msgstr "नमस्ते,"
+
+#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
+#: magic-link/functions.php:244
+msgid "Coached by"
+msgstr "द्वारा प्रशिक्षित"
+
+#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
+#: magic-link/functions.php:245
+msgid "My Link"
+msgstr "मेरो लिङ्क"
+
+#: magic-link/controllers/controller.php:25 magic-link/functions.php:246
+msgid "Copy this link and share it with people you are coaching."
+msgstr "यो लिङ्क प्रतिलिपि बनाउनुहोस् र यसलाई तपाईंले प्रशिक्षण दिइरहनुभएको व्यक्तिहरूसँग साझेदारी गर्नुहोस."
+
+#: magic-link/controllers/controller.php:26 magic-link/functions.php:247
+msgid "My "
+msgstr "मेरा "
+
+#: magic-link/controllers/controller.php:36 magic-link/functions.php:256
 msgid "Health"
 msgstr "स्वास्थ्य"
 
-#: magic-link/magic-link-user-app.php:229
+#: magic-link/controllers/controller.php:37 magic-link/functions.php:257
 msgid "Tree"
 msgstr "रूख"
 
-#: magic-link/magic-link-user-app.php:230
+#: magic-link/controllers/controller.php:38 magic-link/functions.php:258
 msgid "GenMap"
 msgstr "चर्च को रूख"
 
-#: magic-link/magic-link-user-app.php:471
-msgid "Create a Church"
-msgstr "मण्डली सिर्जना गर्नुहोस्"
+#: magic-link/controllers/group.php:52
+msgid "add"
+msgstr "थप्नुहोस्"
 
-#: magic-link/magic-link-user-app.php:472
-msgid "Church Name"
-msgstr "चर्चको नाम"
+#: magic-link/controllers/group.php:53
+msgid "Use"
+msgstr "प्रयोग गर्नुहोस्"
 
-#: magic-link/magic-link-user-app.php:473
-msgid "Enter name..."
-msgstr "नाम प्रविष्ट गर्नुहोस्..."
+#: magic-link/controllers/group.php:54
+msgid "Search Location"
+msgstr "स्थान खोजी गर्नुहोस्"
 
-#: magic-link/magic-link-user-app.php:474
-msgid "Church Start Date"
-msgstr "चर्च सुरु मिति"
+#: magic-link/controllers/group.php:55
+msgid "Delete Location"
+msgstr "स्थान मेट्नुहोस्"
 
-#: magic-link/magic-link-user-app.php:478
+#: magic-link/controllers/group.php:56
+msgid "Open Mapping"
+msgstr "म्यापिङ खोल्नुहोस्"
+
+#: magic-link/controllers/group.php:57
+msgid "Clear"
+msgstr "खाली गर्नुहोस्"
+
+#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+msgid "Create"
+msgstr "सिर्जना गर्नुहोस्"
+
+#: magic-link/controllers/group.php:77
 msgid "Cancel"
 msgstr "रद्द गर्नुहोस्"
 
-#: magic-link/magic-link-user-app.php:479
-msgid "Create Church"
-msgstr "मण्डली सिर्जना गर्नुहोस्"
+#: magic-link/controllers/group.php:142
+msgid "Unauthorized action. Please refresh the page and try again."
+msgstr "अनाधिकृत कार्य। कृपया पृष्ठ ताजा पार्नुहोस् र पुन: प्रयास गर्नुहोस्."
+
+#: magic-link/controllers/group.php:164
+msgid "Back to AutoLink"
+msgstr "स्वत: लिङ्कमा फर्कनुहोस्"
+
+#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56
+#: magic-link/templates/tree.php:67
+msgid "An unexpected error has occurred."
+msgstr "एउटा अनपेक्षित त्रुटि उत्पन्न भएको छ."
+
+#: magic-link/functions.php:72
+msgid "Add Magic"
+msgstr "म्याजिक थप्नुहोस्"
+
+#: magic-link/functions.php:73
+msgid "Go to Disciple.Tools"
+msgstr "चेलामा जानुहोस्।औजारहरू"
+
+#: magic-link/functions.php:74
+msgid "Update Survey Answers"
+msgstr "सर्वेक्षण उत्तर अद्यावधिक गर्नुहोस्"
+
+#: magic-link/functions.php:75
+msgid "Give Feedback"
+msgstr "प्रतिक्रिया दिनुहोस्"
+
+#: magic-link/functions.php:76
+msgid "Log Out"
+msgstr "लग आउट गर्नुहोस्"
+
+#: magic-link/functions.php:77
+msgid "Toggle Menu"
+msgstr "मेनु टगल गर्नुहोस्"
+
+#: magic-link/functions.php:81
+msgid "My Churches"
+msgstr "मेरा मण्डलीहरू"
+
+#: magic-link/functions.php:220
+msgid "How many leaders are you coaching?"
+msgstr "तपाईं कति जना नेतालाई प्रशिक्षण दिइरहनुभएको छ?"
+
+#: magic-link/functions.php:224
+msgid "How many"
+msgstr "कति धेरै"
+
+#: magic-link/functions.php:224
+msgid "are you leading?"
+msgstr "के तपाईं नेतृत्व गर्दै हुनुहुन्छ?"
+
+#: magic-link/login-app.php:144
+msgid "Error: Invalid username/password combination."
+msgstr "त्रुटि: अवैध प्रयोगकर्ता नाम/पासवर्ड संयोजन."
 
 #: magic-link/templates/genmap.php:6
 msgid "Group Generation Map"
 msgstr "समूह उत्पादन मानचित्र"
 
-#: magic-link/templates/login.php:32 magic-link/templates/register.php:35
-msgid "Username"
-msgstr "प्रयोगकर्ता नाम"
+#: magic-link/templates/login.php:32
+msgid "Username or Email Address"
+msgstr "प्रयोगकर्ता नाम वा इमेल ठेगाना"
 
-#: magic-link/templates/login.php:38 magic-link/templates/register.php:43
+#: magic-link/templates/login.php:38 magic-link/templates/register.php:39
 msgid "Password"
 msgstr "पासवर्ड"
 
@@ -178,7 +205,7 @@ msgstr "लग - इन"
 msgid "Create Account"
 msgstr "खाता सिर्जना गर्नुहोस्"
 
-#: magic-link/templates/login.php:64
+#: magic-link/templates/login.php:65
 msgid "Forgot Password?"
 msgstr "पासवर्ड बिर्सनुभयो?"
 
@@ -191,24 +218,28 @@ msgid "Autolink Home"
 msgstr "गृह स्वत: लिङ्क गर्नुहोस्"
 
 #: magic-link/templates/register.php:31
-msgid "Name"
-msgstr "नाम"
+msgid "Username"
+msgstr "प्रयोगकर्ता नाम"
 
-#: magic-link/templates/register.php:39
+#: magic-link/templates/register.php:35
 msgid "Email"
 msgstr "इमेल"
 
-#: magic-link/templates/register.php:48
+#: magic-link/templates/register.php:44
 msgid "Confirm Password"
 msgstr "पासवर्ड पुष्टि गर्नुहोस्"
 
-#: magic-link/templates/register.php:54
+#: magic-link/templates/register.php:52
 msgid "Register"
 msgstr "दर्ता गर्नुहोस्"
 
-#: magic-link/templates/tree.php:7
+#: magic-link/templates/tree.php:60
 msgid "Church Tree"
 msgstr "चर्च को रूख"
+
+#: magic-link/templates/tree.php:71
+msgid "Invalid group nesting."
+msgstr "अवैध समूह नेस्टिङ."
 
 #. Plugin Name of the plugin/theme
 msgid "Disciple.Tools - Autolink"
@@ -220,12 +251,12 @@ msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin/theme
 msgid ""
-"Disciple.Tools - Autolink is intended to help developers and integrator "
-"jumpstart their extension of the Disciple.Tools system."
+"Provides a simplified interface for managing and visualizing your Disciple.Tools network. "
+"Share access with your downstream leaders to easily build your group tree."
 msgstr ""
-"चेला.उपकरणहरू - अटोलिङ्क विकासकर्ताहरू र इन्टिग्रेटरलाई चेला.उपकरण प्रणालीको विस्तार "
-"जम्पस्टार्ट गर्न मद्दत गर्ने उद्देश्यले हो।"
+"तपाईँको चेला.उपकरण सञ्जाल व्यवस्थापन र दृश्यावलोकनका लागि सरलीकृत इन्टरफेस प्रदान गर्दछ । तपाईंको समूह रूख "
+"सजिलै निर्माण गर्न तपाईंको डाउनस्ट्रीम नेताहरूसँग पहुँच साझेदारी गर्नुहोस्."
 
 #. Author URI of the plugin/theme
-msgid "https://github.com/DiscipleTools"
-msgstr "https://github.com/DiscipleTools"
+msgid "https://www.eastwest.org/"
+msgstr "https://www.eastwest.org/"
