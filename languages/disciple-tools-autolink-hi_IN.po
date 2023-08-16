@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-autolink\n"
-"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
+"autolink\n"
+"POT-Creation-Date: 2023-08-16T22:35:31+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:52-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,9 +17,9 @@ msgstr ""
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;"
-"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
-"__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
@@ -35,15 +36,45 @@ msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin
 msgid ""
-"Provides a simplified interface for managing and visualizing your Disciple.Tools network. "
-"Share access with your downstream leaders to easily build your group tree."
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
 msgstr ""
-"आपके शिष्य.उपकरण नेटवर्क के प्रबंधन और विज़ुअलाइज़ करने के लिए एक सरलीकृत इंटरफ़ेस प्रदान करता है। आसानी से अपने "
-"समूह ट्री का निर्माण करने के लिए अपने डाउनस्ट्रीम नेताओं के साथ पहुंच साझा करें।"
+"आपके शिष्य.उपकरण नेटवर्क के प्रबंधन और विज़ुअलाइज़ करने के लिए एक सरलीकृत इंटरफ़ेस प्रदान "
+"करता है। आसानी से अपने समूह ट्री का निर्माण करने के लिए अपने डाउनस्ट्रीम नेताओं के साथ पहुंच "
+"साझा करें।"
 
 #. Author URI of the plugin
 msgid "https://www.eastwest.org/"
 msgstr "https://www.eastwest.org/"
+
+#: charts/groups-genmap.php:95
+msgid "Parent"
+msgstr ""
+
+#: charts/groups-genmap.php:96
+msgid "Save Changes"
+msgstr ""
+
+#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
+msgid "Cancel"
+msgstr "कैंसिल करें"
+
+#: charts/groups-genmap.php:98
+msgid "Open Record"
+msgstr ""
+
+#: charts/groups-genmap.php:99
+msgid "Center on this Node"
+msgstr ""
+
+#: charts/groups-genmap.php:100
+msgid "OK"
+msgstr ""
+
+#: charts/groups-genmap.php:101
+msgid "Edit Record"
+msgstr ""
 
 #: magic-link/controllers/app.php:18
 msgid "Delete"
@@ -53,7 +84,7 @@ msgstr "हटाएं"
 msgid "Are you sure you want to delete this "
 msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
 
-#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
 msgid "Edit"
 msgstr "संपादित करें"
 
@@ -101,19 +132,15 @@ msgstr "पेड़"
 msgid "GenMap"
 msgstr "चर्च का पेड़"
 
-#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
 msgid "Create"
 msgstr "बनाएँ"
 
-#: magic-link/controllers/group.php:77
-msgid "Cancel"
-msgstr "कैंसिल करें"
-
-#: magic-link/controllers/group.php:142
+#: magic-link/controllers/group.php:147
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "अनधिकृत कार्रवाई. कृपया पृष्ठ ताज़ा करें और पुन: प्रयास करें."
 
-#: magic-link/controllers/group.php:164
+#: magic-link/controllers/group.php:170
 msgid "Back to AutoLink"
 msgstr "शिष्य उपकरण - ऑटोलिंक"
 
@@ -166,6 +193,10 @@ msgstr "क्या आप नेतृत्व कर रहे हैं?"
 msgid "Error: Invalid username/password combination."
 msgstr "त्रुटि: अमान्य उपयोगकर्ता नाम/पासवर्ड संयोजन."
 
+#: magic-link/templates/genmap.php:6
+msgid "Group Generation Map"
+msgstr "समूह पीढ़ी मानचित्र"
+
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr "उपयोगकर्ता नाम या ईमेल पता"
@@ -210,6 +241,10 @@ msgstr "पासवर्ड पुनः दर्ज करें"
 msgid "Register"
 msgstr "रजिस्टर"
 
+#: magic-link/templates/tree.php:60
+msgid "Church Tree"
+msgstr "चर्च का पेड़"
+
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
 msgstr "अमान्य समूह घोंसले का घोंसला।"
@@ -246,9 +281,3 @@ msgstr "अमान्य समूह घोंसले का घोंस�
 
 #~ msgid "Clear"
 #~ msgstr "रिक्त"
-
-#~ msgid "Group Generation Map"
-#~ msgstr "समूह पीढ़ी मानचित्र"
-
-#~ msgid "Church Tree"
-#~ msgstr "चर्च का पेड़"

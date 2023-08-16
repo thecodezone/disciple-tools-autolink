@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-08-16 17:55-0500\n"
+"POT-Creation-Date: 2023-08-16T22:35:31+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:55-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,8 +18,8 @@ msgstr ""
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
@@ -28,21 +28,27 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-4: magic-link/js/genmapper.js\n"
 "X-Poedit-SearchPathExcluded-5: magic-link/js\n"
 
-#: charts/groups-genmap.php:91
-msgid "Group Generation Tree"
-msgstr "Árbol de generación de grupos"
+#. Plugin Name of the plugin
+msgid "Disciple.Tools - Autolink"
+msgstr "Disciple.Tools - Autolink"
 
-#: charts/groups-genmap.php:92
-msgid "This tree shows your groups and your descendants."
-msgstr "Este árbol muestra tus grupos y tus descendientes."
+#. Plugin URI of the plugin
+msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
-#: charts/groups-genmap.php:93
-msgid "See descendants of a specific group"
-msgstr "Ver descendientes de un grupo específico"
+#. Description of the plugin
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
+msgstr ""
+"Proporciona una interfaz simplificada para administrar y visualizar su red "
+"Disciple.Tools. Comparta el acceso con sus líderes descendentes para "
+"construir fácilmente su árbol de grupo."
 
-#: charts/groups-genmap.php:94
-msgid "Reset"
-msgstr "Restablecer"
+#. Author URI of the plugin
+msgid "https://www.eastwest.org/"
+msgstr "https://www.eastwest.org/"
 
 #: charts/groups-genmap.php:95
 msgid "Parent"
@@ -71,10 +77,6 @@ msgstr "OK"
 #: charts/groups-genmap.php:101
 msgid "Edit Record"
 msgstr "Abrir registro"
-
-#: charts/groups-tree.php:198
-msgid "Coached without Parent Group"
-msgstr "Entrenado sin grupo de padres"
 
 #: magic-link/controllers/app.php:18
 msgid "Delete"
@@ -132,30 +134,6 @@ msgstr "Árbol"
 #: magic-link/controllers/controller.php:38 magic-link/functions.php:258
 msgid "GenMap"
 msgstr "GenMap"
-
-#: magic-link/controllers/group.php:55
-msgid "add"
-msgstr "añadir"
-
-#: magic-link/controllers/group.php:56
-msgid "Use"
-msgstr "Usar"
-
-#: magic-link/controllers/group.php:57
-msgid "Search Location"
-msgstr "Buscar ubicación"
-
-#: magic-link/controllers/group.php:58
-msgid "Delete Location"
-msgstr "Eliminar ubicación"
-
-#: magic-link/controllers/group.php:59
-msgid "Open Mapping"
-msgstr "Mapeo abierto"
-
-#: magic-link/controllers/group.php:60
-msgid "Clear"
-msgstr "Limpiar"
 
 #: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
 msgid "Create"
@@ -274,24 +252,35 @@ msgstr "Árbol de la Iglesia"
 msgid "Invalid group nesting."
 msgstr "Anidamiento de grupo no válido."
 
-#. Plugin Name of the plugin/theme
-msgid "Disciple.Tools - Autolink"
-msgstr "Disciple.Tools - Autolink"
+#~ msgid "Group Generation Tree"
+#~ msgstr "Árbol de generación de grupos"
 
-#. Plugin URI of the plugin/theme
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
-msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
+#~ msgid "This tree shows your groups and your descendants."
+#~ msgstr "Este árbol muestra tus grupos y tus descendientes."
 
-#. Description of the plugin/theme
-msgid ""
-"Provides a simplified interface for managing and visualizing your Disciple."
-"Tools network. Share access with your downstream leaders to easily build "
-"your group tree."
-msgstr ""
-"Proporciona una interfaz simplificada para administrar y visualizar su red "
-"Disciple.Tools. Comparta el acceso con sus líderes descendentes para "
-"construir fácilmente su árbol de grupo."
+#~ msgid "See descendants of a specific group"
+#~ msgstr "Ver descendientes de un grupo específico"
 
-#. Author URI of the plugin/theme
-msgid "https://www.eastwest.org/"
-msgstr "https://www.eastwest.org/"
+#~ msgid "Reset"
+#~ msgstr "Restablecer"
+
+#~ msgid "Coached without Parent Group"
+#~ msgstr "Entrenado sin grupo de padres"
+
+#~ msgid "add"
+#~ msgstr "añadir"
+
+#~ msgid "Use"
+#~ msgstr "Usar"
+
+#~ msgid "Search Location"
+#~ msgstr "Buscar ubicación"
+
+#~ msgid "Delete Location"
+#~ msgstr "Eliminar ubicación"
+
+#~ msgid "Open Mapping"
+#~ msgstr "Mapeo abierto"
+
+#~ msgid "Clear"
+#~ msgstr "Limpiar"

@@ -3,8 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-autolink\n"
-"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
+"autolink\n"
+"POT-Creation-Date: 2023-08-16T22:35:31+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:55-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -24,46 +25,87 @@ msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin
-msgid "Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree."
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
 msgstr ""
-"Proporciona una interfaz simplificada para administrar y visualizar su red Disciple.Tools. Comparta el acceso con sus líderes descendentes para construir fácilmente su "
-"árbol de grupo."
+"Proporciona una interfaz simplificada para administrar y visualizar su red "
+"Disciple.Tools. Comparta el acceso con sus líderes descendentes para "
+"construir fácilmente su árbol de grupo."
 
 #. Author URI of the plugin
 msgid "https://www.eastwest.org/"
 msgstr "https://www.eastwest.org/"
 
-#: magic-link/controllers/app.php:19
+#: charts/groups-genmap.php:95
+msgid "Parent"
+msgstr ""
+
+#: charts/groups-genmap.php:96
+msgid "Save Changes"
+msgstr ""
+
+#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: charts/groups-genmap.php:98
+msgid "Open Record"
+msgstr ""
+
+#: charts/groups-genmap.php:99
+msgid "Center on this Node"
+msgstr ""
+
+#: charts/groups-genmap.php:100
+msgid "OK"
+msgstr ""
+
+#: charts/groups-genmap.php:101
+msgid "Edit Record"
+msgstr ""
+
+#: magic-link/controllers/app.php:18
 msgid "Delete"
 msgstr "Eliminar"
 
-#: magic-link/controllers/app.php:20
+#: magic-link/controllers/app.php:19
 msgid "Are you sure you want to delete this "
 msgstr "¿Está seguro de que desea eliminar esto? "
 
-#: magic-link/controllers/app.php:21 magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
 msgid "Edit"
 msgstr "Editar"
 
-#: magic-link/controllers/app.php:22 magic-link/controllers/controller.php:34 magic-link/functions.php:254
+#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
+#: magic-link/functions.php:254
 msgid "View"
 msgstr "Ver"
 
-#: magic-link/controllers/controller.php:20 magic-link/functions.php:78 magic-link/functions.php:241
+#: magic-link/controllers/app.php:24
+msgid "Church Start Date"
+msgstr ""
+
+#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
+#: magic-link/functions.php:241
 msgid "Hello,"
 msgstr "Hola"
 
-#: magic-link/controllers/controller.php:23 magic-link/functions.php:79 magic-link/functions.php:244
+#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
+#: magic-link/functions.php:244
 msgid "Coached by"
 msgstr "Entrenado por"
 
-#: magic-link/controllers/controller.php:24 magic-link/functions.php:80 magic-link/functions.php:245
+#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
+#: magic-link/functions.php:245
 msgid "My Link"
 msgstr "Mi enlace"
 
 #: magic-link/controllers/controller.php:25 magic-link/functions.php:246
 msgid "Copy this link and share it with people you are coaching."
-msgstr "Copie este enlace y compártalo con las personas a las que está entrenando."
+msgstr ""
+"Copie este enlace y compártalo con las personas a las que está entrenando."
 
 #: magic-link/controllers/controller.php:26 magic-link/functions.php:247
 msgid "My "
@@ -81,23 +123,20 @@ msgstr "Árbol"
 msgid "GenMap"
 msgstr "GenMap"
 
-#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
 msgid "Create"
 msgstr "Crear"
 
-#: magic-link/controllers/group.php:77
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: magic-link/controllers/group.php:142
+#: magic-link/controllers/group.php:147
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Acción no autorizada. Actualice la página e inténtelo de nuevo."
 
-#: magic-link/controllers/group.php:164
+#: magic-link/controllers/group.php:170
 msgid "Back to AutoLink"
 msgstr "Volver a AutoLink"
 
-#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56 magic-link/templates/tree.php:67
+#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56
+#: magic-link/templates/tree.php:67
 msgid "An unexpected error has occurred."
 msgstr "Se ha producido un error inesperado."
 
@@ -145,6 +184,10 @@ msgstr "¿Estás liderando?"
 msgid "Error: Invalid username/password combination."
 msgstr "Error: Combinación de nombre de usuario y contraseña no válida."
 
+#: magic-link/templates/genmap.php:6
+msgid "Group Generation Map"
+msgstr ""
+
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr "Nombre de usuario o dirección de correo electrónico"
@@ -188,6 +231,10 @@ msgstr "Confirme contraseña"
 #: magic-link/templates/register.php:52
 msgid "Register"
 msgstr "Regístrate"
+
+#: magic-link/templates/tree.php:60
+msgid "Church Tree"
+msgstr ""
 
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
