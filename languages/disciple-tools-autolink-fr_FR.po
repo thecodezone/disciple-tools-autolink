@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
 "POT-Creation-Date: 2023-08-16T22:35:31+00:00\n"
-"PO-Revision-Date: 2023-08-16 17:56-0500\n"
+"PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: fr_FR\n"
@@ -40,11 +40,11 @@ msgstr "https://www.eastwest.org/"
 
 #: charts/groups-genmap.php:95
 msgid "Parent"
-msgstr ""
+msgstr "Parent"
 
 #: charts/groups-genmap.php:96
 msgid "Save Changes"
-msgstr ""
+msgstr "Sauvegarder les changements"
 
 #: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
 msgid "Cancel"
@@ -52,19 +52,19 @@ msgstr "Annuler"
 
 #: charts/groups-genmap.php:98
 msgid "Open Record"
-msgstr ""
+msgstr "Ouvrir un enregistrement"
 
 #: charts/groups-genmap.php:99
 msgid "Center on this Node"
-msgstr ""
+msgstr "Centrer sur ce nœud"
 
 #: charts/groups-genmap.php:100
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: charts/groups-genmap.php:101
 msgid "Edit Record"
-msgstr ""
+msgstr "Editer un enregistrement"
 
 #: magic-link/controllers/app.php:18
 msgid "Delete"
@@ -85,7 +85,7 @@ msgstr "Voir"
 
 #: magic-link/controllers/app.php:24
 msgid "Church Start Date"
-msgstr ""
+msgstr "Date de début de l’église"
 
 #: magic-link/controllers/controller.php:20 magic-link/functions.php:78
 #: magic-link/functions.php:241
@@ -185,7 +185,7 @@ msgstr "Erreur : Combinaison nom d’utilisateur/mot de passe non valide."
 
 #: magic-link/templates/genmap.php:6
 msgid "Group Generation Map"
-msgstr ""
+msgstr "Carte de génération de groupe"
 
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
@@ -233,7 +233,7 @@ msgstr "S'inscrire"
 
 #: magic-link/templates/tree.php:60
 msgid "Church Tree"
-msgstr ""
+msgstr "Arbre de l’église"
 
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
