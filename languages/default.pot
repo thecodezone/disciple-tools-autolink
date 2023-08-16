@@ -1,104 +1,164 @@
-# Copyright (C) 2023 
+# Copyright (C) 2023
 # This file is distributed under the same license as the Disciple.Tools - Autolink plugin.
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-autolink\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: Disciple.Tools - Autolink\n"
+"POT-Creation-Date: 2023-08-16 16:45-0500\n"
+"PO-Revision-Date: 2023-08-14 15:30-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
-"X-Domain: disciple-tools-autolink\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: disciple-tools-autolink.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+"X-Poedit-SearchPathExcluded-3: magic-link/js/mapbox-search-widget.js\n"
+"X-Poedit-SearchPathExcluded-4: magic-link/js/genmapper.js\n"
+"X-Poedit-SearchPathExcluded-5: magic-link/js\n"
 
-#. Plugin Name of the plugin
-msgid "Disciple.Tools - Autolink"
+#: charts/groups-genmap.php:91
+msgid "Group Generation Tree"
 msgstr ""
 
-#. Plugin URI of the plugin
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+#: charts/groups-genmap.php:92
+msgid "This tree shows your groups and your descendants."
 msgstr ""
 
-#. Description of the plugin
-msgid "Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree."
+#: charts/groups-genmap.php:93
+msgid "See descendants of a specific group"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://www.eastwest.org/"
+#: charts/groups-genmap.php:94
+msgid "Reset"
 msgstr ""
 
-#: magic-link/controllers/app.php:19
+#: charts/groups-genmap.php:95
+msgid "Parent"
+msgstr ""
+
+#: charts/groups-genmap.php:96
+msgid "Save Changes"
+msgstr ""
+
+#: charts/groups-genmap.php:97 magic-link/controllers/group.php:77
+msgid "Cancel"
+msgstr ""
+
+#: charts/groups-genmap.php:98
+msgid "Open Record"
+msgstr ""
+
+#: charts/groups-genmap.php:99
+msgid "Center on this Node"
+msgstr ""
+
+#: charts/groups-genmap.php:100
+msgid "OK"
+msgstr ""
+
+#: charts/groups-genmap.php:101
+msgid "Edit Record"
+msgstr ""
+
+#: charts/groups-tree.php:198
+msgid "Coached without Parent Group"
+msgstr ""
+
+#: magic-link/controllers/app.php:18
 msgid "Delete"
 msgstr ""
 
-#: magic-link/controllers/app.php:20
+#: magic-link/controllers/app.php:19
 msgid "Are you sure you want to delete this "
 msgstr ""
 
-#: magic-link/controllers/app.php:21
-#: magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:78
 msgid "Edit"
 msgstr ""
 
-#: magic-link/controllers/app.php:22
-#: magic-link/controllers/controller.php:34
+#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
 #: magic-link/functions.php:254
 msgid "View"
 msgstr ""
 
-#: magic-link/controllers/controller.php:20
-#: magic-link/functions.php:78
+#: magic-link/controllers/app.php:24
+msgid "Church Start Date"
+msgstr ""
+
+#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
 #: magic-link/functions.php:241
 msgid "Hello,"
 msgstr ""
 
-#: magic-link/controllers/controller.php:23
-#: magic-link/functions.php:79
+#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
 #: magic-link/functions.php:244
 msgid "Coached by"
 msgstr ""
 
-#: magic-link/controllers/controller.php:24
-#: magic-link/functions.php:80
+#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
 #: magic-link/functions.php:245
 msgid "My Link"
 msgstr ""
 
-#: magic-link/controllers/controller.php:25
-#: magic-link/functions.php:246
+#: magic-link/controllers/controller.php:25 magic-link/functions.php:246
 msgid "Copy this link and share it with people you are coaching."
 msgstr ""
 
-#: magic-link/controllers/controller.php:26
-#: magic-link/functions.php:247
+#: magic-link/controllers/controller.php:26 magic-link/functions.php:247
 msgid "My "
 msgstr ""
 
-#: magic-link/controllers/controller.php:36
-#: magic-link/functions.php:256
+#: magic-link/controllers/controller.php:36 magic-link/functions.php:256
 msgid "Health"
 msgstr ""
 
-#: magic-link/controllers/controller.php:37
-#: magic-link/functions.php:257
+#: magic-link/controllers/controller.php:37 magic-link/functions.php:257
 msgid "Tree"
 msgstr ""
 
-#: magic-link/controllers/controller.php:38
-#: magic-link/functions.php:258
+#: magic-link/controllers/controller.php:38 magic-link/functions.php:258
 msgid "GenMap"
 msgstr ""
 
-#: magic-link/controllers/group.php:69
-#: magic-link/controllers/group.php:78
-msgid "Create"
+#: magic-link/controllers/group.php:52
+msgid "add"
 msgstr ""
 
-#: magic-link/controllers/group.php:77
-msgid "Cancel"
+#: magic-link/controllers/group.php:53
+msgid "Use"
+msgstr ""
+
+#: magic-link/controllers/group.php:54
+msgid "Search Location"
+msgstr ""
+
+#: magic-link/controllers/group.php:55
+msgid "Delete Location"
+msgstr ""
+
+#: magic-link/controllers/group.php:56
+msgid "Open Mapping"
+msgstr ""
+
+#: magic-link/controllers/group.php:57
+msgid "Clear"
+msgstr ""
+
+#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+msgid "Create"
 msgstr ""
 
 #: magic-link/controllers/group.php:142
@@ -109,8 +169,7 @@ msgstr ""
 msgid "Back to AutoLink"
 msgstr ""
 
-#: magic-link/controllers/login.php:38
-#: magic-link/controllers/register.php:56
+#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56
 #: magic-link/templates/tree.php:67
 msgid "An unexpected error has occurred."
 msgstr ""
@@ -159,12 +218,15 @@ msgstr ""
 msgid "Error: Invalid username/password combination."
 msgstr ""
 
+#: magic-link/templates/genmap.php:6
+msgid "Group Generation Map"
+msgstr ""
+
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr ""
 
-#: magic-link/templates/login.php:38
-#: magic-link/templates/register.php:39
+#: magic-link/templates/login.php:38 magic-link/templates/register.php:39
 msgid "Password"
 msgstr ""
 
@@ -172,8 +234,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: magic-link/templates/login.php:54
-#: magic-link/templates/login.php:55
+#: magic-link/templates/login.php:54 magic-link/templates/login.php:55
 msgid "Create Account"
 msgstr ""
 
@@ -205,6 +266,29 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
+#: magic-link/templates/tree.php:60
+msgid "Church Tree"
+msgstr ""
+
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Disciple.Tools - Autolink"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.eastwest.org/"
 msgstr ""

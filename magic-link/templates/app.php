@@ -37,6 +37,7 @@
  * @var $delete_group_label string
  * @var $delete_group_link string
  * @var $delete_group_confirm string
+ * @var $church_start_date_label string
  */
 ?>
 <?php include( 'parts/app-header.php' ); ?>
@@ -65,7 +66,7 @@
                         <?php
                         //If the church is the first one the tile is open if not it is closed.
                         $app_church_opened = "";
-                        if ( $church === $churches[ array_key_first( $churches ) ] ) {
+                        if ( $church === $churches[array_key_first( $churches )] ) {
                             $app_church_opened = "opened";
                         }
                         ?>
@@ -73,6 +74,7 @@
                                      title="<?php echo esc_attr( $church['post_title'] ); ?>">
                             <?php include( "parts/health-counts.php" ); ?>
                             <app-church
+                                startDateLabel="<?php echo esc_attr( $church_start_date_label ); ?>"
                                 group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>'
                                 fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
                             </app-church>

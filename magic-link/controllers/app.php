@@ -5,8 +5,7 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
     /**
      * Show the app template
      */
-    public function show($params = [])
-    {
+    public function show( $params = [] ) {
         $data = $this->global_data();
         extract( $data );
 
@@ -22,8 +21,9 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
         $view_group_label = __( 'View', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
         $group_link = $this->functions->get_app_link() . '?action=group';
         $app_link = $this->functions->get_app_link();
+        $church_start_date_label = __( 'Church Start Date', 'disciple-tools-autolink' );
         $churches = DT_Posts::list_posts('groups', [
-                'assigned_to' => [ get_current_user_id() ],
+            'assigned_to' => [ get_current_user_id() ],
         ], false)['posts'] ?? [];
 
         $error = $params['error'] ?? false;
@@ -32,19 +32,19 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
             $churches = [];
         }
 
-        usort( $churches, function ( $a, $b ) {
+        usort($churches, function ( $a, $b ) {
             return $a['last_modified'] < $b['last_modified'] ? 1 : -1;
         });
 
         //Apply WP formatting to all date fields.
-        $churches = array_map( function ( $church ) {
+        $churches = array_map(function ( $church ) {
             foreach ( $church as $key => $value ) {
                 if ( is_array( $value ) && isset( $value['timestamp'] ) ) {
                     $church[$key]['formatted'] = dt_format_date( $value['timestamp'], get_option( 'date_format' ) );
                 }
             }
             return $church;
-        }, $churches );
+        }, $churches);
 
         $group_fields = DT_Posts::get_post_field_settings( 'groups' );
         $church_fields = [
@@ -62,7 +62,7 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
 
         foreach ( $allowed_church_count_fields as $field ) {
             //Fields can registered or deregistered by plugins,so check and make sure it exists
-            if ( isset( $group_fields[$field] ) && ( !isset($group_fields[$field]['hidden']) || ! $group_fields[$field]['hidden'] ) ) {
+            if ( isset( $group_fields[$field] ) && ( !isset( $group_fields[$field]['hidden'] ) || !$group_fields[$field]['hidden'] ) ) {
                 $church_count_fields[$field] = $group_fields[$field];
             }
         }

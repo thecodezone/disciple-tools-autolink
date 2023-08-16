@@ -22,8 +22,8 @@
           <section id="edit-group" class="edit-group">
           </section>
           <section id="genmapper-graph" style="height:${
-            document.documentElement.clientHeight - 250
-          }px">
+      document.documentElement.clientHeight - 250
+    }px">
             <svg id="genmapper-graph-svg" width="100%"></svg>
           </section>
         </div>
@@ -104,6 +104,7 @@
         });
     });
   }
+
   function displayError(err, msg) {
     window.genmapper.displayAlert();
     if (
@@ -113,7 +114,7 @@
     ) {
       let msg =
         err.responseJSON.message +
-        ` <a target="_blank" href="${err.responseJSON.data.link}">Open Record</a>`;
+        ` <a target="_blank" href="${err.responseJSON.data.link}">${localizedObject.transaction.open_record_label}</a>`;
       window.genmapper.displayAlert(msg);
     }
   }
@@ -127,7 +128,7 @@
     loading_spinner.addClass("active");
     let fields = {
       title: "New",
-      parent_groups: { values: [{ value: parent.data.id }] },
+      parent_groups: {values: [{value: parent.data.id}]},
       group_type: "group",
     };
     window.API.create_post("groups", fields).then((newGroup) => {

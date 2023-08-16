@@ -24,7 +24,7 @@
  * 3. @todo Update the README.md and LICENSE
  * 4. @todo Update the default.pot file if you intend to make your plugin multilingual. Use a tool like POEdit
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
@@ -37,8 +37,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function disciple_tools_autolink() {
     $disciple_tools_autolink_required_dt_theme_version = '1.35';
-    $wp_theme                                          = wp_get_theme();
-    $version                                           = $wp_theme->version;
+    $wp_theme = wp_get_theme();
+    $version = $wp_theme->version;
 
     /*
      * Check if the Disciple.Tools theme is loaded and is the latest required version
@@ -50,14 +50,14 @@ function disciple_tools_autolink() {
 
         return false;
     }
-    if ( ! $is_theme_dt ) {
+    if ( !$is_theme_dt ) {
         return false;
     }
 
     /**
      * Load useful function from the theme
      */
-    if ( ! defined( 'DT_FUNCTIONS_READY' ) ) {
+    if ( !defined( 'DT_FUNCTIONS_READY' ) ) {
         require_once get_template_directory() . '/dt-core/global-functions.php';
     }
 
@@ -72,7 +72,8 @@ add_action( 'after_setup_theme', 'disciple_tools_autolink', 20 );
  * @since  0.1
  * @access public
  */
-class Disciple_Tools_Autolink {
+class Disciple_Tools_Autolink
+{
 
     private static $_instance = null;
 
@@ -91,12 +92,12 @@ class Disciple_Tools_Autolink {
         require_once( __DIR__ . '/charts/groups-tree.php' );
 
 
-        require_once( __DIR__ .
-                      '/magic-link/contact-app.php' );
-        require_once( __DIR__ .
-                      '/magic-link/user-app.php' );
-        require_once( __DIR__ .
-                      '/magic-link/login-app.php' );
+        require_once(__DIR__ .
+        '/magic-link/contact-app.php');
+        require_once(__DIR__ .
+        '/magic-link/user-app.php');
+        require_once(__DIR__ .
+        '/magic-link/login-app.php');
 
         $this->i18n();
     }
@@ -217,17 +218,17 @@ register_activation_hook( __FILE__, [ 'Disciple_Tools_Autolink', 'activation' ] 
 register_deactivation_hook( __FILE__, [ 'Disciple_Tools_Autolink', 'deactivation' ] );
 
 
-if ( ! function_exists( 'disciple_tools_autolink_hook_admin_notice' ) ) {
+if ( !function_exists( 'disciple_tools_autolink_hook_admin_notice' ) ) {
     function disciple_tools_autolink_hook_admin_notice() {
         global $disciple_tools_autolink_required_dt_theme_version;
-        $wp_theme        = wp_get_theme();
+        $wp_theme = wp_get_theme();
         $current_version = $wp_theme->version;
-        $message         = "'Disciple.Tools - Autolink' plugin requires 'Disciple.Tools' theme to work. Please activate 'Disciple.Tools' theme or make sure it is latest version.";
+        $message = "'Disciple.Tools - Autolink' plugin requires 'Disciple.Tools' theme to work. Please activate 'Disciple.Tools' theme or make sure it is latest version.";
         if ( $wp_theme->get_template() === "disciple-tools-theme" ) {
             $message .= ' ' . sprintf( esc_html( 'Current Disciple.Tools version: %1$s, required version: %2$s' ), esc_html( $current_version ), esc_html( $disciple_tools_autolink_required_dt_theme_version ) );
         }
         // Check if it's been dismissed...
-        if ( ! get_option( 'dismissed-disciple-tools-autolink', false ) ) { ?>
+        if ( !get_option( 'dismissed-disciple-tools-autolink', false ) ) { ?>
             <div class="notice notice-error notice-disciple-tools-autolink is-dismissible"
                  data-notice="disciple-tools-autolink">
                 <p><?php echo esc_html( $message ); ?></p>
@@ -253,7 +254,7 @@ if ( ! function_exists( 'disciple_tools_autolink_hook_admin_notice' ) ) {
 /**
  * AJAX handler to store the state of dismissible notices.
  */
-if ( ! function_exists( "dt_hook_ajax_notice_handler" ) ) {
+if ( !function_exists( "dt_hook_ajax_notice_handler" ) ) {
     function dt_hook_ajax_notice_handler() {
         check_ajax_referer( 'wp_rest_dismiss', 'security' );
         if ( isset( $_POST["type"] ) ) {
@@ -264,10 +265,10 @@ if ( ! function_exists( "dt_hook_ajax_notice_handler" ) ) {
 }
 
 
-add_action( 'plugins_loaded', function () {
-    if ( is_admin() && ! ( is_multisite() && class_exists( "DT_Multisite" ) ) || wp_doing_cron() ) {
+add_action('plugins_loaded', function () {
+    if ( is_admin() && !( is_multisite() && class_exists( "DT_Multisite" ) ) || wp_doing_cron() ) {
         // Check for plugin updates
-        if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+        if ( !class_exists( 'Puc_v4_Factory' ) ) {
             if ( file_exists( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' ) ) {
                 require( get_template_directory() . '/dt-core/libraries/plugin-update-checker/plugin-update-checker.php' );
             }
@@ -280,4 +281,4 @@ add_action( 'plugins_loaded', function () {
             );
         }
     }
-} );
+});
