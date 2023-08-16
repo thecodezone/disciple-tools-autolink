@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
-"PO-Revision-Date: 2023-08-14 15:30-0500\n"
+"POT-Creation-Date: 2023-08-16 17:55-0500\n"
+"PO-Revision-Date: 2023-08-16 17:55-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -28,27 +28,21 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-4: magic-link/js/genmapper.js\n"
 "X-Poedit-SearchPathExcluded-5: magic-link/js\n"
 
-#. Plugin Name of the plugin
-msgid "Disciple.Tools - Autolink"
-msgstr "Disciple.Tools - Autolink"
+#: charts/groups-genmap.php:91
+msgid "Group Generation Tree"
+msgstr "Árbol de generación de grupos"
 
-#. Plugin URI of the plugin
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
-msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
+#: charts/groups-genmap.php:92
+msgid "This tree shows your groups and your descendants."
+msgstr "Este árbol muestra tus grupos y tus descendientes."
 
-#. Description of the plugin
-msgid ""
-"Provides a simplified interface for managing and visualizing your Disciple."
-"Tools network. Share access with your downstream leaders to easily build "
-"your group tree."
-msgstr ""
-"Proporciona una interfaz simplificada para administrar y visualizar su red "
-"Disciple.Tools. Comparta el acceso con sus líderes descendentes para "
-"construir fácilmente su árbol de grupo."
+#: charts/groups-genmap.php:93
+msgid "See descendants of a specific group"
+msgstr "Ver descendientes de un grupo específico"
 
-#. Author URI of the plugin
-msgid "https://www.eastwest.org/"
-msgstr "https://www.eastwest.org/"
+#: charts/groups-genmap.php:94
+msgid "Reset"
+msgstr "Restablecer"
 
 #: charts/groups-genmap.php:95
 msgid "Parent"
@@ -58,7 +52,7 @@ msgstr "Parentesco"
 msgid "Save Changes"
 msgstr "Guardar Cambios"
 
-#: charts/groups-genmap.php:97 magic-link/controllers/group.php:77
+#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -90,7 +84,7 @@ msgstr "Borrar"
 msgid "Are you sure you want to delete this "
 msgstr "¿Está seguro de que desea eliminar esto? "
 
-#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
 msgid "Edit"
 msgstr "Editar"
 
@@ -139,15 +133,39 @@ msgstr "Árbol"
 msgid "GenMap"
 msgstr "GenMap"
 
-#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+#: magic-link/controllers/group.php:55
+msgid "add"
+msgstr "añadir"
+
+#: magic-link/controllers/group.php:56
+msgid "Use"
+msgstr "Usar"
+
+#: magic-link/controllers/group.php:57
+msgid "Search Location"
+msgstr "Buscar ubicación"
+
+#: magic-link/controllers/group.php:58
+msgid "Delete Location"
+msgstr "Eliminar ubicación"
+
+#: magic-link/controllers/group.php:59
+msgid "Open Mapping"
+msgstr "Mapeo abierto"
+
+#: magic-link/controllers/group.php:60
+msgid "Clear"
+msgstr "Limpiar"
+
+#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
 msgid "Create"
 msgstr "Crear"
 
-#: magic-link/controllers/group.php:142
+#: magic-link/controllers/group.php:147
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Acción no autorizada. Actualice la página e inténtelo de nuevo."
 
-#: magic-link/controllers/group.php:164
+#: magic-link/controllers/group.php:170
 msgid "Back to AutoLink"
 msgstr "Volver a AutoLink"
 
@@ -200,6 +218,10 @@ msgstr "¿Estás liderando?"
 msgid "Error: Invalid username/password combination."
 msgstr "Error: Combinación de nombre de usuario y contraseña no válida."
 
+#: magic-link/templates/genmap.php:6
+msgid "Group Generation Map"
+msgstr "Mapa de generación de grupos"
+
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr "Nombre de usuario o dirección de correo electrónico"
@@ -244,45 +266,32 @@ msgstr "Confirmar contraseña"
 msgid "Register"
 msgstr "Registro"
 
+#: magic-link/templates/tree.php:60
+msgid "Church Tree"
+msgstr "Árbol de la Iglesia"
+
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
 msgstr "Anidamiento de grupo no válido."
 
-#~ msgid "Group Generation Tree"
-#~ msgstr "Árbol de generación de grupos"
+#. Plugin Name of the plugin/theme
+msgid "Disciple.Tools - Autolink"
+msgstr "Disciple.Tools - Autolink"
 
-#~ msgid "This tree shows your groups and your descendants."
-#~ msgstr "Este árbol muestra tus grupos y tus descendientes."
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
-#~ msgid "See descendants of a specific group"
-#~ msgstr "Ver descendientes de un grupo específico"
+#. Description of the plugin/theme
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
+msgstr ""
+"Proporciona una interfaz simplificada para administrar y visualizar su red "
+"Disciple.Tools. Comparta el acceso con sus líderes descendentes para "
+"construir fácilmente su árbol de grupo."
 
-#~ msgid "Reset"
-#~ msgstr "Restablecer"
-
-#~ msgid "Coached without Parent Group"
-#~ msgstr "Entrenado sin grupo de padres"
-
-#~ msgid "add"
-#~ msgstr "añadir"
-
-#~ msgid "Use"
-#~ msgstr "Usar"
-
-#~ msgid "Search Location"
-#~ msgstr "Buscar ubicación"
-
-#~ msgid "Delete Location"
-#~ msgstr "Eliminar ubicación"
-
-#~ msgid "Open Mapping"
-#~ msgstr "Mapeo abierto"
-
-#~ msgid "Clear"
-#~ msgstr "Limpiar"
-
-#~ msgid "Group Generation Map"
-#~ msgstr "Mapa de generación de grupos"
-
-#~ msgid "Church Tree"
-#~ msgstr "Árbol de la Iglesia"
+#. Author URI of the plugin/theme
+msgid "https://www.eastwest.org/"
+msgstr "https://www.eastwest.org/"

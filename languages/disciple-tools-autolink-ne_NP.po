@@ -1,10 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
-"autolink\n"
-"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
-"PO-Revision-Date: 2023-08-14 15:42-0500\n"
+"POT-Creation-Date: 2023-08-16 17:52-0500\n"
+"PO-Revision-Date: 2023-08-16 17:52-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ne_NP\n"
@@ -17,35 +15,62 @@ msgstr ""
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;"
+"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
+"__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
 "X-Poedit-SearchPathExcluded-3: *.js\n"
 
-#. Plugin Name of the plugin
-msgid "Disciple.Tools - Autolink"
-msgstr "चेला.उपकरण - स्वत: लिङ्क"
+#: charts/groups-genmap.php:91
+msgid "Group Generation Tree"
+msgstr "समूह सिर्जना ट्री"
 
-#. Plugin URI of the plugin
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
-msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
+#: charts/groups-genmap.php:92
+msgid "This tree shows your groups and your descendants."
+msgstr "यो रूखले तिमीहरूका समूहहरू र तिम्रा सन्तानहरूलाई देखाउँ."
 
-#. Description of the plugin
-msgid ""
-"Provides a simplified interface for managing and visualizing your Disciple."
-"Tools network. Share access with your downstream leaders to easily build "
-"your group tree."
-msgstr ""
-"तपाईँको चेला.उपकरण सञ्जाल व्यवस्थापन र दृश्यावलोकनका लागि सरलीकृत इन्टरफेस प्रदान गर्दछ "
-"। तपाईंको समूह रूख सजिलै निर्माण गर्न तपाईंको डाउनस्ट्रीम नेताहरूसँग पहुँच साझेदारी गर्नुहोस्."
+#: charts/groups-genmap.php:93
+msgid "See descendants of a specific group"
+msgstr "एउटा खास समूहका वंशजहरू हेर्नुहोस्"
 
-#. Author URI of the plugin
-msgid "https://www.eastwest.org/"
-msgstr "https://www.eastwest.org/"
+#: charts/groups-genmap.php:94
+msgid "Reset"
+msgstr "रिसेट गर्नुहोस्"
+
+#: charts/groups-genmap.php:95
+msgid "Parent"
+msgstr "आमाबाबु"
+
+#: charts/groups-genmap.php:96
+msgid "Save Changes"
+msgstr "परिवर्तनहरू सुरक्षित गर्नुहोस"
+
+#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
+msgid "Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+#: charts/groups-genmap.php:98
+msgid "Open Record"
+msgstr "खुला रेकर्ड"
+
+#: charts/groups-genmap.php:99
+msgid "Center on this Node"
+msgstr "यो नोडमा केन्द्र"
+
+#: charts/groups-genmap.php:100
+msgid "OK"
+msgstr "ठिक छ"
+
+#: charts/groups-genmap.php:101
+msgid "Edit Record"
+msgstr "रेकर्ड सम्पादन गर्नुहोस्"
+
+#: charts/groups-tree.php:198
+msgid "Coached without Parent Group"
+msgstr "अभिभावक समूह बिना प्रशिक्षित"
 
 #: magic-link/controllers/app.php:18
 msgid "Delete"
@@ -55,37 +80,37 @@ msgstr "मेट्नुहोस्"
 msgid "Are you sure you want to delete this "
 msgstr "तपाईँ यसलाई मेट्न निश्चित हुनुहुन्छ ? "
 
-#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
 msgid "Edit"
 msgstr "सम्पादन गर्नुहोस्"
 
-#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34 magic-link/functions.php:254
+#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
+#: magic-link/functions.php:254
 msgid "View"
 msgstr "दृश्य"
 
 #: magic-link/controllers/app.php:24
-#, fuzzy
-#| msgid "Church Tree"
 msgid "Church Start Date"
 msgstr "चर्च को रूख"
 
-#: magic-link/controllers/controller.php:20 magic-link/functions.php:78 magic-link/functions.php:241
+#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
+#: magic-link/functions.php:241
 msgid "Hello,"
 msgstr "नमस्ते,"
 
-#: magic-link/controllers/controller.php:23 magic-link/functions.php:79 magic-link/functions.php:244
+#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
+#: magic-link/functions.php:244
 msgid "Coached by"
 msgstr "द्वारा प्रशिक्षित"
 
-#: magic-link/controllers/controller.php:24 magic-link/functions.php:80 magic-link/functions.php:245
+#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
+#: magic-link/functions.php:245
 msgid "My Link"
 msgstr "मेरो लिङ्क"
 
 #: magic-link/controllers/controller.php:25 magic-link/functions.php:246
 msgid "Copy this link and share it with people you are coaching."
-msgstr ""
-"यो लिङ्क प्रतिलिपि बनाउनुहोस् र यसलाई तपाईंले प्रशिक्षण दिइरहनुभएको व्यक्तिहरूसँग साझेदारी "
-"गर्नुहोस."
+msgstr "यो लिङ्क प्रतिलिपि बनाउनुहोस् र यसलाई तपाईंले प्रशिक्षण दिइरहनुभएको व्यक्तिहरूसँग साझेदारी गर्नुहोस."
 
 #: magic-link/controllers/controller.php:26 magic-link/functions.php:247
 msgid "My "
@@ -103,19 +128,39 @@ msgstr "रूख"
 msgid "GenMap"
 msgstr "चर्च को रूख"
 
-#: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
+#: magic-link/controllers/group.php:55
+msgid "add"
+msgstr "थप्नुहोस्"
+
+#: magic-link/controllers/group.php:56
+msgid "Use"
+msgstr "प्रयोग गर्नुहोस्"
+
+#: magic-link/controllers/group.php:57
+msgid "Search Location"
+msgstr "स्थान खोजी गर्नुहोस्"
+
+#: magic-link/controllers/group.php:58
+msgid "Delete Location"
+msgstr "स्थान मेट्नुहोस्"
+
+#: magic-link/controllers/group.php:59
+msgid "Open Mapping"
+msgstr "म्यापिङ खोल्नुहोस्"
+
+#: magic-link/controllers/group.php:60
+msgid "Clear"
+msgstr "खाली गर्नुहोस्"
+
+#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
 msgid "Create"
 msgstr "सिर्जना गर्नुहोस्"
 
-#: magic-link/controllers/group.php:77
-msgid "Cancel"
-msgstr "रद्द गर्नुहोस्"
-
-#: magic-link/controllers/group.php:142
+#: magic-link/controllers/group.php:147
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "अनाधिकृत कार्य। कृपया पृष्ठ ताजा पार्नुहोस् र पुन: प्रयास गर्नुहोस्."
 
-#: magic-link/controllers/group.php:164
+#: magic-link/controllers/group.php:170
 msgid "Back to AutoLink"
 msgstr "स्वत: लिङ्कमा फर्कनुहोस्"
 
@@ -168,6 +213,10 @@ msgstr "के तपाईं नेतृत्व गर्दै हुन�
 msgid "Error: Invalid username/password combination."
 msgstr "त्रुटि: अवैध प्रयोगकर्ता नाम/पासवर्ड संयोजन."
 
+#: magic-link/templates/genmap.php:6
+msgid "Group Generation Map"
+msgstr "समूह उत्पादन मानचित्र"
+
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr "प्रयोगकर्ता नाम वा इमेल ठेगाना"
@@ -212,54 +261,30 @@ msgstr "पासवर्ड पुष्टि गर्नुहोस्"
 msgid "Register"
 msgstr "दर्ता गर्नुहोस्"
 
+#: magic-link/templates/tree.php:60
+msgid "Church Tree"
+msgstr "चर्च को रूख"
+
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
 msgstr "अवैध समूह नेस्टिङ."
 
-#~ msgid "Group Generation Tree"
-#~ msgstr "समूह सिर्जना ट्री"
+#. Plugin Name of the plugin/theme
+msgid "Disciple.Tools - Autolink"
+msgstr "चेला.उपकरण - स्वत: लिङ्क"
 
-#~ msgid "This tree shows your groups and your descendants."
-#~ msgstr "यो रूखले तिमीहरूका समूहहरू र तिम्रा सन्तानहरूलाई देखाउँ."
-
-#~ msgid "See descendants of a specific group"
-#~ msgstr "एउटा खास समूहका वंशजहरू हेर्नुहोस्"
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin/theme
 msgid ""
-"Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access "
-"with your downstream leaders to easily build your group tree."
+"Provides a simplified interface for managing and visualizing your Disciple.Tools network. "
+"Share access with your downstream leaders to easily build your group tree."
 msgstr ""
-"तपाईँको चेला.उपकरण सञ्जाल व्यवस्थापन र दृश्यावलोकनका लागि सरलीकृत इन्टरफेस प्रदान गर्दछ । तपाईंको समूह रूख सजिलै निर्माण "
-"गर्न तपाईंको डाउनस्ट्रीम नेताहरूसँग पहुँच साझेदारी गर्नुहोस्."
+"तपाईँको चेला.उपकरण सञ्जाल व्यवस्थापन र दृश्यावलोकनका लागि सरलीकृत इन्टरफेस प्रदान गर्दछ । तपाईंको समूह रूख "
+"सजिलै निर्माण गर्न तपाईंको डाउनस्ट्रीम नेताहरूसँग पहुँच साझेदारी गर्नुहोस्."
 
-
-#~ msgid "Reset"
-#~ msgstr "रिसेट गर्नुहोस्"
-
-#~ msgid "Coached without Parent Group"
-#~ msgstr "अभिभावक समूह बिना प्रशिक्षित"
-
-#~ msgid "add"
-#~ msgstr "थप्नुहोस्"
-
-#~ msgid "Use"
-#~ msgstr "प्रयोग गर्नुहोस्"
-
-#~ msgid "Search Location"
-#~ msgstr "स्थान खोजी गर्नुहोस्"
-
-#~ msgid "Delete Location"
-#~ msgstr "स्थान मेट्नुहोस्"
-
-#~ msgid "Open Mapping"
-#~ msgstr "म्यापिङ खोल्नुहोस्"
-
-#~ msgid "Clear"
-#~ msgstr "खाली गर्नुहोस्"
-
-#~ msgid "Group Generation Map"
-#~ msgstr "समूह उत्पादन मानचित्र"
-
-#~ msgid "Church Tree"
-#~ msgstr "चर्च को रूख"
+#. Author URI of the plugin/theme
+msgid "https://www.eastwest.org/"
+msgstr "https://www.eastwest.org/"
