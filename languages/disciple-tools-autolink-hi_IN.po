@@ -48,22 +48,28 @@ msgstr ""
 msgid "https://www.eastwest.org/"
 msgstr "https://www.eastwest.org/"
 
-#: magic-link/controllers/app.php:19
+#: magic-link/controllers/app.php:18
 msgid "Delete"
 msgstr "हटाएं"
 
-#: magic-link/controllers/app.php:20
+#: magic-link/controllers/app.php:19
 msgid "Are you sure you want to delete this "
 msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
 
-#: magic-link/controllers/app.php:21 magic-link/controllers/group.php:78
+#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:78
 msgid "Edit"
 msgstr "संपादित करें"
 
-#: magic-link/controllers/app.php:22 magic-link/controllers/controller.php:34
+#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
 #: magic-link/functions.php:254
 msgid "View"
 msgstr "देखें"
+
+#: magic-link/controllers/app.php:24
+#, fuzzy
+#| msgid "Church Tree"
+msgid "Church Start Date"
+msgstr "चर्च का पेड़"
 
 #: magic-link/controllers/controller.php:20 magic-link/functions.php:78
 #: magic-link/functions.php:241
@@ -221,6 +227,15 @@ msgstr "अमान्य समूह घोंसले का घोंस�
 
 #~ msgid "See descendants of a specific group"
 #~ msgstr "एक विशिष्ट समूह के वंशज देखें"
+
+#. Description of the plugin/theme
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple.Tools network. "
+"Share access with your downstream leaders to easily build your group tree."
+msgstr ""
+"आपके शिष्य.उपकरण नेटवर्क के प्रबंधन और विज़ुअलाइज़ करने के लिए एक सरलीकृत इंटरफ़ेस प्रदान करता है। आसानी से अपने "
+"समूह ट्री का निर्माण करने के लिए अपने डाउनस्ट्रीम नेताओं के साथ पहुंच साझा करें।"
+
 
 #~ msgid "Reset"
 #~ msgstr "रिसेट"

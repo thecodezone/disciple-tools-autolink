@@ -9,10 +9,11 @@ class GenMapper {
     this.showMetrics = window.genApiTemplate.show_metrics === "1";
     this.showIcons = window.genApiTemplate.show_icons === "1";
     this.appVersion = "0.2.16";
+    this.translations = window.wpApiGenmapper.translation;
 
     this.language = "en";
 
-    this.margin = { top: 50, right: 30, bottom: 50, left: 30 };
+    this.margin = {top: 50, right: 30, bottom: 50, left: 30};
     this.projectName = "Untitled project";
 
     this.updateDOMafterLangSwitch();
@@ -92,20 +93,19 @@ class GenMapper {
     document.getElementById(
       "edit-group"
     ).innerHTML = `<div id="edit-group-content">
-     <h1> Edit Record</h1>
+     <h1>${this.translations.edit_record}</h1>
      <form>
        <table>
          <tr>
-           <td class="left-field"> Parent  </td>
+           <td class="left-field"> ${this.translations.parent_label} </td>
            <td class="right-field"><p id="edit-parent"></p></td>
          </tr>
        </table>
      </form>
      <div id="edit-buttons">
-       <button id="edit-submit"> Save Changes  </button>
-       <button id="edit-cancel"> Cancel  </button>
-       <button id="open-record"> Open Record  </button>
-       <button id="rebase-node"> Center on this node  </button>
+       <button id="edit-cancel"> ${this.translations.cancel_label}  </button>
+       <button id="open-record"> ${this.translations.open_label} </button>
+       <button id="rebase-node"> ${this.translations.rebase_label} </button>
      </div>
     </div>`;
 
@@ -134,7 +134,7 @@ class GenMapper {
       "alert-message"
     ).innerHTML = `<div id="alert-message-content">
       <p id="alert-message-text"></p>
-      <button onclick="genmapper.closeAlert()">OK</button>
+      <button onclick="genmapper.closeAlert()">${this.translations.ok_label}</button>
     </div>`;
 
     // document.getElementById('gen-mapper-version').innerHTML = this.appVersion
@@ -381,8 +381,8 @@ class GenMapper {
           (d.data.id === 0
             ? " node--dummyroot"
             : d.data.active
-            ? " node--active"
-            : " node--inactive")
+              ? " node--active"
+              : " node--inactive")
         );
       })
       .attr("class", (d) => {
@@ -563,12 +563,12 @@ class GenMapper {
       .append("svg")
       .html(
         '<rect x="40" y="0" rx="7" width="25" height="40">' +
-          "<title>" +
-          __("Delete group &amp; subtree", "disciple_tools") +
-          "</title>" +
-          "</rect>" +
-          '<line x1="46" y1="13.5" x2="59" y2="26.5" stroke="white" stroke-width="3"></line>' +
-          '<line x1="59" y1="13.5" x2="46" y2="26.5" stroke="white" stroke-width="3"></line>'
+        "<title>" +
+        __("Delete group &amp; subtree", "disciple_tools") +
+        "</title>" +
+        "</rect>" +
+        '<line x1="46" y1="13.5" x2="59" y2="26.5" stroke="white" stroke-width="3"></line>' +
+        '<line x1="59" y1="13.5" x2="46" y2="26.5" stroke="white" stroke-width="3"></line>'
       );
   }
 
@@ -596,7 +596,7 @@ class GenMapper {
 
   addNode(d) {
     let tmp = window.lodash.cloneDeep(this.masterData);
-    tmp.push({ parentId: d.data.id });
+    tmp.push({parentId: d.data.id});
     try {
       this.validTree(tmp);
     } catch (err) {
@@ -608,6 +608,7 @@ class GenMapper {
     // this.validTree(tmp)
     jQuery("#chart").trigger("add-node-requested", [d]);
   }
+
   /* required: id, parentId, name
    *
    */
@@ -789,7 +790,7 @@ class GenMapper {
     while (idsToDelete.length > 0) {
       const currentId = idsToDelete.pop();
       const childrenIdsToDelete = window.lodash.map(
-        window.lodash.filter(this.data, { parentId: currentId }),
+        window.lodash.filter(this.data, {parentId: currentId}),
         function (row) {
           return row.id;
         }

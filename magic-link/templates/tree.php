@@ -57,7 +57,7 @@
 
 <div class="tree container">
 
-    <dt-tile title="<?php esc_html_e( 'Church Tree' ); ?>">
+    <dt-tile title="<?php esc_html_e( 'Church Tree', 'disciple-tools-autolink' ); ?>">
         <div class="section__inner">
             <div class="loading-spinner__wrapper">
                 <div class="loading-spinner active"></div>

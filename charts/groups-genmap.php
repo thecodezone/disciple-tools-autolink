@@ -82,7 +82,7 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
             'dt_' . $this->slug . '_script', $this->js_object_name, [
                 'name_key' => $this->slug,
                 'root' => esc_url_raw( rest_url() ),
-                'plugin_uri' => $genmapper_plugin_url  . '/includes',
+                'plugin_uri' => $genmapper_plugin_url . '/includes',
                 'nonce' => wp_create_nonce( 'wp_rest' ),
                 'current_user_login' => wp_get_current_user()->user_login,
                 'current_user_id' => get_current_user_id(),
@@ -92,6 +92,13 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
                     'string2' => __( 'This tree shows your groups and your descendants.', 'disciple-tools-genmapper' ),
                     'string3' => __( 'See descendants of a specific group', 'disciple-tools-genmapper' ),
                     'string4' => __( 'Reset', 'disciple-tools-genmapper' ),
+                    'parent_label' => __( 'Parent', 'disciple-tools-autolink' ),
+                    'save_changes_label' => __( 'Save Changes', 'disciple-tools-autolink' ),
+                    'cancel_label' => __( 'Cancel', 'disciple-tools-autolink' ),
+                    'open_label' => __( 'Open Record', 'disciple-tools-autolink' ),
+                    'rebase_label' => __( 'Center on this Node', 'disciple-tools-autolink' ),
+                    'ok_label' => __( 'OK', 'disciple-tools-autolink' ),
+                    'edit_record' => __( 'Edit Record', 'disciple-tools-autolink' ),
                 ]
             ]
         );
@@ -103,7 +110,7 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
         register_rest_route(
             $this->namespace, 'group-tree', [
                 [
-                    'methods'  => WP_REST_Server::READABLE,
+                    'methods' => WP_REST_Server::READABLE,
                     'callback' => [ $this, 'groups_tree' ],
                     'permission_callback' => '__return_true',
                 ],
@@ -123,7 +130,7 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
 
         $groups = DT_Posts::list_posts('groups', [
             'assigned_to' => [ get_current_user_id() ],
-        ], false );
+        ], false);
         $group_ids = array_map(function ( $group ) {
             return $group['ID'];
         }, $groups['posts']);
@@ -138,7 +145,7 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 "name" => "source"
             ]
         ];
-         $groups = dt_autolink_queries()->tree( 'groups', $args );
+        $groups = dt_autolink_queries()->tree( 'groups', $args );
 
         if ( is_wp_error( $groups ) ) {
             return $groups;
