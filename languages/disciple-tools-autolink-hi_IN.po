@@ -1,8 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
-"POT-Creation-Date: 2023-08-16 15:35-0500\n"
-"PO-Revision-Date: 2023-08-16 15:35-0500\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
+"autolink\n"
+"POT-Creation-Date: 2023-08-14T21:23:45+00:00\n"
+"PO-Revision-Date: 2023-08-14 15:38-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: hi_IN\n"
@@ -15,34 +17,36 @@ msgstr ""
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: disciple-tools-autolink.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;"
-"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
-"__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "X-Poedit-SearchPathExcluded-2: node_modules\n"
 "X-Poedit-SearchPathExcluded-3: *.js\n"
 
-#: charts/groups-genmap.php:91
-msgid "Group Generation Tree"
-msgstr "समूह पीढ़ी का पेड़"
+#. Plugin Name of the plugin
+msgid "Disciple.Tools - Autolink"
+msgstr "शिष्य.उपकरण - ऑटोलिंक"
 
-#: charts/groups-genmap.php:92
-msgid "This tree shows your groups and your descendants."
-msgstr "यह पेड़ आपके समूहों और आपके वंशजों को दिखाता है."
+#. Plugin URI of the plugin
+msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
-#: charts/groups-genmap.php:93
-msgid "See descendants of a specific group"
-msgstr "एक विशिष्ट समूह के वंशज देखें"
+#. Description of the plugin
+msgid ""
+"Provides a simplified interface for managing and visualizing your Disciple."
+"Tools network. Share access with your downstream leaders to easily build "
+"your group tree."
+msgstr ""
+"आपके शिष्य.उपकरण नेटवर्क के प्रबंधन और विज़ुअलाइज़ करने के लिए एक सरलीकृत इंटरफ़ेस प्रदान "
+"करता है। आसानी से अपने समूह ट्री का निर्माण करने के लिए अपने डाउनस्ट्रीम नेताओं के साथ पहुंच "
+"साझा करें।"
 
-#: charts/groups-genmap.php:94
-msgid "Reset"
-msgstr "रिसेट"
-
-#: charts/groups-tree.php:198
-msgid "Coached without Parent Group"
-msgstr "माता-पिता समूह के बिना कोच"
+#. Author URI of the plugin
+msgid "https://www.eastwest.org/"
+msgstr "https://www.eastwest.org/"
 
 #: magic-link/controllers/app.php:18
 msgid "Delete"
@@ -101,30 +105,6 @@ msgstr "पेड़"
 #: magic-link/controllers/controller.php:38 magic-link/functions.php:258
 msgid "GenMap"
 msgstr "चर्च का पेड़"
-
-#: magic-link/controllers/group.php:52
-msgid "add"
-msgstr "जोड़ना"
-
-#: magic-link/controllers/group.php:53
-msgid "Use"
-msgstr "प्रयोग"
-
-#: magic-link/controllers/group.php:54
-msgid "Search Location"
-msgstr "खोज स्थान"
-
-#: magic-link/controllers/group.php:55
-msgid "Delete Location"
-msgstr "स्थान हटाएँ"
-
-#: magic-link/controllers/group.php:56
-msgid "Open Mapping"
-msgstr "मैपिंग खोलें"
-
-#: magic-link/controllers/group.php:57
-msgid "Clear"
-msgstr "रिक्त"
 
 #: magic-link/controllers/group.php:69 magic-link/controllers/group.php:78
 msgid "Create"
@@ -191,10 +171,6 @@ msgstr "क्या आप नेतृत्व कर रहे हैं?"
 msgid "Error: Invalid username/password combination."
 msgstr "त्रुटि: अमान्य उपयोगकर्ता नाम/पासवर्ड संयोजन."
 
-#: magic-link/templates/genmap.php:6
-msgid "Group Generation Map"
-msgstr "समूह पीढ़ी मानचित्र"
-
 #: magic-link/templates/login.php:32
 msgid "Username or Email Address"
 msgstr "उपयोगकर्ता नाम या ईमेल पता"
@@ -239,21 +215,18 @@ msgstr "पासवर्ड पुनः दर्ज करें"
 msgid "Register"
 msgstr "रजिस्टर"
 
-#: magic-link/templates/tree.php:60
-msgid "Church Tree"
-msgstr "चर्च का पेड़"
-
 #: magic-link/templates/tree.php:71
 msgid "Invalid group nesting."
 msgstr "अमान्य समूह घोंसले का घोंसला।"
 
-#. Plugin Name of the plugin/theme
-msgid "Disciple.Tools - Autolink"
-msgstr "शिष्य.उपकरण - ऑटोलिंक"
+#~ msgid "Group Generation Tree"
+#~ msgstr "समूह पीढ़ी का पेड़"
 
-#. Plugin URI of the plugin/theme
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
-msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
+#~ msgid "This tree shows your groups and your descendants."
+#~ msgstr "यह पेड़ आपके समूहों और आपके वंशजों को दिखाता है."
+
+#~ msgid "See descendants of a specific group"
+#~ msgstr "एक विशिष्ट समूह के वंशज देखें"
 
 #. Description of the plugin/theme
 msgid ""
@@ -263,6 +236,33 @@ msgstr ""
 "आपके शिष्य.उपकरण नेटवर्क के प्रबंधन और विज़ुअलाइज़ करने के लिए एक सरलीकृत इंटरफ़ेस प्रदान करता है। आसानी से अपने "
 "समूह ट्री का निर्माण करने के लिए अपने डाउनस्ट्रीम नेताओं के साथ पहुंच साझा करें।"
 
-#. Author URI of the plugin/theme
-msgid "https://www.eastwest.org/"
-msgstr "https://www.eastwest.org/"
+
+#~ msgid "Reset"
+#~ msgstr "रिसेट"
+
+#~ msgid "Coached without Parent Group"
+#~ msgstr "माता-पिता समूह के बिना कोच"
+
+#~ msgid "add"
+#~ msgstr "जोड़ना"
+
+#~ msgid "Use"
+#~ msgstr "प्रयोग"
+
+#~ msgid "Search Location"
+#~ msgstr "खोज स्थान"
+
+#~ msgid "Delete Location"
+#~ msgstr "स्थान हटाएँ"
+
+#~ msgid "Open Mapping"
+#~ msgstr "मैपिंग खोलें"
+
+#~ msgid "Clear"
+#~ msgstr "रिक्त"
+
+#~ msgid "Group Generation Map"
+#~ msgstr "समूह पीढ़ी मानचित्र"
+
+#~ msgid "Church Tree"
+#~ msgstr "चर्च का पेड़"
