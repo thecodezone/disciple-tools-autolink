@@ -85,9 +85,9 @@ class GenMapper {
     <!--<button onclick="genmapper.introSwitchVisibility()" class="hint--rounded hint--right" aria-label="Help / About">
       <img src="${this.plugin_uri}/charts/icons/266-question.svg">
       </button> -->
-    <button onclick="genmapper.origData();" class="hint--rounded hint--right" aria-label="Original Zoom &amp; Position"><img src="${this.plugin_uri}/charts/icons/refresh.svg"></i></button>
-    <button onclick="genmapper.zoomIn();" class="hint--rounded hint--right" aria-label="Zoom In"><img src="${this.plugin_uri}/charts/icons/136-zoom-in.svg"></i></button>
-    <button onclick="genmapper.zoomOut();" class="hint--rounded hint--right" aria-label="Zoom Out"><img src="${this.plugin_uri}/charts/icons/137-zoom-out.svg"></i></button>
+    <button onclick="genmapper.origData();" class="hint--rounded hint--right" aria-label="${this.translations.reset_label}"><img src="${this.plugin_uri}/charts/icons/refresh.svg"></i></button>
+    <button onclick="genmapper.zoomIn();" class="hint--rounded hint--right" aria-label="${this.translations.zoom_in_label}"><img src="${this.plugin_uri}/charts/icons/136-zoom-in.svg"></i></button>
+    <button onclick="genmapper.zoomOut();" class="hint--rounded hint--right" aria-label="${this.translations.zoom_out_label}"><img src="${this.plugin_uri}/charts/icons/137-zoom-out.svg"></i></button>
   `;
 
     document.getElementById(
