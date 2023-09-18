@@ -3,7 +3,7 @@ if ( !defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly.
 
-require_once( WP_PLUGIN_DIR . '/disciple-tools-genmapper/includes/charts/charts-base.php' );
+require_once WP_PLUGIN_DIR . '/disciple-tools-genmapper/includes/charts/charts-base.php';
 
 class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
 {
@@ -63,13 +63,13 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
             'genmapper',
         ], filemtime( $plugin_path . '/magic-link/js/churchCirclesGenmap.js' ), true);
 
-
         wp_enqueue_script('genmapper', $plugin_url . '/magic-link/js/genmapper.js', [
             'jquery',
             'jquery-ui-core',
             'd3',
             'gen-template',
         ], filemtime( $plugin_path . '/magic-link/js/genmapper.js' ), true);
+
         wp_localize_script(
             'genmapper', 'genApiTemplate', [
                 'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
@@ -77,6 +77,7 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
                 'app_url' => Disciple_Tools_Autolink_Magic_Functions::instance()->get_app_link(),
             ]
         );
+
         // Localize script with array data
         wp_localize_script(
             'dt_' . $this->slug . '_script', $this->js_object_name, [
@@ -92,12 +93,10 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
                     'string2' => __( 'This tree shows your groups and your descendants.', 'disciple-tools-genmapper' ),
                     'string3' => __( 'See descendants of a specific group', 'disciple-tools-genmapper' ),
                     'string4' => __( 'Reset', 'disciple-tools-genmapper' ),
-                ]
+                ],
             ]
         );
     }
-
-    //${localizedObject.translation.string /**/}
 
     public function add_api_routes() {
         register_rest_route(
@@ -135,8 +134,8 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
             [
                 "id" => 0,
                 "parentId" => "",
-                "name" => "source"
-            ]
+                "name" => "source",
+            ],
         ];
          $groups = dt_autolink_queries()->tree( 'groups', $args );
 
@@ -160,12 +159,15 @@ class Disciple_Tools_Autolink_Genmap extends DT_Genmapper_Metrics_Chart_Base
         foreach ( $groups as $group ) {
             $lines = [];
             $lines[] = $group['name'];
+
             if ( $group["coach"] ) {
                 $lines[] = $group['coach'];
             }
+
             if ( $group['location_name'] ) {
                 $lines[] = $group['location_name'];
             }
+
             if ( $group['start_date'] ) {
                 $lines[] = gmdate( $date_format, intval( $group['start_date'] ) );
             }
