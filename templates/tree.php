@@ -51,9 +51,10 @@
 
 </style>
 
-<?php include( 'parts/app-header.php' ); ?>
+<?php include 'parts/app-header.php'; ?>
+<?php include 'parts/app-greeting.php'; ?>
 
-<?php include( 'parts/church-view-tabs.php' ); ?>
+<?php include 'parts/church-view-tabs.php'; ?>
 
 <div class="tree container">
 
@@ -64,11 +65,11 @@
             </div>
             <dt-alert class="alert--error"
                       context="alert">
-                <?php esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ); ?>
+				<?php esc_html_e( 'An unexpected error has occurred.', 'disciple-tools-autolink' ); ?>
             </dt-alert>
             <dt-alert class="alert--invalid"
                       context="alert">
-                <?php esc_html_e( 'Invalid group nesting.', 'disciple-tools-autolink' ); ?>
+				<?php esc_html_e( 'Invalid group nesting.', 'disciple-tools-autolink' ); ?>
             </dt-alert>
             <div id="wrapper"></div>
         </div>
@@ -77,7 +78,7 @@
 
 </div>
 
-<?php include( 'parts/app-footer.php' ); ?>
+<?php include 'parts/app-footer.php'; ?>
 
 <script>
     window.load_tree = () => {

@@ -23,6 +23,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 	public $tree_controller;
 	public $login_controller;
 	public $field_controller;
+	public $training_controller;
 	public $meta = [];
 	private $meta_key = 'autolink-app'; // Allows for instance specific data.
 
@@ -56,15 +57,15 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 		parent::__construct();
 
 
-		$this->functions         = Disciple_Tools_Autolink_Magic_Functions::instance();
-		$this->survey_controller = new Disciple_Tools_Autolink_Survey_Controller();
-		$this->app_controller    = new Disciple_Tools_Autolink_App_Controller();
-		$this->genmap_controller = new Disciple_Tools_Autolink_Genmap_Controller();
-		$this->group_controller  = new Disciple_Tools_Autolink_Group_Controller();
-		$this->tree_controller   = new Disciple_Tools_Autolink_Tree_Controller();
-		$this->login_controller  = new Disciple_Tools_Autolink_Login_Controller();
-		$this->field_controller  = new Disciple_Tools_Autolink_Field_Controller();
-
+		$this->functions           = Disciple_Tools_Autolink_Magic_Functions::instance();
+		$this->survey_controller   = new Disciple_Tools_Autolink_Survey_Controller();
+		$this->app_controller      = new Disciple_Tools_Autolink_App_Controller();
+		$this->genmap_controller   = new Disciple_Tools_Autolink_Genmap_Controller();
+		$this->group_controller    = new Disciple_Tools_Autolink_Group_Controller();
+		$this->tree_controller     = new Disciple_Tools_Autolink_Tree_Controller();
+		$this->login_controller    = new Disciple_Tools_Autolink_Login_Controller();
+		$this->field_controller    = new Disciple_Tools_Autolink_Field_Controller();
+		$this->training_controller = new Disciple_Tools_Autolink_Training_Controller();
 		//Genmapper isn't loaded on every request
 		$this->functions->init_genmapper();
 
@@ -159,6 +160,9 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 					break;
 				case 'logout':
 					$this->login_controller->logout();
+					break;
+				case 'training':
+					$this->training_controller->show();
 					break;
 				case 'group':
 					$this->group_controller->show();

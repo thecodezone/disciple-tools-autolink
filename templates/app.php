@@ -40,17 +40,17 @@
  * @var $church_start_date_label string
  */
 ?>
-<?php include( 'parts/app-header.php' ); ?>
-
-<?php include( 'parts/church-view-tabs.php' ); ?>
+<?php include 'parts/app-header.php'; ?>
+<?php include 'parts/app-greeting.php'; ?>
+<?php include 'parts/church-view-tabs.php'; ?>
 
 <div class="container">
-    <?php if ( $error ): ?>
+	<?php if ( $error ): ?>
         <dt-alert context="alert"
                   dismissable>
-            <?php echo esc_html( $error ); ?>
+			<?php echo esc_html( $error ); ?>
         </dt-alert>
-    <?php endif; ?>
+	<?php endif; ?>
     <dt-tile class="churches"
              title="<?php echo esc_attr( $churches_heading ); ?>">
         <div class="section__inner">
@@ -62,39 +62,39 @@
             </dt-button>
             <div class="churches__list">
                 <lazy-reveal>
-                    <?php foreach ( $churches as $church ) : ?>
-                        <?php
-                        //If the church is the first one the tile is open if not it is closed.
-                        $app_church_opened = "";
-                        if ( $church === $churches[array_key_first( $churches )] ) {
-                            $app_church_opened = "opened";
-                        }
-                        ?>
+					<?php foreach ( $churches as $church ) : ?>
+						<?php
+						//If the church is the first one the tile is open if not it is closed.
+						$app_church_opened = "";
+						if ( $church === $churches[ array_key_first( $churches ) ] ) {
+							$app_church_opened = "opened";
+						}
+						?>
                         <church-tile class="church"
                                      title="<?php echo esc_attr( $church['post_title'] ); ?>">
-                            <?php include( "parts/health-counts.php" ); ?>
+							<?php include "parts/health-counts.php"; ?>
                             <app-church
-                                startDateLabel="<?php echo esc_attr( $church_start_date_label ); ?>"
-                                group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>'
-                                fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
+                                    startDateLabel="<?php echo esc_attr( $church_start_date_label ); ?>"
+                                    group='<?php echo esc_attr( wp_json_encode( $church ) ); ?>'
+                                    fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>' <?php echo esc_attr( $app_church_opened ); ?>>
                             </app-church>
                             <app-church-menu>
                                 <dt-button context="primary"
                                            href="<?php echo esc_url( $group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>">
-                                    <?php echo esc_html( $view_group_label ); ?>
+									<?php echo esc_html( $view_group_label ); ?>
                                 </dt-button>
                                 <dt-button context="primary"
                                            href="<?php echo esc_url( $edit_group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>">
-                                    <?php echo esc_html( $edit_group_label ); ?>
+									<?php echo esc_html( $edit_group_label ); ?>
                                 </dt-button>
                                 <dt-button context="alert"
                                            href="<?php echo esc_url( $delete_group_link . '&' . http_build_query( [ 'post' => $church['ID'] ] ) ); ?>"
                                            confirm="<?php echo esc_html( $delete_group_confirm ) ?>">
-                                    <?php echo esc_html( $delete_group_label ); ?>
+									<?php echo esc_html( $delete_group_label ); ?>
                                 </dt-button>
                             </app-church-menu>
                         </church-tile>
-                    <?php endforeach; ?>
+					<?php endforeach; ?>
                 </lazy-reveal>
             </div>
         </div>
@@ -102,5 +102,5 @@
 </div>
 
 
-<?php include( 'parts/app-footer.php' ); ?>
+<?php include 'parts/app-footer.php'; ?>
 

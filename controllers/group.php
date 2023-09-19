@@ -67,7 +67,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		$group                       = $group ?? [];
 		$user                        = wp_get_current_user();
 		$contact_id                  = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
-		$heading                     = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+		$heading                     = __( 'Create', 'disciple-tools-autolink' ) . ' group.php' . $group_labels->singular_name;
 		$name_label                  = $group_fields['name']['name'];
 		$name_placeholder            = $group_fields['name']['name'];
 		$start_date_label            = $group_fields['start_date']['name'];

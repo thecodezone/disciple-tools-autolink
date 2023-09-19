@@ -1,9 +1,10 @@
 import {css, html, LitElement} from "lit";
-import {classMap} from "lit/directives/class-map.js";
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {DtBase} from "@disciple.tools/web-components";
-import {ChurchHealthField} from "./church-health-field";
 
+/**
+ * @class AjaxField
+ */
 export class AjaxField extends DtBase {
     constructor() {
         super();
@@ -95,6 +96,9 @@ export class AjaxField extends DtBase {
         window.setTimeout(this.fetch.bind(this), 1);
     }
 
+    /**
+     * @returns {string}
+     */
     fetch() {
         const formData = new FormData(this.form);
         let url = this.callback;

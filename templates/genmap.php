@@ -1,6 +1,6 @@
-<?php include( 'parts/app-header.php' ); ?>
-
-<?php include( 'parts/church-view-tabs.php' ); ?>
+<?php include 'parts/app-header.php'; ?>
+<?php include 'parts/app-greeting.php'; ?>
+<?php include 'parts/church-view-tabs.php'; ?>
 
 <div class="container--wide">
     <dt-tile title="<?php esc_html_e( 'Group Generation Map', 'disciple-tools-autolink' ); ?>">
@@ -13,4 +13,4 @@
 </div>
 
 
-<?php include( 'parts/app-footer.php' ); ?>
+<?php include 'parts/app-footer.php'; ?>
