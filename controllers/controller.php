@@ -40,6 +40,8 @@ abstract class Disciple_Tools_Autolink_Controller {
 		$data['genmap_label']         = __( 'GenMap', 'disciple-tools-autolink' );
 		$data['training-label']       = __( 'Training', 'disciple-tools-autolink' );
 		$data['training-link']        = $this->functions->get_training_url();
+		$data['church_label']         = $group_labels->singular_name;
+		$data['churches_label']       = $group_labels->name;
 
 		if ( $data['contact'] ) {
 			$result          = null;

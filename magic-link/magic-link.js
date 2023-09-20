@@ -8,6 +8,7 @@ import "./js/lazyReveal";
 import "./js/churchMenu";
 import "./js/church-health-field";
 import "./js/ajax-field";
+import "./js/groups-tree";
 
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js";

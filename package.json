@@ -25,7 +25,8 @@
     "@shoelace-style/shoelace": "^2.0.0",
     "element-internals-polyfill": "^1.1.15",
     "iconify-icon": "^1.0.1",
-    "lit": "^2.3.0"
+    "lit": "^2.3.0",
+    "sortablejs": "^1.15.0"
   },
   "devDependencies": {
     "browser-sync": "^2.27.10",
