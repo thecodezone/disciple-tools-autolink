@@ -186,17 +186,22 @@ class Disciple_Tools_Autolink_Magic_Functions {
 			return;
 		}
 
-		$contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+		$contact        = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+		$contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
 
-		$fields = [
-			"coached_by" => [
-				"values"       => [
-					[ "value" => $leader_id ],
-				],
-				"force_values" => false
-			]
-		];
-		DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+		if ( ! count( $contact_record['coached_by'] ) ) {
+			$fields = [
+				"coached_by" => [
+					"values"       => [
+						[ "value" => $leader_id ],
+					],
+					"force_values" => false
+				]
+			];
+
+			DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+		}
+
 		if ( isset( $_COOKIE['dt_autolink_leader_id'] ) ) {
 			unset( $_COOKIE['dt_autolink_leader_id'] );
 			setcookie( 'dt_autolink_leader_id', '', time() - 3600, '/' );

@@ -3,34 +3,36 @@
 /**
  * Class Disciple_Tools_Autolink_Queries
  */
-class Disciple_Tools_Autolink_Queries
-{
-    private static $_instance = null;
+class Disciple_Tools_Autolink_Queries {
+	private static $_instance = null;
 
-    public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
-    } // End instance()
+	public function __construct() {
+		// Load required files
+	} // End instance()
 
-    public function __construct() {
-      // Load required files
-    } // End __construct
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
 
-  /**
-   * Group tree queries
-   * @param $query_name
-   * @param array $args
-   * @return mixed
-   */
-    public function tree( $query_name, $args = [] ) {
-        global $wpdb;
-        $query = [];
+		return self::$_instance;
+	} // End __construct
 
-        switch ( $query_name ) {
-            case 'groups':
-                $query = $wpdb->get_results("
+	/**
+	 * Group tree queries
+	 *
+	 * @param $query_name
+	 * @param array $args
+	 *
+	 * @return mixed
+	 */
+	public function tree( $query_name, $args = [] ) {
+		global $wpdb;
+		$query = [];
+
+		switch ( $query_name ) {
+			case 'groups':
+				$query = $wpdb->get_results( "
                     SELECT
                       a.ID         as id,
                       0            as parent_id,
@@ -155,74 +157,74 @@ class Disciple_Tools_Autolink_Queries
                       ON genddate1.post_id=p.p2p_from
                       AND genddate1.meta_key = 'end_date'
                     WHERE p.p2p_type = 'groups_to_groups'
-                ", ARRAY_A);
-            break;
+                ", ARRAY_A );
+				break;
 
-            default:
-            break;
-        }
+			default:
+				break;
+		}
 
-        //guarantee only one record with one parent.
-        $list = [];
-        foreach ( $query as $q ) {
-            $list[$q['id']] = $q;
-        }
+		//guarantee only one record with one parent.
+		$list = [];
+		foreach ( $query as $q ) {
+			$list[ $q['id'] ] = $q;
+		}
 
 
-        if ( isset( $args['ids'] ) ) {
-            $list = $this->filter_nodes_in( $list, $args['ids'] );
-        }
+		if ( isset( $args['ids'] ) ) {
+			$list = $this->filter_nodes_in( $list, $args['ids'] );
+		}
 
-        $allowed_parents =  array_map( function ( $node ) {
-            return $node->id;
-        }, $list );
+		$allowed_parents = array_map( function ( $node ) {
+			return $node['id'];
+		}, $list );
 
-        $list = array_filter( $list, function ( $current ) use ( $allowed_parents ) {
-            return in_array( $current->parent_id, $allowed_parents );
-        } );
+		$list = array_filter( $list, function ( $current ) use ( $allowed_parents ) {
+			return in_array( $current['id'], $allowed_parents );
+		} );
 
-        return dt_queries()->check_tree_health( $list );
-    }
+		return dt_queries()->check_tree_health( $list );
+	}
 
-    public function filter_nodes_in( $nodes, $ids ){
-        $merged = $ids;
-        foreach ( $ids as $id ) {
-            $this->merge_decendent_ids( $nodes, $id, $merged );
-        }
-        $nodes = array_map( function ( $id ) use ( $nodes ) {
-            foreach ( $nodes as $node ) {
-                if ( $node["id"] === $id ) {
-                    return $node;
-                }
-            }
-        }, $merged );
+	public function filter_nodes_in( $nodes, $ids ) {
+		$merged = $ids;
+		foreach ( $ids as $id ) {
+			$this->merge_decendent_ids( $nodes, $id, $merged );
+		}
+		$nodes = array_map( function ( $id ) use ( $nodes ) {
+			foreach ( $nodes as $node ) {
+				if ( $node["id"] === $id ) {
+					return $node;
+				}
+			}
+		}, $merged );
 
-        foreach ( $nodes as $i => $node ) {
-            if ( !in_array( $node['parent_id'], $merged ) ) {
-                $nodes[$i]['parent_id'] = 0;
-            }
-        }
+		foreach ( $nodes as $i => $node ) {
+			if ( ! in_array( $node['parent_id'], $merged ) ) {
+				$nodes[ $i ]['parent_id'] = 0;
+			}
+		}
 
-        return $nodes;
-    }
+		return $nodes;
+	}
 
-    public function merge_decendent_ids( $nodes, $id, &$ids, &$checked = [] ){
-        if ( in_array( $id, $checked ) ) {
-            return $ids;
-        }
-        $checked[] = $id;
+	public function merge_decendent_ids( $nodes, $id, &$ids, &$checked = [] ) {
+		if ( in_array( $id, $checked ) ) {
+			return $ids;
+		}
+		$checked[] = $id;
 
-        foreach ( $nodes as $node ) {
-            if ( $node["parent_id"] === $id ) {
-                $ids[] = $node["id"];
-                array_merge( $ids, $this->merge_decendent_ids( $nodes, $node["id"], $ids, $checked ) );
-            }
-        }
+		foreach ( $nodes as $node ) {
+			if ( $node["parent_id"] === $id ) {
+				$ids[] = $node["id"];
+				array_merge( $ids, $this->merge_decendent_ids( $nodes, $node["id"], $ids, $checked ) );
+			}
+		}
 
-        $ids = array_unique( $ids );
+		$ids = array_unique( $ids );
 
-        return $ids;
-    }
+		return $ids;
+	}
 }
 
 /**
@@ -230,5 +232,5 @@ class Disciple_Tools_Autolink_Queries
  * @return Disciple_Tools_Autolink_Queries|null
  */
 function dt_autolink_queries() {
-    return Disciple_Tools_Autolink_Queries::instance();
+	return Disciple_Tools_Autolink_Queries::instance();
 }
