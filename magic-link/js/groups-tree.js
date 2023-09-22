@@ -1,5 +1,6 @@
 import {html, css, LitElement} from "lit";
 import {ref, createRef} from 'lit/directives/ref.js';
+import {classMap} from "lit/directives/class-map.js";
 import Sortable from 'sortablejs';
 import {customElement, property, query, queryAll} from "lit/decorators.js";
 
@@ -9,8 +10,10 @@ export class ChurchTile extends LitElement {
     treeRef = createRef()
     unassignedTreeRef = createRef()
     sortableInstances = []
-    @queryAll('ul')
+    @queryAll('.group__children')
     sortables
+    @queryAll('.groups')
+    groupLists
     @property({
         type: String,
     })
@@ -77,14 +80,45 @@ export class ChurchTile extends LitElement {
             justify-content: center;
           }
 
+          #tree {
+            overflow: hidden;
+          }
+
           p {
             font-weight: normal;
           }
 
           ul {
             list-style: none;
-            border-left: 1px solid #2C5364;
-            padding: 0 10px 0 10px;
+            position: relative;
+            padding-left: 10px;
+          }
+
+          ul:after {
+            content: '';
+            display: block;
+            height: calc(100% - 40px);
+            top: 20px;
+            bottom: 20px;
+            width: 1px;
+            background-color: #2C5364;
+            position: absolute;
+            left: 0px;
+          }
+
+          .groups {
+            position: relative;
+          }
+
+          .groups:not(.groups--empty):before {
+            content: '';
+            display: block;
+            height: 40px;
+            width: 1px;
+            background-color: #2C5364;
+            position: absolute;
+            bottom: calc(100% - 20px);
+            left: 0;
           }
 
           .section__inner {
@@ -127,20 +161,22 @@ export class ChurchTile extends LitElement {
             background-color: #E2E2E2;
             display: flex;
             align-items: center;
-            padding: 5px 15px 5px 0px;
-            border-radius: 5px;
+            padding: 5px 15px 5px 15px;
+            border-radius: 0 5px 5px 0;
             position: relative;
+            border-left: 1px solid #2C5364;
+            min-height: 31px;
           }
 
           .group__tag:before {
             content: '';
             display: block;
-            width: 15px;
+            width: 21px;
             height: 1px;
             background-color: #2C5364;
             position: absolute;
             top: 50%;
-            left: -20px;
+            left: -21px;
             transform: translateY(-50%);
           }
 
@@ -152,6 +188,7 @@ export class ChurchTile extends LitElement {
 
           .group__handle {
             padding-top: 5px;
+            margin-left: -14px;
           }
 
           dt-icon {
@@ -207,10 +244,10 @@ export class ChurchTile extends LitElement {
         this.loading = false
         this.unassignedTree = unassignedChildTree
         setTimeout(this.initSortable.bind(this), 1)
+        setTimeout(this.applyDomTweaks.bind(this), 1)
     }
 
     initSortable() {
-        console.log(this.sortables)
         this.sortables.forEach((sortable) => {
             this.sortableInstances.push(
                 new Sortable(sortable, {
@@ -219,6 +256,15 @@ export class ChurchTile extends LitElement {
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
                     onEnd: this.handleDrop.bind(this),
+                    onChoose: this.applyDomTweaks.bind(this),
+                    onUnchoose: this.applyDomTweaks.bind(this),
+                    onStart: this.applyDomTweaks.bind(this),
+                    onAdd: this.applyDomTweaks.bind(this),
+                    onUpdate: this.applyDomTweaks.bind(this),
+                    onRemove: this.applyDomTweaks.bind(this),
+                    onFilter: this.applyDomTweaks.bind(this),
+                    onClone: this.applyDomTweaks.bind(this),
+                    onCharge: this.applyDomTweaks.bind(this),
                     sort: false
                 })
             )
@@ -243,7 +289,7 @@ export class ChurchTile extends LitElement {
     render() {
         const {keyTitle, assignedLabel} = this;
         return html`
-            <div class="tree" ${ref(this.treeRef)}}>
+            <div class="tree">
                 ${this.renderTree()}
                 ${this.renderUnassignedTree()}
                 <dt-tile title="${keyTitle}">
@@ -284,8 +330,8 @@ export class ChurchTile extends LitElement {
         return html`
             <dt-tile title="${title}">
                 <div class="section__inner">
-                    <ul id="tree" ${ref(this.treeRef)}>
-                        ${tree.map(this.renderGroup.bind(this))}
+                    <ul class="groups" id="tree">
+                        ${tree.map(group => this.renderGroup(group, false))}
                     </ul>
                 </div>
             </dt-tile>
@@ -305,22 +351,26 @@ export class ChurchTile extends LitElement {
                     <dt-alert class="unassigned__tip" context="success" outline icon="" dismissable>
                         ${unassignedTip}
                     </dt-alert>
-                    <ul id="unassigned-tree" ${ref(this.unassignedTreeRef)}>
-                        ${unassignedTree.map(this.renderGroup.bind(this))}
+                    <ul class="groups">
+                        ${unassignedTree.map(group => {
+                            this.renderGroup(group)
+                        })}
                     </ul>
                 </div>
             </dt-tile>
         `
     }
 
-    renderGroup({id, children, name, assigned}) {
+    renderGroup({id, children, name, assigned}, isSortable = true) {
         return html`
             <li class="group" data-id="${id}" data-assigned="${assigned}">
                 <div class="group__body">
                     <div class="group__tag">
-                        <div class="group__handle">
-                            <dt-icon icon="clarity:drag-handle-line" size="20px" class="group__icon--handle"></dt-icon>
-                        </div>
+                        ${isSortable ? html`
+                            <div class="group__handle">
+                                <dt-icon icon="clarity:drag-handle-line" size="20px"
+                                         class="group__icon--handle"></dt-icon>
+                            </div>` : null}
                         <label class="group__title">${name}</label>
                         <div class="group__icons">
                             ${assigned ? html`
@@ -337,14 +387,16 @@ export class ChurchTile extends LitElement {
 
     renderChildren(children) {
         return html`
-            <ul class=group__children">
-                ${children ? children.map(this.renderGroup.bind(this)) : null}
+            <ul class="${classMap({
+                "groups group__children": true
+            })}">
+                ${children ? children.map(group => this.renderGroup(group)) : null}
             </ul>
         `
     }
 
     handleDrop(event) {
-        const {assignedError} = this
+        const {assignedError, tree} = this
         const {oldIndex, newIndex, item, to, from} = event
         const id = item.dataset.id
         const newParent = to.closest('li')
@@ -352,6 +404,18 @@ export class ChurchTile extends LitElement {
         const oldParent = from.closest('li')
         const oldParentId = oldParent ? oldParent.dataset.id : 'root'
         this.saveParentConnection(id, oldParentId, newParentId)
+        setTimeout(this.applyDomTweaks.bind(this), 1)
+    }
+
+    applyDomTweaks() {
+        console.log(this.groupLists)
+        this.groupLists.forEach((list) => {
+            if (list.querySelector('li')) {
+                list.classList.remove("groups--empty")
+            } else {
+                list.classList.add("groups--empty")
+            }
+        })
     }
 
     async saveParentConnection(id, oldParentId, newParentId) {
