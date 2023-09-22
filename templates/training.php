@@ -1,4 +1,6 @@
 <?php include 'parts/app-header.php'; ?>
+<?php include 'parts/app-greeting.php'; ?>
+<?php include 'parts/church-view-tabs.php'; ?>
 
 <div class="container">
 	<?php foreach ( $videos as $video ): ?>
