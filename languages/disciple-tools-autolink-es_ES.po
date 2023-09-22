@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-08-16T23:04:49+00:00\n"
+"POT-Creation-Date: 2023-09-22T20:26:43+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:55-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -58,11 +58,11 @@ msgstr "Parentesco"
 msgid "Save Changes"
 msgstr "Guardar Cambios"
 
-#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
+#: charts/groups-genmap.php:97 controllers/group.php:78
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: charts/groups-genmap.php:98
+#: charts/groups-genmap.php:98 charts/groups-genmap.php:105
 msgid "Open Record"
 msgstr "Abrir registro"
 
@@ -78,117 +78,218 @@ msgstr "OK"
 msgid "Edit Record"
 msgstr "Abrir registro"
 
-#: magic-link/controllers/app.php:18
+#: charts/groups-genmap.php:102 controllers/admin-general.php:31
+msgid "Reset"
+msgstr "Restablecer"
+
+#: charts/groups-genmap.php:103
+msgid "Zoom In"
+msgstr ""
+
+#: charts/groups-genmap.php:104
+#, fuzzy
+#| msgid "Log Out"
+msgid "Zoom Out"
+msgstr "Cerrar Sesión"
+
+#: controllers/admin-general.php:24
+msgid "Training videos could not be loaded. Resetting to default content."
+msgstr ""
+
+#: controllers/admin-general.php:28
+msgid "Training Videos"
+msgstr ""
+
+#: controllers/admin-general.php:29
+msgid "Title"
+msgstr ""
+
+#: controllers/admin-general.php:30
+msgid "Embed"
+msgstr ""
+
+#: controllers/admin-general.php:32
+#, fuzzy
+#| msgid "add"
+msgid "Add"
+msgstr "añadir"
+
+#: controllers/admin-general.php:33
+msgid "Remove"
+msgstr ""
+
+#: controllers/admin-general.php:34
+#, fuzzy
+#| msgid "Are you sure you want to delete this "
+msgid "Are you sure you want to reset the training videos to default content?"
+msgstr "¿Está seguro de que desea eliminar esto? "
+
+#: controllers/admin-general.php:35
+#, fuzzy
+#| msgid "Are you sure you want to delete this "
+msgid "Are you sure you want to remove this video?"
+msgstr "¿Está seguro de que desea eliminar esto? "
+
+#: controllers/admin-general.php:36
+msgid "Up"
+msgstr ""
+
+#: controllers/admin-general.php:37
+msgid "Down"
+msgstr ""
+
+#: controllers/admin-general.php:107
+#, fuzzy
+#| msgid "Invalid group nesting."
+msgid "Invalid training videos."
+msgstr "Anidamiento de grupo no válido."
+
+#: controllers/app.php:17
 msgid "Delete"
 msgstr "Borrar"
 
-#: magic-link/controllers/app.php:19
+#: controllers/app.php:18
 msgid "Are you sure you want to delete this "
 msgstr "¿Está seguro de que desea eliminar esto? "
 
-#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
+#: controllers/app.php:19
 msgid "Edit"
 msgstr "Editar"
 
-#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
-#: magic-link/functions.php:254
+#: controllers/app.php:20 controllers/controller.php:36
+#: magic-link/functions.php:265
 msgid "View"
 msgstr "Ver"
 
-#: magic-link/controllers/app.php:24
+#: controllers/app.php:23
 msgid "Church Start Date"
 msgstr "Árbol de la Iglesia"
 
-#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
-#: magic-link/functions.php:241
+#: controllers/controller.php:22 magic-link/functions.php:80
+#: magic-link/functions.php:252
 msgid "Hello,"
 msgstr "Hola,"
 
-#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
-#: magic-link/functions.php:244
+#: controllers/controller.php:25 magic-link/functions.php:81
+#: magic-link/functions.php:255
 msgid "Coached by"
 msgstr "Entrenado por"
 
-#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
-#: magic-link/functions.php:245
+#: controllers/controller.php:26 magic-link/functions.php:82
+#: magic-link/functions.php:256
 msgid "My Link"
 msgstr "Mi enlace"
 
-#: magic-link/controllers/controller.php:25 magic-link/functions.php:246
+#: controllers/controller.php:27 magic-link/functions.php:257
 msgid "Copy this link and share it with people you are coaching."
 msgstr ""
 "Copie este enlace y compártalo con las personas a las que está entrenando."
 
-#: magic-link/controllers/controller.php:26 magic-link/functions.php:247
+#: controllers/controller.php:28 magic-link/functions.php:258
 msgid "My "
 msgstr "Mi "
 
-#: magic-link/controllers/controller.php:36 magic-link/functions.php:256
+#: controllers/controller.php:38 magic-link/functions.php:267
 msgid "Health"
 msgstr "Salud"
 
-#: magic-link/controllers/controller.php:37 magic-link/functions.php:257
+#: controllers/controller.php:39 magic-link/functions.php:268
 msgid "Tree"
 msgstr "Árbol"
 
-#: magic-link/controllers/controller.php:38 magic-link/functions.php:258
+#: controllers/controller.php:40 magic-link/functions.php:269
 msgid "GenMap"
 msgstr "GenMap"
 
-#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
+#: controllers/controller.php:41 magic-link/functions.php:78
+msgid "Training"
+msgstr ""
+
+#: controllers/group.php:70
 msgid "Create"
 msgstr "Crear"
 
-#: magic-link/controllers/group.php:147
+#: controllers/group.php:79
+msgid "Save"
+msgstr ""
+
+#: controllers/group.php:152
+#, fuzzy
+#| msgid "Parent"
+msgid "Parent group"
+msgstr "Parentesco"
+
+#: controllers/group.php:186
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Acción no autorizada. Actualice la página e inténtelo de nuevo."
 
-#: magic-link/controllers/group.php:170
+#: controllers/group.php:208
 msgid "Back to AutoLink"
 msgstr "Volver a AutoLink"
 
-#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56
-#: magic-link/templates/tree.php:67
+#: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
 msgstr "Se ha producido un error inesperado."
 
-#: magic-link/functions.php:72
+#: controllers/tree.php:23
+msgid "Unassigned"
+msgstr ""
+
+#: controllers/tree.php:24
+msgid "Move these to the"
+msgstr ""
+
+#: controllers/tree.php:24
+msgid "to assign them to a"
+msgstr ""
+
+#: controllers/tree.php:25
+msgid "Key"
+msgstr ""
+
+#: controllers/tree.php:26
+#, fuzzy
+#| msgid "are you leading?"
+msgid "you lead"
+msgstr "¿Estás liderando?"
+
+#: magic-link/functions.php:73
 msgid "Add Magic"
 msgstr "Añadir magia"
 
-#: magic-link/functions.php:73
+#: magic-link/functions.php:74
 msgid "Go to Disciple.Tools"
 msgstr "Ir a Disciple.Tools"
 
-#: magic-link/functions.php:74
+#: magic-link/functions.php:75
 msgid "Update Survey Answers"
 msgstr "Actualizar las respuestas de la encuesta"
 
-#: magic-link/functions.php:75
+#: magic-link/functions.php:76
 msgid "Give Feedback"
 msgstr "Dar retroalimentación"
 
-#: magic-link/functions.php:76
+#: magic-link/functions.php:77
 msgid "Log Out"
 msgstr "Cerrar Sesión"
 
-#: magic-link/functions.php:77
+#: magic-link/functions.php:79
 msgid "Toggle Menu"
 msgstr "Alternar menú"
 
-#: magic-link/functions.php:81
+#: magic-link/functions.php:83
 msgid "My Churches"
 msgstr "Mis Iglesias"
 
-#: magic-link/functions.php:220
+#: magic-link/functions.php:231
 msgid "How many leaders are you coaching?"
 msgstr "¿Cuántos líderes estás entrenando?"
 
-#: magic-link/functions.php:224
+#: magic-link/functions.php:235
 msgid "How many"
 msgstr "Cuántos"
 
-#: magic-link/functions.php:224
+#: magic-link/functions.php:235
 msgid "are you leading?"
 msgstr "¿Estás liderando?"
 
@@ -196,61 +297,56 @@ msgstr "¿Estás liderando?"
 msgid "Error: Invalid username/password combination."
 msgstr "Error: Combinación de nombre de usuario y contraseña no válida."
 
-#: magic-link/templates/genmap.php:6
+#: templates/genmap.php:6
 msgid "Group Generation Map"
 msgstr "Mapa de generación de grupos"
 
-#: magic-link/templates/login.php:32
+#: templates/login.php:32
 msgid "Username or Email Address"
 msgstr "Nombre de usuario o dirección de correo electrónico"
 
-#: magic-link/templates/login.php:38 magic-link/templates/register.php:39
+#: templates/login.php:38 templates/register.php:39
 msgid "Password"
 msgstr "Contraseña"
 
-#: magic-link/templates/login.php:48
+#: templates/login.php:48
 msgid "Login"
 msgstr "Acceso"
 
-#: magic-link/templates/login.php:54 magic-link/templates/login.php:55
+#: templates/login.php:54 templates/login.php:55
 msgid "Create Account"
 msgstr "Crear una cuenta"
 
-#: magic-link/templates/login.php:65
+#: templates/login.php:65
 msgid "Forgot Password?"
 msgstr "¿Se te olvidó tu contraseña?"
 
-#: magic-link/templates/parts/footer.php:3
+#: templates/parts/footer.php:3
 msgid "Powered by"
 msgstr "Energizado por"
 
-#: magic-link/templates/parts/navbar.php:5
+#: templates/parts/navbar.php:5
 msgid "Autolink Home"
 msgstr "Inicio de Autolink"
 
-#: magic-link/templates/register.php:31
+#: templates/register.php:31
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: magic-link/templates/register.php:35
+#: templates/register.php:35
 msgid "Email"
 msgstr "Email"
 
-#: magic-link/templates/register.php:44
+#: templates/register.php:44
 msgid "Confirm Password"
 msgstr "Confirmar contraseña"
 
-#: magic-link/templates/register.php:52
+#: templates/register.php:52
 msgid "Register"
 msgstr "Registro"
 
-#: magic-link/templates/tree.php:60
-msgid "Church Tree"
-msgstr "Árbol de la Iglesia"
-
-#: magic-link/templates/tree.php:71
-msgid "Invalid group nesting."
-msgstr "Anidamiento de grupo no válido."
+#~ msgid "Church Tree"
+#~ msgstr "Árbol de la Iglesia"
 
 #~ msgid "Group Generation Tree"
 #~ msgstr "Árbol de generación de grupos"
@@ -261,14 +357,8 @@ msgstr "Anidamiento de grupo no válido."
 #~ msgid "See descendants of a specific group"
 #~ msgstr "Ver descendientes de un grupo específico"
 
-#~ msgid "Reset"
-#~ msgstr "Restablecer"
-
 #~ msgid "Coached without Parent Group"
 #~ msgstr "Entrenado sin grupo de padres"
-
-#~ msgid "add"
-#~ msgstr "añadir"
 
 #~ msgid "Use"
 #~ msgstr "Usar"

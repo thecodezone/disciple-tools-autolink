@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-08-16T23:04:49+00:00\n"
+"POT-Creation-Date: 2023-09-22T20:26:43+00:00\n"
 "PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -56,11 +56,11 @@ msgstr "जनक"
 msgid "Save Changes"
 msgstr "बदलाव सहेजें"
 
-#: charts/groups-genmap.php:97 magic-link/controllers/group.php:80
+#: charts/groups-genmap.php:97 controllers/group.php:78
 msgid "Cancel"
 msgstr "कैंसिल करें"
 
-#: charts/groups-genmap.php:98
+#: charts/groups-genmap.php:98 charts/groups-genmap.php:105
 msgid "Open Record"
 msgstr "खुला रिकॉर्ड"
 
@@ -76,116 +76,217 @@ msgstr "ठीक है"
 msgid "Edit Record"
 msgstr "रिकॉर्ड संपादित करें"
 
-#: magic-link/controllers/app.php:18
+#: charts/groups-genmap.php:102 controllers/admin-general.php:31
+msgid "Reset"
+msgstr "रिसेट"
+
+#: charts/groups-genmap.php:103
+msgid "Zoom In"
+msgstr ""
+
+#: charts/groups-genmap.php:104
+#, fuzzy
+#| msgid "Log Out"
+msgid "Zoom Out"
+msgstr "लॉग आउट"
+
+#: controllers/admin-general.php:24
+msgid "Training videos could not be loaded. Resetting to default content."
+msgstr ""
+
+#: controllers/admin-general.php:28
+msgid "Training Videos"
+msgstr ""
+
+#: controllers/admin-general.php:29
+msgid "Title"
+msgstr ""
+
+#: controllers/admin-general.php:30
+msgid "Embed"
+msgstr ""
+
+#: controllers/admin-general.php:32
+#, fuzzy
+#| msgid "add"
+msgid "Add"
+msgstr "जोड़ना"
+
+#: controllers/admin-general.php:33
+msgid "Remove"
+msgstr ""
+
+#: controllers/admin-general.php:34
+#, fuzzy
+#| msgid "Are you sure you want to delete this "
+msgid "Are you sure you want to reset the training videos to default content?"
+msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
+
+#: controllers/admin-general.php:35
+#, fuzzy
+#| msgid "Are you sure you want to delete this "
+msgid "Are you sure you want to remove this video?"
+msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
+
+#: controllers/admin-general.php:36
+msgid "Up"
+msgstr ""
+
+#: controllers/admin-general.php:37
+msgid "Down"
+msgstr ""
+
+#: controllers/admin-general.php:107
+#, fuzzy
+#| msgid "Invalid group nesting."
+msgid "Invalid training videos."
+msgstr "अमान्य समूह घोंसले का घोंसला।"
+
+#: controllers/app.php:17
 msgid "Delete"
 msgstr "हटाएं"
 
-#: magic-link/controllers/app.php:19
+#: controllers/app.php:18
 msgid "Are you sure you want to delete this "
 msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
 
-#: magic-link/controllers/app.php:20 magic-link/controllers/group.php:81
+#: controllers/app.php:19
 msgid "Edit"
 msgstr "संपादित करें"
 
-#: magic-link/controllers/app.php:21 magic-link/controllers/controller.php:34
-#: magic-link/functions.php:254
+#: controllers/app.php:20 controllers/controller.php:36
+#: magic-link/functions.php:265
 msgid "View"
 msgstr "देखें"
 
-#: magic-link/controllers/app.php:24
+#: controllers/app.php:23
 msgid "Church Start Date"
 msgstr "चर्च का पेड़"
 
-#: magic-link/controllers/controller.php:20 magic-link/functions.php:78
-#: magic-link/functions.php:241
+#: controllers/controller.php:22 magic-link/functions.php:80
+#: magic-link/functions.php:252
 msgid "Hello,"
 msgstr "नमस्कार,"
 
-#: magic-link/controllers/controller.php:23 magic-link/functions.php:79
-#: magic-link/functions.php:244
+#: controllers/controller.php:25 magic-link/functions.php:81
+#: magic-link/functions.php:255
 msgid "Coached by"
 msgstr "द्वारा प्रशिक्षित"
 
-#: magic-link/controllers/controller.php:24 magic-link/functions.php:80
-#: magic-link/functions.php:245
+#: controllers/controller.php:26 magic-link/functions.php:82
+#: magic-link/functions.php:256
 msgid "My Link"
 msgstr "मेरा लिंक"
 
-#: magic-link/controllers/controller.php:25 magic-link/functions.php:246
+#: controllers/controller.php:27 magic-link/functions.php:257
 msgid "Copy this link and share it with people you are coaching."
 msgstr "इस लिंक को कॉपी करें और इसे उन लोगों के साथ साझा करें जिन्हें आप कोचिंग दे रहे हैं।"
 
-#: magic-link/controllers/controller.php:26 magic-link/functions.php:247
+#: controllers/controller.php:28 magic-link/functions.php:258
 msgid "My "
 msgstr "मेरा "
 
-#: magic-link/controllers/controller.php:36 magic-link/functions.php:256
+#: controllers/controller.php:38 magic-link/functions.php:267
 msgid "Health"
 msgstr "स्वास्थ्य"
 
-#: magic-link/controllers/controller.php:37 magic-link/functions.php:257
+#: controllers/controller.php:39 magic-link/functions.php:268
 msgid "Tree"
 msgstr "पेड़"
 
-#: magic-link/controllers/controller.php:38 magic-link/functions.php:258
+#: controllers/controller.php:40 magic-link/functions.php:269
 msgid "GenMap"
 msgstr "चर्च का पेड़"
 
-#: magic-link/controllers/group.php:72 magic-link/controllers/group.php:81
+#: controllers/controller.php:41 magic-link/functions.php:78
+msgid "Training"
+msgstr ""
+
+#: controllers/group.php:70
 msgid "Create"
 msgstr "बनाएँ"
 
-#: magic-link/controllers/group.php:147
+#: controllers/group.php:79
+msgid "Save"
+msgstr ""
+
+#: controllers/group.php:152
+#, fuzzy
+#| msgid "Parent"
+msgid "Parent group"
+msgstr "जनक"
+
+#: controllers/group.php:186
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "अनधिकृत कार्रवाई. कृपया पृष्ठ ताज़ा करें और पुन: प्रयास करें."
 
-#: magic-link/controllers/group.php:170
+#: controllers/group.php:208
 msgid "Back to AutoLink"
 msgstr "शिष्य उपकरण - ऑटोलिंक"
 
-#: magic-link/controllers/login.php:38 magic-link/controllers/register.php:56
-#: magic-link/templates/tree.php:67
+#: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
 msgstr "कोई अनपेक्षित त्रुटि उत्पन्न हुई."
 
-#: magic-link/functions.php:72
+#: controllers/tree.php:23
+msgid "Unassigned"
+msgstr ""
+
+#: controllers/tree.php:24
+msgid "Move these to the"
+msgstr ""
+
+#: controllers/tree.php:24
+msgid "to assign them to a"
+msgstr ""
+
+#: controllers/tree.php:25
+msgid "Key"
+msgstr ""
+
+#: controllers/tree.php:26
+#, fuzzy
+#| msgid "are you leading?"
+msgid "you lead"
+msgstr "क्या आप नेतृत्व कर रहे हैं?"
+
+#: magic-link/functions.php:73
 msgid "Add Magic"
 msgstr "जादू जोड़ें"
 
-#: magic-link/functions.php:73
+#: magic-link/functions.php:74
 msgid "Go to Disciple.Tools"
 msgstr "शिष्य.उपकरण पर जाएँ"
 
-#: magic-link/functions.php:74
+#: magic-link/functions.php:75
 msgid "Update Survey Answers"
 msgstr "अद्यतन सर्वेक्षण उत्तर"
 
-#: magic-link/functions.php:75
+#: magic-link/functions.php:76
 msgid "Give Feedback"
 msgstr "फ़ीडबैक दें"
 
-#: magic-link/functions.php:76
+#: magic-link/functions.php:77
 msgid "Log Out"
 msgstr "लॉग आउट"
 
-#: magic-link/functions.php:77
+#: magic-link/functions.php:79
 msgid "Toggle Menu"
 msgstr "टॉगल मेनू"
 
-#: magic-link/functions.php:81
+#: magic-link/functions.php:83
 msgid "My Churches"
 msgstr "मेरे चर्च"
 
-#: magic-link/functions.php:220
+#: magic-link/functions.php:231
 msgid "How many leaders are you coaching?"
 msgstr "आप कितने नेताओं को कोचिंग दे रहे हैं?"
 
-#: magic-link/functions.php:224
+#: magic-link/functions.php:235
 msgid "How many"
 msgstr "कितने"
 
-#: magic-link/functions.php:224
+#: magic-link/functions.php:235
 msgid "are you leading?"
 msgstr "क्या आप नेतृत्व कर रहे हैं?"
 
@@ -193,61 +294,56 @@ msgstr "क्या आप नेतृत्व कर रहे हैं?"
 msgid "Error: Invalid username/password combination."
 msgstr "त्रुटि: अमान्य उपयोगकर्ता नाम/पासवर्ड संयोजन."
 
-#: magic-link/templates/genmap.php:6
+#: templates/genmap.php:6
 msgid "Group Generation Map"
 msgstr "समूह पीढ़ी मानचित्र"
 
-#: magic-link/templates/login.php:32
+#: templates/login.php:32
 msgid "Username or Email Address"
 msgstr "उपयोगकर्ता नाम या ईमेल पता"
 
-#: magic-link/templates/login.php:38 magic-link/templates/register.php:39
+#: templates/login.php:38 templates/register.php:39
 msgid "Password"
 msgstr "पासवर्ड"
 
-#: magic-link/templates/login.php:48
+#: templates/login.php:48
 msgid "Login"
 msgstr "लॉगिन"
 
-#: magic-link/templates/login.php:54 magic-link/templates/login.php:55
+#: templates/login.php:54 templates/login.php:55
 msgid "Create Account"
 msgstr "खाता बनाएँ"
 
-#: magic-link/templates/login.php:65
+#: templates/login.php:65
 msgid "Forgot Password?"
 msgstr "पासवर्ड भूल गए?"
 
-#: magic-link/templates/parts/footer.php:3
+#: templates/parts/footer.php:3
 msgid "Powered by"
 msgstr "इसके द्वारा संचालित"
 
-#: magic-link/templates/parts/navbar.php:5
+#: templates/parts/navbar.php:5
 msgid "Autolink Home"
 msgstr "ऑटोलिंक होम"
 
-#: magic-link/templates/register.php:31
+#: templates/register.php:31
 msgid "Username"
 msgstr "उपयोगकर्ता नाम"
 
-#: magic-link/templates/register.php:35
+#: templates/register.php:35
 msgid "Email"
 msgstr "ईमेल"
 
-#: magic-link/templates/register.php:44
+#: templates/register.php:44
 msgid "Confirm Password"
 msgstr "पासवर्ड पुनः दर्ज करें"
 
-#: magic-link/templates/register.php:52
+#: templates/register.php:52
 msgid "Register"
 msgstr "रजिस्टर"
 
-#: magic-link/templates/tree.php:60
-msgid "Church Tree"
-msgstr "चर्च का पेड़"
-
-#: magic-link/templates/tree.php:71
-msgid "Invalid group nesting."
-msgstr "अमान्य समूह घोंसले का घोंसला।"
+#~ msgid "Church Tree"
+#~ msgstr "चर्च का पेड़"
 
 #~ msgid "Group Generation Tree"
 #~ msgstr "समूह पीढ़ी का पेड़"
@@ -258,14 +354,8 @@ msgstr "अमान्य समूह घोंसले का घोंस�
 #~ msgid "See descendants of a specific group"
 #~ msgstr "एक विशिष्ट समूह के वंशज देखें"
 
-#~ msgid "Reset"
-#~ msgstr "रिसेट"
-
 #~ msgid "Coached without Parent Group"
 #~ msgstr "माता-पिता समूह के बिना कोच"
-
-#~ msgid "add"
-#~ msgstr "जोड़ना"
 
 #~ msgid "Use"
 #~ msgstr "प्रयोग"
