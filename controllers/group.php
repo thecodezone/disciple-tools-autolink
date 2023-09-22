@@ -9,6 +9,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 	public function edit( $params = [] ) {
 		$group_id         = sanitize_key( wp_unslash( $_GET['post'] ?? "" ) );
 		$params['action'] = $this->functions->get_edit_group_url();
+
 		if ( ! $group_id ) {
 			$this->functions->redirect_to_app();
 			exit;
@@ -60,14 +61,13 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			]
 		] );
 
-		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
-
+		$group_fields                = DT_Posts::get_post_settings( 'groups' )['fields'];
 		$post_type                   = get_post_type_object( 'groups' );
 		$group_labels                = get_post_type_labels( $post_type );
 		$group                       = $group ?? [];
 		$user                        = wp_get_current_user();
 		$contact_id                  = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
-		$heading                     = __( 'Create', 'disciple-tools-autolink' ) . ' group.php' . $group_labels->singular_name;
+		$heading                     = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
 		$name_label                  = $group_fields['name']['name'];
 		$name_placeholder            = $group_fields['name']['name'];
 		$start_date_label            = $group_fields['start_date']['name'];
@@ -126,7 +126,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			'assigned_to' => $leaders,
 		], false );
 
-		$default_parent_group = count( $leader_groups['posts'] ) ? $leader_groups['posts'][0]['ID'] ?? null : null;
+
+		$id                           = sanitize_text_field( wp_unslash( $_GET['id'] ?? '' ) );
+		$group                        = $id ? DT_Posts::get_post( 'groups', $id, true, false ) : null;
+		$default_parent_group         = count( $leader_groups['posts'] ) ? $leader_groups['posts'][0]['ID'] ?? null : null;
+		$allow_parent_group_selection = $this->settings->get_option( 'disciple_tools_autolink_allow_parent_group_selection' );
 
 		$parent_group_options = array_map( function ( $group ) {
 			return [
@@ -139,7 +143,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			return false;
 		}
 
-		$parent_group = $parent_group_options[0]['id'] ?? $default_parent_group;
+		$parent_group = $default_parent_group;
+
+		if ( $group ) {
+			$parent_group = count( $group['parent_groups'] ) ? $group['parent_groups'][0]["ID"] : $default_parent_group;
+		}
 
 		$parent_group_label = __( 'Parent group', 'disciple-tools-autolink' );
 

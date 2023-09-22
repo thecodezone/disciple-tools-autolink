@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../admin/settings.php';
 
 class Disciple_Tools_Autolink_Admin_General_Controller extends Disciple_Tools_Autolink_Controller {
 
@@ -110,8 +109,6 @@ class Disciple_Tools_Autolink_Admin_General_Controller extends Disciple_Tools_Au
 			update_option( 'disciple_tools_autolink_training_videos', $post_vars['disciple_tools_autolink_training_videos'] );
 		}
 
-		if ( isset( $post_vars['disciple_tools_autolink_allow_parent_group_selection'] ) ) {
-			update_option( 'disciple_tools_autolink_allow_parent_group_selection', $post_vars['disciple_tools_autolink_allow_parent_group_selection'] );
-		}
+		update_option( 'disciple_tools_autolink_allow_parent_group_selection', ( isset( $post_vars['disciple_tools_autolink_allow_parent_group_selection'] ) && $post_vars['disciple_tools_autolink_allow_parent_group_selection'] === '1' ) ? "1" : "0" );
 	}
 }

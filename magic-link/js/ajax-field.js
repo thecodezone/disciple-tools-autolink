@@ -1,36 +1,41 @@
 import {css, html, LitElement} from "lit";
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {DtBase} from "@disciple.tools/web-components";
+import {queryAll, property} from "lit/decorators.js";
 
 /**
  * @class AjaxField
  */
 export class AjaxField extends DtBase {
-    constructor() {
-        super();
-        this.watch = "*";
-        this.method = "GET";
-        this.events = ['input', 'change']
-        this.prefetch = true;
-        this.loading = false
-    }
+    @queryAll("input, select, textarea, dt-text dt-select dt-textarea [value] [name]")
+    fields;
 
-    /**
-     * @returns {{method: {type: StringConstructor}, watch: {type: number}, callback: {type: StringConstructor}, nonce: {type: StringConstructor}, content: {type: StringConstructor}, onSuccess: {type: FunctionConstructor}}}
-     */
-    static get properties() {
-        return {
-            callback: {type: String},
-            method: {type: String},
-            nonce: {type: String},
-            watch: {type: String | Array},
-            onSuccess: {type: Function},
-            content: {type: String},
-            events: {type: Array},
-            prefetch: {type: Boolean},
-            loading: {type: Boolean}
-        }
-    }
+    @property({type: String})
+    callback = "";
+
+    @property({type: String})
+    method = "GET";
+
+    @property({type: String})
+    nonce = "";
+
+    @property({type: String | Array})
+    watch = "*";
+
+    @property({type: Function})
+    onSuccess = null;
+
+    @property({type: String})
+    content = "";
+
+    @property({type: Array})
+    events = ['input', 'change'];
+
+    @property({type: Boolean})
+    prefetch = true;
+
+    @property({type: Boolean})
+    loading = false;
 
     /**
      * @returns {string}
@@ -65,6 +70,10 @@ export class AjaxField extends DtBase {
         } else {
             return [this.form];
         }
+    }
+
+    createRenderRoot() {
+        return this; // will render the template without shadow DOM
     }
 
     /**

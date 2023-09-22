@@ -92,6 +92,7 @@ class Disciple_Tools_Autolink {
 		require_once __DIR__ . '/controllers/admin-general.php';
 		require_once __DIR__ . '/controllers/training.php';
 		require_once __DIR__ . '/charts/groups-tree.php';
+		require_once __DIR__ . '/admin/settings.php';
 
 
 		require_once __DIR__ .

@@ -25,6 +25,8 @@
  * @var $group array
  * @var $parent_group_field_nonce string
  * @var $parent_group_field_callback string
+ * @var $allow_parent_group_selection boolean
+ * @var $default_leader_group string
  */
 ?>
 <?php include 'parts/header.php'; ?>

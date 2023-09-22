@@ -31,7 +31,7 @@
                                 <input type="checkbox"
                                        name="disciple_tools_autolink_allow_parent_group_selection"
                                        value="1"
-								       <?php if ( $old['disciple_tools_autolink_allow_parent_group_selection'] ): ?>checked<?php endif; ?> />
+								       <?php if ( $old['disciple_tools_autolink_allow_parent_group_selection'] === '1' ): ?>checked<?php endif; ?> />
                             </td>
                         </tr>
                         <tr>
