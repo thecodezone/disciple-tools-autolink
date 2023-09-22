@@ -6,14 +6,13 @@ import {customElement, property, query, queryAll} from "lit/decorators.js";
 
 @customElement('app-groups-tree')
 export class ChurchTile extends LitElement {
-
-    treeRef = createRef()
-    unassignedTreeRef = createRef()
     sortableInstances = []
     @queryAll('.group__children')
     sortables
     @queryAll('.groups')
     groupLists
+    @query('#unassigned')
+    unassignedSection
     @property({
         type: String,
     })
@@ -34,6 +33,10 @@ export class ChurchTile extends LitElement {
         type: String,
     })
     assignedLabel = 'Churches you lead'
+    @property({
+        type: String,
+    })
+    coachedLabel = 'Churches you coach'
     @property({
         type: Object,
         reflect: true
@@ -76,8 +79,9 @@ export class ChurchTile extends LitElement {
     static get styles() {
         return css`
           :host {
-            display: flex;
             justify-content: center;
+            display: block;
+            width: 100%;
           }
 
           #tree {
@@ -149,6 +153,7 @@ export class ChurchTile extends LitElement {
           .group__title {
             display: block;
             color: #2C5364;
+            -50
           }
 
           .group__body {
@@ -164,7 +169,8 @@ export class ChurchTile extends LitElement {
             padding: 5px 15px 5px 15px;
             border-radius: 0 5px 5px 0;
             position: relative;
-            border-left: 1px solid #2C5364;
+            border: solid 1px #afc1cc;
+            border-left-color: #2C5364;
             min-height: 31px;
           }
 
@@ -177,7 +183,15 @@ export class ChurchTile extends LitElement {
             position: absolute;
             top: 50%;
             left: -21px;
-            transform: translateY(-50%);
+            transform: translateY(1px);
+          }
+
+          .group--assigned > .group__body > .group__tag {
+            background-color: #b3e3ae;
+          }
+
+          .group--assigned .group .group > .group__body > .group__tag {
+            background-color: white;
           }
 
           .group__label,
@@ -199,12 +213,29 @@ export class ChurchTile extends LitElement {
             margin-bottom: 25px;
           }
 
-          .group__icon--assigned {
+          .group__icon--assigned,
+          .group__icon--coached {
             margin-left: 10px;
+            display: block;
+            transform: translateY(2px);
           }
 
           .tree__key td {
-            padding: 7px;
+            padding: 0 7px;
+          }
+
+          .key {
+            border: solid 1px #afc1cc;
+            border-left-color: #2C5364;
+            border-radius: 0 5px 5px 0;
+          }
+
+          .key--assigned {
+            background-color: #b3e3ae;
+          }
+
+          .key--coached {
+            background-color: #E2E2E2;
           }
         `;
     }
@@ -287,7 +318,7 @@ export class ChurchTile extends LitElement {
     }
 
     render() {
-        const {keyTitle, assignedLabel} = this;
+        const {keyTitle, assignedLabel, coachedLabel} = this;
         return html`
             <div class="tree">
                 ${this.renderTree()}
@@ -296,8 +327,8 @@ export class ChurchTile extends LitElement {
                     <div class="section__inner">
                         <table class="tree__key">
                             <tr>
-                                <td>
-                                    <dt-icon icon="ph:user-bold" size="20px"></dt-icon>
+                                <td class="key key--assigned">
+                                    <dt-icon icon="ph:user-bold" size="15px"></dt-icon>
                                 </td>
                                 <td>
                                     <p>
@@ -305,7 +336,17 @@ export class ChurchTile extends LitElement {
                                     </p>
                                 </td>
                             </tr>
-                            </p>
+                            <tr>
+                                <td class="key key--coached">
+                                    <dt-icon icon="mdi:help-outline" size="15px"></dt-icon>
+                                </td>
+                                <td>
+                                    <p>
+                                        ${coachedLabel}
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </dt-tile>
             </div>
@@ -341,12 +382,8 @@ export class ChurchTile extends LitElement {
     renderUnassignedTree() {
         const {unassignedTree, unassignedTitle, unassignedTip} = this;
 
-        if (!unassignedTree.length) {
-            return null
-        }
-
         return html`
-            <dt-tile title="${unassignedTitle}">
+            <dt-tile title="${unassignedTitle}" id="unassigned">
                 <div class="section__inner">
                     <dt-alert class="unassigned__tip" context="success" outline icon="" dismissable>
                         ${unassignedTip}
@@ -363,7 +400,12 @@ export class ChurchTile extends LitElement {
 
     renderGroup({id, children, name, assigned}, isSortable = true) {
         return html`
-            <li class="group" data-id="${id}" data-assigned="${assigned}">
+            <li class="${
+                    classMap({
+                        'group': true,
+                        'group--assigned': assigned,
+                    })
+            }" data-id="${id}" data-assigned="${assigned}">
                 <div class="group__body">
                     <div class="group__tag">
                         ${isSortable ? html`
@@ -374,8 +416,10 @@ export class ChurchTile extends LitElement {
                         <label class="group__title">${name}</label>
                         <div class="group__icons">
                             ${assigned ? html`
-                                <dt-icon icon="ph:user-bold" size="10px" class="group__icon--assigned"></dt-icon>
-                            ` : null}
+                                <dt-icon icon="ph:user-bold" size="15px" class="group__icon--assigned"></dt-icon>
+                            ` : html`
+                                <dt-icon icon="mdi:help-outline" size="15px" class="group__icon--coached"></dt-icon>
+                            `}
                         </div>
                     </div>
                     <div style="flex-grow: 1"></div>
@@ -408,7 +452,6 @@ export class ChurchTile extends LitElement {
     }
 
     applyDomTweaks() {
-        console.log(this.groupLists)
         this.groupLists.forEach((list) => {
             if (list.querySelector('li')) {
                 list.classList.remove("groups--empty")
@@ -416,6 +459,11 @@ export class ChurchTile extends LitElement {
                 list.classList.add("groups--empty")
             }
         })
+        if (this.unassignedSection) {
+            if (!this.unassignedSection.querySelector('li')) {
+                this.unassignedSection.remove()
+            }
+        }
     }
 
     async saveParentConnection(id, oldParentId, newParentId) {
