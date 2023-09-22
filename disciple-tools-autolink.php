@@ -6,7 +6,7 @@
  * Description: Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  0.23.3
+ * Version:  0.24.0
  * Author URI: https://www.eastwest.org/
  * GitHub Plugin URI: https://github.com/thecodezone/disciple-tools-autolink
  * Requires at least: 4.7.0
@@ -17,12 +17,6 @@
  * @link    https://github.com/DiscipleTools
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
- */
-
-/**
- * Refactoring (renaming) this plugin as your own:
- * 3. @todo Update the README.md and LICENSE
- * 4. @todo Update the default.pot file if you intend to make your plugin multilingual. Use a tool like POEdit
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
