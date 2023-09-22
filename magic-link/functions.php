@@ -181,7 +181,7 @@ class Disciple_Tools_Autolink_Magic_Functions {
 		if ( ! isset( $_COOKIE['dt_autolink_leader_id'] ) ) {
 			return;
 		}
-		$leader_id = esc_attr( wp_unslash( $_COOKIE['dt_autolink_leader_id'] ) ) ?? null;
+		$leader_id = sanitize_text_field( wp_unslash( (string) $_COOKIE['dt_autolink_leader_id'] ) ) ?? null;
 		if ( ! $leader_id ) {
 			return;
 		}
@@ -334,7 +334,7 @@ class Disciple_Tools_Autolink_Magic_Functions {
 		);
 	}
 
-	function init_genmapper() {
+	public function init_genmapper() {
 		if ( function_exists( 'dt_genmapper_metrics' ) ) {
 			dt_genmapper_metrics();
 			DT_genmapper_Metrics::instance();
@@ -349,7 +349,7 @@ class Disciple_Tools_Autolink_Magic_Functions {
 		return self::$_instance;
 	}
 
-	function coaching_tree( $contact_id, &$tree = [] ) {
+	public function coaching_tree( $contact_id, &$tree = [] ) {
 		$contacts = DT_Posts::list_posts( 'contacts', [
 			'coached_by' => [ (int) $contact_id ],
 			"limit"      => 1000,

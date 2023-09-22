@@ -57,7 +57,7 @@ class Disciple_Tools_Autolink_Login_Controller extends Disciple_Tools_Autolink_C
         $reset_url    = wp_lostpassword_url( $this->functions->get_link_url() );
         $error        = $params['error'] ?? '';
 
-        include( __DIR__ . '/../templates/login.php' );
+        include __DIR__ . '/../templates/login.php';
     }
 
     public function logout( $params = [] ) {

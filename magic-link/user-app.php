@@ -166,6 +166,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 					break;
 				case 'group':
 					$this->group_controller->show();
+					break;
 				default:
 					if ( ! $this->functions->survey_completed() ) {
 						return wp_redirect( $this->functions->get_app_link() . '?action=survey' );
@@ -336,13 +337,13 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 		return $allcaps;
 	}
 
-	function autolink_updatable_group_fields( $fields ) {
+	public function autolink_updatable_group_fields( $fields ) {
 		return array_merge( $this->autolink_health_fields( $fields ), [
 			'health_metrics'
 		] );
 	}
 
-	function autolink_health_fields( $fields ) {
+	public function autolink_health_fields( $fields ) {
 		return array_merge( [
 			'member_count',
 			'leader_count',

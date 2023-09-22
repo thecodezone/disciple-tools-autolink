@@ -16,8 +16,8 @@ class Disciple_Tools_Autolink_Login_App extends DT_Magic_Url_Base
     public $type_name = 'Auto Link';
     public static $token = 'autolink_login';
     public $functions;
-    public  $login_controller;
-    public  $register_controller;
+    public $login_controller;
+    public $register_controller;
 
     private static $_instance = null;
     public static function instance() {

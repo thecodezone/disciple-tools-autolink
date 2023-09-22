@@ -18,14 +18,14 @@
                     <table class="widefat striped">
                         <thead>
                         <tr>
-                            <th><?php _e( 'Options', 'disciple-tools-autolink' ) ?></th>
+                            <th><?php esc_html_e( 'Options', 'disciple-tools-autolink' ) ?></th>
                             <th style="width: 99%;"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td style="white-space: nowrap;">
-								<?php _e( 'Allow parent group selection?', 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( 'Allow parent group selection?', 'disciple-tools-autolink' ) ?>
                             </td>
                             <td style="text-align: left;">
                                 <input type="checkbox"
@@ -52,7 +52,7 @@
                         <tr>
                             <td>
                                 <button class="button">
-									<?php _e( 'Save', 'disciple-tools-autolink' ) ?>
+									<?php esc_html_e( 'Save', 'disciple-tools-autolink' ) ?>
                                 </button>
                             </td>
                             <td></td>
@@ -72,7 +72,7 @@
                     <thead>
                     <tr>
                         <th>
-							<?php _e( 'Help', 'disciple-tools-autolink' ) ?>
+							<?php esc_html_e( 'Help', 'disciple-tools-autolink' ) ?>
                         </th>
                     </tr>
                     </thead>
@@ -80,7 +80,7 @@
                     <tr>
                         <td>
                             <b>
-								<?php _e( 'Allow parent group selection?', 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( 'Allow parent group selection?', 'disciple-tools-autolink' ) ?>
                             </b>
                         </td>
                     </tr>
@@ -88,18 +88,18 @@
                         <td>
 
                             <p>
-								<?php _e( "If enabled, the user will be able to select a parent group when creating a new group.", 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( "If enabled, the user will be able to select a parent group when creating a new group.", 'disciple-tools-autolink' ) ?>
                             </p>
 
                             <p>
-								<?php _e( "If disabled, the group will be assigned to the first leader's first group.", 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( "If disabled, the group will be assigned to the first leader's first group.", 'disciple-tools-autolink' ) ?>
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <b>
-								<?php _e( 'Training Videos', 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( 'Training Videos', 'disciple-tools-autolink' ) ?>
                             </b>
                         </td>
                     </tr>
@@ -107,11 +107,11 @@
                         <td>
 
                             <p>
-								<?php _e( 'Training vidoes are available from within the AutoLink main menu.', 'disciple-tools-autolink' ) ?>
+								<?php esc_html_e( 'Training vidoes are available from within the AutoLink main menu.', 'disciple-tools-autolink' ) ?>
                             </p>
                             <p>
                                 <a class="button" href="<?php echo esc_attr( $training_videos_url ) ?>">
-									<?php _e( 'View Training Videos', 'disciple-tools-autolink' ) ?>
+									<?php esc_html_e( 'View Training Videos', 'disciple-tools-autolink' ) ?>
                                 </a>
                             </p>
                         </td>

@@ -1,5 +1,5 @@
-<?php include( 'parts/header.php' ); ?>
-<?php include( 'parts/navbar.php' ); ?>
+<?php include 'parts/header.php'; ?>
+<?php include 'parts/navbar.php'; ?>
 
 <form class="survey container"
       action="<?php echo esc_url( $action ); ?>"
@@ -39,4 +39,4 @@
 </form>
 
 
-<?php include( 'parts/footer.php' ); ?>
+<?php include 'parts/footer.php'; ?>

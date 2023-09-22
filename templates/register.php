@@ -5,7 +5,7 @@
  * @var $error string
  */
 ?>
-<?php include( 'parts/header.php' ); ?>
+<?php include 'parts/header.php'; ?>
 
 <div class="container register">
     <dt-tile>
@@ -56,4 +56,4 @@
     </dt-tile>
 </div>
 
-<?php include( 'parts/footer.php' ); ?>
+<?php include 'parts/footer.php'; ?>

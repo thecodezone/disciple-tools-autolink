@@ -167,7 +167,9 @@
         <!-- <exclude name="WordPress.WhiteSpace.OperatorSpacing.NoSpaceBefore" /> -->
         <!-- <exclude name="WordPress.WhiteSpace.OperatorSpacing.SpacingAfter" /> -->
         <!-- <exclude name="WordPress.WhiteSpace.OperatorSpacing.SpacingBefore" /> -->
-
+        <exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/>
+        <exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed"/>
+        <exclude name="WordPress.PHP.DontExtract.extract_extract"/>
     </rule>
 
     <!-- Keeping these ones: -->

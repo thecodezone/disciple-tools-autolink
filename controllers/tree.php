@@ -3,7 +3,7 @@
 use jobs\DiscipleToolsAutolinkSaveTreeJob;
 
 class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Controller {
-	const nonce = 'dt_autolink_tree';
+	const NONCE = 'dt_autolink_tree';
 	private $tree_chart = null;
 
 	public function __construct() {
@@ -14,7 +14,6 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 	public function show( $params = [] ) {
 		$magic_link = Disciple_Tools_Autolink_Magic_User_App::instance();
 		$data       = $this->global_data();
-
 		extract( $data );
 		$action       = 'tree';
 		$fetch_url    = '/wp-json/autolink/v1/' . $magic_link->parts['type'];

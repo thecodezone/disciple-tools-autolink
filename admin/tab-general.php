@@ -12,8 +12,8 @@ class Disciple_Tools_Autolink_Tab_General {
 	}
 
 	public function content() {
-		// phpcs:ignore
 		$params = [];
+		// phpcs:ignore
 		if ( isset( $_POST['dt_admin_form_nonce'] ) ) {
 			try {
 				$this->controller->save();

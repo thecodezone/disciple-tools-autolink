@@ -4,6 +4,7 @@ class Disciple_Tools_Autolink_Training_Controller extends Disciple_Tools_Autolin
 
 	public function show() {
 		$data = $this->global_data();
+		// phpcs:ignore
 		extract( $data );
 		$videos = $this->settings->get_option( 'disciple_tools_autolink_training_videos' );
 		$videos = json_decode( $videos );

@@ -1,4 +1,4 @@
-<?php include( 'parts/header.php' ); ?>
+<?php include 'parts/header.php'; ?>
 
 <style>
     body#blank-template-body {

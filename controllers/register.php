@@ -72,6 +72,6 @@ class Disciple_Tools_Autolink_Register_Controller extends Disciple_Tools_Autolin
         $email       = $params['email'] ?? '';
         $password    = $params['password'] ?? '';
 
-        include( __DIR__ . '/../templates/register.php' );
+        include __DIR__ . '/../templates/register.php';
     }
 }
