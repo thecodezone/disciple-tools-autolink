@@ -12,17 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-      # Docs: https://getcomposer.org/doc/articles/scripts.md
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php }}
 
-      # - name: Run test suite
-      #   run: composer run-script test
-      # cp -r disciple-tools-autolink.php includes languages spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
-      # Below borrowed from https://github.com/actions/upload-release-asset
+      - name: Report PHP version
+        run: php -v
+
       - name: Build project
         run: |
           npm install
           npm run prod
+          composer install --no-interaction --no-dev
           mkdir disciple-tools-autolink
           cp -r admin charts controllers dist languages magic-link templates vendor disciple-tools-autolink.php queries.php spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-autolink/
           zip -r disciple-tools-autolink.zip disciple-tools-autolink
