@@ -131,6 +131,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		$group                        = $id ? DT_Posts::get_post( 'groups', $id, true, false ) : null;
 		$default_parent_group         = count( $leader_groups['posts'] ) ? $leader_groups['posts'][0]['ID'] ?? null : null;
 		$allow_parent_group_selection = $this->settings->get_option( 'disciple_tools_autolink_allow_parent_group_selection' );
+		$allow_parent_group_selection = $allow_parent_group_selection === '1' || $allow_parent_group_selection === true;
 
 		$parent_group_options = array_map( function ( $group ) {
 			return [
