@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-09-26T16:06:58+00:00\n"
+"POT-Creation-Date: 2023-10-06T21:05:25+00:00\n"
 "PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -199,17 +199,17 @@ msgstr "Crear"
 msgid "Save"
 msgstr ""
 
-#: controllers/group.php:152
+#: controllers/group.php:153
 #, fuzzy
 #| msgid "Parent"
 msgid "Parent group"
 msgstr "Padre"
 
-#: controllers/group.php:186
+#: controllers/group.php:187
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Acción no autorizada. Actualice la página e inténtelo de nuevo."
 
-#: controllers/group.php:208
+#: controllers/group.php:209
 msgid "Back to AutoLink"
 msgstr "Volver a AutoLink"
 
