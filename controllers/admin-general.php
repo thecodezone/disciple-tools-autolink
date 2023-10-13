@@ -15,6 +15,7 @@ class Disciple_Tools_Autolink_Admin_General_Controller extends Disciple_Tools_Au
 		$old                     = [
 			'disciple_tools_autolink_allow_parent_group_selection' => $this->settings->get_option( 'disciple_tools_autolink_allow_parent_group_selection' ),
 			'disciple_tools_autolink_training_videos'              => $this->settings->get_option( 'disciple_tools_autolink_training_videos' ),
+			'disciple_tools_autolink_show_in_menu'                 => $this->settings->get_option( 'disciple_tools_autolink_show_in_menu' ),
 		];
 		$error                   = $params['error'] ?? null;
 
@@ -110,5 +111,6 @@ class Disciple_Tools_Autolink_Admin_General_Controller extends Disciple_Tools_Au
 		}
 
 		update_option( 'disciple_tools_autolink_allow_parent_group_selection', ( isset( $post_vars['disciple_tools_autolink_allow_parent_group_selection'] ) && $post_vars['disciple_tools_autolink_allow_parent_group_selection'] === '1' ) ? "1" : "0" );
+		update_option( 'disciple_tools_autolink_show_in_menu', ( isset( $post_vars['disciple_tools_autolink_show_in_menu'] ) && $post_vars['disciple_tools_autolink_show_in_menu'] === '1' ) ? "1" : "0" );
 	}
 }

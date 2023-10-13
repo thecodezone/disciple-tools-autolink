@@ -24,7 +24,8 @@ class Disciple_Tools_Autolink_Settings {
 	public function defaults(): array {
 		return [
 			'disciple_tools_autolink_allow_parent_group_selection' => true,
-			'disciple_tools_autolink_training_videos'              => json_encode( $this->localized_training_videos() ),
+      'disciple_tools_autolink_show_in_menu'                 => true,
+			'disciple_tools_autolink_training_videos'              => json_encode( $this->localized_training_videos() )
 		];
 	}
 
