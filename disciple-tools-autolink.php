@@ -101,6 +101,9 @@ class Disciple_Tools_Autolink {
 			require_once 'admin/admin-menu-and-tabs.php'; // adds starter admin page and section for plugin
 		}
 
+		add_filter( 'desktop_navbar_menu_options', [ $this, 'menu_options' ], 999, 1 );
+		add_filter( 'off_canvas_menu_options', [ $this, 'menu_options' ] );
+
 		$this->i18n();
 	}
 
@@ -161,6 +164,23 @@ class Disciple_Tools_Autolink {
 		}
 
 		return $links_array;
+	}
+
+	/**
+	 *  Add menu options to the navbar
+	 */
+	public function menu_options( $menu_options ) {
+
+		$settings = new Disciple_Tools_Autolink_Settings();
+
+		if ( $settings->get_option( 'disciple_tools_autolink_show_in_menu' ) ) {
+			$menu_options[] = [
+				'label' => __( 'Autolink', 'disciple-tools-autolink' ),
+				'link'  => site_url( '/autolink' )
+			];
+		}
+
+		return $menu_options;
 	}
 
 	/**

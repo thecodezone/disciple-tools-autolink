@@ -29,7 +29,8 @@ class Disciple_Tools_Autolink_Settings {
 					'title' => __( 'How to use the Autolink Plugin', 'disciple-tools-autolink' ),
 					'embed' => '<div style="position: relative; padding-bottom: 62.5%; height: 0;"><iframe src="https://www.loom.com/embed/7fcab7eb8d9f40288c62ef8a422dfdc4?sid=5bed3a53-649a-4787-a8e3-25811cd7d78b" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>'
 				]
-			] )
+			] ),
+			'disciple_tools_autolink_show_in_menu'                 => true
 		];
 	}
 
