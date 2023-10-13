@@ -36,6 +36,17 @@
                         </tr>
                         <tr>
                             <td style="white-space: nowrap;">
+								<?php esc_html_e( 'Add main DT menu link?', 'disciple-tools-autolink' ) ?>
+                            </td>
+                            <td style="text-align: left;">
+                                <input type="checkbox"
+                                       name="disciple_tools_autolink_show_in_menu"
+                                       value="1"
+								       <?php if ( $old['disciple_tools_autolink_show_in_menu'] === '1' ): ?>checked<?php endif; ?> />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="white-space: nowrap;">
 								<?php echo esc_attr( $training_videos_translations['label'] ) ?>
                             </td>
                             <td style="text-align: left;">
@@ -93,6 +104,21 @@
 
                             <p>
 								<?php esc_html_e( "If disabled, the group will be assigned to the first leader's first group.", 'disciple-tools-autolink' ) ?>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+								<?php esc_html_e( 'Add main DT menu link?', 'disciple-tools-autolink' ) ?>
+                            </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            <p>
+								<?php esc_html_e( 'If enabled, an "Autolink" menu item will be present in the primary Disciple.Tools menu allowing easy access to Autolink.', 'disciple-tools-autolink' ) ?>
                             </p>
                         </td>
                     </tr>
