@@ -127,6 +127,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 		}, $groups ) );
 
 		$assigned_list = [];
+		$leading_list  = [];
 
 		foreach ( $groups as $p ) {
 			$assigned_to_user    = $p['assigned_to'] ?? [];
@@ -158,12 +159,17 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			foreach ( $p['parent_groups'] as $parent_group ) {
 				$parents[] = $parent_group['ID'];
 			}
+			$leaders = [];
+			foreach ( $p['leaders'] as $leader ) {
+				$leaders[] = $leader['ID'];
+			}
 
 			$has_allowed_parent  = ! empty( $parents ) && array_filter( $parents, function ( $parent ) use ( $allowed_group_ids ) {
 					return in_array( $parent, $allowed_group_ids );
 			} );
 			$contact_is_coaching = in_array( $contact['ID'], $coaches );
 			$contact_is_assigned = $assigned_to_contact['ID'] === $contact['ID'];
+			$contact_is_leading  = in_array( $contact['ID'], $leaders );
 
 
 			if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
@@ -185,6 +191,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			$title                       = $p['name'];
 			$title_list[ $p['ID'] ]      = $title;
 			$assigned_list[ $p['ID'] ]   = $contact_is_assigned;
+			$leading_list[ $p['ID'] ]    = $contact_is_leading;
 			$has_parent_list[ $p['ID'] ] = $has_allowed_parent;
 
 
@@ -197,19 +204,18 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			$pre_tree[ $unassigned_group_id ]        = null;
 			$title_list[ $unassigned_group_id ]      = __( 'Coached without Parent Group', 'disciple_tools' );
 			$assigned_list[ $unassigned_group_id ]   = false;
+			$leading_list[ $unassigned_group_id ]    = false;
 			$has_parent_list[ $unassigned_group_id ] = false;
 		}
 
-		$tree = $this->parse_tree( $pre_tree, $title_list, $has_parent_list, $assigned_list, null, $allowed_group_ids );
+		$tree = $this->parse_tree( $pre_tree, $title_list, $has_parent_list, $assigned_list, $leading_list, null, $allowed_group_ids );
 
 		if ( is_null( $tree ) ) {
 			$tree = [];
 		}
 
 		return [
-			'parent_list' => $pre_tree,
-			'title_list'  => $title_list,
-			'tree'        => $tree
+			'tree' => $tree
 		];
 	}
 
@@ -225,7 +231,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 	 *
 	 * @return array|null
 	 */
-	private function parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $root = null, $allowed_group_ids = [] ) {
+	private function parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $leading_list, $root = null, $allowed_group_ids = [] ) {
 		$return = [];
 		# Traverse the tree and search for direct children of the root
 		foreach ( $tree as $child => $parent ) {
@@ -238,9 +244,10 @@ class Disciple_Tools_Autolink_Groups_Tree {
 					'id'              => $child,
 					'title'           => $child,
 					'name'            => $title_list[ $child ] ?? 'No Name',
-					'children'        => $this->parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $child, $allowed_group_ids ),
+					'children'        => $this->parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $leading_list, $child, $allowed_group_ids ),
 					'assigned'        => $assigned_list[ $child ] ?? false,
 					'has_parent'      => $has_parent_list[ $child ] ?? false,
+					"leading"         => $leading_list[ $child ] ?? false,
 					'__domenu_params' => []
 				];
 			}

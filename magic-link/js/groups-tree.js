@@ -7,10 +7,12 @@ import {customElement, property, query, queryAll} from "lit/decorators.js";
 @customElement('app-groups-tree')
 export class ChurchTile extends LitElement {
     sortableInstances = []
-    @queryAll('.group__children')
+    @queryAll('.groups--sortable')
     sortables
     @queryAll('.groups')
     groupLists
+    @queryAll('.group__generation')
+    groupGenerationIcons
     @query('#unassigned')
     unassignedSection
     @property({
@@ -37,6 +39,10 @@ export class ChurchTile extends LitElement {
         type: String,
     })
     coachedLabel = 'Churches you coach'
+    @property({
+        type: String,
+    })
+    generationLabel = 'Generation Number'
     @property({
         type: Object,
         reflect: true
@@ -69,8 +75,12 @@ export class ChurchTile extends LitElement {
     @property({
         type: String,
 
-    })Html
+    })
     error = ''
+    @property({
+        type: String,
+    })
+    noGroupsMessage = 'No churches found.'
 
     constructor() {
         super();
@@ -85,6 +95,8 @@ export class ChurchTile extends LitElement {
           }
 
           #tree {
+            margin-top: 0;
+            margin-bottom: 25px;
             overflow: hidden;
           }
 
@@ -98,31 +110,8 @@ export class ChurchTile extends LitElement {
             padding-left: 10px;
           }
 
-          ul:after {
-            content: '';
-            display: block;
-            height: calc(100% - 40px);
-            top: 20px;
-            bottom: 20px;
-            width: 1px;
-            background-color: #2C5364;
-            position: absolute;
-            left: 0px;
-          }
-
           .groups {
             position: relative;
-          }
-
-          .groups:not(.groups--empty):before {
-            content: '';
-            display: block;
-            height: 40px;
-            width: 1px;
-            background-color: #2C5364;
-            position: absolute;
-            bottom: calc(100% - 20px);
-            left: 0;
           }
 
           .section__inner {
@@ -130,8 +119,7 @@ export class ChurchTile extends LitElement {
           }
 
           li {
-            margin-bottom: 10px;
-            padding: 0 10px 0 10px;
+            position: relative;
           }
 
           li:first-child {
@@ -153,13 +141,25 @@ export class ChurchTile extends LitElement {
           .group__title {
             display: block;
             color: #2C5364;
-            -50
           }
 
           .group__body {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            padding-top: 20px;
+          }
+
+          #tree > .group:first-child > .group__body {
+            padding-top: 0;
+          }
+
+          #tree > .group > .group__body > .group__tag:before,
+          #tree > .group > .group__body > .group__tag:after {
+            display: none;
+          }
+
+          #tree {
+            padding-left: 0;
           }
 
           .group__tag {
@@ -177,20 +177,47 @@ export class ChurchTile extends LitElement {
           .group__tag:before {
             content: '';
             display: block;
-            width: 21px;
+            width: 10px;
             height: 1px;
             background-color: #2C5364;
             position: absolute;
             top: 50%;
-            left: -21px;
+            left: -10px;
             transform: translateY(1px);
           }
 
-          .group--assigned > .group__body > .group__tag {
+          .group__tag:after {
+            content: '';
+            display: block;
+            width: 1px;
+            background-color: #2C5364;
+            left: -11px;
+            top: -22px;
+            bottom: 0;
+            position: absolute;
+          }
+
+          .group:not(:last-child) > .group__children:before {
+            content: '';
+            display: block;
+            width: 1px;
+            background-color: #2C5364;
+            left: -10px;
+            top: -1px;
+            bottom: -1px;
+            position: absolute;
+          }
+
+          .group:last-child > .group__body > .group__tag:after {
+            bottom: calc(100% - 22px);
+          }
+
+
+          .group--leading > .group__body > .group__tag {
             background-color: #b3e3ae;
           }
 
-          .group--assigned .group .group > .group__body > .group__tag {
+          .group--leading .group .group > .group__body > .group__tag {
             background-color: white;
           }
 
@@ -203,6 +230,29 @@ export class ChurchTile extends LitElement {
           .group__handle {
             padding-top: 5px;
             margin-left: -14px;
+          }
+
+          .group__icons {
+            display: flex;
+            gap: 5px;
+            color: #2C5364;
+            font-weight: lighter;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .key__generation,
+          .group__generation {
+            height: 10px;
+            width: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: solid 1px #2C5364;
+            font-size: 9px;
+            line-height: 10px;
+            font-weight: lighter;
           }
 
           dt-icon {
@@ -282,7 +332,11 @@ export class ChurchTile extends LitElement {
         this.sortables.forEach((sortable) => {
             this.sortableInstances.push(
                 new Sortable(sortable, {
-                    group: 'tree',
+                    group: {
+                        name: 'tree',
+                        pull: true,
+                        put: true
+                    },
                     animation: 150,
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
@@ -318,7 +372,14 @@ export class ChurchTile extends LitElement {
     }
 
     render() {
-        const {keyTitle, assignedLabel, coachedLabel} = this;
+        const {keyTitle, assignedLabel, coachedLabel, generationLabel, tree} = this;
+        if (!tree.length) {
+            return html`
+                <dt-alert context="info">
+                    ${this.noGroupsMessage}
+                </dt-alert>
+            `
+        }
         return html`
             <div class="tree">
                 ${this.renderTree()}
@@ -343,6 +404,18 @@ export class ChurchTile extends LitElement {
                                 <td>
                                     <p>
                                         ${coachedLabel}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="key key--generation">
+                                    <div class="key__generation">
+                                        1
+                                    </div>
+                                </td>
+                                <td>
+                                    <p>
+                                        ${generationLabel}
                                     </p>
                                 </td>
                             </tr>
@@ -371,8 +444,8 @@ export class ChurchTile extends LitElement {
         return html`
             <dt-tile title="${title}">
                 <div class="section__inner">
-                    <ul class="groups" id="tree">
-                        ${tree.map(group => this.renderGroup(group, false))}
+                    <ul class="groups groups--sortable" id="tree">
+                        ${tree.map(group => this.renderGroup(group))}
                     </ul>
                 </div>
             </dt-tile>
@@ -390,22 +463,23 @@ export class ChurchTile extends LitElement {
                     </dt-alert>
                     <ul class="groups">
                         ${unassignedTree.map(group => {
-                            this.renderGroup(group)
-                        })}
+            this.renderGroup(group)
+        })}
                     </ul>
                 </div>
             </dt-tile>
         `
     }
 
-    renderGroup({id, children, name, assigned}, isSortable = true) {
+    renderGroup({id, children, name, assigned, leading}, isSortable = true) {
         return html`
             <li class="${
-                    classMap({
-                        'group': true,
-                        'group--assigned': assigned,
-                    })
-            }" data-id="${id}" data-assigned="${assigned}">
+            classMap({
+                'group': true,
+                'group--assigned': assigned,
+                'group--leading': leading
+            })
+        }" data-id="${id}" data-assigned="${assigned}">
                 <div class="group__body">
                     <div class="group__tag">
                         ${isSortable ? html`
@@ -420,6 +494,8 @@ export class ChurchTile extends LitElement {
                             ` : html`
                                 <dt-icon icon="mdi:help-outline" size="15px" class="group__icon--coached"></dt-icon>
                             `}
+                            <span class="group__generation">
+                            </span>
                         </div>
                     </div>
                     <div style="flex-grow: 1"></div>
@@ -432,8 +508,8 @@ export class ChurchTile extends LitElement {
     renderChildren(children) {
         return html`
             <ul class="${classMap({
-                "groups group__children": true
-            })}">
+            "groups groups--sortable group__children": true
+        })}">
                 ${children ? children.map(group => this.renderGroup(group)) : null}
             </ul>
         `
@@ -447,8 +523,58 @@ export class ChurchTile extends LitElement {
         const newParentId = newParent ? newParent.dataset.id : 'root'
         const oldParent = from.closest('li')
         const oldParentId = oldParent ? oldParent.dataset.id : 'root'
+
+        if (!this.validateDrop(event)) {
+            const nextElement = from.children[oldIndex + 1]
+            if (!nextElement) {
+                from.appendChild(item)
+            } else {
+                from.insertBefore(item, nextElement)
+            }
+            return;
+        }
+
         this.saveParentConnection(id, oldParentId, newParentId)
         setTimeout(this.applyDomTweaks.bind(this), 1)
+    }
+
+    findGroup(id, tree = false) {
+        if (!tree) {
+            tree = this.tree
+        }
+        return tree.reduce((match, group) => {
+            if (match) {
+                return match;
+            }
+
+            let isMatch = group.id === parseInt(id)
+
+            if (isMatch) {
+                return group
+            }
+
+            if (group.children) {
+                return this.findGroup(id, group.children)
+            }
+
+            return false;
+        }, false)
+    }
+
+    validateDrop({oldIndex, newIndex, item, to, from}) {
+        const id = item.dataset.id
+
+        const group = this.findGroup(id)
+
+        if (!group) {
+            return false;
+        }
+
+        if (!group.leading && to.id === 'tree') {
+            return false;
+        }
+
+        return true;
     }
 
     applyDomTweaks() {
@@ -464,6 +590,15 @@ export class ChurchTile extends LitElement {
                 this.unassignedSection.remove()
             }
         }
+        this.groupGenerationIcons.forEach((generationIcon) => {
+            let list = generationIcon.closest('ul')
+            let generation = 0
+            while (list) {
+                generation++
+                list = list.parentNode.closest('ul')
+            }
+            generationIcon.innerText = generation
+        })
     }
 
     async saveParentConnection(id, oldParentId, newParentId) {
