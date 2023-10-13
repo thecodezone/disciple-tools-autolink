@@ -6,10 +6,12 @@
     <div class="container">
         <app-groups-tree
                 title="<?php echo esc_attr( $translations['tree_title'] ); ?>"
-                unassigned-title="<?php echo esc_attr( $translations['unassigned_title'] ); ?>"
-                unassigned-tip="<?php echo esc_attr( $translations['unassigned_tip'] ); ?>"
-                key-title="<?php echo esc_attr( $translations['key_title'] ); ?>"
-                assigned-label="<?php echo esc_attr( $translations['assigned_label'] ); ?>"
+                unassignedTitle="<?php echo esc_attr( $translations['unassigned_title'] ); ?>"
+                unassignedTip="<?php echo esc_attr( $translations['unassigned_tip'] ); ?>"
+                keyTitle="<?php echo esc_attr( $translations['key_title'] ); ?>"
+                assignedLabel="<?php echo esc_attr( $translations['assigned_label'] ); ?>"
+                generationLabel="<?php echo esc_attr( $translations['generation_label'] ); ?>"
+                noGroupsMessage="<?php echo esc_attr( $translations['no_groups_message'] ); ?>"
                 endpoint="<?php echo esc_url( $fetch_url ); ?>"
         ></app-groups-tree>
     </div>
