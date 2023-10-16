@@ -10,6 +10,7 @@
                 unassignedTip="<?php echo esc_attr( $translations['unassigned_tip'] ); ?>"
                 keyTitle="<?php echo esc_attr( $translations['key_title'] ); ?>"
                 assignedLabel="<?php echo esc_attr( $translations['assigned_label'] ); ?>"
+                coachedLabel="<?php echo esc_attr( $translations['coached_label'] ); ?>"
                 generationLabel="<?php echo esc_attr( $translations['generation_label'] ); ?>"
                 noGroupsMessage="<?php echo esc_attr( $translations['no_groups_message'] ); ?>"
                 endpoint="<?php echo esc_url( $fetch_url ); ?>"
