@@ -316,6 +316,8 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 			case "parent_group_field":
 				return $this->group_controller->parent_group_field();
 				break;
+			case "groups":
+				return $this->group_controller->index();
 			default:
 				return new WP_Error( __METHOD__, "Invalid action", [ 'status' => 400 ] );
 		}

@@ -67,7 +67,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		$group            = $group ?? [];
 		$user             = wp_get_current_user();
 		$contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
-		$heading          = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+		if ( $group ) {
+			$heading = __( 'Edit', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+		} else {
+			$heading = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
+		}
 		$name_label       = $group_fields['name']['name'];
 		$name_placeholder = $group_fields['name']['name'];
 		$start_date_label = $group_fields['start_date']['name'];
@@ -124,6 +128,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		include __DIR__ . '/../templates/group-form.php';
 	}
 
+	/**
+	 * Ajax callback to get the parent group field.
+	 * Renders when the leaders change.
+	 * @return false|void
+	 */
 	public function parent_group_field() {
 		$leaders = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
 
@@ -334,6 +343,10 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 				"force_values" => true,
 				"values"       => $leaders
 			],
+			"members"       => [
+				"force_values" => true,
+				"values"       => $leaders
+			],
 			"parent_groups" => [
 				"force_values" => true,
 				"values"       => [
@@ -399,5 +412,42 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		}
 
 		$this->process( $params );
+	}
+
+	public function index( $params = [] ) {
+		$nonce        = sanitize_key( wp_unslash( $_GET['_wpnonce'] ?? '' ) );
+		$verify_nonce = $nonce && wp_verify_nonce( $nonce, 'wp_rest' );
+
+		if ( ! $verify_nonce ) {
+			return new WP_REST_Response( __( 'Unauthorized', 'disciple-tools-autolink' ), 401 );
+		}
+
+		$limit  = sanitize_key( wp_unslash( $_GET['limit'] ) );
+		$offset = sanitize_key( wp_unslash( $_GET['offset'] ) );
+
+		$result = DT_Posts::list_posts( 'groups', [
+			'assigned_to' => [ get_current_user_id() ],
+			'limit'       => $limit,
+			'offset'      => $offset,
+			'sort'        => '-last_modified'
+		], false );
+
+
+		if ( ! $result ) {
+			return new WP_REST_Response( __( 'Could not fetch groups', 'disciple-tools-autolink' ), 400 );
+		}
+
+		$result['posts'] = array_map( function ( $church ) {
+			foreach ( $church as $key => $value ) {
+				if ( is_array( $value ) && isset( $value['timestamp'] ) ) {
+					$church[ $key ]['formatted'] = dt_format_date( $value['timestamp'], get_option( 'date_format' ) );
+				}
+			}
+
+			return $church;
+		}, $result['posts'] ?? [] );
+		$result['total'] = $result['total'] ?? 0;
+
+		return $result;
 	}
 }
