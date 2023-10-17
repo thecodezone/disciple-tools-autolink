@@ -64,3 +64,10 @@ dt-button.churches__add dt-icon {
     width: 1.5rem;
     color: white;
 }
+
+.churches__loading,
+.churches__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
