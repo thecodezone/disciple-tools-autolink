@@ -159,7 +159,32 @@ class Disciple_Tools_Autolink_Queries {
                     WHERE p.p2p_type = 'groups_to_groups'
                 ", ARRAY_A );
 				break;
-
+			case 'coaching':
+				$query = $wpdb->get_results( "
+	                SELECT
+	                  a.ID         as id,
+	                  0            as parent_id,
+	                  a.post_title as name
+	                FROM $wpdb->posts as a
+	                WHERE a.post_status = 'publish'
+	                AND a.post_type = 'contacts'
+	                AND a.ID NOT IN (
+		                SELECT DISTINCT (p2p_from)
+		                FROM $wpdb->p2p
+		                WHERE p2p_type = 'contacts_to_contacts'
+		                GROUP BY p2p_from
+	                )
+	                UNION
+	                SELECT
+	                  p.p2p_from                          as id,
+	                  p.p2p_to                            as parent_id,
+	                  (
+	                  	SELECT sub.post_title FROM $wpdb->posts as sub WHERE sub.ID = p.p2p_from 
+                      ) as name
+	                FROM $wpdb->p2p as p
+	                WHERE p.p2p_type = 'contacts_to_contacts'
+	            ", ARRAY_A );
+				break;
 			default:
 				break;
 		}
@@ -183,7 +208,17 @@ class Disciple_Tools_Autolink_Queries {
 			return in_array( $current['id'], $allowed_parents );
 		} );
 
-		return dt_queries()->check_tree_health( $list );
+		$check_health = $args['check_health'] ?? true;
+		if ( $check_health ) {
+			$list = $this->check_tree_health( $list );
+		}
+
+		$id = $args['id'] ?? false;
+		if ( $id ) {
+			$list = $this->downline_of( $list, $id );
+		}
+
+		return $list;
 	}
 
 	public function filter_nodes_in( $nodes, $ids ) {
@@ -224,6 +259,19 @@ class Disciple_Tools_Autolink_Queries {
 		$ids = array_unique( $ids );
 
 		return $ids;
+	}
+
+	public function downline_of( $nodes, $id ) {
+		$downline = [];
+
+		foreach ( $nodes as $node ) {
+			if ( $node["parent_id"] == $id ) {
+				$downline[] = $node;
+				array_merge( $downline, $this->downline_of( $nodes, $node["id"] ) );
+			}
+		}
+
+		return array_map( "unserialize", array_unique( array_map( "serialize", $downline ) ) );
 	}
 }
 

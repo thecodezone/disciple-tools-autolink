@@ -61,38 +61,48 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			]
 		] );
 
-		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
-		$post_type    = get_post_type_object( 'groups' );
-		$group_labels = get_post_type_labels( $post_type );
-		$group        = $group ?? [];
-		$user         = wp_get_current_user();
-		$contact_id   = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
+		$group_fields     = DT_Posts::get_post_settings( 'groups' )['fields'];
+		$post_type        = get_post_type_object( 'groups' );
+		$group_labels     = get_post_type_labels( $post_type );
+		$group            = $group ?? [];
+		$user             = wp_get_current_user();
+		$contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
 		if ( $group ) {
 			$heading = __( 'Edit', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
 		} else {
 			$heading = __( 'Create', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
 		}
-		$name_label                  = $group_fields['name']['name'];
-		$name_placeholder            = $group_fields['name']['name'];
-		$start_date_label            = $group_fields['start_date']['name'];
-		$leaders_label               = $group_fields['leaders']['name'];
-		$nonce                       = self::NONCE;
-		$action                      = $params['action'];
-		$cancel_url                  = $this->functions->get_app_link();
-		$cancel_label                = __( 'Cancel', 'disciple-tools-autolink' );
-		$submit_label                = __( 'Save', 'disciple-tools-autolink' );
-		$error                       = $params['error'] ?? '';
-		$name                        = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
-		$contacts                    = [ DT_Posts::get_post( 'contacts', $contact_id ) ];
-		$leader_ids                  = $params['leaders'] ?? array_map( function ( $leaders ) {
+		$name_label       = $group_fields['name']['name'];
+		$name_placeholder = $group_fields['name']['name'];
+		$start_date_label = $group_fields['start_date']['name'];
+		$leaders_label    = $group_fields['leaders']['name'];
+		$nonce            = self::NONCE;
+		$action           = $params['action'];
+		$cancel_url       = $this->functions->get_app_link();
+		$cancel_label     = __( 'Cancel', 'disciple-tools-autolink' );
+		$submit_label     = __( 'Save', 'disciple-tools-autolink' );
+		$error            = $params['error'] ?? '';
+		$name             = sanitize_text_field( wp_unslash( $params['name'] ?? "" ) );
+		$contacts         = [ DT_Posts::get_post( 'contacts', $contact_id ) ];
+		$coaching         = dt_autolink_queries()->tree( 'coaching', [
+			'check_health' => false,
+			'id'           => $contact_id,
+		] );
+		$leader_ids       = $params['leaders'] ?? array_map( function ( $leaders ) {
 			return (string) $leaders['ID'];
 		}, $group['leaders'] ?? [] );
-		$leader_options              = array_map( function ( $contact ) {
+		$leader_options   = array_map( function ( $contact ) {
 			return [
 				'id'    => (string) $contact['ID'],
 				'label' => $contact['name'],
 			];
 		}, $contacts );
+		foreach ( $coaching as $coached ) {
+			$leader_options[] = [
+				'id'    => $coached['id'],
+				'label' => $coached['name'],
+			];
+		}
 		$parent_group_field_callback = '/wp-json/autolink/v1/' . $magic_link->parts['type'] . "?" . http_build_query( [
 				'action' => 'parent_group_field',
 				'parts'  => $magic_link->parts,
