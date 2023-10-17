@@ -114,6 +114,11 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		include __DIR__ . '/../templates/group-form.php';
 	}
 
+	/**
+	 * Ajax callback to get the parent group field.
+	 * Renders when the leaders change.
+	 * @return false|void
+	 */
 	public function parent_group_field() {
 		$leaders = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
 
@@ -321,6 +326,10 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		$fields = [
 			"title"         => $name,
 			"leaders"       => [
+				"force_values" => true,
+				"values"       => $leaders
+			],
+			"members"       => [
 				"force_values" => true,
 				"values"       => $leaders
 			],
