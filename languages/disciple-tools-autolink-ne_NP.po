@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-06T21:05:25+00:00\n"
+"POT-Creation-Date: 2023-10-13T22:32:12+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:52-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,7 +75,7 @@ msgstr "ठिक छ"
 msgid "Edit Record"
 msgstr "रेकर्ड सम्पादन गर्नुहोस्"
 
-#: charts/groups-genmap.php:102 controllers/admin-general.php:31
+#: charts/groups-genmap.php:102 controllers/admin-general.php:32
 msgid "Reset"
 msgstr "रिसेट गर्नुहोस्"
 
@@ -89,53 +89,53 @@ msgstr ""
 msgid "Zoom Out"
 msgstr "लग आउट गर्नुहोस्"
 
-#: controllers/admin-general.php:24
+#: controllers/admin-general.php:25
 msgid "Training videos could not be loaded. Resetting to default content."
 msgstr ""
 
-#: controllers/admin-general.php:28
+#: controllers/admin-general.php:29
 msgid "Training Videos"
 msgstr ""
 
-#: controllers/admin-general.php:29
+#: controllers/admin-general.php:30
 msgid "Title"
 msgstr ""
 
-#: controllers/admin-general.php:30
+#: controllers/admin-general.php:31
 msgid "Embed"
 msgstr ""
 
-#: controllers/admin-general.php:32
+#: controllers/admin-general.php:33
 #, fuzzy
 #| msgid "add"
 msgid "Add"
 msgstr "थप्नुहोस्"
 
-#: controllers/admin-general.php:33
+#: controllers/admin-general.php:34
 msgid "Remove"
 msgstr ""
 
-#: controllers/admin-general.php:34
+#: controllers/admin-general.php:35
 #, fuzzy
 #| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to reset the training videos to default content?"
 msgstr "तपाईँ यसलाई मेट्न निश्चित हुनुहुन्छ ? "
 
-#: controllers/admin-general.php:35
+#: controllers/admin-general.php:36
 #, fuzzy
 #| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to remove this video?"
 msgstr "तपाईँ यसलाई मेट्न निश्चित हुनुहुन्छ ? "
 
-#: controllers/admin-general.php:36
+#: controllers/admin-general.php:37
 msgid "Up"
 msgstr ""
 
-#: controllers/admin-general.php:37
+#: controllers/admin-general.php:38
 msgid "Down"
 msgstr ""
 
-#: controllers/admin-general.php:107
+#: controllers/admin-general.php:108
 #, fuzzy
 #| msgid "Invalid group nesting."
 msgid "Invalid training videos."
@@ -251,6 +251,22 @@ msgstr ""
 msgid "you lead"
 msgstr "के तपाईं नेतृत्व गर्दै हुनुहुन्छ?"
 
+#: controllers/tree.php:27
+#, fuzzy
+#| msgid "Group Generation Tree"
+msgid "Generation Number"
+msgstr "समूह सिर्जना ट्री"
+
+#: controllers/tree.php:28
+msgid "No "
+msgstr ""
+
+#: disciple-tools-autolink.php:178
+#, fuzzy
+#| msgid "Autolink Home"
+msgid "Autolink"
+msgstr "गृह स्वत: लिङ्क गर्नुहोस्"
+
 #: magic-link/functions.php:73
 msgid "Add Magic"
 msgstr "म्याजिक थप्नुहोस्"
@@ -345,9 +361,6 @@ msgstr "दर्ता गर्नुहोस्"
 
 #~ msgid "Church Tree"
 #~ msgstr "चर्च को रूख"
-
-#~ msgid "Group Generation Tree"
-#~ msgstr "समूह सिर्जना ट्री"
 
 #~ msgid "This tree shows your groups and your descendants."
 #~ msgstr "यो रूखले तिमीहरूका समूहहरू र तिम्रा सन्तानहरूलाई देखाउँ."
