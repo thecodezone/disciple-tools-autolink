@@ -38,7 +38,15 @@ loaded(() => {
             '"]'
         );
 
+        if (!counter) {
+            return;
+        }
+
         let numberBadge = counter.querySelector("dt-modal > div > span");
+
+        if (!numberBadge) {
+            return;
+        }
         numberBadge.innerHTML = updatedValue;
     });
 });

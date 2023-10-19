@@ -143,7 +143,7 @@ export class AjaxField extends DtBase {
                     || content === ""
                     || content === "false"
                 ) {
-                    throw new Error("No content");
+                    return ""
                 }
                 return content;
             })
