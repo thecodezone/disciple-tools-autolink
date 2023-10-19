@@ -126,8 +126,14 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			return (int) $group['ID'];
 		}, $groups ) );
 
-		$assigned_list = [];
-		$leading_list  = [];
+		$meta = [
+			'assigned' => [],
+			'leading'  => [],
+			'coaching' => [],
+			'parents'  => [],
+			'titles'   => [],
+			'groups'   => $allowed_group_ids
+		];
 
 		foreach ( $groups as $p ) {
 			$assigned_to_user    = $p['assigned_to'] ?? [];
@@ -149,9 +155,6 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			}
 
 			$coaches = [];
-			foreach ( $p['coaches'] as $coach ) {
-				$coaches[] = $coach['ID'];
-			}
 			foreach ( $assigned_to_contact['coached_by'] as $coach ) {
 				$coaches[] = $coach['ID'];
 			}
@@ -167,6 +170,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			$has_allowed_parent  = ! empty( $parents ) && array_filter( $parents, function ( $parent ) use ( $allowed_group_ids ) {
 					return in_array( $parent, $allowed_group_ids );
 			} );
+			$has_parent          = ! empty( $parents );
 			$contact_is_coaching = in_array( $contact['ID'], $coaches );
 			$contact_is_assigned = $assigned_to_contact['ID'] === $contact['ID'];
 			$contact_is_leading  = in_array( $contact['ID'], $leaders );
@@ -180,19 +184,20 @@ class Disciple_Tools_Autolink_Groups_Tree {
 
 			if ( ! $has_allowed_parent && ! $contact_is_coaching && $contact_is_assigned ) {
 				$pre_tree[ $p['ID'] ] = null;
+			} elseif ( ! $has_parent && $contact_is_coaching ) {
+				$pre_tree[ $p['ID'] ] = $unassigned_group_id;
 			} elseif ( ! $has_allowed_parent ) {
-				if ( $contact_is_coaching ) {
-					$pre_tree[ $p['ID'] ] = $unassigned_group_id;
-				} else {
-					$pre_tree[ $p['ID'] ] = null;
-				}
+				$pre_tree[ $p['ID'] ] = null;
 			}
 
-			$title                       = $p['name'];
-			$title_list[ $p['ID'] ]      = $title;
-			$assigned_list[ $p['ID'] ]   = $contact_is_assigned;
-			$leading_list[ $p['ID'] ]    = $contact_is_leading;
-			$has_parent_list[ $p['ID'] ] = $has_allowed_parent;
+			$title                  = $p['name'];
+			$title_list[ $p['ID'] ] = $title;
+
+			$meta['assigned'][ $p['ID'] ] = $contact_is_assigned;
+			$meta['leading'][ $p['ID'] ]  = $contact_is_leading;
+			$meta['coaching'][ $p['ID'] ] = $contact_is_coaching;
+			$meta['parents'][ $p['ID'] ]  = $has_allowed_parent;
+			$meta['titles'][ $p['ID'] ]   = $title;
 
 
 			if ( isset( $pre_tree[ $p['ID'] ] ) && is_null( $pre_tree[ $p['ID'] ] ) && is_null( $first_root_group ) ) {
@@ -201,14 +206,15 @@ class Disciple_Tools_Autolink_Groups_Tree {
 		}
 
 		if ( array_search( $unassigned_group_id, $pre_tree ) ) {
-			$pre_tree[ $unassigned_group_id ]        = null;
-			$title_list[ $unassigned_group_id ]      = __( 'Coached without Parent Group', 'disciple_tools' );
-			$assigned_list[ $unassigned_group_id ]   = false;
-			$leading_list[ $unassigned_group_id ]    = false;
-			$has_parent_list[ $unassigned_group_id ] = false;
+			$pre_tree[ $unassigned_group_id ]         = null;
+			$meta['assigned'][ $unassigned_group_id ] = false;
+			$meta['leading'][ $unassigned_group_id ]  = false;
+			$meta['coaching'][ $unassigned_group_id ] = false;
+			$meta['parents'][ $unassigned_group_id ]  = false;
+			$meta['titles'][ $unassigned_group_id ]   = 'Unassigned';
 		}
 
-		$tree = $this->parse_tree( $pre_tree, $title_list, $has_parent_list, $assigned_list, $leading_list, null, $allowed_group_ids );
+		$tree = $this->parse_tree( $pre_tree, $meta, null );
 
 		if ( is_null( $tree ) ) {
 			$tree = [];
@@ -231,24 +237,24 @@ class Disciple_Tools_Autolink_Groups_Tree {
 	 *
 	 * @return array|null
 	 */
-	private function parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $leading_list, $root = null, $allowed_group_ids = [] ) {
+	private function parse_tree( $tree, $meta, $root = null ) {
 		$return = [];
 		# Traverse the tree and search for direct children of the root
 		foreach ( $tree as $child => $parent ) {
 			# A direct child is found
-			if ( $parent == $root && in_array( $child, $allowed_group_ids ) ) {
+			if ( $parent == $root && in_array( $child, $meta['groups'] ) ) {
 				# Remove item from tree (we don't need to traverse this again)
 				unset( $tree[ $child ] );
 				# Append the child into result array and parse its children
 				$return[] = [
-					'id'              => $child,
-					'title'           => $child,
-					'name'            => $title_list[ $child ] ?? 'No Name',
-					'children'        => $this->parse_tree( $tree, $title_list, $has_parent_list, $assigned_list, $leading_list, $child, $allowed_group_ids ),
-					'assigned'        => $assigned_list[ $child ] ?? false,
-					'has_parent'      => $has_parent_list[ $child ] ?? false,
-					"leading"         => $leading_list[ $child ] ?? false,
-					'__domenu_params' => []
+					'id'         => $child,
+					'title'      => $child,
+					'name'       => $meta['titles'][ $child ] ?? 'No Name',
+					'children'   => $this->parse_tree( $tree, $meta, $child ),
+					'assigned'   => $meta['assigned'][ $child ] ?? false,
+					'has_parent' => $meta['parents'][ $child ] ?? false,
+					"leading"    => $meta['leading'][ $child ] ?? false,
+					"coaching"   => $meta['coaching'][ $child ] ?? false
 				];
 			}
 		}

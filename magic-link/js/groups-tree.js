@@ -217,7 +217,7 @@ export class ChurchTile extends LitElement {
             bottom: calc(100% - calc(var(--tree-spacing) * 2 + 2px));
           }
 
-          .group--leading > .group__body > .group__tag {
+          .group--assigned > .group__body > .group__tag {
             background-color: #b3e3ae;
           }
 
@@ -511,7 +511,7 @@ export class ChurchTile extends LitElement {
      * @param isSortable
      * @returns {TemplateResult<1>}
      */
-    renderGroup({id, children, name, assigned, leading}, isSortable = true) {
+    renderGroup({id, children, name, assigned, leading, coaching}, isSortable = true) {
         return html`
             <li data-id="${id}"
                 data-assigned="${assigned}"
@@ -535,9 +535,10 @@ export class ChurchTile extends LitElement {
                         <div class="group__icons">
                             ${assigned ? html`
                                 <dt-icon icon="ph:user-bold" size="15px" class="group__icon--assigned"></dt-icon>
-                            ` : html`
+                            ` : null}
+                            ${coaching ? html`
                                 <dt-icon icon="mdi:help-outline" size="15px" class="group__icon--coached"></dt-icon>
-                            `}
+                            ` : null}
                         </div>
                     </div>
                     <div style="flex-grow: 1"></div>
@@ -644,7 +645,7 @@ export class ChurchTile extends LitElement {
             return false;
         }
 
-        if (!group.leading && to.id === 'tree') {
+        if (!group.assigned && to.id === 'tree') {
             return false;
         }
 
