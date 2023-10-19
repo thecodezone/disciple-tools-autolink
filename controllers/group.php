@@ -61,12 +61,12 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			]
 		] );
 
-		$group_fields     = DT_Posts::get_post_settings( 'groups' )['fields'];
-		$post_type        = get_post_type_object( 'groups' );
-		$group_labels     = get_post_type_labels( $post_type );
-		$group            = $group ?? [];
-		$user             = wp_get_current_user();
-		$contact_id       = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
+		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
+		$post_type    = get_post_type_object( 'groups' );
+		$group_labels = get_post_type_labels( $post_type );
+		$group        = $group ?? [];
+		$user         = wp_get_current_user();
+		$contact_id   = Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
 		if ( $group ) {
 			$heading = __( 'Edit', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
 		} else {
@@ -134,21 +134,47 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 	 * @return false|void
 	 */
 	public function parent_group_field() {
-		$leaders = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
+		$leaders_ids = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
 
 		//Filter out new leaders
-		$leaders = array_filter( $leaders, function ( $leader ) {
-			return is_numeric( $leader );
+		$leader_ids = array_filter( $leaders_ids, function ( $leader ) {
+			return is_numeric( $leader ) && $leader > 0;
 		} );
 
-		$leader_groups = DT_Posts::list_posts( 'groups', [
-			'assigned_to' => $leaders,
-		], false );
 
+		$leaders = array_map( function ( $leader_id ) {
+			return DT_Posts::get_post( 'contacts', $leader_id, false, false );
+		}, $leader_ids );
+
+		$groups = [];
+
+		foreach ( $leaders as $leader ) {
+			array_push( $groups, ...$leader['groups'] ?? [] );
+		}
+
+		$coached_by = [ 'posts' => [] ];
+
+		if ( count( $leaders ) ) {
+			$coached_by = count( $leaders ) ? DT_Posts::list_posts( 'contacts', [
+				'coaching' => array_map( function ( $leader ) {
+					return $leader['ID'];
+				}, $leaders )
+			], false ) : $coached_by;
+		}
+
+		foreach ( $coached_by['posts'] as $leader ) {
+			array_push( $groups, ...$leader['groups'] ?? [] );
+		}
+
+		$groups  = array_unique( $groups, SORT_REGULAR );
+		$leaders = count( $leaders ) ? DT_Posts::list_posts( 'groups', [
+			'assigned_to' => [ 340 ],
+			'limit'       => 1000
+		], false ) : [ 'posts' => [] ];
 
 		$id                           = sanitize_text_field( wp_unslash( $_GET['id'] ?? '' ) );
 		$group                        = $id ? DT_Posts::get_post( 'groups', $id, true, false ) : null;
-		$default_parent_group         = count( $leader_groups['posts'] ) ? $leader_groups['posts'][0]['ID'] ?? null : null;
+		$default_parent_group         = count( $groups ) ? $groups[0]['ID'] ?? null : null;
 		$allow_parent_group_selection = $this->settings->get_option( 'disciple_tools_autolink_allow_parent_group_selection' );
 		$allow_parent_group_selection = $allow_parent_group_selection === '1' || $allow_parent_group_selection === true;
 
@@ -157,7 +183,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 				'id'    => (string) $group['ID'],
 				'label' => $group['post_title'],
 			];
-		}, $leader_groups['posts'] );
+		}, $groups );
 
 		if ( ! count( $parent_group_options ) ) {
 			return false;
