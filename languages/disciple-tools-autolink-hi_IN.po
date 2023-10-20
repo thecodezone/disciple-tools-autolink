@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-13T22:32:12+00:00\n"
+"POT-Creation-Date: 2023-10-20T16:19:37+00:00\n"
 "PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -56,7 +56,7 @@ msgstr "जनक"
 msgid "Save Changes"
 msgstr "बदलाव सहेजें"
 
-#: charts/groups-genmap.php:97 controllers/group.php:78
+#: charts/groups-genmap.php:97 controllers/group.php:82
 msgid "Cancel"
 msgstr "कैंसिल करें"
 
@@ -142,26 +142,36 @@ msgstr ""
 msgid "Invalid training videos."
 msgstr "अमान्य समूह घोंसले का घोंसला।"
 
-#: controllers/app.php:17
-msgid "Delete"
-msgstr "हटाएं"
+#: controllers/app.php:33
+#, fuzzy
+#| msgid "My "
+msgid "My"
+msgstr "मेरा "
 
-#: controllers/app.php:18
-msgid "Are you sure you want to delete this "
-msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
+#: controllers/app.php:34
+msgid "Church Start Date"
+msgstr "चर्च का पेड़"
 
-#: controllers/app.php:19
-msgid "Edit"
-msgstr "संपादित करें"
-
-#: controllers/app.php:20 controllers/controller.php:36
+#: controllers/app.php:35 controllers/controller.php:36
 #: magic-link/functions.php:265
 msgid "View"
 msgstr "देखें"
 
-#: controllers/app.php:23
-msgid "Church Start Date"
-msgstr "चर्च का पेड़"
+#: controllers/app.php:36
+msgid "Delete"
+msgstr "हटाएं"
+
+#: controllers/app.php:37
+msgid "Are you sure you want to delete this "
+msgstr "क्या आप वाकई इसे हटाना चाहते हैं "
+
+#: controllers/app.php:38 controllers/group.php:71
+msgid "Edit"
+msgstr "संपादित करें"
+
+#: controllers/app.php:39
+msgid "More"
+msgstr ""
 
 #: controllers/controller.php:22 magic-link/functions.php:80
 #: magic-link/functions.php:252
@@ -202,27 +212,35 @@ msgstr "चर्च का पेड़"
 msgid "Training"
 msgstr ""
 
-#: controllers/group.php:70
+#: controllers/group.php:73
 msgid "Create"
 msgstr "बनाएँ"
 
-#: controllers/group.php:79
+#: controllers/group.php:83
 msgid "Save"
 msgstr ""
 
-#: controllers/group.php:153
+#: controllers/group.php:198
 #, fuzzy
 #| msgid "Parent"
 msgid "Parent group"
 msgstr "जनक"
 
-#: controllers/group.php:187
+#: controllers/group.php:232
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "अनधिकृत कार्रवाई. कृपया पृष्ठ ताज़ा करें और पुन: प्रयास करें."
 
-#: controllers/group.php:209
+#: controllers/group.php:254
 msgid "Back to AutoLink"
 msgstr "शिष्य उपकरण - ऑटोलिंक"
+
+#: controllers/group.php:448
+msgid "Unauthorized"
+msgstr ""
+
+#: controllers/group.php:463
+msgid "Could not fetch groups"
+msgstr ""
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
@@ -251,12 +269,16 @@ msgid "you lead"
 msgstr "क्या आप नेतृत्व कर रहे हैं?"
 
 #: controllers/tree.php:27
+msgid "you coach"
+msgstr ""
+
+#: controllers/tree.php:28
 #, fuzzy
 #| msgid "Group Generation Tree"
 msgid "Generation Number"
 msgstr "समूह पीढ़ी का पेड़"
 
-#: controllers/tree.php:28
+#: controllers/tree.php:29
 msgid "No "
 msgstr ""
 

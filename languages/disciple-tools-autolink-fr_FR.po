@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-13T22:32:12+00:00\n"
+"POT-Creation-Date: 2023-10-20T16:19:37+00:00\n"
 "PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -46,7 +46,7 @@ msgstr "Parent"
 msgid "Save Changes"
 msgstr "Sauvegarder les changements"
 
-#: charts/groups-genmap.php:97 controllers/group.php:78
+#: charts/groups-genmap.php:97 controllers/group.php:82
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -130,26 +130,36 @@ msgstr ""
 msgid "Invalid training videos."
 msgstr "Imbrication de groupe non valide."
 
-#: controllers/app.php:17
-msgid "Delete"
-msgstr "Supprimer"
+#: controllers/app.php:33
+#, fuzzy
+#| msgid "My "
+msgid "My"
+msgstr "Mes "
 
-#: controllers/app.php:18
-msgid "Are you sure you want to delete this "
-msgstr "Êtes-vous certain de vouloir supprimer "
+#: controllers/app.php:34
+msgid "Church Start Date"
+msgstr "Date de début de l’église"
 
-#: controllers/app.php:19
-msgid "Edit"
-msgstr "Modifier"
-
-#: controllers/app.php:20 controllers/controller.php:36
+#: controllers/app.php:35 controllers/controller.php:36
 #: magic-link/functions.php:265
 msgid "View"
 msgstr "Voir"
 
-#: controllers/app.php:23
-msgid "Church Start Date"
-msgstr "Date de début de l’église"
+#: controllers/app.php:36
+msgid "Delete"
+msgstr "Supprimer"
+
+#: controllers/app.php:37
+msgid "Are you sure you want to delete this "
+msgstr "Êtes-vous certain de vouloir supprimer "
+
+#: controllers/app.php:38 controllers/group.php:71
+msgid "Edit"
+msgstr "Modifier"
+
+#: controllers/app.php:39
+msgid "More"
+msgstr ""
 
 #: controllers/controller.php:22 magic-link/functions.php:80
 #: magic-link/functions.php:252
@@ -190,27 +200,35 @@ msgstr "Carte générale"
 msgid "Training"
 msgstr ""
 
-#: controllers/group.php:70
+#: controllers/group.php:73
 msgid "Create"
 msgstr "Créer"
 
-#: controllers/group.php:79
+#: controllers/group.php:83
 msgid "Save"
 msgstr ""
 
-#: controllers/group.php:153
+#: controllers/group.php:198
 #, fuzzy
 #| msgid "Parent"
 msgid "Parent group"
 msgstr "Parent"
 
-#: controllers/group.php:187
+#: controllers/group.php:232
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Action non autorisée. Actualisez la page et réessayez."
 
-#: controllers/group.php:209
+#: controllers/group.php:254
 msgid "Back to AutoLink"
 msgstr "Retour à AutoLink"
+
+#: controllers/group.php:448
+msgid "Unauthorized"
+msgstr ""
+
+#: controllers/group.php:463
+msgid "Could not fetch groups"
+msgstr ""
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
@@ -239,10 +257,14 @@ msgid "you lead"
 msgstr "Dirigez-vous?"
 
 #: controllers/tree.php:27
-msgid "Generation Number"
+msgid "you coach"
 msgstr ""
 
 #: controllers/tree.php:28
+msgid "Generation Number"
+msgstr ""
+
+#: controllers/tree.php:29
 msgid "No "
 msgstr ""
 
