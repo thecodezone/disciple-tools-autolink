@@ -166,6 +166,10 @@ export class ChurchTile extends LitElement {
             padding-left: 0;
           }
 
+          #unassigned.unassigned--empty {
+            display: none;
+          }
+
           .group__tag {
             background-color: #E2E2E2;
             display: flex;
@@ -243,6 +247,10 @@ export class ChurchTile extends LitElement {
             font-weight: lighter;
             align-items: center;
             justify-content: center;
+          }
+
+          .group__icons dt-icon {
+            transform: translateY(3px);
           }
 
           .key__generation,
@@ -580,10 +588,12 @@ export class ChurchTile extends LitElement {
         if (!this.validateDrop(event)) {
             const nextElement = from.children[oldIndex + 1]
             if (!nextElement) {
+                console.log(from)
                 from.appendChild(item)
             } else {
                 from.insertBefore(item, nextElement)
             }
+            this.applyDomTweaks()
             return;
         }
 
@@ -665,7 +675,9 @@ export class ChurchTile extends LitElement {
         })
         if (this.unassignedSection) {
             if (!this.unassignedSection.querySelector('li')) {
-                this.unassignedSection.remove()
+                this.unassignedSection.classList.add("unassigned--empty")
+            } else {
+                this.unassignedSection.classList.remove("unassigned--empty")
             }
         }
         this.groupGenerationIcons.forEach((generationIcon) => {

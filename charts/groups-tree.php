@@ -85,11 +85,9 @@ class Disciple_Tools_Autolink_Groups_Tree {
 	 * Get the tree of groups
 	 */
 	public function tree() {
-		$tree                = [];
 		$title_list          = [];
-		$coach_list          = [];
 		$pre_tree            = [];
-		$has_parent_list     = [];
+		$meta                = [];
 		$unassigned_group_id = 'u';
 
 		$contact = DT_Posts::list_posts( 'contacts', [
@@ -97,51 +95,49 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			'limit'               => 1000
 		], false )['posts'][0];
 
-		$allowed_contact_ids = [ $contact['ID'] ];
-		$allowed_group_ids   = [ $unassigned_group_id ];
-		$allowed_user_ids    = [ get_current_user_id() ];
-
-		if ( isset( $contact['coaching'] ) ) {
-			foreach ( $contact['coaching'] as $child_contact ) {
-				$allowed_contact_ids[] = $child_contact['ID'];
-				$child_contact         = DT_Posts::get_post( 'contacts', $child_contact['ID'], false );
-				if ( isset( $child_contact['corresponds_to_user'] ) ) {
-					$allowed_user_ids[] = $child_contact['corresponds_to_user'];
-				}
-			}
-		}
-
-		$groups = [];
-
-		$result = DT_Posts::list_posts( 'groups', [
-			'assigned_to' => $allowed_user_ids,
-			'limit'       => 1000
-		], false );
-
-		foreach ( $result['posts'] ?? [] as $post ) {
-			$groups[] = $post;
-		}
-
-		array_push( $allowed_group_ids, ...array_map( function ( $group ) {
-			return (int) $group['ID'];
-		}, $groups ) );
+		$allowed_group_ids = [ $unassigned_group_id ];
+		$groups            = [];
 
 		$meta = [
 			'assigned' => [],
-			'leading'  => [],
 			'coaching' => [],
 			'parents'  => [],
 			'titles'   => [],
-			'groups'   => $allowed_group_ids
 		];
 
+		// TODO CW: Switch back to list_posts
+		// I am reverting to making individual queries.
+		// For some reason, list_posts isn't returning all groups
+		// even when check permissions is false.
+		foreach ( $contact['groups'] as $group ) {
+			$group                            = DT_Posts::get_post( 'groups', $group["ID"], false, false );
+			$allowed_group_ids[]              = (int) $group['ID'];
+			$groups[]                         = $group;
+			$meta['assigned'][ $group['ID'] ] = true;
+			$meta['coaching'][ $group['ID'] ] = false;
+			$meta['titles'][ $group['ID'] ]   = $group['name'];
+		}
+
+		foreach ( $contact['coaching'] as $coached ) {
+			$coached = DT_Posts::get_post( 'contacts', $coached['ID'], false, false );
+			if ( ! $coached ) {
+				continue;
+			}
+
+			foreach ( $coached['groups'] as $group ) {
+				$group                            = DT_Posts::get_post( 'groups', $group["ID"], false, false );
+				$allowed_group_ids[]              = (int) $group['ID'];
+				$groups[]                         = $group;
+				$meta['assigned'][ $group['ID'] ] = false;
+				$meta['coaching'][ $group['ID'] ] = true;
+				$meta['titles'][ $group['ID'] ]   = $group['name'];
+			}
+		}
+
+		$meta['groups'] = $allowed_group_ids;
+
 		foreach ( $groups as $p ) {
-			$assigned_to_user    = $p['assigned_to'] ?? [];
-			$assigned_to_contact = DT_Posts::list_posts( 'contacts', [
-				'corresponds_to_user' => $assigned_to_user['id'],
-				'limit'               => 1000
-			], false )['posts'][0];
-			$first_root_group    = null;
+			$first_root_group = null;
 			foreach ( $pre_tree as $pre_group_id => $pre_parent_group_id ) {
 				if ( ! $pre_parent_group_id ) {
 					$first_root_group = $pre_group_id;
@@ -149,31 +145,17 @@ class Disciple_Tools_Autolink_Groups_Tree {
 				}
 			}
 
-			$is_allowed_contact = in_array( $assigned_to_contact['ID'], $allowed_contact_ids );
-			if ( ! $is_allowed_contact ) {
-				continue;
-			}
 
-			$coaches = [];
-			foreach ( $assigned_to_contact['coached_by'] as $coach ) {
-				$coaches[] = $coach['ID'];
-			}
 			$parents = [];
 			foreach ( $p['parent_groups'] as $parent_group ) {
 				$parents[] = $parent_group['ID'];
-			}
-			$leaders = [];
-			foreach ( $p['leaders'] as $leader ) {
-				$leaders[] = $leader['ID'];
 			}
 
 			$has_allowed_parent  = ! empty( $parents ) && array_filter( $parents, function ( $parent ) use ( $allowed_group_ids ) {
 					return in_array( $parent, $allowed_group_ids );
 			} );
 			$has_parent          = ! empty( $parents );
-			$contact_is_coaching = in_array( $contact['ID'], $coaches );
-			$contact_is_assigned = $assigned_to_contact['ID'] === $contact['ID'];
-			$contact_is_leading  = in_array( $contact['ID'], $leaders );
+			$contact_is_assigned = $meta['assigned'][ $p['ID'] ] ?? false;
 
 
 			if ( isset( $p['child_groups'] ) && ! empty( $p['child_groups'] ) ) {
@@ -185,7 +167,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			if ( ! $has_allowed_parent && $contact_is_assigned ) {
 				$pre_tree[ $p['ID'] ] = null;
 			} elseif ( ! $has_allowed_parent ) {
-				if ( ! $has_parent && $contact_is_coaching ) {
+				if ( ! $has_parent ) {
 					$pre_tree[ $p['ID'] ] = $unassigned_group_id;
 				} else {
 					$pre_tree[ $p['ID'] ] = null;
@@ -195,12 +177,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			$title                  = $p['name'];
 			$title_list[ $p['ID'] ] = $title;
 
-			$meta['assigned'][ $p['ID'] ] = $contact_is_assigned;
-			$meta['leading'][ $p['ID'] ]  = $contact_is_leading;
-			$meta['coaching'][ $p['ID'] ] = $contact_is_coaching;
-			$meta['parents'][ $p['ID'] ]  = $has_allowed_parent;
-			$meta['titles'][ $p['ID'] ]   = $title;
-
+			$meta['parents'][ $p['ID'] ] = $has_allowed_parent;
 
 			if ( isset( $pre_tree[ $p['ID'] ] ) && is_null( $pre_tree[ $p['ID'] ] ) && is_null( $first_root_group ) ) {
 				$first_root_group = $p['ID'];
@@ -210,7 +187,6 @@ class Disciple_Tools_Autolink_Groups_Tree {
 		if ( array_search( $unassigned_group_id, $pre_tree ) ) {
 			$pre_tree[ $unassigned_group_id ]         = null;
 			$meta['assigned'][ $unassigned_group_id ] = false;
-			$meta['leading'][ $unassigned_group_id ]  = false;
 			$meta['coaching'][ $unassigned_group_id ] = false;
 			$meta['parents'][ $unassigned_group_id ]  = false;
 			$meta['titles'][ $unassigned_group_id ]   = 'Unassigned';

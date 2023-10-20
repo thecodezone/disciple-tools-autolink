@@ -210,7 +210,7 @@ class Disciple_Tools_Autolink_Queries {
 
 		$check_health = $args['check_health'] ?? true;
 		if ( $check_health ) {
-			$list = $this->check_tree_health( $list );
+			$list = dt_queries()->check_tree_health( $list );
 		}
 
 		$id = $args['id'] ?? false;

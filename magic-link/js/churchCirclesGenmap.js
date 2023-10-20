@@ -20,7 +20,7 @@
           <section id="alert-message" class="alert-message">
           </section>
           <section id="edit-group" class="edit-group">
-          </section>s
+          </section>
           <section id="genmapper-graph" style="height:${
             document.documentElement.clientHeight - 250
         }px">
