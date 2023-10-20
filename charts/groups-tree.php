@@ -182,12 +182,14 @@ class Disciple_Tools_Autolink_Groups_Tree {
 				}
 			}
 
-			if ( ! $has_allowed_parent && ! $contact_is_coaching && $contact_is_assigned ) {
+			if ( ! $has_allowed_parent && $contact_is_assigned ) {
 				$pre_tree[ $p['ID'] ] = null;
-			} elseif ( ! $has_parent && $contact_is_coaching ) {
-				$pre_tree[ $p['ID'] ] = $unassigned_group_id;
 			} elseif ( ! $has_allowed_parent ) {
-				$pre_tree[ $p['ID'] ] = null;
+				if ( ! $has_parent && $contact_is_coaching ) {
+					$pre_tree[ $p['ID'] ] = $unassigned_group_id;
+				} else {
+					$pre_tree[ $p['ID'] ] = null;
+				}
 			}
 
 			$title                  = $p['name'];
