@@ -188,15 +188,17 @@ class Disciple_Tools_Autolink_Magic_Functions {
 
 		$contact        = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 		$contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
+		$leader         = DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
 		if ( ! count( $contact_record['coached_by'] ) ) {
 			$fields = [
-				"coached_by" => [
+				"coached_by"  => [
 					"values"       => [
 						[ "value" => $leader_id ],
 					],
 					"force_values" => false
-				]
+				],
+				'assigned_to' => (string) $leader['corresponds_to_user']
 			];
 
 			DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
