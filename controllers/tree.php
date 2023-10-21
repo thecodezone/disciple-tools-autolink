@@ -23,8 +23,9 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 			'unassigned_title'  => __( 'Unassigned', 'disciple-tools-autolink' ) . ' ' . $churches_label,
 			'unassigned_tip'    => __( 'Move these to the', 'disciple-tools-autolink' ) . ' ' . $church_label . ' ' . $tree_label . ' ' . __( 'to assign them to a', 'disciple-tools-autolink' ) . ' ' . $church_label . '.',
 			'key_title'         => __( 'Key', 'disciple-tools-autolink' ),
-			'assigned_label'    => $churches_label . ' ' . __( 'you lead', 'disciple-tools-autolink' ),
-			'coached_label'     => $churches_label . ' ' . __( 'you coach', 'disciple-tools-autolink' ),
+			'assigned_label'    => $churches_label . ' ' . __( 'you are assigned', 'disciple-tools-autolink' ),
+			'coached_label'     => $churches_label . ' ' . __( 'assigned to those you coach', 'disciple-tools-autolink' ),
+			'leading_label'     => $churches_label . ' ' . __( 'you lead', 'disciple-tools-autolink' ),
 			'generation_label'  => __( 'Generation Number', 'disciple-tools-autolink' ),
 			'no_groups_message' => __( 'No ', 'disciple-tools-autolink' ) . ' ' . $churches_label . ' found.',
 		];

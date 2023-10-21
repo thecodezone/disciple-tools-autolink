@@ -87,16 +87,12 @@ class Disciple_Tools_Autolink_Groups_Tree {
 	public function tree() {
 		$title_list          = [];
 		$pre_tree            = [];
-		$meta                = [];
 		$unassigned_group_id = 'u';
 
 		$contact = DT_Posts::list_posts( 'contacts', [
 			'corresponds_to_user' => get_current_user_id(),
 			'limit'               => 1000
 		], false )['posts'][0];
-
-		$allowed_group_ids = [ $unassigned_group_id ];
-		$groups            = [];
 
 		$meta = [
 			'assigned' => [],
@@ -105,32 +101,43 @@ class Disciple_Tools_Autolink_Groups_Tree {
 			'titles'   => [],
 		];
 
-		// TODO CW: Switch back to list_posts
-		// I am reverting to making individual queries.
-		// For some reason, list_posts isn't returning all groups
-		// even when check permissions is false.
-		foreach ( $contact['groups'] as $group ) {
-			$group                            = DT_Posts::get_post( 'groups', $group["ID"], false, false );
+		$groups = DT_Posts::list_posts( 'groups', [
+			'assigned_to' => [ get_current_user_id() ],
+		], false )['posts'] ?? [];
+
+		$coaching = DT_Posts::list_posts( 'contacts', [
+			'coached_by' => [ $contact['ID'] ],
+		], false )['posts'] ?? [];
+
+		foreach ( $groups as $group ) {
 			$allowed_group_ids[]              = (int) $group['ID'];
 			$groups[]                         = $group;
 			$meta['assigned'][ $group['ID'] ] = true;
+			$meta['leading'][ $group['ID'] ]  = array_filter( $group['leaders'], function ( $leader ) use ( $contact ) {
+				return $leader['ID'] == $contact['ID'];
+			} );
 			$meta['coaching'][ $group['ID'] ] = false;
 			$meta['titles'][ $group['ID'] ]   = $group['name'];
 		}
 
-		foreach ( $contact['coaching'] as $coached ) {
-			$coached = DT_Posts::get_post( 'contacts', $coached['ID'], false, false );
-			if ( ! $coached ) {
+		foreach ( $coaching as $coached ) {
+			$coached_user_id = $coached['corresponds_to_user'] ?? false;
+			if ( ! $coached_user_id ) {
 				continue;
 			}
+			$coached_groups = DT_Posts::list_posts( 'groups', [
+				'assigned_to' => [ $coached_user_id ],
+			], false )['posts'] ?? [];
 
-			foreach ( $coached['groups'] as $group ) {
-				$group                            = DT_Posts::get_post( 'groups', $group["ID"], false, false );
-				$allowed_group_ids[]              = (int) $group['ID'];
-				$groups[]                         = $group;
-				$meta['assigned'][ $group['ID'] ] = false;
-				$meta['coaching'][ $group['ID'] ] = true;
-				$meta['titles'][ $group['ID'] ]   = $group['name'];
+			foreach ( $coached_groups as $coached_group ) {
+				$allowed_group_ids[]                      = (int) $coached_group['ID'];
+				$groups[]                                 = $coached_group;
+				$meta['leading'][ $coached_group['ID'] ]  = array_filter( $coached_group['leaders'], function ( $leader ) use ( $contact ) {
+					return $leader['ID'] == $contact['ID'];
+				} );
+				$meta['assigned'][ $coached_group['ID'] ] = false;
+				$meta['coaching'][ $coached_group['ID'] ] = true;
+				$meta['titles'][ $coached_group['ID'] ]   = $coached_group['name'];
 			}
 		}
 

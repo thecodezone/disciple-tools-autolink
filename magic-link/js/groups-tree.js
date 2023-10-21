@@ -36,11 +36,15 @@ export class ChurchTile extends LitElement {
     @property({
         type: String,
     })
-    assignedLabel = 'Churches you lead'
+    assignedLabel = 'Churches you are assigned to'
     @property({
         type: String,
     })
     coachedLabel = 'Churches you coach'
+    @property({
+        type: String,
+    })
+    leadingLabel = 'Churches you lead'
     @property({
         type: String,
     })
@@ -417,7 +421,7 @@ export class ChurchTile extends LitElement {
      * @returns {TemplateResult<1>}
      */
     render() {
-        const {keyTitle, assignedLabel, coachedLabel, generationLabel, tree} = this;
+        const {keyTitle, assignedLabel, coachedLabel, leadingLabel, generationLabel, tree} = this;
         if (!tree.length) {
             return html`
                 <dt-alert context="info">
@@ -434,7 +438,6 @@ export class ChurchTile extends LitElement {
                         <table class="tree__key">
                             <tr>
                                 <td class="key key--assigned">
-                                    <dt-icon icon="ph:user-bold" size="15px"></dt-icon>
                                 </td>
                                 <td>
                                     <p>
@@ -444,11 +447,20 @@ export class ChurchTile extends LitElement {
                             </tr>
                             <tr>
                                 <td class="key key--coached">
-                                    <dt-icon icon="mdi:help-outline" size="15px"></dt-icon>
                                 </td>
                                 <td>
                                     <p>
                                         ${coachedLabel}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="key key--leading">
+                                    <dt-icon icon="ph:user-bold" size="15px"></dt-icon>
+                                </td>
+                                <td>
+                                    <p>
+                                        ${leadingLabel}
                                     </p>
                                 </td>
                             </tr>
@@ -540,7 +552,8 @@ export class ChurchTile extends LitElement {
                         classMap({
                             'group': true,
                             'group--assigned': assigned,
-                            'group--leading': leading
+                            'group--leading': leading,
+                            'group--coaching': coaching,
                         })
                 }"
             >
@@ -556,9 +569,6 @@ export class ChurchTile extends LitElement {
                         <div class="group__icons">
                             ${assigned ? html`
                                 <dt-icon icon="ph:user-bold" size="15px" class="group__icon--assigned"></dt-icon>
-                            ` : null}
-                            ${coaching ? html`
-                                <dt-icon icon="mdi:help-outline" size="15px" class="group__icon--coached"></dt-icon>
                             ` : null}
                         </div>
                     </div>
