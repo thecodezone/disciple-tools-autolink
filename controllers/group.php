@@ -448,8 +448,8 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			return new WP_REST_Response( __( 'Unauthorized', 'disciple-tools-autolink' ), 401 );
 		}
 
-		$limit  = sanitize_key( wp_unslash( $_GET['limit'] ) );
-		$offset = sanitize_key( wp_unslash( $_GET['offset'] ) );
+		$limit  = sanitize_key( wp_unslash( $_GET['limit'] ?? 10 ) );
+		$offset = sanitize_key( wp_unslash( $_GET['offset'] ?? 0 ) );
 
 		$result = DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
