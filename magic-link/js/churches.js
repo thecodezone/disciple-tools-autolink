@@ -149,12 +149,11 @@ export class Churches extends DtBase {
         const {loading, error} = this;
 
         return html`
-            ${error ? html`
+            ${error && !loading ? html`
                 <dt-alert context="alert" dismissible>${error}</dt-alert>
             ` : null}
             ${this.renderGroups()}
-            ${loading ? html`
-            ` : this.renderPagination()}
+            ${this.renderPagination()}
         `
     }
 
@@ -274,7 +273,11 @@ export class Churches extends DtBase {
             ${keyed('load-trigger', html`
                 <div ${ref(this.loadTriggerRef)} class="churches__pagination">
                     ${loading ? this.renderLoading()
-                            : html``
+                            : html`
+                                <dt-button context="primary">
+                                    ${translations.more}
+                                </dt-button>
+                            `
                     }
                 </div>`)}
         `
