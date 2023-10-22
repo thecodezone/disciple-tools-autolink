@@ -1,0 +1,53 @@
+.sortable-drag.group {
+    --tree-spacing: 10px;
+}
+
+.sortable-drag.group,
+.sortable-drag .group {
+    width: fit-content;
+    margin-top: calc(var(--tree-spacing) * 2);
+    list-style-type: none;
+}
+
+.sortable-drag .group__tag {
+    background-color: #E2E2E2;
+    display: flex;
+    align-items: center;
+    padding: calc(var(--tree-spacing) * .5) calc(var(--tree-spacing) * 1.5) calc(var(--tree-spacing) * .5) calc(var(--tree-spacing) * 1.5);
+    border-radius: 0 5px 5px 0;
+    position: relative;
+    border: solid 1px #afc1cc;
+    border-left-color: #2C5364;
+    min-height: calc(var(--tree-spacing) * 3);
+    gap: var(--tree-spacing);
+}
+
+.sortable-drag .group--assigned > .group__body > .group__tag,
+.sortable-drag.group--assigned > .group__body > .group__tag {
+    background-color: #b3e3ae;
+}
+
+.sortable-drag .group__label,
+.sortable-drag .group__handle {
+    display: flex;
+    align-items: center;
+}
+
+.sortable-drag .group__handle {
+    padding-top: calc(var(--tree-spacing) * .5);
+    margin-left: calc(var(--tree-spacing) * -1.5);
+    width: var(--tree-spacing);
+}
+
+.sortable-drag .group__icons {
+    display: flex;
+    gap: calc(var(--tree-spacing) * .5);
+    color: #2C5364;
+    font-weight: lighter;
+    align-items: center;
+    justify-content: center;
+}
+
+.sortable-drag .group__icons dt-icon {
+    transform: translateY(3px);
+}

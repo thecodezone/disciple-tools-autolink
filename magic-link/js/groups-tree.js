@@ -233,9 +233,6 @@ export class ChurchTile extends LitElement {
             background-color: #b3e3ae;
           }
 
-          bottom: calc(100% - calc(var(--tree-spacing) * 2 + 2px));
-
-
           .group__label,
           .group__handle {
             display: flex;
@@ -303,15 +300,6 @@ export class ChurchTile extends LitElement {
           .key--assigned {
             background-color: #b3e3ae;
           }
-
-          .sortable-ghost {
-            filter: brightness(-1.1);
-            opacity: .8;
-          }
-
-          .sortable-drag {
-            filter: brightness(1.1);
-          }
         `;
     }
 
@@ -377,7 +365,7 @@ export class ChurchTile extends LitElement {
                         put: true
                     },
                     animation: 150,
-                    fallbackOnBody: false,
+                    fallbackOnBody: true,
                     swapThreshold: 0.65,
                     onEnd: this.handleDrop.bind(this),
                     onChoose: this.applyDomTweaks.bind(this),
