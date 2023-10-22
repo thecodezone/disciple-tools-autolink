@@ -165,6 +165,13 @@ export class ChurchTile extends LitElement {
             display: none;
           }
 
+          .tree__spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            grid-column: 1 / -1;
+          }
+
           #tree,
           #unassigned-tree {
             padding-left: 0;
@@ -332,7 +339,9 @@ export class ChurchTile extends LitElement {
         try {
             result = await this.fetch('tree')
         } catch (e) {
+            this.loading = false
             this.error = e.message
+            return;
         }
 
         let {tree, parent_list, title_list} = await result.json()
@@ -409,8 +418,8 @@ export class ChurchTile extends LitElement {
      * @returns {TemplateResult<1>}
      */
     render() {
-        const {keyTitle, assignedLabel, coachedLabel, leadingLabel, generationLabel, tree} = this;
-        if (!tree.length) {
+        const {keyTitle, assignedLabel, coachedLabel, leadingLabel, generationLabel, tree, loading} = this;
+        if (!tree.length && !loading) {
             return html`
                 <dt-alert context="info">
                     ${this.noGroupsMessage}
@@ -478,12 +487,6 @@ export class ChurchTile extends LitElement {
     renderTree() {
         const {loading, tree, error, syncing, unassignedTree, title} = this;
 
-        if (loading) {
-            return html`
-                <dt-spinner></dt-spinner>
-            `
-        }
-
         if (error) {
             return html`
                 <dt-alert context="error" dismissable>${error}</dt-alert>
@@ -492,6 +495,10 @@ export class ChurchTile extends LitElement {
 
         return html`
             <dt-tile title="${title}">
+                ${loading ? html`
+                    <div class="tree__spinner">
+                        <dt-spinner></dt-spinner>
+                    </div>` : ''}
                 <div class="section__inner">
                     <ul class="groups groups--sortable" id="tree">
                         ${tree.map(group => this.renderGroup(group))}
