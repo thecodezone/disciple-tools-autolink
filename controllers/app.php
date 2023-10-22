@@ -16,8 +16,9 @@ class Disciple_Tools_Autolink_App_Controller extends Disciple_Tools_Autolink_Con
 		$churches           = DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
 			'limit'       => $limit,
-			'sort'        => '-last_modified'
+			'sort'        => '-post_date'
 		], false );
+
 		//Apply WP formatting to all date fields.
 		$churches['posts'] = array_map( function ( $church ) {
 			foreach ( $church as $key => $value ) {

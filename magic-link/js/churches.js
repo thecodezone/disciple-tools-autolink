@@ -5,7 +5,6 @@ import {property, query} from "lit/decorators.js";
 import {ref, createRef} from 'lit/directives/ref.js';
 import httpBuildQuery from 'http-build-query'
 import {keyed} from 'lit/directives/keyed.js';
-import Horizon from '@mintuz/horizon';
 
 /**
  * @class Churches

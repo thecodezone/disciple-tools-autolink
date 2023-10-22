@@ -134,7 +134,10 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 	 * @return false|void
 	 */
 	public function parent_group_field() {
-		$leaders_ids = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
+		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
+		$post_type    = get_post_type_object( 'groups' );
+		$group_labels = get_post_type_labels( $post_type );
+		$leaders_ids  = dt_recursive_sanitize_array( $_GET['leaders'] ?? [] );
 
 		//Filter out new leaders
 		$leader_ids = array_filter( $leaders_ids, function ( $leader ) {
@@ -178,6 +181,7 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 		$allow_parent_group_selection = $this->settings->get_option( 'disciple_tools_autolink_allow_parent_group_selection' );
 		$allow_parent_group_selection = $allow_parent_group_selection === '1' || $allow_parent_group_selection === true;
 
+
 		$parent_group_options = array_map( function ( $group ) {
 			return [
 				'id'    => (string) $group['ID'],
@@ -189,13 +193,18 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			return false;
 		}
 
+		array_unshift( $parent_group_options, [
+			'id'    => '',
+			'label' => __( 'Select a', 'disciple-tools-autolink' ) . ' ' . strtolower( $group_labels->singular_name ) . '...',
+		] );
+
 		$parent_group = $default_parent_group;
 
 		if ( $group ) {
-			$parent_group = count( $group['parent_groups'] ) ? $group['parent_groups'][0]["ID"] : $default_parent_group;
+			$parent_group = count( $group['parent_groups'] ) ? $group['parent_groups'][0]["ID"] : '';
 		}
 
-		$parent_group_label = __( 'Parent group', 'disciple-tools-autolink' );
+		$parent_group_label = __( 'Parent', 'disciple-tools-autolink' ) . ' ' . $group_labels->singular_name;
 
 		include __DIR__ . '/../templates/parts/parent-group-field.php';
 	}
@@ -375,9 +384,9 @@ class Disciple_Tools_Autolink_Group_Controller extends Disciple_Tools_Autolink_C
 			],
 			"parent_groups" => [
 				"force_values" => true,
-				"values"       => [
+				"values"       => $parent_group ? [
 					[ "value" => $parent_group ]
-				]
+				] : []
 			],
 			"start_date"    => $start_date,
 		];
