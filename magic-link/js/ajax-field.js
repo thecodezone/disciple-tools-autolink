@@ -64,9 +64,11 @@ export class AjaxField extends DtBase {
      */
     get watched() {
         if (this.watch === "*") {
-            return [this.form.querySelectorAll("input, select, textarea")];
+            return [this.form.querySelectorAll("input, select, textarea dt-text dt-select dt-textarea dt-tags")];
         } else if (Array.isArray(this.watch)) {
-            return this.form.querySelectorAll(this.watch.map(field => `input[name="${field}"], select[name="${field}"], textarea[name="${field}"]`).join(", "));
+            return this.form.querySelectorAll(this.watch.map(field => `input[name="${field}"], select[name="${field}"], textarea[name="${field}"] dt-text[name="${field}"], dt-select[name="${field}"], dt-textarea[name="${field}"], dt-tags[name="${field}"]`).join(", "));
+        } else if (typeof this.watch === "string") {
+            return this.form.querySelectorAll(`input[name="${this.watch}"], select[name="${this.watch}"], textarea[name="${this.watch}"], dt-text[name="${this.watch}"], dt-select[name="${this.watch}"], dt-textarea[name="${this.watch}"], dt-tags[name="${this.watch}"]`);
         } else {
             return [this.form];
         }

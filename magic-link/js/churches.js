@@ -272,10 +272,11 @@ export class Churches extends DtBase {
 
         return html`
             ${keyed('load-trigger', html`
-                <div ${ref(this.loadTriggerRef)}>
-                    ${loading ? this.renderLoading() : ''}
+                <div ${ref(this.loadTriggerRef)} class="churches__pagination">
+                    ${loading ? this.renderLoading()
+                            : html``
+                    }
                 </div>`)}
-
         `
     }
 }
