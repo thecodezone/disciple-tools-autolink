@@ -1,14 +1,18 @@
-import {css, html, LitElement} from "lit";
+import {css, html, LitElement,} from "lit";
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import {DtBase} from "@disciple.tools/web-components";
-import {queryAll, property} from "lit/decorators.js";
-import {ref} from 'lit/directives/ref.js';
+import {property, query} from "lit/decorators.js";
+import {ref, createRef} from 'lit/directives/ref.js';
 import httpBuildQuery from 'http-build-query'
+import {keyed} from 'lit/directives/keyed.js';
+import Horizon from '@mintuz/horizon';
 
 /**
  * @class Churches
  */
 export class Churches extends DtBase {
+    loadTriggerRef = createRef();
+
     @property({type: Object})
     translations = {};
 
@@ -38,6 +42,12 @@ export class Churches extends DtBase {
 
     @property({type: String})
     error = "";
+
+    loadTriggerObserver = null;
+
+    get hasMorePages() {
+        return this.posts.length < this.total
+    }
 
     createRenderRoot() {
         return this; // will render the template without shadow DOM
@@ -85,6 +95,39 @@ export class Churches extends DtBase {
             .finally(() => {
                 this.loading = false;
             });
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        setTimeout(this.listenForScrolled.bind(this), 1)
+    }
+
+    listenForScrolled() {
+        if (!this.loadTriggerRef.value) {
+            return
+        }
+        let checked = true
+
+        const listener = () => {
+            if (!this.hasMorePages) {
+                window.removeEventListener('scroll', listener)
+                return
+            }
+
+            if (!this.loadTriggerRef.value) {
+                return
+            }
+
+            if (this.loadTriggerRef.value.getBoundingClientRect().top < window.innerHeight
+                && this.loadTriggerRef.value.getBoundingClientRect().bottom > 0) {
+                checked = true
+                this.loadMore()
+            } else {
+                checked = false
+            }
+        }
+
+        window.addEventListener('scroll', listener);
     }
 
     /**
@@ -222,18 +265,18 @@ export class Churches extends DtBase {
     }
 
     renderPagination() {
-        const {posts, total, translations} = this;
+        const {posts, total, translations, loading} = this;
 
         if (posts.length >= total) {
             return
         }
 
         return html`
-            <div class="churches__pagination" @click="${this.loadMore.bind(this)}">
-                <dt-button context="primary">
-                    ${translations.more}
-                </dt-button>
-            </div>
+            ${keyed('load-trigger', html`
+                <div ${ref(this.loadTriggerRef)}>
+                    ${loading ? this.renderLoading() : ''}
+                </div>`)}
+
         `
     }
 }
