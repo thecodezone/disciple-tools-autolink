@@ -386,7 +386,7 @@ export class ChurchTile extends LitElement {
                     onFilter: this.applyDomTweaks.bind(this),
                     onClone: this.applyDomTweaks.bind(this),
                     onCharge: this.applyDomTweaks.bind(this),
-                    sort: false
+                    sort: true
                 })
             )
         });
