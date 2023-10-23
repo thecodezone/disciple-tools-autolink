@@ -373,6 +373,7 @@ export class ChurchTile extends LitElement {
                         pull: true,
                         put: true
                     },
+                    handle: '.group__tag',
                     animation: 150,
                     fallbackOnBody: true,
                     swapThreshold: 0.65,
@@ -386,7 +387,8 @@ export class ChurchTile extends LitElement {
                     onFilter: this.applyDomTweaks.bind(this),
                     onClone: this.applyDomTweaks.bind(this),
                     onCharge: this.applyDomTweaks.bind(this),
-                    sort: true
+                    sort: false,
+                    delay: 100
                 })
             )
         });
