@@ -418,7 +418,7 @@ export class ChurchTile extends LitElement {
      * @returns {TemplateResult<1>}
      */
     render() {
-        const {keyTitle, assignedLabel, coachedLabel, leadingLabel, generationLabel, tree, loading} = this;
+        const {tree, loading} = this;
         if (!tree.length && !loading) {
             return html`
                 <dt-alert context="info">
@@ -430,53 +430,7 @@ export class ChurchTile extends LitElement {
             <div class="tree">
                 ${this.renderTree()}
                 ${this.renderUnassignedTree()}
-                <dt-tile title="${keyTitle}">
-                    <div class="section__inner">
-                        <table class="tree__key">
-                            <tr>
-                                <td class="key key--assigned">
-                                </td>
-                                <td>
-                                    <p>
-                                        ${assignedLabel}
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="key key--coached">
-                                </td>
-                                <td>
-                                    <p>
-                                        ${coachedLabel}
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="key key--leading">
-                                    <dt-icon icon="ph:user-bold" size="15px"></dt-icon>
-                                </td>
-                                <td>
-                                    <p>
-                                        ${leadingLabel}
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="key key--generation">
-                                    <div class="key__generation">
-                                        1
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>
-                                        ${generationLabel}
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </dt-tile>
-            </div>
+                ${this.renderKey()}
         `
     }
 
@@ -513,7 +467,7 @@ export class ChurchTile extends LitElement {
      * @returns {TemplateResult<1>}
      */
     renderUnassignedTree() {
-        const {unassignedTree, unassignedTitle, unassignedTip} = this;
+        const {unassignedTree, unassignedTitle, unassignedTip, loading} = this;
 
         return html`
             <dt-tile title="${unassignedTitle}" id="unassigned">
@@ -527,6 +481,63 @@ export class ChurchTile extends LitElement {
                 </div>
             </dt-tile>
         `
+    }
+
+    renderKey() {
+        const {keyTitle, assignedLabel, coachedLabel, leadingLabel, generationLabel, loading} = this;
+
+        if (loading) {
+            return null
+        }
+
+        return html`
+            <dt-tile title="${keyTitle}">
+                <div class="section__inner">
+                    <table class="tree__key">
+                        <tr>
+                            <td class="key key--assigned">
+                            </td>
+                            <td>
+                                <p>
+                                    ${assignedLabel}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="key key--coached">
+                            </td>
+                            <td>
+                                <p>
+                                    ${coachedLabel}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="key key--leading">
+                                <dt-icon icon="ph:user-bold" size="15px"></dt-icon>
+                            </td>
+                            <td>
+                                <p>
+                                    ${leadingLabel}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="key key--generation">
+                                <div class="key__generation">
+                                    1
+                                </div>
+                            </td>
+                            <td>
+                                <p>
+                                    ${generationLabel}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </dt-tile>
+            </div>`
     }
 
     /**

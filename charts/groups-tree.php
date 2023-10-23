@@ -158,10 +158,10 @@ class Disciple_Tools_Autolink_Groups_Tree {
 				$parents[] = $parent_group['ID'];
 			}
 
-			$has_allowed_parent  = ! empty( $parents ) && array_filter( $parents, function ( $parent ) use ( $allowed_group_ids ) {
+			$has_parent          = ! empty( $parents );
+			$has_allowed_parent  = $has_parent && array_filter( $parents, function ( $parent ) use ( $allowed_group_ids ) {
 					return in_array( $parent, $allowed_group_ids );
 			} );
-			$has_parent          = ! empty( $parents );
 			$contact_is_assigned = $meta['assigned'][ $p['ID'] ] ?? false;
 
 
@@ -192,6 +192,7 @@ class Disciple_Tools_Autolink_Groups_Tree {
 		}
 
 		if ( array_search( $unassigned_group_id, $pre_tree ) ) {
+			$meta['groups'][]                         = $unassigned_group_id;
 			$pre_tree[ $unassigned_group_id ]         = null;
 			$meta['assigned'][ $unassigned_group_id ] = false;
 			$meta['coaching'][ $unassigned_group_id ] = false;
