@@ -105,7 +105,8 @@ export class ChurchTile extends LitElement {
           #unassigned-tree {
             margin-top: 0;
             margin-bottom: calc(var(--tree-spacing) * 2);
-            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: auto;
           }
 
           p {
@@ -145,6 +146,8 @@ export class ChurchTile extends LitElement {
           .group__title {
             display: block;
             color: #2C5364;
+            max-width: 100%;
+            white-space: nowrap;
           }
 
           .group__body {
@@ -214,7 +217,7 @@ export class ChurchTile extends LitElement {
             content: '';
             display: block;
             width: 1px;
-            background-color: #2C5364;
+            border-left: 1px inset #2C5364;
             left: calc(var(--tree-spacing) * -2 - 1px);
             top: calc(var(--tree-spacing) * -2 - 2px);
             bottom: 0;
@@ -225,10 +228,10 @@ export class ChurchTile extends LitElement {
             content: '';
             display: block;
             width: 1px;
-            background-color: #2C5364;
+            border-left: 1px inset #2C5364;
             left: calc(var(--tree-spacing) * -2);
             top: -1px;
-            bottom: -1px;
+            bottom: -2px;
             position: absolute;
           }
 
@@ -244,6 +247,7 @@ export class ChurchTile extends LitElement {
           .group__handle {
             display: flex;
             align-items: center;
+            pointer-events: none;
           }
 
           .group__handle {
@@ -374,9 +378,9 @@ export class ChurchTile extends LitElement {
                         put: true
                     },
                     handle: '.group__tag',
-                    animation: 150,
+                    animation: 500,
                     fallbackOnBody: true,
-                    swapThreshold: 0.65,
+                    swapThreshold: .05,
                     onEnd: this.handleDrop.bind(this),
                     onChoose: this.applyDomTweaks.bind(this),
                     onUnchoose: this.applyDomTweaks.bind(this),
@@ -388,7 +392,7 @@ export class ChurchTile extends LitElement {
                     onClone: this.applyDomTweaks.bind(this),
                     onCharge: this.applyDomTweaks.bind(this),
                     sort: false,
-                    delay: 100
+                    delay: 10
                 })
             )
         });
