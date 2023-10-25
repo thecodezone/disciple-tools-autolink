@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-20T16:19:37+00:00\n"
+"POT-Creation-Date: 2023-10-25T01:41:53+00:00\n"
 "PO-Revision-Date: 2023-08-16 18:02-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -38,7 +38,7 @@ msgstr ""
 msgid "https://www.eastwest.org/"
 msgstr "https://www.eastwest.org/"
 
-#: charts/groups-genmap.php:95
+#: charts/groups-genmap.php:95 controllers/group.php:207
 msgid "Parent"
 msgstr "Padre"
 
@@ -130,70 +130,70 @@ msgstr ""
 msgid "Invalid training videos."
 msgstr "Anidamiento de grupo no válido."
 
-#: controllers/app.php:33
+#: controllers/app.php:34
 #, fuzzy
 #| msgid "My "
 msgid "My"
 msgstr "Mi "
 
-#: controllers/app.php:34
+#: controllers/app.php:35
 msgid "Church Start Date"
 msgstr "Fecha de inicio de la iglesia"
 
-#: controllers/app.php:35 controllers/controller.php:36
-#: magic-link/functions.php:265
+#: controllers/app.php:36 controllers/controller.php:36
+#: magic-link/functions.php:267
 msgid "View"
 msgstr "Ver"
 
-#: controllers/app.php:36
+#: controllers/app.php:37
 msgid "Delete"
 msgstr "Eliminar"
 
-#: controllers/app.php:37
+#: controllers/app.php:38
 msgid "Are you sure you want to delete this "
 msgstr "¿Está seguro de que desea eliminar esto? "
 
-#: controllers/app.php:38 controllers/group.php:71
+#: controllers/app.php:39 controllers/group.php:71
 msgid "Edit"
 msgstr "Editar"
 
-#: controllers/app.php:39
+#: controllers/app.php:40
 msgid "More"
 msgstr ""
 
 #: controllers/controller.php:22 magic-link/functions.php:80
-#: magic-link/functions.php:252
+#: magic-link/functions.php:254
 msgid "Hello,"
 msgstr "Hola"
 
 #: controllers/controller.php:25 magic-link/functions.php:81
-#: magic-link/functions.php:255
+#: magic-link/functions.php:257
 msgid "Coached by"
 msgstr "Entrenado por"
 
 #: controllers/controller.php:26 magic-link/functions.php:82
-#: magic-link/functions.php:256
+#: magic-link/functions.php:258
 msgid "My Link"
 msgstr "Mi enlace"
 
-#: controllers/controller.php:27 magic-link/functions.php:257
+#: controllers/controller.php:27 magic-link/functions.php:259
 msgid "Copy this link and share it with people you are coaching."
 msgstr ""
 "Copie este enlace y compártalo con las personas a las que está entrenando."
 
-#: controllers/controller.php:28 magic-link/functions.php:258
+#: controllers/controller.php:28 magic-link/functions.php:260
 msgid "My "
 msgstr "Mi "
 
-#: controllers/controller.php:38 magic-link/functions.php:267
+#: controllers/controller.php:38 magic-link/functions.php:269
 msgid "Health"
 msgstr "Estado"
 
-#: controllers/controller.php:39 magic-link/functions.php:268
+#: controllers/controller.php:39 magic-link/functions.php:270
 msgid "Tree"
 msgstr "Árbol"
 
-#: controllers/controller.php:40 magic-link/functions.php:269
+#: controllers/controller.php:40 magic-link/functions.php:271
 msgid "GenMap"
 msgstr "GenMap"
 
@@ -210,24 +210,22 @@ msgid "Save"
 msgstr ""
 
 #: controllers/group.php:198
-#, fuzzy
-#| msgid "Parent"
-msgid "Parent group"
-msgstr "Padre"
+msgid "Select a"
+msgstr ""
 
-#: controllers/group.php:232
+#: controllers/group.php:241
 msgid "Unauthorized action. Please refresh the page and try again."
 msgstr "Acción no autorizada. Actualice la página e inténtelo de nuevo."
 
-#: controllers/group.php:254
+#: controllers/group.php:263
 msgid "Back to AutoLink"
 msgstr "Volver a AutoLink"
 
-#: controllers/group.php:448
+#: controllers/group.php:457
 msgid "Unauthorized"
 msgstr ""
 
-#: controllers/group.php:463
+#: controllers/group.php:472
 msgid "Could not fetch groups"
 msgstr ""
 
@@ -252,20 +250,24 @@ msgid "Key"
 msgstr ""
 
 #: controllers/tree.php:26
+msgid "you are assigned"
+msgstr ""
+
+#: controllers/tree.php:27
+msgid "assigned to those you coach"
+msgstr ""
+
+#: controllers/tree.php:28
 #, fuzzy
 #| msgid "are you leading?"
 msgid "you lead"
 msgstr "¿Estás liderando?"
 
-#: controllers/tree.php:27
-msgid "you coach"
-msgstr ""
-
-#: controllers/tree.php:28
+#: controllers/tree.php:29
 msgid "Generation Number"
 msgstr ""
 
-#: controllers/tree.php:29
+#: controllers/tree.php:30
 msgid "No "
 msgstr ""
 
@@ -303,15 +305,15 @@ msgstr "Alternar menú"
 msgid "My Churches"
 msgstr "Mis Iglesias"
 
-#: magic-link/functions.php:231
+#: magic-link/functions.php:233
 msgid "How many leaders are you coaching?"
 msgstr "¿Cuántos líderes estás entrenando?"
 
-#: magic-link/functions.php:235
+#: magic-link/functions.php:237
 msgid "How many"
 msgstr "Cuántos"
 
-#: magic-link/functions.php:235
+#: magic-link/functions.php:237
 msgid "are you leading?"
 msgstr "¿Estás liderando?"
 
@@ -366,6 +368,11 @@ msgstr "Confirme contraseña"
 #: templates/register.php:52
 msgid "Register"
 msgstr "Regístrate"
+
+#, fuzzy
+#~| msgid "Parent"
+#~ msgid "Parent group"
+#~ msgstr "Padre"
 
 #~ msgid "Church Tree"
 #~ msgstr "Árbol de la Iglesia"
