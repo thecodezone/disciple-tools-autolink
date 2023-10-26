@@ -1,6 +1,6 @@
 {
   "name": "disciple-tools-autolink",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "[![Build Status](https://travis-ci.com/DiscipleTools/disciple-tools-autolink.svg?branch=master)](https://travis-ci.com/DiscipleTools/disciple-tools-autolink)",
   "main": "magic-link/src/index.js",
   "directories": {
