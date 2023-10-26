@@ -20,9 +20,6 @@ dt-button.churches__add {
     --dt-button-font-size: 1.7rem;
     --dt-button-height: 30px;
     --dt-button-width: 30px;
-    position: absolute;
-    top: var(--dt-tile-padding, 1.2rem);
-    right: var(--dt-tile-padding, 1rem);
 }
 
 dt-button.churches__add dt-icon {
