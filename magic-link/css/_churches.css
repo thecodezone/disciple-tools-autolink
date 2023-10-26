@@ -1,5 +1,19 @@
 .churches {
     position: relative;
+    display: block;
+}
+
+.churches__heading {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.churches__heading h3 {
+    color: var(--dt-tile-header-color, #3f729b);
+    font-size: 1.5rem;
+    text-transform: var(--dt-tile-header-text-transform, capitalize);
+    font-weight: 700;
 }
 
 dt-button.churches__add {

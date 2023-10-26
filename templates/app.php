@@ -9,15 +9,18 @@
 			<?php echo esc_html( $error ); ?>
         </dt-alert>
 	<?php endif; ?>
-    <dt-tile class="churches"
-             title="<?php echo esc_attr( $translations['groups_heading'] ); ?>">
+    <dt-tile class="churches">
         <div class="section__inner">
-            <dt-button class="churches__add"
-                       context="success"
-                       href="<?php echo esc_url( $links['create_group'] ); ?>"
-                       rounded>
-                <dt-icon icon="ic:baseline-plus"></dt-icon>
-            </dt-button>
+            <div class="churches__heading">
+                <h3><?php echo esc_attr( $translations['groups_heading'] ); ?></h3>
+                <dt-button class="churches__add"
+                           context="success"
+                           href="<?php echo esc_url( $links['create_group'] ); ?>"
+                           rounded>
+                    <dt-icon icon="ic:baseline-plus"></dt-icon>
+                </dt-button>
+            </div>
+
             <div class="churches__list">
                 <app-churches
                         translations='<?php echo esc_attr( wp_json_encode( $translations ) ); ?>'

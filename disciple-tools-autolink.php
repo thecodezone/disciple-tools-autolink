@@ -6,10 +6,10 @@
  * Description: Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
- * Version:  1.0.4
+ * Version:  1.0.5
  * Author URI: https://www.eastwest.org/
  * GitHub Plugin URI: https://github.com/thecodezone/disciple-tools-autolink
- * Requires at least: 4.7.0
+ * Requires at least 4.7.0
  * (Requires 4.7+ because of the integration of the REST API at 4.7 and the security requirements of this milestone version.)
  * Tested up to: 5.6
  *
