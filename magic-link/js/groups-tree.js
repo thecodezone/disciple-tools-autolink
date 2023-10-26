@@ -290,7 +290,7 @@ export class ChurchTile extends LitElement {
           .unassigned__tip {
             margin-bottom: calc(var(--tree-spacing) * 2.5);
           }
-
+          
           .group__icon {
             margin-left: var(--tree-spacing);
             display: block;
@@ -380,7 +380,7 @@ export class ChurchTile extends LitElement {
                     handle: '.group__tag',
                     animation: 500,
                     fallbackOnBody: true,
-                    swapThreshold: .25,
+                    swapThreshold: .11,
                     onEnd: this.handleDrop.bind(this),
                     onChoose: this.applyDomTweaks.bind(this),
                     onUnchoose: this.applyDomTweaks.bind(this),
