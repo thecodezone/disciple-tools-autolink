@@ -380,7 +380,7 @@ export class ChurchTile extends LitElement {
                     handle: '.group__tag',
                     animation: 500,
                     fallbackOnBody: true,
-                    swapThreshold: .05,
+                    swapThreshold: .25,
                     onEnd: this.handleDrop.bind(this),
                     onChoose: this.applyDomTweaks.bind(this),
                     onUnchoose: this.applyDomTweaks.bind(this),
