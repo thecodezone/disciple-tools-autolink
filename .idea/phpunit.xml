@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/tests" />
+        <option value="$PROJECT_DIR$/build/vendor/roots/acorn/tests" />
+        <option value="$PROJECT_DIR$/tmp-a3f65a97a6/source/vendor/roots/acorn/tests" />
+        <option value="$PROJECT_DIR$/scoped/roots/acorn/tests" />
+        <option value="$PROJECT_DIR$/vendor-scoped/nikic/fast-route/test" />
+      </list>
+    </option>
+  </component>
+</project>
