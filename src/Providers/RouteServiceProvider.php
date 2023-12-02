@@ -13,8 +13,7 @@ class RouteServiceProvider extends ServiceProvider {
 	/**
 	 * @return void
 	 */
-	public function boot(): void
-	{
+	public function boot(): void {
 		$this->registerWebRoutes();
 		$this->registerRestRoutes();
 	}
@@ -24,28 +23,29 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function  registerWebRoutes(): void {
-		$httpMethod = $_SERVER['REQUEST_METHOD'];
-		$uri = $_SERVER['REQUEST_URI'];
+	public function registerWebRoutes(): void {
+		$http_method = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) );
+		$uri         = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) );
+		$pos         = strpos( $uri, '?' );
 
 		// Strip query string (?foo=bar) and decode URI
-		if (false !== $pos = strpos($uri, '?')) {
-			$uri = substr($uri, 0, $pos);
+		if ( $pos !== false ) {
+			$uri = substr( $uri, 0, $pos );
 		}
-		$uri = trim(rawurldecode($uri), '/');
+		$uri = trim( rawurldecode( $uri ), '/' );
 
-		$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+		$dispatcher = FastRoute\simpleDispatcher( function ( FastRoute\RouteCollector $r ) {
 			require_once __DIR__ . '/../../routes/web.php';
-		});
+		} );
 
-		$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+		$route_info = $dispatcher->dispatch( $http_method, $uri );
 
-		switch ($routeInfo[0]) {
+		switch ( $route_info[0] ) {
 			case FastRoute\Dispatcher::FOUND:
-				$handler = $routeInfo[1];
-				$vars = $routeInfo[2];
-				[$class, $method] = explode("@", $handler, 2);
-				call_user_func_array([$this->container->make($class), $method], $vars);
+				$handler = $route_info[1];
+				$vars    = $route_info[2];
+				[ $class, $method ] = explode( "@", $handler, 2 );
+				call_user_func_array( [ $this->container->make( $class ), $method ], $vars );
 				break;
 		}
 	}
@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function registerRestRoutes() {
-		add_action( 'rest_api_init', function() {
+		add_action( 'rest_api_init', function () {
 			require_once __DIR__ . '/../../routes/rest.php';
 		} );
 	}

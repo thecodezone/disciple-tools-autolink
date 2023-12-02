@@ -29,12 +29,11 @@ require_once __DIR__ . '/vendor-scoped/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 $container = \CZ\Illuminate\Container\Container::getInstance();
-$container->singleton(\CZ\Plugin\Plugin::class, function ($container) {
+$container->singleton(\CZ\Plugin\Plugin::class, function ( $container ) {
 	return new \CZ\Plugin\Plugin(
 		$container,
-		$container->make(\CZ\Plugin\Providers\PluginServiceProvider::class)
+		$container->make( \CZ\Plugin\Providers\PluginServiceProvider::class )
 	);
 });
 
-$container->make(\CZ\Plugin\Plugin::class);
-
+$container->make( \CZ\Plugin\Plugin::class );

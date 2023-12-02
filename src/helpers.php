@@ -10,5 +10,5 @@ function container() {
 }
 
 function plugin() {
-	return container()->make(Plugin::class);
+	return container()->make( Plugin::class );
 }

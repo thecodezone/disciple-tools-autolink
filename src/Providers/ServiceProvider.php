@@ -7,7 +7,7 @@ use CZ\Illuminate\Container\Container;
 abstract class ServiceProvider {
 	protected $container;
 
-	public function __construct(Container $container) {
+	public function __construct( Container $container ) {
 		$this->container = $container;
 	}
 

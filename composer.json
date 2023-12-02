@@ -17,8 +17,13 @@
             "email": "craig@codezone.io"
         }
     ],
+    "require": {
+        "ext-json": "*"
+    },
     "require-dev": {
-        "wpify/scoper": "^3.0"
+        "wpify/scoper": "^3.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "wp-coding-standards/wpcs": "^3.0"
     },
     "extra": {
         "wpify-scoper": {
@@ -44,6 +49,7 @@
     },
     "config": {
         "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "bamarni/composer-bin-plugin": true,
             "wpify/scoper": true
         }
