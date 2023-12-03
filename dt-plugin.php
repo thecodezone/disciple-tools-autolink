@@ -20,7 +20,6 @@
 
 use DT\Plugin\Illuminate\Container\Container;
 use DT\Plugin\Plugin;
-use DT\Plugin\Providers\PluginServiceProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -32,11 +31,6 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 
 $container = Container::getInstance();
-$container->singleton( Plugin::class, function ( $container ) {
-	return new Plugin(
-		$container,
-		$container->make( PluginServiceProvider::class )
-	);
-} );
-
-$container->make( Plugin::class );
+$container->singleton( Plugin::class );
+$plugin_instance = $container->make( Plugin::class );
+$plugin_instance->init();

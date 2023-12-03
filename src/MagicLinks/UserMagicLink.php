@@ -75,7 +75,7 @@ class UserMagicLink extends DT_Magic_Url_Base {
 		}
 
 		// load if valid url
-		add_action( 'dt_blank_body', [ $this, 'bootstrap' ] );
+		add_action( 'dt_blank_body', [ $this, 'routes' ] );
 		add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
 
@@ -121,10 +121,11 @@ class UserMagicLink extends DT_Magic_Url_Base {
 	/**
 	 * Bootstrap the  app
 	 */
-	public function bootstrap() {
-		$this->router->register_file( 'user-magic-link.php', [
-			'param' => 'page'
-		] );
+	public function routes() {
+		$this->router
+			->from_file( 'web/user-magic-link.php', [
+				'param' => 'page'
+			] )->render();
 	}
 
 	/**
@@ -133,6 +134,6 @@ class UserMagicLink extends DT_Magic_Url_Base {
 	 */
 	public function add_endpoints() {
 		$namespace = $this->root . '/v1';
-		require_once plugin()->routes_path . '/user-magic-link-rest.php';
+		require_once plugin()->routes_path . '/rest/user-magic-link.php';
 	}
 }

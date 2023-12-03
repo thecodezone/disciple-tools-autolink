@@ -7,14 +7,17 @@ use function DT\Plugin\container;
 use function DT\Plugin\plugin;
 
 class Router {
+	public $route_info = null;
 
 	/**
+	 * Load routes from a file
+	 *
 	 * @param $path
 	 * @param $options
 	 *
 	 * @return void
 	 */
-	public function register_file( $file, $options = [] ) {
+	public function from_file( $file, $options = [] ): Router {
 		$http_method          = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) );
 		$uri                  = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) );
 		$include_query_string = $options['query_string'] ?? false;
@@ -46,15 +49,40 @@ class Router {
 			require_once $path;
 		} );
 
-		$route_info = $dispatcher->dispatch( $http_method, $uri );
+		$this->route_info = $dispatcher->dispatch( $http_method, $uri );
 
-		switch ( $route_info[0] ) {
-			case FastRoute\Dispatcher::FOUND:
-				$handler = $route_info[1];
-				$vars    = $route_info[2];
-				[ $class, $method ] = explode( "@", $handler, 2 );
-				call_user_func_array( [ container()->make( $class ), $method ], $vars );
-				break;
+		return $this;
+	}
+
+	/**
+	 * Call the matched route
+	 *
+	 * @return void
+	 */
+	public function make(): Router {
+		if ( ! $this->is_match() ) {
+			return $this;
 		}
+
+
+		$handler = $this->route_info[1];
+		$vars    = $this->route_info[2];
+		[ $class, $method ] = explode( "@", $handler, 2 );
+		call_user_func_array( [ container()->make( $class ), $method ], $vars );
+
+		return $this;
+	}
+
+	/**
+	 * Is the route a match?
+	 *
+	 * @return bool
+	 */
+	public function is_match(): bool {
+		if ( ! $this->route_info ) {
+			return false;
+		}
+
+		return $this->route_info[0] === FastRoute\Dispatcher::FOUND;
 	}
 }

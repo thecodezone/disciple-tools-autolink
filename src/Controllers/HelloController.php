@@ -20,6 +20,5 @@ class HelloController {
 	public function show() {
 		$name = 'Friend';
 		include __DIR__ . '/../../resources/templates/hello.php';
-		exit;
 	}
 }

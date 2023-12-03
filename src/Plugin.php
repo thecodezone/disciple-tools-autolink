@@ -5,17 +5,20 @@ namespace DT\Plugin;
 use DT\Plugin\Illuminate\Container\Container;
 use DT\Plugin\Illuminate\Support\Str;
 use DT\Plugin\Providers\PluginServiceProvider;
-use function DT\Plugin\Kucrut\Vite\enqueue_asset;
 
 class Plugin {
 	const REQUIRED_PHP_VERSION = '1.19';
-	public $base_path;
-	public $src_path;
-	public $resources_path;
-	public $routes_path;
-	public $templates_path;
-	protected $container;
-	protected $application;
+	public static Plugin $instance;
+
+	public Container $container;
+	public PluginServiceProvider $provider;
+
+	public string $base_path;
+	public string $src_path;
+	public string $resources_path;
+	public string $routes_path;
+	public string $templates_path;
+
 
 	public function __construct( Container $container, PluginServiceProvider $provider ) {
 		$this->container = $container;
@@ -28,9 +31,11 @@ class Plugin {
 		$this->templates_path = $this->base_path . '/resources/templates';
 
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 20 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
+	}
 
+	public function init() {
+		static::$instance = $this;
 		$this->provider->register();
 	}
 
@@ -95,18 +100,5 @@ class Plugin {
 		];
 
 		return $plugins;
-	}
-
-	public function wp_enqueue_scripts(): void {
-		enqueue_asset(
-			__DIR__ . '/../dist',
-			'resources/js/plugin.js',
-			[
-				'handle'    => 'dt_plugin',
-				'css-media' => 'all', // Optional.
-				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
-				'in-footer' => true, // Optional. Defaults to false.
-			]
-		);
 	}
 }

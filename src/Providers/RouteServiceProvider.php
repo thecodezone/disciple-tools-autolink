@@ -3,19 +3,17 @@
 namespace DT\Plugin\Providers;
 
 use DT\Plugin\Services\Router;
+use DT\Plugin\Services\Template;
+use function DT\Plugin\plugin;
 
 class RouteServiceProvider extends ServiceProvider {
 
 	public function register(): void {
-		// TODO: Implement register() method.
 	}
 
-	/**
-	 * @return void
-	 */
 	public function boot(): void {
+		add_action( 'rest_api_init', [ $this, 'registerRestRoutes' ], 1 );
 		$this->registerWebRoutes();
-		$this->registerRestRoutes();
 	}
 
 	/**
@@ -25,15 +23,22 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function registerWebRoutes(): void {
 		$router = $this->container->make( Router::class );
-		$router->register_file( 'web.php' );
+		$router->from_file( 'web/routes.php' );
+
+		if ( $router->is_match() ) {
+			$template = $this->container->make( Template::class );
+			$template->make(
+				function () use ( $router ) {
+					$router->make();
+				}
+			);
+		}
 	}
 
 	/**
 	 * @return void
 	 */
 	public function registerRestRoutes() {
-		add_action( 'rest_api_init', function () {
-			require_once __DIR__ . '/../../routes/rest.php';
-		} );
+		require_once plugin()->routes_path . '/rest/routes.php';
 	}
 }

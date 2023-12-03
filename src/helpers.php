@@ -2,12 +2,10 @@
 
 namespace DT\Plugin;
 
-use DT\Plugin\Illuminate\Container\Container;
-
 function container() {
-	return Container::getInstance();
+	return Plugin::$instance->container;
 }
 
 function plugin() {
-	return container()->make( Plugin::class );
+	return Plugin::$instance;
 }

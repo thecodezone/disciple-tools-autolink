@@ -31,7 +31,7 @@ class AdminServiceProvider extends ServiceProvider {
 
 	public function register_admin_routes(): void {
 		$router = $this->container->make( Router::class );
-		$router->register_file( 'admin.php', [
+		$router->register_file( 'web/admin.php', [
 			'param' => 'page'
 		] );
 	}
