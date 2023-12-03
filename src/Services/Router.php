@@ -22,16 +22,10 @@ class Router {
 		$path                 = '/' . trim( $directory, '/' ) . '/' . $file;
 		$param                = $options['param'] ?? null;
 		$param_value          = null;
-		$prefix               = $options['prefix'] ?? null;
 
 		if ( $param ) {
 			$param_value          = sanitize_text_field( wp_unslash( $_GET[ $param ] ?? null ) );
 			$include_query_string = false;
-		}
-
-		if ( $prefix ) {
-			dd( $prefix );
-
 		}
 
 		if ( ! $include_query_string ) {
