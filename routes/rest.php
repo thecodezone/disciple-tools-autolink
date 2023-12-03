@@ -1,8 +1,11 @@
 <?php
 
-register_rest_route( 'cz/plugin/v1', 'hello', [
+use DT\Plugin\Controllers\HelloController;
+use function DT\Plugin\container;
+
+register_rest_route( 'dt/plugin/v1', 'hello', [
 	[
-		'methods'   => 'GET',
-		'callback'  => [ \CZ\Plugins\container()->make( \CZ\Plugin\Controllers\HelloController::class ), 'data' ]
+		'methods'  => 'GET',
+		'callback' => [ container()->make( HelloController::class ), 'data' ]
 	]
 ] );

@@ -1,8 +1,8 @@
 <?php
 
-namespace CZ\Plugin\Providers;
+namespace DT\Plugin\Providers;
 
-use CZ\Illuminate\Container\Container;
+use DT\Plugin\Illuminate\Container\Container;
 
 abstract class ServiceProvider {
 	protected $container;

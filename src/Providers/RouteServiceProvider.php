@@ -1,8 +1,8 @@
 <?php
 
-namespace CZ\Plugin\Providers;
+namespace DT\Plugin\Providers;
 
-use CZ\FastRoute;
+use DT\Plugin\Services\Router;
 
 class RouteServiceProvider extends ServiceProvider {
 
@@ -24,30 +24,8 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function registerWebRoutes(): void {
-		$http_method = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) );
-		$uri         = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) );
-		$pos         = strpos( $uri, '?' );
-
-		// Strip query string (?foo=bar) and decode URI
-		if ( $pos !== false ) {
-			$uri = substr( $uri, 0, $pos );
-		}
-		$uri = trim( rawurldecode( $uri ), '/' );
-
-		$dispatcher = FastRoute\simpleDispatcher( function ( FastRoute\RouteCollector $r ) {
-			require_once __DIR__ . '/../../routes/web.php';
-		} );
-
-		$route_info = $dispatcher->dispatch( $http_method, $uri );
-
-		switch ( $route_info[0] ) {
-			case FastRoute\Dispatcher::FOUND:
-				$handler = $route_info[1];
-				$vars    = $route_info[2];
-				[ $class, $method ] = explode( "@", $handler, 2 );
-				call_user_func_array( [ $this->container->make( $class ), $method ], $vars );
-				break;
-		}
+		$router = $this->container->make( Router::class );
+		$router->register_file( 'web.php' );
 	}
 
 	/**

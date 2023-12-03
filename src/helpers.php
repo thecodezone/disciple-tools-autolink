@@ -1,9 +1,8 @@
 <?php
 
-namespace CZ\Plugins;
+namespace DT\Plugin;
 
-use CZ\Illuminate\Container\Container;
-use CZ\Plugin\Plugin;
+use DT\Plugin\Illuminate\Container\Container;
 
 function container() {
 	return Container::getInstance();

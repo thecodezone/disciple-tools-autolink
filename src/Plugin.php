@@ -1,25 +1,31 @@
 <?php
 
-namespace CZ\Plugin;
+namespace DT\Plugin;
 
-use CZ\Illuminate\Container\Container;
-use CZ\Plugin\Providers\PluginServiceProvider;
-use function CZ\Kucrut\Vite\enqueue_asset;
+use DT\Plugin\Illuminate\Container\Container;
+use DT\Plugin\Illuminate\Support\Str;
+use DT\Plugin\Providers\PluginServiceProvider;
+use function DT\Plugin\Kucrut\Vite\enqueue_asset;
 
 class Plugin {
 	const REQUIRED_PHP_VERSION = '1.19';
-
-	/**
-	 * Dependency injection container
-	 * @var Container
-	 */
+	public $base_path;
+	public $src_path;
+	public $resources_path;
+	public $routes_path;
+	public $templates_path;
 	protected $container;
 	protected $application;
-	protected $bootloader;
 
 	public function __construct( Container $container, PluginServiceProvider $provider ) {
 		$this->container = $container;
 		$this->provider  = $provider;
+
+		$this->base_path      = '/' . trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' );
+		$this->src_path       = $this->base_path . '/src';
+		$this->resources_path = $this->base_path . '/resources';
+		$this->routes_path    = $this->base_path . '/routes';
+		$this->templates_path = $this->base_path . '/resources/templates';
 
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 20 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
@@ -96,7 +102,7 @@ class Plugin {
 			__DIR__ . '/../dist',
 			'resources/js/plugin.js',
 			[
-				'handle'    => 'cz-plugin',
+				'handle'    => 'dt_plugin',
 				'css-media' => 'all', // Optional.
 				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
 				'in-footer' => true, // Optional. Defaults to false.

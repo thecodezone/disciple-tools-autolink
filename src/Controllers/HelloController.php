@@ -1,18 +1,18 @@
 <?php
 
-namespace CZ\Plugin\Controllers;
+namespace DT\Plugin\Controllers;
 
-use CZ\Illuminate\View\View;
+use WP_REST_Response;
 
 class HelloController {
 	/**
 	 * Show the hello world message
 	 *
-	 * @return \WP_REST_Response
+	 * @return WP_REST_Response
 	 */
 	public function data() {
-		return new \WP_REST_Response( [
-			'status' => 'success',
+		return new WP_REST_Response( [
+			'status'  => 'success',
 			'message' => 'Hello World!'
 		], 200 );
 	}

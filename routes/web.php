@@ -1,6 +1,9 @@
 <?php
 /**
- * @var \CZ\FastRoute\RouteCollector $r
+ * @var RouteCollector $r
  */
 
-$r->get( 'cz/plugin/hello', \CZ\Plugin\Controllers\HelloController::class . '@show' );
+use DT\Plugin\Controllers\HelloController;
+use DT\Plugin\FastRoute\RouteCollector;
+
+$r->get( 'dt/plugin/hello', HelloController::class . '@show' );
