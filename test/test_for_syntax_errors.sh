@@ -14,6 +14,6 @@ while read -d '' filename ; do
     # php -l checks the file for syntax errors
     php -l "$filename" || found_error=1
 
-done < <(find . -path ./vendor -prune -o -name "*.php" -print0)
+done < <(find . d \( -path ./vendor -o -path ./vendor-scoped \) -prune -o -name "*.php" -print0)
 
 exit $found_error
