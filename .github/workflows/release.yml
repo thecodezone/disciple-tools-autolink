@@ -18,13 +18,16 @@ jobs:
 
       # - name: Run test suite
       #   run: composer run-script test
-      # cp -r disciple-tools-plugin-starter-template.php includes languages spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-plugin-starter-template/
+      # cp -r dt-plugin.php includes languages spinner.svg version-control.json LICENSE SECURITY.md dt-plugin/
       # Below borrowed from https://github.com/actions/upload-release-asset
       - name: Build project
         run: |
-          mkdir disciple-tools-plugin-starter-template
-          cp -r disciple-tools-plugin-starter-template.php admin charts languages magic-link post-type rest-api site-link tile workflows spinner.svg version-control.json LICENSE SECURITY.md disciple-tools-plugin-starter-template/
-          zip -r disciple-tools-plugin-starter-template.zip disciple-tools-plugin-starter-template
+          npm install
+          npm run build
+          composer install --no-interaction --no-dev
+          mkdir dt-plugin
+          cp -r dt-plugin.php dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json version-control.json SECURITY.md dt-plugin/
+          zip -r dt-plugin.zip dt-plugin
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -42,6 +45,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./disciple-tools-plugin-starter-template.zip
-          asset_name: disciple-tools-plugin-starter-template.zip
+          asset_path: ./dt-plugin.zip
+          asset_name: dt-plugin.zip
           asset_content_type: application/zip

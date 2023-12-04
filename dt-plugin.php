@@ -13,7 +13,7 @@
  * Tested up to: 5.6
  *
  * @package Disciple_Tools
- * @link    https://github.com/DiscipleTools
+ * @link    https://github.com/thecodezone
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
@@ -22,7 +22,7 @@ use DT\Plugin\Illuminate\Container\Container;
 use DT\Plugin\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+    exit; // Exit if accessed directly
 }
 
 require_once __DIR__ . '/vendor-scoped/scoper-autoload.php';
