@@ -49,10 +49,10 @@ jobs:
         run: composer install --no-interaction
 
       - name: Test Syntax
-        run: ./test/test_for_syntax_errors.sh
+        run: ./tests/test_for_syntax_errors.sh
 
       - name: Test Installation
-        run: ./test/test_installation.sh
+        run: ./tests/test_installation.sh
 
       - name: Test phpcs
-        run: ./test/test_phpcs.sh
+        run: ./tests/test_phpcs.sh

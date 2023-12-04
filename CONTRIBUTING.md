@@ -18,7 +18,7 @@ for syntax errors, security vulnerabilities and some styling rules. We expect yo
 In the theme you can run `./tests/test_phpcs.sh` or create a pull request to our repo and Github Actions CI will run the
 tests for you.
 
-If you are working on a plugin based off our starter plugin run `./includes/admin/test/test_phpcs.sh`
+If you are working on a plugin based off our starter plugin run `./includes/admin/tests/test_phpcs.sh`
 
 You might need to run `composer install` first.
 

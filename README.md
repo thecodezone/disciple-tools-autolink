@@ -241,17 +241,33 @@ standards:
 
 This plugin uses [PHPUnit](https://phpunit.de/) for testing. Tests are located in the `test` directory.
 
-Before running tests you must install a local version of WordPress to test against using the following script:
+Before running tests you must install a local version of WordPress to test against using `tests/install-wp-tests.sh`.
+Here is an example using ddev database credentials:
 
-```php
-./tests/install-wp-tests.sh
-```
-
-After running the install script, You can run tests using the following command:
+1. Create an empty database for testing.
 
 ```bash
-phpunit
+ddev mysql; 
+create database testing;
+exit;
 ```
+
+2. Run `ddev describe` to get your database credentials.
+
+3. Run the `tests/install-wp-tests.sh` script with your ddev database credentials.
+
+```bash
+tests/install-wp-tests.sh testing db db 127.0.0.1:32770
+```
+
+4. Run the tests.
+
+```bash
+vendor/bin/phpunit
+```
+
+> **Note** Phpunit 10.0.0 is not compatible with WP testing. PHPUnit 9 is installed as a dependency. If you would rather
+> use your global PHPUnit, make sure to use version 9 or below.
 
 ## Recommended
 
