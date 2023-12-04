@@ -270,7 +270,3 @@ code contributions are welcome using
 the [Pull Request](https://github.com/thecodezone/dt-plugin/pulls)
 system for git. For a more details on contribution see the
 [contribution guidelines](https://github.com/thecodezone/dt-plugin/blob/master/CONTRIBUTING.md).
-
-## Screenshots
-
-![screenshot](https://via.placeholder.com/600x150)
