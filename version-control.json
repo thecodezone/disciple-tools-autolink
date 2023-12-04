@@ -1,10 +1,10 @@
 {
   "name": "Disciple.Tools - DT Plugin",
   "version": "0.1",
-  "last_updated": "2021-03",
-  "author": "Disciple.Tools",
-  "author_homepage": "https://disciple.tools",
-  "git_owner": "DiscipleTools",
+  "last_updated": "2023-12",
+  "author": "CodeZone",
+  "author_homepage": "https://codezone.io",
+  "git_owner": "thecodezone",
   "git_repo": "dt-plugin",
   "download_url": "https://github.com/thecodezone/dt-plugin/releases/latest/download/dt-plugin.zip",
   "homepage": "https://github.com/thecodezone/dt-plugin",
@@ -18,12 +18,12 @@
   "tested": "5.7",
   "upgrade_notice": "Upgrade to get the latest features.",
   "banners": {
-    "low": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/documentation/banner.png",
-    "high": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/documentation/banner.png"
+    "low": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/resources/img/banner.png",
+    "high": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/resources/img/banner.png"
   },
-  "icon": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/documentation/icon.png",
+  "icon": "https://raw.githubusercontent.com/thecodezone/dt-plugin/master/resources/img/icon.png",
   "sections": {
-    "description": "Kick start your Disciple.Tools plugin project with this template! This plugin is a collection of our best practices and code bases for creating Disciple.Tools plugins. ",
+    "description": "A modern disciple.tools plugin starter template.",
     "installation": "(Required) You must have Disciple.Tools Theme installed before using this plugin. Once Disciple.Tools is installed, you can use the normal Plugin system to install the plugin.",
     "changelog": ""
   }
