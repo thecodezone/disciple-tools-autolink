@@ -12,14 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-      # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-      # - name: Run test suite
-      #   run: composer run-script test
-      # cp -r dt-plugin.php includes languages spinner.svg version-control.json LICENSE SECURITY.md dt-plugin/
-      # Below borrowed from https://github.com/actions/upload-release-asset
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
       - name: Build project
         run: |
           npm install

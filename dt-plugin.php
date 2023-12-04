@@ -25,9 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-require_once __DIR__ . '/vendor-scoped/scoper-autoload.php';
-require_once __DIR__ . '/vendor-scoped/autoload.php';
-require_once __DIR__ . '/vendor/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/scoper-autoload.php';
+require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
 
 $container = Container::getInstance();

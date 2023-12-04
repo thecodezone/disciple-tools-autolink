@@ -1,7 +1,9 @@
 <div class="wrap">
-    <h2><?php esc_html_e( 'DT Plugin', 'dt_plugin' ) ?></h2>
+    <h2><?php
 
-	<?php include __DIR__ . '/../includes/admin-tabs.php' ?>
+		esc_html_e( 'DT Plugin', 'dt_plugin' ) ?></h2>
+
+	<?php include DT\Plugin\plugin()->templates_path . '/includes/admin-tabs.php' ?>
 
     <div class="wrap">
         <div id="poststuff">

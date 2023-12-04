@@ -153,7 +153,7 @@ Custom route files can be registered when loading routes in specific hook or in 
 
 ```php
 $router = app()->container->make( /DT/Plugin/Services/Router::class );
-$router->from_file( 'web/custom-routes-file.php' );
+$router->from_file( 'web/custom-routes-file.php' )->make();
 ```
 
 ##### Routing using a query parameter
@@ -163,9 +163,9 @@ you can specify a query parameter to use when matching routes.
 
 ```php
 $router = app()->container->make( /DT/Plugin/Services/Router::class );
-$router->from_file( 'web/custom-routes-file.php',[
+$router->from_file( 'web/custom-routes-file.php', [
     'param' => 'page',
-] );
+] )->make();
 ```
 
 ##### Web Routes
