@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Disciple.Tools - Plugin
+ * Plugin Name: DT Plugin
  * Plugin URI: https://github.com/TheCodeZone/dt_plugin
  * Description: A modern disciple.tools plugin starter template.
  * Text Domain: dt-plugin
