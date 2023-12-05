@@ -1,7 +1,7 @@
 <?php
 
 namespace DT\Plugin\Providers;
-use DT\Launcher\MagicLinks\UserMagicLink;
+use DT\Plugin\MagicLinks\UserMagicLink;
 
 class MagicLinkServiceProvider extends ServiceProvider {
 	/**
