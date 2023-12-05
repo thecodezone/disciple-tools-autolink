@@ -22,7 +22,7 @@ use DT\Plugin\Illuminate\Container\Container;
 use DT\Plugin\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 
 require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/scoper-autoload.php';

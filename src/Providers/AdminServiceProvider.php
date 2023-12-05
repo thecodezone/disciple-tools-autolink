@@ -11,7 +11,7 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register(): void {
-		//add_action( 'admin_menu', [ $this, 'register_menu' ], 99 );
+		add_action( 'admin_menu', [ $this, 'register_menu' ], 99 );
 	}
 
 	/**
@@ -20,13 +20,13 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_menu(): void {
-		//add_submenu_page( 'dt_extensions',
-		//  __( 'DT Plugin', 'dt_plugin' ),
-		//  __( 'DT Plugin', 'dt_plugin' ),
-		//  'manage_dt',
-		//  'dt_plugin',
-		//  [ $this, 'register_admin_routes' ]
-		//);
+		add_submenu_page( 'dt_extensions',
+			__( 'DT Plugin', 'dt_plugin' ),
+			__( 'DT Plugin', 'dt_plugin' ),
+			'manage_dt',
+			'dt_plugin',
+			[ $this, 'register_admin_routes' ]
+		);
 	}
 
 	public function register_admin_routes(): void {

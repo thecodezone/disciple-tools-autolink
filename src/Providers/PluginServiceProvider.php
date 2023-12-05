@@ -5,8 +5,9 @@ namespace DT\Plugin\Providers;
 class PluginServiceProvider extends ServiceProvider {
 	protected $providers = [
 		RouteServiceProvider::class,
-		AdminServiceProvider::class,
-		MagicLinkServiceProvider::class
+		PostTypeServiceProvider::class,
+		//AdminServiceProvider::class,
+		//MagicLinkServiceProvider::class
 	];
 
 	public function register(): void {
