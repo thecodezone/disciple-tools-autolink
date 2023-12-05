@@ -27,12 +27,12 @@ class PostTypeServiceProvider extends ServiceProvider {
 	 */
 	public function dt_post_type_modules(): array {
 		$modules['starter_base'] = [
-			'name'          => __( 'Starter', 'disciple-tools-plugin-starter-template' ),
+			'name'          => __( 'Starter', 'dt-plugin' ),
 			'enabled'       => true,
 			'locked'        => true,
 			'prerequisites' => [ 'contacts_base' ],
 			'post_type'     => 'starter_post_type',
-			'description'   => __( 'Default starter functionality', 'disciple-tools-plugin-starter-template' )
+			'description'   => __( 'Default starter functionality', 'dt-plugin' )
 		];
 
 		return $modules;
