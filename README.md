@@ -45,9 +45,9 @@ already well-versed in Laravel and Symfony frameworks.
 ### Components
 
 1. Sample admin menu and admin page with starter tabs component.
-1. Sample post-type class and hooks.
+1. Sample custom post type.
 1. Sample REST api.
-1. Sample Magic Link.
+1. Sample magic link.
 
 > **Tip:** This starter plugin does not attempt to provide every component provided by
 > the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-plugin/). See
@@ -97,10 +97,8 @@ Service providers are used to register services into the
 plugin's [inversion of control container](https://laravel.com/docs/master/container#main-content) or with
 Disciple.Tools. Service providers are located in the `src/Providers` directory. The `register()` method is called when
 the plugin is first loaded. The `boot()` method is called after the theme have been loaded.
-See [Laravel's Service Providers](https://laravel.com/docs/master/providers) for more information.
 
-See [Laravel's Service Container](https://laravel.com/docs/master/container#main-content) for more information on
-registering and resolving services.
+Register new service providers in `/src/Providers/PluginServiceProvider.php`.
 
 ```php
 namespace DT\Plugin\Providers;
@@ -215,9 +213,33 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 
 #### Magic Links
 
-A basic user-based magic link is provided. See the [DT starter plugin template](
-Then, run `composer update` to install the new dependency. You can now use Guzzle in your plugin:) for more examples of
-magic links.
+A basic user-based magic link is provided. See
+the [DT starter plugin template](https://github.com/DiscipleTools/disciple-tools-plugin-starter-template/tree/master/magic-link)
+for more examples, like contact and object magic links. To utilize magic links, you must first uncomment the magic link
+service provider in the `providers` array in `/src/Providers/PluginServiceProvider`.
+
+```php
+protected $providers = [
+    RouteServiceProvider::class,
+    //PostTypeServiceProvider::class,
+    //AdminServiceProvider::class,
+    MagicLinkServiceProvider::class
+];
+```
+
+#### Post Types
+
+A dt post type is included. To utilize post types, you must first uncomment the post type service provider in
+the `providers` array in `/src/Providers/PluginServiceProvider`.
+
+```php
+protected $providers = [
+    RouteServiceProvider::class,
+    PostTypeServiceProvider::class,
+    //AdminServiceProvider::class,
+    //MagicLinkServiceProvider::class
+];
+```
 
 #### Code Style
 

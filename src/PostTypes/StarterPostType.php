@@ -20,9 +20,11 @@ class StarterPostType extends DT_Module_Base {
 
 	public function __construct() {
 		parent::__construct();
+
 		if ( ! self::check_enabled_and_prerequisites() ) {
 			return;
 		}
+        
 
 		//setup post type
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 100 );

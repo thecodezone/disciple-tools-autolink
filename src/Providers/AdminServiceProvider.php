@@ -6,9 +6,8 @@ use DT\Plugin\Services\Router;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
-	 * Register any services
-	 *
-	 * @return void
+	 * Do any setup needed before the theme is ready.
+	 * DT is not yet registered.
 	 */
 	public function register(): void {
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 99 );
@@ -29,6 +28,11 @@ class AdminServiceProvider extends ServiceProvider {
 		);
 	}
 
+	/**
+	 * Register the admin routes
+	 *
+	 * @return void
+	 */
 	public function register_admin_routes(): void {
 		$router = $this->container->make( Router::class );
 		$router->from_file( 'web/admin.php', [
@@ -37,9 +41,7 @@ class AdminServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Handle any logic that needs to be after WortabdPress boots
-	 *
-	 * @return void
+	 * Do any setup after services have been registered and the theme is ready
 	 */
 	public function boot(): void {
 		/*

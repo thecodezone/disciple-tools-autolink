@@ -6,11 +6,18 @@ use DT\Plugin\PostTypes\StarterPostType;
 
 class PostTypeServiceProvider extends ServiceProvider {
 
+	/**
+	 * Do any setup needed before the theme is ready.
+	 * DT is not yet registered.
+	 */
 	public function register(): void {
 	}
 
+	/**
+	 * Do any setup after services have been registered and the theme is ready
+	 */
 	public function boot(): void {
-		add_filter( 'dt_post_type_modules', [ $this, 'dt_post_type_modules' ], 20, 1 );
+		add_filter( 'dt_post_type_modules', [ $this, 'dt_post_type_modules' ], 1, 1 );
 		$this->container->make( StarterPostType::class );
 	}
 

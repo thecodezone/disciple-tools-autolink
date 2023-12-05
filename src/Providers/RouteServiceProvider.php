@@ -8,9 +8,16 @@ use function DT\Plugin\plugin;
 
 class RouteServiceProvider extends ServiceProvider {
 
+	/**
+	 * Do any setup needed before the theme is ready.
+	 * DT is not yet registered.
+	 */
 	public function register(): void {
 	}
 
+	/**
+	 * Do any setup after services have been registered and the theme is ready
+	 */
 	public function boot(): void {
 		add_action( 'rest_api_init', [ $this, 'registerRestRoutes' ], 1 );
 		$this->registerWebRoutes();

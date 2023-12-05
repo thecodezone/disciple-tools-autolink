@@ -12,7 +12,8 @@ abstract class ServiceProvider {
 	}
 
 	/**
-	 * Register services
+	 * Do any setup needed before the theme is ready.
+	 * DT is not yet registered.
 	 */
 	abstract public function register(): void;
 
