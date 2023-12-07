@@ -1,6 +1,6 @@
 <?php
 
-$this->layout( 'layouts/settings' )
+$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
     <form method="post">
