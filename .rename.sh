@@ -1,7 +1,7 @@
 NAME="DT Plugin"
 NAMESPACE="DT\\Plugin"
 PACKAGE="dt/plugin"
-NAMESPACE_ESCAPED="DT\\\\Launcher"
+NAMESPACE_ESCAPED="DT\\\\Plugin"
 FILENAME="dt-plugin.php"
 SNAKE_CASE="dt_plugin"
 UPPER_CAMEL_CASE="DT_Plugin"
