@@ -11,9 +11,9 @@ class PluginServiceProvider extends ServiceProvider {
 	protected $providers = [
 		ViewServiceProvider::class,
 		RouteServiceProvider::class,
-		PostTypeServiceProvider::class,
-		AdminServiceProvider::class,
-		MagicLinkServiceProvider::class
+		//PostTypeServiceProvider::class,
+		//AdminServiceProvider::class,
+		//MagicLinkServiceProvider::class
 	];
 
 	/**
