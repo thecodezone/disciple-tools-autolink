@@ -1,6 +1,7 @@
 <?php
 
 namespace DT\Plugin\Providers;
+use DT\Plugin\MagicLinks\UserMagicLink;
 
 use DT\Plugin\MagicLinks\UserMagicLink;
 
