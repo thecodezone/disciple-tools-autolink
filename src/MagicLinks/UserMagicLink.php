@@ -6,7 +6,7 @@ use DT\Plugin\Services\Router;
 use DT_Magic_URL;
 use DT_Magic_Url_Base;
 use function DT\Plugin\container;
-use function DT\Plugin\plugin;
+use function DT\Plugin\routes_path;
 
 /**
  * Class DT_Plugin_Magic_User_App
@@ -134,6 +134,6 @@ class UserMagicLink extends DT_Magic_Url_Base {
 	 */
 	public function add_endpoints() {
 		$namespace = $this->root . '/v1';
-		require_once plugin()->routes_path . '/rest/user-magic-link.php';
+		require_once routes_path( '/rest/user-magic-link.php' );
 	}
 }

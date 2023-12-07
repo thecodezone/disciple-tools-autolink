@@ -2,6 +2,8 @@
 
 namespace DT\Plugin\Providers;
 
+use DT\Plugin\MagicLinks\UserMagicLink;
+
 class MagicLinkServiceProvider extends ServiceProvider {
 	/**
 	 * Do any setup needed before the theme is ready.

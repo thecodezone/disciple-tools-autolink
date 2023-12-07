@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Controllers\Admin;
 
-use function DT\Plugin\plugin;
+use function DT\Plugin\view;
 
 class GeneralSettingsController {
 	/**
@@ -17,7 +17,7 @@ class GeneralSettingsController {
 		$tab        = "general";
 		$link       = 'admin.php?page=disciple_tools_autolink&tab=';
 		$page_title = "Autolink Settings";
-		include plugin()->templates_path . "/settings/general.php";
+		view( "settings/general", compact( 'tab', 'link', 'page_title' ) );
 	}
 
 	/**

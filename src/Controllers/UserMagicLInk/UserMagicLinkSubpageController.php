@@ -3,7 +3,7 @@
 namespace DT\Plugin\Controllers\UserMagicLInk;
 
 use DT\Plugin\MagicLinks\UserMagicLink;
-use function DT\Plugin\plugin;
+use function DT\Plugin\view;
 
 class UserMagicLinkSubpageController {
 
@@ -13,6 +13,6 @@ class UserMagicLinkSubpageController {
 
 	public function show() {
 		$home_url = $this->magic_link->url;
-		include plugin()->templates_path . '/user-magic-link/subpage.php';
+		view( 'user-magic-link/subpage', compact( 'home_url' ) );
 	}
 }
