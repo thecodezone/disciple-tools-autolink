@@ -30,7 +30,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. WordPress code style requirements. ```phpcs.xml```
 1. PHP Code Sniffer support (composer) @use ```/vendor/bin/phpcs``` and ```/vendor/bin/phpcbf```
 1. GitHub Actions Continuous Integration ```.githbub/workflows/ci.yml```
-1. Disciple.Tools Theme presence check. ```\DT\Plugin\plugin()->is_dt_theme(); ```
+1. Disciple.Tools Theme presence check. ```\DT\Test\plugin()->is_dt_theme(); ```
 1. Remote upgrade system for ongoing updates outside the Wordpress Directory.
 1. Multilingual support. ```/languages``` & ```default.pot```
 1. [Composer](https://getcomposer.org/) support. ```composer.json```
@@ -62,6 +62,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. Edit the `.rename.sh` updating each variable to match your plugin.
 1. Run `./.rename.sh`
 1. Edit `composer.json` to update the `name`, `description`, and `author` fields.
+1. Replace the `DT//Plugin` namespace with your namespace in the `composer.json` `autoload` and `extra.wpify-scoper` sections. 
 1. Edit `package.json` to update the `name` and `description` fields.
 1. Edit `version-control.json` with your plugin information.
 1. Run `composer install` to install PHP dependencies.
@@ -102,9 +103,9 @@ the plugin is first loaded. The `boot()` method is called after the theme have b
 Register new service providers in `/src/Providers/PluginServiceProvider.php`.
 
 ```php
-namespace DT\Plugin\Providers;
+namespace DT\Test\Providers;
 
-use DT\Plugin\Plugin;
+use DT\Test\Plugin;
 
 class ExampleServiceProvider extends ServiceProvider
 {
@@ -174,7 +175,7 @@ on [defining routes](https://github.com/nikic/FastRoute#defining-routes). To map
 symbol after the controller class name followed by the method name.
 
 ```php
-    use DT\Plugin\Controllers\HelloController;
+    use DT\Test\Controllers\HelloController;
 
     $r->get( 'dt/plugin/hello', HelloController::class . '@show' );
 ```
@@ -216,7 +217,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ##### Loading a view inside of the plugin template
 
 ```php
-    use DT\Plugin\view;
+    use DT\Test\view;
     
     \template( 'hello', [
         'name' => 'World',
@@ -226,7 +227,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ##### Loading a without the plugin template
 
 ```php
-    use DT\Plugin\view;
+    use DT\Test\view;
     
     \view( 'hello', [
         'name' => 'World',
