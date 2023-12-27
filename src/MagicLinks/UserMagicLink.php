@@ -58,7 +58,6 @@ class UserMagicLink extends DT_Magic_Url_Base {
 		 * user_app and module section
 		 */
 		add_filter( 'dt_settings_apps_list', [ $this, 'dt_settings_apps_list' ], 10, 1 );
-		add_action( 'rest_api_init', [ $this, 'add_endpoints' ] );
 
 		/**
 		 * tests if other URL
@@ -75,13 +74,14 @@ class UserMagicLink extends DT_Magic_Url_Base {
 		}
 
 		// load if valid url
-		add_action( 'dt_blank_body', [ $this, 'routes' ] );
 		add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
 
 		$app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'starter_magic_app', 'starter_user_app' ) );
 		$this->url      = DT_Magic_URL::get_link_url( 'starter_magic_app', 'starter_user_app', $app_public_key );
 		$this->path     = trim( parse_url( $this->url )['path'], '/' );
+
+		add_filter( "dt/plugin/routes", [ $this, 'routes' ], 10, 1 );
 	}
 
 	public function dt_magic_url_base_allowed_js( $allowed_js ) {
@@ -121,19 +121,7 @@ class UserMagicLink extends DT_Magic_Url_Base {
 	/**
 	 * Bootstrap the  app
 	 */
-	public function routes() {
-		$this->router
-			->from_file( 'web/user-magic-link.php', [
-				'param' => 'page',
-			] )->make();
-	}
-
-	/**
-	 * Register REST Endpoints
-	 * @link https://github.com/DiscipleTools/disciple-tools-theme/wiki/Site-to-Site-Link for outside of wordpress authentication
-	 */
-	public function add_endpoints() {
-		$namespace = $this->root . '/v1';
-		require_once routes_path( '/rest/user-magic-link.php' );
+	public function routes( $r ) {
+		require routes_path( '/magic-link.php' );
 	}
 }

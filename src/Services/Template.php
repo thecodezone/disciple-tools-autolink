@@ -65,12 +65,8 @@ class Template {
 		add_action( 'dt_blank_head', [ $this, 'header' ] );
 		add_action( 'dt_blank_footer', [ $this, 'footer' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
-
-
-		add_action( 'dt_blank_body', function () use ( $template, $data ) {
-			// phpcs:ignore
-			echo view()->render( $template, $data );
-		} );
+		
+		return view()->render( $template, $data );
 	}
 
 	/**

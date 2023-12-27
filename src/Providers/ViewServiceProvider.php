@@ -3,7 +3,7 @@
 namespace DT\Plugin\Providers;
 
 use DT\Plugin\League\Plates\Engine;
-use DT\Plugin\Plates\Escape;
+use DT\Plugin\Views\Escape;
 use function DT\Plugin\views_path;
 
 /**
@@ -19,7 +19,7 @@ class ViewServiceProvider extends ServiceProvider {
 		$this->container->singleton( Engine::class, function ( $container ) {
 			return new Engine( views_path() );
 		} );
-		$engine = $this->container->make( Engine::class )->loadExtension(
+		$this->container->make( Engine::class )->loadExtension(
 			$this->container->make( Escape::class )
 		);
 	}

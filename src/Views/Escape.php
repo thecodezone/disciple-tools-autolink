@@ -1,6 +1,6 @@
 <?php
 
-namespace DT\Plugin\Plates;
+namespace DT\Plugin\Views;
 
 use DT\Plugin\League\Plates\Engine;
 use DT\Plugin\League\Plates\Extension\ExtensionInterface;

@@ -5,6 +5,7 @@ namespace DT\Plugin;
 use DT\Plugin\Illuminate\Support\Str;
 use DT\Plugin\League\Plates\Engine;
 use DT\Plugin\Services\Template;
+use Illuminate\Http\Request;
 
 function plugin() {
 	return Plugin::$instance;
@@ -44,8 +45,7 @@ function view( $view = "", $args = [] ) {
 		return $engine;
 	}
 
-	// phpcs:ignore
-	echo $engine->render( $view, $args );
+	return $engine->render( $view, $args );
 }
 
 function template( $template = "", $args = [] ) {
@@ -55,4 +55,17 @@ function template( $template = "", $args = [] ) {
 	}
 
 	return $service->render( $template, $args );
+}
+
+function request() {
+	return container()->make( Request::class );
+}
+
+function is_json( $string ) {
+	if ( ! is_string( $string ) ) {
+		return false;
+	}
+	json_decode( $string );
+
+	return json_last_error() === JSON_ERROR_NONE;
 }

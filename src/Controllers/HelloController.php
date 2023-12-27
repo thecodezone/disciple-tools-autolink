@@ -19,7 +19,8 @@ class HelloController {
 	}
 
 	public function show() {
-		$name = 'Friend';
-		template( 'hello', compact( 'name' ) );
+		return template( 'hello', [
+			'name' => 'Friend'
+		] );
 	}
 }

@@ -2,7 +2,9 @@
 
 namespace DT\Plugin\Providers;
 
+use DT\Plugin\Services\ResponseRenderer;
 use DT\Plugin\Services\Router;
+use function DT\Plugin\routes_path;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -10,6 +12,7 @@ class AdminServiceProvider extends ServiceProvider {
 	 * DT is not yet registered.
 	 */
 	public function register(): void {
+		add_filter( 'dt/plugin/routes', [ $this, 'register_routes' ] );
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 99 );
 	}
 
@@ -24,8 +27,19 @@ class AdminServiceProvider extends ServiceProvider {
 			__( 'DT Plugin', 'dt_plugin' ),
 			'manage_dt',
 			'dt_plugin',
-			[ $this, 'register_admin_routes' ]
+			[ $this, 'register_router' ]
 		);
+	}
+
+	/**
+	 * Register the admin router
+	 *
+	 * @return void
+	 */
+	public function register_router(): void {
+		$router   = $this->container->make( Router::class );
+		$response = $router->run();
+		$this->container->make( ResponseRenderer::class )->handle( $response );
 	}
 
 	/**
@@ -33,17 +47,18 @@ class AdminServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function register_admin_routes(): void {
-		$router = $this->container->make( Router::class );
-		$router->from_file( 'web/admin.php', [
-			'query_string' => true,
-		] )->make();
+	public function register_routes( $r ): void {
+		include routes_path( 'admin.php' );
 	}
 
 	/**
 	 * Do any setup after services have been registered and the theme is ready
 	 */
 	public function boot(): void {
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		/*
 		 * Array of plugin arrays. Required keys are name and slug.
 		 * If the source is NOT from the .org repo, then source is also required.

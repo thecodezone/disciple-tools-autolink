@@ -1,5 +1,4 @@
 <?php
-
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
