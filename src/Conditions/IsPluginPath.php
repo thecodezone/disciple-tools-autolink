@@ -2,8 +2,9 @@
 
 namespace DT\Plugin\Conditions;
 
+use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use DT\Plugin\Plugin;
 
 class IsPluginPath implements Condition {
 
@@ -14,6 +15,6 @@ class IsPluginPath implements Condition {
 	}
 
 	public function test(): bool {
-		return Str::startsWith( $this->request->path(), 'dt/plugin' );
+		return Str::startsWith( $this->request->path(), Plugin::HOME_ROUTE );
 	}
 }

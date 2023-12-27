@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
-use Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Request;
 
 class PluginServiceProvider extends ServiceProvider {
 	/**
@@ -15,7 +15,7 @@ class PluginServiceProvider extends ServiceProvider {
 		MiddlewareServiceProvider::class,
 		AdminServiceProvider::class,
 		//PostTypeServiceProvider::class,
-		//MagicLinkServiceProvider::class,
+		MagicLinkServiceProvider::class,
 		RouteServiceProvider::class,
 	];
 

@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
-use DT\Plugin\MagicLinks\UserMagicLink;
+use DT\Plugin\MagicLinks\StarterMagicApp;
 
 class MagicLinkServiceProvider extends ServiceProvider {
 	/**
@@ -17,8 +17,8 @@ class MagicLinkServiceProvider extends ServiceProvider {
 	 */
 	public function boot(): void {
 		$this->container->singleton(
-			UserMagicLink::class
+			StarterMagicApp::class
 		);
-		$this->container->make( UserMagicLink::class );
+		$this->container->make( StarterMagicApp::class );
 	}
 }

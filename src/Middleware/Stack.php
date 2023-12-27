@@ -2,9 +2,9 @@
 
 namespace DT\Plugin\Middleware;
 
+use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Collection;
 use Exception;
-use Illuminate\Http\Request;
 use WP_HTTP_Response;
 use function DT\Plugin\container;
 

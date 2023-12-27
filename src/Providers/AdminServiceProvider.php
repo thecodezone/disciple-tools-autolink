@@ -2,9 +2,8 @@
 
 namespace DT\Plugin\Providers;
 
+use DT\Plugin\Middleware\Stack;
 use DT\Plugin\Services\ResponseRenderer;
-use DT\Plugin\Services\Router;
-use function DT\Plugin\routes_path;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -12,7 +11,6 @@ class AdminServiceProvider extends ServiceProvider {
 	 * DT is not yet registered.
 	 */
 	public function register(): void {
-		add_filter( 'dt/plugin/routes', [ $this, 'register_routes' ] );
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 99 );
 	}
 
@@ -37,19 +35,10 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_router(): void {
-		$router   = $this->container->make( Router::class );
-		$response = $router->run();
-		$this->container->make( ResponseRenderer::class )->handle( $response );
+		apply_filters( 'dt/plugin/middleware', $this->container->make( Stack::class ) )
+			->run();
 	}
 
-	/**
-	 * Register the admin routes
-	 *
-	 * @return void
-	 */
-	public function register_routes( $r ): void {
-		include routes_path( 'admin.php' );
-	}
 
 	/**
 	 * Do any setup after services have been registered and the theme is ready

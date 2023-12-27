@@ -3,10 +3,10 @@
 namespace DT\Plugin\Middleware;
 
 use DT\Plugin\FastRoute;
+use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Services\Router\Data;
 use DT\Plugin\Services\Router\Dispatcher;
 use DT\Plugin\Services\Router\Routes;
-use Illuminate\Http\Request;
 use WP_HTTP_Response;
 
 /**
@@ -18,32 +18,23 @@ class Route implements Middleware {
 	protected $group;
 
 	public function handle( Request $request, WP_HTTP_Response $response, $next ) {
-		$http_method     = $request->getMethod();
-		$uri             = $request->getRequestUri();
-		$routable_params = apply_filters( 'dt/plugin/routable_params', [ 'page', 'action', 'tab' ] ) ?? [];
-		$param_value     = null;
+		$http_method         = $request->getMethod();
+		$uri                 = $request->getRequestUri();
+		$routable_param_keys = apply_filters( 'dt/plugin/routable_params', [ 'page', 'action', 'tab' ] ) ?? [];
+		$routable_params     = collect( $request->query->all() )->only( $routable_param_keys );
+
+		// Strip query string (?foo=bar) and decode URI
+		$pos = strpos( $uri, '?' );
+		if ( $pos !== false ) {
+			$uri = substr( $uri, 0, $pos );
+		}
 
 		//Allow for including certain params in the route,
 		//Like page=general
 		//or action=save
 		//or tab=general
-		if ( $routable_params && count( $routable_params ) ) {
-			foreach ( $routable_params as $param ) {
-				if ( $request->get( $param ) ) {
-					$param_value = $request->get( $param );
-					break;
-				}
-			}
-		}
-
-		$pos = strpos( $uri, '?' );
-		// Strip query string (?foo=bar) and decode URI
-		if ( $pos !== false ) {
-			$uri = substr( $uri, 0, $pos );
-		}
-
-		if ( $param && $param_value ) {
-			$uri = $uri . '?' . http_build_query( [ $param => $param_value ] );
+		if ( count( $routable_params ) ) {
+			$uri = $uri . '?' . http_build_query( $routable_params->toArray() );
 		}
 
 		$uri = trim( rawurldecode( $uri ), '/' );

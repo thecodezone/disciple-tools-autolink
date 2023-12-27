@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Middleware;
 
-use Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Request;
 use WP_HTTP_Response;
 
 class SetHeaders implements Middleware {
@@ -16,7 +16,7 @@ class SetHeaders implements Middleware {
 		if ( is_array( $response->get_data() ) ) {
 			header( 'Content-Type: application/json' );
 		}
-		
+
 		return $next( $request, $response );
 	}
 }

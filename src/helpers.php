@@ -2,10 +2,10 @@
 
 namespace DT\Plugin;
 
+use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
 use DT\Plugin\League\Plates\Engine;
 use DT\Plugin\Services\Template;
-use Illuminate\Http\Request;
 
 function plugin() {
 	return Plugin::$instance;
@@ -14,7 +14,6 @@ function plugin() {
 function container() {
 	return plugin()->container;
 }
-
 
 function plugin_path( $path = '' ) {
 	return '/' . implode( '/', [

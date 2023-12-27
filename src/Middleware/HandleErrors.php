@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Middleware;
 
-use Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Request;
 use WP_HTTP_Response;
 
 class HandleErrors implements Middleware {

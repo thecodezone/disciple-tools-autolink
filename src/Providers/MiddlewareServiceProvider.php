@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
-use DT\Plugin\Middleware\Dispatch;
+use DT\Plugin\Middleware\DispatchController;
 use DT\Plugin\Middleware\HandleErrors;
 use DT\Plugin\Middleware\HandleRedirects;
 use DT\Plugin\Middleware\Render;
@@ -19,7 +19,7 @@ use DT\Plugin\Middleware\Stack;
 class MiddlewareServiceProvider extends ServiceProvider {
 	protected $middleware = [
 		Route::class,
-		Dispatch::class,
+		DispatchController::class,
 		SetHeaders::class,
 		HandleRedirects::class,
 		HandleErrors::class,

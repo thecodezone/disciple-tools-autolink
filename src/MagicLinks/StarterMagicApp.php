@@ -2,31 +2,28 @@
 
 namespace DT\Plugin\MagicLinks;
 
-use DT\Plugin\Services\Router;
-use DT_Magic_URL;
 use DT_Magic_Url_Base;
-use function DT\Plugin\container;
-use function DT\Plugin\routes_path;
 
 /**
  * Class DT_Plugin_Magic_User_App
  */
-class UserMagicLink extends DT_Magic_Url_Base {
+class StarterMagicApp extends DT_Magic_Url_Base {
 
-	public $page_title = 'DT Plugin - Magic Links - User App';
-	public $page_description = 'User App - Magic Links.';
-	public $root = 'starter_magic_app'; // @todo define the root of the url {yoursite}/root/type/key/action
-	public $type = 'starter_user_app'; // @todo define the type
+	public $page_title = 'DT Plugin - Magic Links - Starter Magic App';
+	public $page_description = 'Starter Magic App - Magic Links.';
+	public $root = 'starter-magic-app'; // @todo define the root of the url {yoursite}/root/type/key/action
+	public $type = 'app'; // @todo define the type
 	public $post_type = 'user';
 	public $show_bulk_send = false;
 	public $show_app_tile = false;
 	public $meta = [];
-	public $url = '';
-	protected $router;
+	public $type_actions = [
+		"subpage" => "subpage",
+	];
+
 	private $meta_key = '';
 
 	public function __construct() {
-		$this->router = container()->make( Router::class );
 		/**
 		 * Specify metadata structure, specific to the processing of current
 		 * magic link type.
@@ -76,12 +73,6 @@ class UserMagicLink extends DT_Magic_Url_Base {
 		// load if valid url
 		add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
-
-		$app_public_key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'starter_magic_app', 'starter_user_app' ) );
-		$this->url      = DT_Magic_URL::get_link_url( 'starter_magic_app', 'starter_user_app', $app_public_key );
-		$this->path     = trim( parse_url( $this->url )['path'], '/' );
-
-		add_filter( "dt/plugin/routes", [ $this, 'routes' ], 10, 1 );
 	}
 
 	public function dt_magic_url_base_allowed_js( $allowed_js ) {
@@ -116,12 +107,5 @@ class UserMagicLink extends DT_Magic_Url_Base {
 		];
 
 		return $apps_list;
-	}
-
-	/**
-	 * Bootstrap the  app
-	 */
-	public function routes( $r ) {
-		require routes_path( '/magic-link.php' );
 	}
 }

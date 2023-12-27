@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Services\Router;
 
-use DT\Plugin\FastRoute\Dispatcher\GroupCountBased;
+use DT\Plugin\FastRoute\Dispatcher\MarkBased;
 
 /**
  * Extends the FastRoute dispatcher.
@@ -10,6 +10,6 @@ use DT\Plugin\FastRoute\Dispatcher\GroupCountBased;
  * @see https://github.com/nikic/FastRoute
  *
  */
-class Dispatcher extends GroupCountBased {
+class Dispatcher extends MarkBased {
 
 }

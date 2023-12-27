@@ -7,6 +7,8 @@ use DT\Plugin\Providers\PluginServiceProvider;
 
 class Plugin {
 	const REQUIRED_PHP_VERSION = '1.19';
+	const HOME_ROUTE = 'dt/plugin';
+
 	public static Plugin $instance;
 
 	public Container $container;

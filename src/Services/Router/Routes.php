@@ -20,6 +20,19 @@ class Routes extends RouteCollector {
 	public array $currentMiddleware = [];
 
 	/**
+	 * Alias for addRoute
+	 *
+	 * @param $httpMethod
+	 * @param $route
+	 * @param $handler
+	 *
+	 * @return void
+	 */
+	public function route( $httpMethod, $route, $handler ) {
+		$this->addRoute( $httpMethod, $route, $handler );
+	}
+
+	/**
 	 * Register a route.
 	 *
 	 * @param $httpMethod
@@ -74,8 +87,33 @@ class Routes extends RouteCollector {
 	}
 
 	/**
+	 * Alias for addGroup
+	 *
+	 * @param $prefix
+	 * @param callable $callback
+	 *
+	 * @return void
+	 */
+	public function group( $prefix, callable $callback ) {
+		$this->addGroup( $prefix, $callback );
+	}
+
+	/**
+	 * Alias for addMiddleware
+	 *
+	 * @param $middleware
+	 * @param callable $callback
+	 *
+	 * @return void
+	 */
+	public function middleware( $middleware, $callback ) {
+		$this->addMiddleware( $middleware, $callback );
+	}
+
+	/**
 	 * Register a middleware group.
 	 *
+	 * @param $middleware
 	 * @param $callback
 	 *
 	 * @return void
@@ -87,10 +125,15 @@ class Routes extends RouteCollector {
 		$this->currentMiddleware = [];
 	}
 
+	public function condition( $condition, callable $callback ) {
+		$this->addCondition( $condition, $callback );
+	}
+
 	/**
 	 * Register a condition group.
 	 *
-	 * @param $callback
+	 * @param $condition
+	 * @param callable $callback
 	 *
 	 * @return void
 	 */

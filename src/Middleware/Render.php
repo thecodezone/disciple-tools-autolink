@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Middleware;
 
-use Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Request;
 use WP_HTTP_Response;
 
 class Render implements Middleware {
@@ -23,7 +23,7 @@ class Render implements Middleware {
 				echo $response->get_data();
 			}
 		}
-		
+
 		return $next( $request, $response );
 	}
 }

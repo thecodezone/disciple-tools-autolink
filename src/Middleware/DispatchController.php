@@ -3,7 +3,7 @@
 namespace DT\Plugin\Middleware;
 
 use DT\Plugin\Factories\ResponseFactory;
-use Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Request;
 use WP_HTTP_Response;
 use function DT\Plugin\container;
 
@@ -15,7 +15,7 @@ use function DT\Plugin\container;
  *
  * @see https://nikic.github.io/fast-route/
  */
-class Dispatch implements Middleware {
+class DispatchController implements Middleware {
 	protected $response_factory;
 
 	public function __construct( ResponseFactory $response_factory ) {
