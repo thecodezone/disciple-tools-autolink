@@ -2,8 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
-use DT\Plugin\Middleware\Stack;
-use DT\Plugin\Services\ResponseRenderer;
+use DT\Plugin\CodeZone\Router\Middleware\Stack;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -30,7 +29,7 @@ class AdminServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Register the admin router
+	 * Register the admin router using the middleware stack via filter.
 	 *
 	 * @return void
 	 */
@@ -41,7 +40,12 @@ class AdminServiceProvider extends ServiceProvider {
 
 
 	/**
-	 * Do any setup after services have been registered and the theme is ready
+	 * Boot the plugin
+	 *
+	 * This method checks if the current context is the admin area and then
+	 * registers the required plugins using TGMPA library.
+	 *
+	 * @return void
 	 */
 	public function boot(): void {
 		if ( ! is_admin() ) {

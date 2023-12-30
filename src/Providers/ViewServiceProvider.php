@@ -3,7 +3,7 @@
 namespace DT\Plugin\Providers;
 
 use DT\Plugin\League\Plates\Engine;
-use DT\Plugin\Views\Escape;
+use DT\Plugin\Services\Plates\Escape;
 use function DT\Plugin\views_path;
 
 /**
@@ -12,8 +12,9 @@ use function DT\Plugin\views_path;
  */
 class ViewServiceProvider extends ServiceProvider {
 	/**
-	 * Do any setup needed before the theme is ready.
-	 * DT is not yet registered.
+	 * Register the view engine singleton and any extensions
+	 *
+	 * @return void
 	 */
 	public function register(): void {
 		$this->container->singleton( Engine::class, function ( $container ) {
@@ -25,7 +26,8 @@ class ViewServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Do any setup after services have been registered and the theme is ready
+	 * Do any setup needed before the theme is ready.
+	 * DT is not yet registered.
 	 */
 	public function boot(): void {
 	}

@@ -14,9 +14,9 @@ class PluginServiceProvider extends ServiceProvider {
 		ViewServiceProvider::class,
 		MiddlewareServiceProvider::class,
 		AdminServiceProvider::class,
-		//PostTypeServiceProvider::class,
+		PostTypeServiceProvider::class,
 		MagicLinkServiceProvider::class,
-		RouteServiceProvider::class,
+		RouterServiceProvider::class,
 	];
 
 	/**

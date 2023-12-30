@@ -1,9 +1,18 @@
 <?php
 /**
+ * Conditions are used to determine if a group of routes should be registered.
+ *
+ * Groups are used to register a group of routes with a common URL prefix.
+ *
+ * Middleware is used to modify requests before they are handled by a controller, or to modify responses before they are returned to the client.
+ *
+ * Routes are used to bind a URL to a controller.
+ *
  * @var Routes $r
- * @see https://github.com/nikic/FastRoute
+ * @see https://github.com/thecodezone/wp-router
  */
 
+use DT\Plugin\CodeZone\Router\FastRoute\Routes;
 use DT\Plugin\Conditions\IsAdminPath;
 use DT\Plugin\Conditions\IsMagicLinkPath;
 use DT\Plugin\Conditions\IsPluginPath;
@@ -13,17 +22,13 @@ use DT\Plugin\Controllers\StarterMagicLink\HomeController;
 use DT\Plugin\Controllers\StarterMagicLink\SubpageController;
 use DT\Plugin\Controllers\UserController;
 use DT\Plugin\MagicLinks\StarterMagicApp;
-use DT\Plugin\Middleware\CanManageDT;
 use DT\Plugin\Middleware\LoggedIn;
+use DT\Plugin\Middleware\ManagesDT;
 use DT\Plugin\Plugin;
-use DT\Plugin\Services\Router\Routes;
 
-//Only load these routes at /dt/plugin paths
 $r->condition( IsPluginPath::class, function ( $r ) {
-	//All these routes should prepend /dt/plugin to the path
 	$r->group( Plugin::HOME_ROUTE, function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
-
 		$r->get( '/user', [ UserController::class, 'show', [ 'middleware' => LoggedIn::class ] ] );
 	} );
 
@@ -32,16 +37,11 @@ $r->condition( IsPluginPath::class, function ( $r ) {
 	} );
 } );
 
-//Only load these routes in the WordPress admin
 $r->condition( IsAdminPath::class, function ( Routes $r ) {
-	$r->middleware( CanManageDT::class, function ( Routes $r ) {
+	$r->middleware( ManagesDT::class, function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
-
-			//If no tab is specified, load to the general tab
 			$r->get( '?page=dt_plugin', [ GeneralSettingsController::class, 'show' ] );
 			$r->post( '?page=dt_plugin', [ GeneralSettingsController::class, 'update' ] );
-
-			//General tab
 			$r->get( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'show' ] );
 			$r->post( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'update' ] );
 		} );
