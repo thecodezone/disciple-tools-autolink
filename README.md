@@ -41,7 +41,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. Inversion of control container
    using [Laravel's Service Container](https://laravel.com/docs/master/container#main-content). ```/src/Container.php```
 1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web.php```
-1. Conditional routes, route groups, and route-based middleware provided by [CodeZone Router](https://github.com/thecodezone/wp-router).
+1. Conditional routes, route groups, and request middleware provided by [CodeZone Router](https://github.com/thecodezone/wp-router).
 1. View layouts, partials, and escaping provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
 
 ### Components
