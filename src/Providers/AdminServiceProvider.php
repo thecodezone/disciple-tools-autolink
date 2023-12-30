@@ -2,7 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
-use DT\Plugin\Services\Router;
+use DT\Plugin\CodeZone\Router\Middleware\Stack;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -24,26 +24,34 @@ class AdminServiceProvider extends ServiceProvider {
 			__( 'DT Plugin', 'dt_plugin' ),
 			'manage_dt',
 			'dt_plugin',
-			[ $this, 'register_admin_routes' ]
+			[ $this, 'register_router' ]
 		);
 	}
 
 	/**
-	 * Register the admin routes
+	 * Register the admin router using the middleware stack via filter.
 	 *
 	 * @return void
 	 */
-	public function register_admin_routes(): void {
-		$router = $this->container->make( Router::class );
-		$router->from_file( 'web/admin.php', [
-			'query_string' => true,
-		] )->make();
+	public function register_router(): void {
+		apply_filters( 'dt/plugin/middleware', $this->container->make( Stack::class ) )
+			->run();
 	}
 
+
 	/**
-	 * Do any setup after services have been registered and the theme is ready
+	 * Boot the plugin
+	 *
+	 * This method checks if the current context is the admin area and then
+	 * registers the required plugins using TGMPA library.
+	 *
+	 * @return void
 	 */
 	public function boot(): void {
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		/*
 		 * Array of plugin arrays. Required keys are name and slug.
 		 * If the source is NOT from the .org repo, then source is also required.

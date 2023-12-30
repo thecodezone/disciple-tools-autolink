@@ -1,6 +1,3 @@
-<?php
-
-?>
 <div class="wrap">
     <h2><?php $this->esc_html_e( 'DT Plugin', 'dt_plugin' ) ?></h2>
 

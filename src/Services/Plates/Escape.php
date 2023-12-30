@@ -1,6 +1,6 @@
 <?php
 
-namespace DT\Plugin\Plates;
+namespace DT\Plugin\Services\Plates;
 
 use DT\Plugin\League\Plates\Engine;
 use DT\Plugin\League\Plates\Extension\ExtensionInterface;
@@ -8,6 +8,13 @@ use DT\Plugin\League\Plates\Extension\ExtensionInterface;
 class Escape implements ExtensionInterface {
 
 
+	/**
+	 * Register functions with the given Engine.
+	 *
+	 * @param Engine $engine The Engine instance to register the functions with.
+	 *
+	 * @return void
+	 */
 	public function register( Engine $engine ) {
 		$engine->registerFunction( 'esc_html_e', 'esc_html_e' );
 		$engine->registerFunction( 'esc_html', 'esc_html' );

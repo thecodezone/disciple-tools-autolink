@@ -62,7 +62,8 @@ already well-versed in Laravel and Symfony frameworks.
 1. Edit the `.rename.sh` updating each variable to match your plugin.
 1. Run `./.rename.sh`
 1. Edit `composer.json` to update the `name`, `description`, and `author` fields.
-1. Replace the `DT//Plugin` namespace with your namespace in the `composer.json` `autoload` and `extra.wpify-scoper` sections. 
+1. Replace the `DT//Plugin` namespace with your namespace in the `composer.json` `autoload` and `extra.wpify-scoper`
+   sections.
 1. Edit `package.json` to update the `name` and `description` fields.
 1. Edit `version-control.json` with your plugin information.
 1. Run `composer install` to install PHP dependencies.
@@ -143,55 +144,9 @@ class ExampleServiceProvider extends ServiceProvider
 
 #### Routing
 
-Routing is handled by [FastRoute](https://github.com/nikic/FastRoute). Routes are located in the `routes/web` directory.
-The `routes.php` file is loaded when the plugin is first loaded. Separate route files can be loaded using the Router.php
-service.
-
-##### Loading a route file
-
-Custom route files can be registered when loading routes in specific hook or in magic links. For example:
-
-```php
-$router = app()->container->make( /DT/Plugin/Services/Router::class );
-$router->from_file( 'web/custom-routes-file.php' )->make();
-```
-
-##### Routing using a query parameter
-
-The query string is not used when matching routes. Do allow &action=some-page or &page=some-page to be used as a route,
-you can specify a query parameter to use when matching routes.
-
-```php
-$router = app()->container->make( /DT/Plugin/Services/Router::class );
-$router->from_file( 'web/custom-routes-file.php', [
-    'param' => 'page',
-] )->make();
-```
-
-##### Web Routes
-
-See fast route documentation for more information
-on [defining routes](https://github.com/nikic/FastRoute#defining-routes). To map a route to a controller, use the `@`
-symbol after the controller class name followed by the method name.
-
-```php
-    use DT\Test\Controllers\HelloController;
-
-    $r->get( 'dt/plugin/hello', HelloController::class . '@show' );
-```
-
-##### Rest Routes
-
-The plugin uses [WP REST API](https://developer.wordpress.org/rest-api/) to provide REST routes. Routes are located in
-the routes `routes/admin` directory.
-
-```json
-{
-  "require": {
-    "guzzlehttp/guzzle": "^7.0"
-  }
-}
-```
+Routing is handled by [CodeZone Router](https://github.com/thecodezone/wp-router). Routes are located in
+the `routes/web` file. Read more about routing in the [CodeZone Router](https://github.com/thecodezone/wp-router)
+documentation.
 
 #### Controllers
 

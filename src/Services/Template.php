@@ -2,6 +2,7 @@
 
 namespace DT\Plugin\Services;
 
+use JetBrains\PhpStorm\NoReturn;
 use function DT\Plugin\Kucrut\Vite\enqueue_asset;
 use function DT\Plugin\plugin_path;
 use function DT\Plugin\view;
@@ -20,7 +21,7 @@ class Template {
 	 * Start with a blank template
 	 * @return void
 	 */
-	public function template_redirect(): void {
+	#[NoReturn] public function template_redirect(): void {
 		$path = get_theme_file_path( 'template-blank.php' );
 		include $path;
 		die();
@@ -55,9 +56,10 @@ class Template {
 	/**
 	 * Render the template
 	 *
-	 * @param $callback
+	 * @param $template
+	 * @param $data
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function render( $template, $data ) {
 		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
@@ -65,12 +67,8 @@ class Template {
 		add_action( 'dt_blank_head', [ $this, 'header' ] );
 		add_action( 'dt_blank_footer', [ $this, 'footer' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
-
-
-		add_action( 'dt_blank_body', function () use ( $template, $data ) {
-			// phpcs:ignore
-			echo view()->render( $template, $data );
-		} );
+		
+		return view()->render( $template, $data );
 	}
 
 	/**

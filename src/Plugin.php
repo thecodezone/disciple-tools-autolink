@@ -5,19 +5,57 @@ namespace DT\Plugin;
 use DT\Plugin\Illuminate\Container\Container;
 use DT\Plugin\Providers\PluginServiceProvider;
 
+/**
+ * This is the entry-object for the plugin.
+ * Handle any setup and bootstrapping here.
+ */
 class Plugin {
-	const REQUIRED_PHP_VERSION = '1.19';
+	/**
+	 * The minimum required version of DT
+	 * @var string
+	 */
+	const REQUIRED_DT_VERSION = '1.19';
+
+	/**
+	 * The route for the plugin's home page
+	 * @var string
+	 */
+	const HOME_ROUTE = 'dt/plugin';
+
+	/**
+	 * The instance of the plugin
+	 * @var Plugin
+	 */
 	public static Plugin $instance;
 
+	/**
+	 * The container
+	 * @see https://laravel.com/docs/10.x/container
+	 * @var Container
+	 */
 	public Container $container;
+
+	/**
+	 * The service provider
+	 * @see https://laravel.com/docs/10.x/providers
+	 * @var PluginServiceProvider
+	 */
 	public PluginServiceProvider $provider;
 
-
+	/**
+	 * Plugin constructor.
+	 *
+	 * @param Container $container
+	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
 		$this->provider  = $container->make( PluginServiceProvider::class );
 	}
 
+	/**
+	 * Get the instance of the plugin
+	 * @return void
+	 */
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
@@ -58,7 +96,7 @@ class Plugin {
 		}
 		$wp_theme = wp_get_theme();
 
-		return version_compare( $wp_theme->version, self::REQUIRED_PHP_VERSION, '>=' );
+		return version_compare( $wp_theme->version, self::REQUIRED_DT_VERSION, '>=' );
 	}
 
 	/**
@@ -70,7 +108,7 @@ class Plugin {
 	}
 
 	/**
-	 * Register the plugin
+	 * Register the plugin with disciple.tools
 	 * @return array
 	 */
 	public function dt_plugins(): array {
