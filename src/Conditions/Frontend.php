@@ -4,7 +4,7 @@ namespace DT\Plugin\Conditions;
 
 use DT\Plugin\CodeZone\Router\Conditions\Condition;
 
-class IsFrontendPath implements Condition {
+class Frontend implements Condition {
 
 	/**
 	 * Test if the path is a frontend path.

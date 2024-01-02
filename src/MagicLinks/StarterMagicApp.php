@@ -11,7 +11,7 @@ class StarterMagicApp extends DT_Magic_Url_Base {
 
 	public $page_title = 'DT Plugin - Magic Links - Starter Magic App';
 	public $page_description = 'Starter Magic App - Magic Links.';
-	public $root = 'starter-magic-app'; // @todo define the root of the url {yoursite}/root/type/key/action
+	public $root = 'starter'; // @todo define the root of the url {yoursite}/root/type/key/action
 	public $type = 'app'; // @todo define the type
 	public $post_type = 'user';
 	public $show_bulk_send = false;

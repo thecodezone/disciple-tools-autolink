@@ -54,11 +54,11 @@ class RouterServiceProvider extends ServiceProvider {
 		if ( apply_filters( 'dt_blank_access', false ) ) {
 			add_action( 'dt_blank_body', function () use ( $response ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $response->getContent();
+				$response->send();
 			} );
 		} else {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo $response->getContent();
+			$response->send();
 		}
 	}
 }

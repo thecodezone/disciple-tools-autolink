@@ -40,7 +40,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. Vite build system. ```/vite.config.js``` & ```/resources/js```
 1. Inversion of control container
    using [Laravel's Service Container](https://laravel.com/docs/master/container#main-content). ```/src/Container.php```
-1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web/routes.php```
+1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web.php```
 1. View layouts, partials, and escaping provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
 
 ### Components
@@ -69,7 +69,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. Run `composer install` to install PHP dependencies.
 1. Run `npm install` to install JS dependencies.
 1. Run `npm run dev` to compile assets for development.
-1. Commit and push your changes a new github repository.
+1. Commit and push your changes a new GitHub repository.
 1. Open the WordPress admin and activate your plugin.
 
 #### Scoped Dependency Autoloading
