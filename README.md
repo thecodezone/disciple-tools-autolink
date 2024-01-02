@@ -40,7 +40,9 @@ already well-versed in Laravel and Symfony frameworks.
 1. Vite build system. ```/vite.config.js``` & ```/resources/js```
 1. Inversion of control container
    using [Laravel's Service Container](https://laravel.com/docs/master/container#main-content). ```/src/Container.php```
-1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web.php```
+1. Routing system via [CodeZone Router](https://github.com/thecodezone/wp-router). ```/routes/web.php```
+1. Middleware, conditions, and middleware
+   via [CodeZone Router](https://github.com/thecodezone/wp-router). ```/src/Middleware```
 1. View layouts, partials, and escaping provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
 
 ### Components
@@ -174,7 +176,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ```php
     use DT\Test\view;
     
-    \template( 'hello', [
+    template( 'hello', [
         'name' => 'World',
     ] );
 ```
@@ -184,7 +186,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ```php
     use DT\Test\view;
     
-    \view( 'hello', [
+    view( 'hello', [
         'name' => 'World',
     ] );
 ```
@@ -198,11 +200,14 @@ service provider in the `providers` array in `/src/Providers/PluginServiceProvid
 
 ```php
 protected $providers = [
-    RouteServiceProvider::class,
-    //PostTypeServiceProvider::class,
-    //AdminServiceProvider::class,
-    MagicLinkServiceProvider::class
-];
+		ViewServiceProvider::class,
+		ConditionsServiceProvider::class,
+		MiddlewareServiceProvider::class,
+		//AdminServiceProvider::class,
+		//PostTypeServiceProvider::class,
+		MagicLinkServiceProvider::class,
+		RouterServiceProvider::class,
+	];
 ```
 
 #### Post Types
@@ -212,11 +217,14 @@ the `providers` array in `/src/Providers/PluginServiceProvider`.
 
 ```php
 protected $providers = [
-    RouteServiceProvider::class,
-    PostTypeServiceProvider::class,
-    //AdminServiceProvider::class,
-    //MagicLinkServiceProvider::class
-];
+		ViewServiceProvider::class,
+		ConditionsServiceProvider::class,
+		MiddlewareServiceProvider::class,
+		//AdminServiceProvider::class,
+		PostTypeServiceProvider::class,
+		//MagicLinkServiceProvider::class,
+		RouterServiceProvider::class,
+	];
 ```
 
 #### Code Style
