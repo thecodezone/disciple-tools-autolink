@@ -2,6 +2,7 @@
 
 namespace DT\Plugin;
 
+use DT\Plugin\Illuminate\Http\RedirectResponse;
 use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
 use DT\Plugin\League\Plates\Engine;
@@ -36,7 +37,7 @@ function plugin_path( string $path = '' ): string {
 	return '/' . implode( '/', [
 			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
 			trim( $path, '/' ),
-    ] );
+		] );
 }
 
 /**
@@ -125,4 +126,19 @@ function template( string $template = "", array $args = [] ): mixed {
  */
 function request(): Request {
 	return container()->make( Request::class );
+}
+
+/**
+ * Creates a new RedirectResponse instance for the given URL.
+ *
+ * @param string $url The URL to redirect to.
+ * @param int $status Optional. The status code for the redirect response. Default is 302.
+ *
+ * @return RedirectResponse A new RedirectResponse instance.
+ */
+function redirect( string $url, int $status = 302 ): RedirectResponse {
+	return container()->makeWith( RedirectResponse::class, [
+		'url'    => $url,
+		'status' => $status,
+	] );
 }

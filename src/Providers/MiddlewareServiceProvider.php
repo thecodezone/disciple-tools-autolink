@@ -13,6 +13,7 @@ use DT\Plugin\CodeZone\Router\Middleware\UserHasCap;
 use DT\Plugin\Middleware\LoggedIn;
 use DT\Plugin\Middleware\LoggedOut;
 use DT\Plugin\Middleware\MagicLink;
+use DT\Plugin\Middleware\Nonce;
 
 /**
  * Request middleware to be used in the request lifecycle.
@@ -31,9 +32,10 @@ class MiddlewareServiceProvider extends ServiceProvider {
 
 	protected $route_middleware = [
 		'auth'  => LoggedIn::class,
-		'can'   => UserHasCap::class,
+		'can'   => UserHasCap::class, // can:manage_dt
 		'guest' => LoggedOut::class,
-		'magic' => MagicLink::class
+		'magic' => MagicLink::class,
+		'nonce' => Nonce::class,  // nonce:dt_plugin_nonce
 	];
 
 	/**
@@ -55,23 +57,34 @@ class MiddlewareServiceProvider extends ServiceProvider {
 			return array_merge( $middleware, $this->route_middleware );
 		} );
 
+		/**
+		 * Parse named signature to instantiate any middleware that takes arguments.
+		 * Signature format: "name:signature"
+		 */
 		add_filter( 'codezone/router/middleware/factory', function ( Middleware|null $middleware, $attributes ) {
 			$classname = $attributes['className'] ?? null;
 			$name      = $attributes['name'] ?? null;
 			$signature = $attributes['signature'] ?? null;
 
-			//Add constructor arguments to the magic link middleware
-			if ( $name === 'magic' ) {
+			switch ( $name ) {
+				case 'magic':
+					$magic_link_name       = $signature;
+					$magic_link_class_name = $this->container->make( 'DT\Plugin\MagicLinks' )->get( $magic_link_name );
+					if ( ! $magic_link_class_name ) {
+						throw new Exception( "Magic link not found: $magic_link_name" );
+					}
+					$magic_link = $this->container->make( $magic_link_class_name );
 
-				//Resolve the magic link by name from the signature
-				$magic_link_name       = $signature;
-				$magic_link_class_name = $this->container->make( 'DT\Plugin\MagicLinks' )->get( $magic_link_name );
-				$magic_link            = $this->container->make( $magic_link_class_name );
-
-				//The signature is the part of the route name after the ":". We need to break it into an array.
-				return $this->container->makeWith( $classname, [
-					'magic_link' => $magic_link
-				] );
+					//The signature is the part of the route name after the ":". We need to break it into an array.
+					$middleware = $this->container->makeWith( $classname, [
+						'magic_link' => $magic_link
+					] );
+					break;
+				case 'nonce':
+					$middleware = $this->container->makeWith( $classname, [
+						'nonce_name' => $signature
+					] );
+					break;
 			}
 
 			return $middleware;

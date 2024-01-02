@@ -113,8 +113,8 @@ class Plugin {
 	 */
 	public function dt_plugins(): array {
 		$plugin_data = get_file_data( __FILE__, [
-			'Version'     => 'Version',
-			'Plugin Name' => 'Plugin Name',
+			'Version'     => '0.0',
+			'Plugin Name' => 'DT Plugin',
 		], false );
 
 		$plugins['dt-plugin'] = [

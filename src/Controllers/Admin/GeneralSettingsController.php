@@ -2,39 +2,30 @@
 
 namespace DT\Plugin\Controllers\Admin;
 
-use WP_HTTP_Response;
+use DT\Plugin\Illuminate\Http\RedirectResponse;
+use DT\Plugin\Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Response;
 use function DT\Plugin\view;
 
 class GeneralSettingsController {
 	/**
 	 * Show the general settings admin tab
 	 */
-	public function show() {
-		if ( ! current_user_can( 'manage_dt' ) ) { // manage dt is a permission that is specific to Disciple.Tools and allows admins, strategists and dispatchers into the wp-admin
-			wp_die( 'You do not have sufficient permissions to access this page.' );
-		}
-
+	public function show( Request $request, Response $response ) {
 		$tab        = "general";
-		$link       = 'admin.php?page=disciple_tools_autolink&tab=';
-		$page_title = "Autolink Settings";
+		$link       = 'admin.php?page=dt_plugin&tab=';
+		$page_title = "DT Plugin Settings";
 
 		return view( "settings/general", compact( 'tab', 'link', 'page_title' ) );
 	}
 
 	/**
 	 * Submit the general settings admin tab form
-	 * @return WP_HTTP_Response
 	 */
-	public function update() {
-		if ( ! isset( $_POST['dt_admin_form_nonce'] ) &&
-		     ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['dt_admin_form_nonce'] ) ), 'dt_admin_form' ) ) {
-			wp_die( 'You do not have sufficient permissions.', 401 );
-		}
+	public function update( Request $request, Response $response ) {
 
-		if ( ! current_user_can( 'manage_dt' ) ) {
-			wp_die( 'You do not have sufficient permissions.', 401 );
-		}
+		// Add the settings update code here
 
-		return new WP_HTTP_Response( admin_url( 'admin.php?page=disciple_tools_autolink&tab=general&updated=true' ), 302 );
+		return new RedirectResponse( 302, admin_url( 'admin.php?page=dt_plugin&tab=general&updated=true' ) );
 	}
 }

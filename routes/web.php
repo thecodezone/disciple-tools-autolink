@@ -35,9 +35,12 @@ $r->condition( 'backend', function ( Routes $r ) {
 	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
 			$r->get( '?page=dt_plugin', [ GeneralSettingsController::class, 'show' ] );
-			$r->post( '?page=dt_plugin', [ GeneralSettingsController::class, 'update' ] );
 			$r->get( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'show' ] );
-			$r->post( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'update' ] );
+
+			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
+				$r->post( '?page=dt_plugin', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'update' ] );
+			} );
 		} );
 	} );
 } );
@@ -45,6 +48,9 @@ $r->condition( 'backend', function ( Routes $r ) {
 $r->middleware( 'magic:starter/app', function ( Routes $r ) {
 	$r->group( 'starter/app/{key}', function ( Routes $r ) {
 		$r->get( '', [ HomeController::class, 'show' ] );
+
+		// Remember to add any magic link routes to the actions array in the magic link class,
+		// otherwise they will be blocked.
 		$r->get( '/subpage', [ SubpageController::class, 'show' ] );
 	} );
 } );

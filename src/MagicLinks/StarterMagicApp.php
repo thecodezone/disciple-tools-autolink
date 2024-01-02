@@ -4,25 +4,100 @@ namespace DT\Plugin\MagicLinks;
 
 use DT_Magic_Url_Base;
 
+
 /**
- * Class DT_Plugin_Magic_User_App
+ * Class StarterMagicApp
+ *
+ * Represents the Starter Magic App for handling magic links.
  */
 class StarterMagicApp extends DT_Magic_Url_Base {
 
+	/**
+	 * Initializes the value of the page title.
+	 *
+	 * The page title is used to display the title of the web page in the browser's title bar or tab.
+	 *
+	 * @var string $page_title The value of the page title.
+	 */
 	public $page_title = 'DT Plugin - Magic Links - Starter Magic App';
+
+	/**
+	 * Initializes the value of the page description.
+	 *
+	 * The page description is used to provide a brief summary or description of the web page's content.
+	 *
+	 * @var string $page_description The value of the page description.
+	 */
 	public $page_description = 'Starter Magic App - Magic Links.';
+
+	/**
+	 * Initializes the value of the root directory.
+	 *
+	 * The root directory is used as a reference point for other directories and files within the magic app.
+	 *
+	 * @var string $root The value of the root directory.
+	 */
 	public $root = 'starter'; // @todo define the root of the url {yoursite}/root/type/key/action
+
+	/**
+	 * Initializes the value of the type.
+	 *
+	 * The type specifies the type of the application, it represents the second part of the magic path.
+	 *
+	 * @var string $type The value of the type.
+	 */
 	public $type = 'app'; // @todo define the type
+
+
+	/**
+	 * Initializes the value of the post type.
+	 *
+	 * The post type determines the post type that the magic link type is associated with.
+	 *
+	 * @var string $post_type The value of the post type.
+	 */
 	public $post_type = 'user';
+
+	/**
+	 * @var bool $show_bulk_send Flag indicating whether the bulk send functionality should be shown or not.
+	 */
 	public $show_bulk_send = false;
+
+	/**
+	 * @var bool $show_app_tile Flag indicating whether the app tile should be shown or not.
+	 */
 	public $show_app_tile = false;
+
+	/**
+	 * @var array $meta Used to store meta information or key-value pairs.
+	 */
 	public $meta = [];
+
+	/**
+	 * A list of actions that are allowed for the magic link type.
+	 * Routes to actions not defined here will be blocked.
+	 *
+	 * @var array
+	 */
 	public $type_actions = [
 		"subpage" => "subpage",
 	];
 
+	/**
+	 * Initializes the value of the meta key.
+	 *
+	 * The meta key is used to store meta information or key-value pairs.
+	 *
+	 * @var string $meta_key The value of the meta key.
+	 */
 	private $meta_key = '';
 
+
+	/**
+	 * Constructor for the class.
+	 *
+	 * Initializes the object and sets up the metadata and filters for the magic link processing.
+	 */
 	public function __construct() {
 		/**
 		 * Specify metadata structure, specific to the processing of current
@@ -75,11 +150,31 @@ class StarterMagicApp extends DT_Magic_Url_Base {
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
 	}
 
+	/**
+	 * Filter the list of allowed JavaScript files for the dt_magic_url_base_allowed_js function.
+	 *
+	 * This filter allows plugins and themes to add or remove JavaScript files that are considered
+	 * allowed for the dt_magic_url_base_allowed_js function.
+	 *
+	 * @param array $allowed_js An array of JavaScript file paths that are allowed.
+	 *
+	 * @return array The modified array of allowed JavaScript file paths.
+	 */
 	public function dt_magic_url_base_allowed_js( $allowed_js ) {
 		// @todo add or remove js files with this filter
 		return $allowed_js;
 	}
 
+	/**
+	 * Filter the list of allowed CSS files for the dt_magic_url_base_allowed_css function.
+	 *
+	 * This filter allows plugins and themes to add or remove CSS files that are considered
+	 * allowed for the dt_magic_url_base_allowed_css function.
+	 *
+	 * @param array $allowed_css An array of CSS file paths that are allowed.
+	 *
+	 * @return array The modified array of allowed CSS file paths.
+	 */
 	public function dt_magic_url_base_allowed_css( $allowed_css ) {
 		// @todo add or remove js files with this filter
 		return $allowed_css;
