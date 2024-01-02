@@ -13,32 +13,26 @@
  */
 
 use DT\Plugin\CodeZone\Router\FastRoute\Routes;
-use DT\Plugin\Conditions\IsAdminPath;
-use DT\Plugin\Conditions\IsMagicLinkPath;
-use DT\Plugin\Conditions\IsPluginPath;
 use DT\Plugin\Controllers\Admin\GeneralSettingsController;
 use DT\Plugin\Controllers\HelloController;
 use DT\Plugin\Controllers\StarterMagicLink\HomeController;
 use DT\Plugin\Controllers\StarterMagicLink\SubpageController;
 use DT\Plugin\Controllers\UserController;
-use DT\Plugin\MagicLinks\StarterMagicApp;
-use DT\Plugin\Middleware\LoggedIn;
-use DT\Plugin\Middleware\ManagesDT;
-use DT\Plugin\Plugin;
 
-$r->condition( IsPluginPath::class, function ( $r ) {
-	$r->group( Plugin::HOME_ROUTE, function ( Routes $r ) {
+$r->condition( 'plugin', function ( $r ) {
+	$r->group( 'dt/plugin', function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
-		$r->get( '/user', [ UserController::class, 'show', [ 'middleware' => LoggedIn::class ] ] );
+		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
+		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 	} );
 
-	$r->group( Plugin::HOME_ROUTE . '/api', function ( Routes $r ) {
+	$r->group( 'dt/plugin/api', function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
 	} );
 } );
 
-$r->condition( IsAdminPath::class, function ( Routes $r ) {
-	$r->middleware( ManagesDT::class, function ( Routes $r ) {
+$r->condition( 'backend', function ( Routes $r ) {
+	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
 			$r->get( '?page=dt_plugin', [ GeneralSettingsController::class, 'show' ] );
 			$r->post( '?page=dt_plugin', [ GeneralSettingsController::class, 'update' ] );
@@ -48,8 +42,8 @@ $r->condition( IsAdminPath::class, function ( Routes $r ) {
 	} );
 } );
 
-$r->condition( new IsMagicLinkPath( StarterMagicApp::class ), function ( Routes $r ) {
-	$r->group( 'starter-magic-app/app/{key}', function ( Routes $r ) {
+$r->middleware( 'magic:starter/app', function ( Routes $r ) {
+	$r->group( 'starter/app/{key}', function ( Routes $r ) {
 		$r->get( '', [ HomeController::class, 'show' ] );
 		$r->get( '/subpage', [ SubpageController::class, 'show' ] );
 	} );

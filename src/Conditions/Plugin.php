@@ -5,9 +5,9 @@ namespace DT\Plugin\Conditions;
 use DT\Plugin\CodeZone\Router\Conditions\Condition;
 use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
-use DT\Plugin\Plugin;
+use DT\Plugin\Plugin as Main;
 
-class IsPluginPath implements Condition {
+class Plugin implements Condition {
 
 	/**
 	 * @var Request $request The current request object.
@@ -31,6 +31,6 @@ class IsPluginPath implements Condition {
 	 * @return bool Returns true if the current request path starts with the home route, false otherwise.
 	 */
 	public function test(): bool {
-		return Str::startsWith( $this->request->path(), Plugin::HOME_ROUTE );
+		return Str::startsWith( $this->request->path(), Main::HOME_ROUTE );
 	}
 }

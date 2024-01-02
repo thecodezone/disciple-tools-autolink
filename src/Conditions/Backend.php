@@ -4,7 +4,7 @@ namespace DT\Plugin\Conditions;
 
 use DT\Plugin\CodeZone\Router\Conditions\Condition;
 
-class IsAdminPath implements Condition {
+class Backend implements Condition {
 
 	/**
 	 * Determines if the current path is an admin path.

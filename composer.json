@@ -11,6 +11,11 @@
       "src/helpers.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Craig Wann",
