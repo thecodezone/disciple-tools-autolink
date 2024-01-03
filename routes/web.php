@@ -18,6 +18,9 @@ use DT\Plugin\Controllers\HelloController;
 use DT\Plugin\Controllers\StarterMagicLink\HomeController;
 use DT\Plugin\Controllers\StarterMagicLink\SubpageController;
 use DT\Plugin\Controllers\UserController;
+use DT\Plugin\Illuminate\Http\Request;
+use DT\Plugin\Symfony\Component\HttpFoundation\Response;
+
 
 $r->condition( 'plugin', function ( $r ) {
 	$r->group( 'dt/plugin', function ( Routes $r ) {
@@ -28,6 +31,7 @@ $r->condition( 'plugin', function ( $r ) {
 
 	$r->group( 'dt/plugin/api', function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
+		$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 	} );
 } );
 
