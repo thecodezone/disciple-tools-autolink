@@ -12,7 +12,7 @@ class LoggedOut implements Middleware {
 
 	public function handle( Request $request, Response $response, $next ) {
 		if ( is_user_logged_in() ) {
-			$response = new RedirectResponse( Plugin::HOME_ROUTE, 302 );
+			$response = new RedirectResponse( '/' . Plugin::HOME_ROUTE, 302 );
 
 		}
 

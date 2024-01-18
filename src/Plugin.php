@@ -59,15 +59,17 @@ class Plugin {
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
-		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 20 );
-		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
+		add_action( 'init', function () {
+			$this->provider->boot();
+			$this->setup();
+		}, 20 );
 	}
 
 	/**
-	 * Runs after_theme_setup
+	 * Runs after init
 	 * @return void
 	 */
-	public function after_setup_theme(): void {
+	public function setup(): void {
 		if ( ! $this->is_dt_version() ) {
 			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 			add_action( 'wp_ajax_dismissed_notice_handler', [ $this, 'ajax_notice_handler' ] );
