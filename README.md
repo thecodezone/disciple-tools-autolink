@@ -167,10 +167,6 @@ make use of automatic dependency injection.
 The Illuminate validator can be used to validate requests.
 See [Laravel Rules](https://laravel.com/docs/master/validation#available-validation-rules).
 
-```php
-
-```
-
 ##### Example Controller
 
 ```php
@@ -198,8 +194,8 @@ class ExampleController {
 	}
 
 	/**
-     * A POST route should map to this method via [ExampleController::class, 'update'].
-     */
+         * A POST route should map to this method via [ExampleController::class, 'update'].
+         */
 	public function update( Request $request, Response $response ) {
 		$error = false;
 
