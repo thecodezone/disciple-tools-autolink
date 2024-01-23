@@ -189,8 +189,8 @@ class ExampleController {
 	public function show( Request $request, Response $response ) {
 		return view( "example", [
 		    'option1' => get_option( 'option1' ),
-            'option2' => get_option( 'option2' ),
-        ] );
+		    'option2' => get_option( 'option2' ),
+		] );
 	}
 
 	/**
