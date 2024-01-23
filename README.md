@@ -41,8 +41,10 @@ already well-versed in Laravel and Symfony frameworks.
 1. Inversion of control container
    using [Laravel's Service Container](https://laravel.com/docs/master/container#main-content). ```/src/Container.php```
 1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web.php```
-1. Conditional routes, route groups, and request middleware provided by [CodeZone Router](https://github.com/thecodezone/wp-router).
+1. Conditional routes, route groups, and request middleware provided
+   by [CodeZone Router](https://github.com/thecodezone/wp-router).
 1. View layouts, partials, and escaping provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
+1. Validation provided by [Laravel's Validation](https://laravel.com/docs/master/validation#available-validation-rules).
 
 ### Components
 
@@ -159,6 +161,85 @@ make use of automatic dependency injection.
 > **Tip:** Keep your controllers thin. Business logic should be moved to services. Controllers should only be
 > responsible for handling requests and returning responses. Anything more than basic logic should be moved to a
 > service.
+
+##### Field Validation
+
+The Illuminate validator can be used to validate requests.
+See [Laravel Rules](https://laravel.com/docs/master/validation#available-validation-rules).
+
+```php
+
+```
+
+##### Example Controller
+
+```php
+<?php
+
+namespace DT\Plugin\Controllers\Admin;
+
+use DT\Plugin\Illuminate\Http\RedirectResponse;
+use DT\Plugin\Illuminate\Http\Request;
+use DT\Plugin\Illuminate\Http\Response;
+use function DT\Plugin\transaction;
+use function DT\Plugin\validate;
+use function DT\Plugin\view;
+
+
+class ExampleController {
+	/**
+	 * A GET route should map to this method via [ExampleController::class, 'show'].
+	 */
+	public function show( Request $request, Response $response ) {
+		return view( "example", [
+		    'option1' => get_option( 'option1' ),
+            'option2' => get_option( 'option2' ),
+        ] );
+	}
+
+	/**
+     * A POST route should map to this method via [ExampleController::class, 'update'].
+     */
+	public function update( Request $request, Response $response ) {
+		$error = false;
+
+		// Add the settings update code here
+		$errors = validate( $request->all(), [
+			'option1' => 'required',
+			'option2' => 'required',
+		] );
+
+		if ( count( $errors ) > 0 ) {
+			$error = __( 'Please complete the required fields.', 'dt-plugin' );
+		}
+
+		if ( ! $error ) {
+			//Perform update in a MYSQL transaction
+			$result = transaction( function () use ( $request ) {
+				set_option( 'option1', $request->post( 'option1' ) );
+				set_option( 'option2', $request->post( 'option2' ) );
+			} );
+
+			if ( $result !== true ) {
+				$error = __( 'The form could not be submitted.', 'dt-plugin' );
+			}
+		}
+
+
+		if ( $error ) {
+			return new RedirectResponse( 302, admin_url(
+					'/dt/plugin/example/?' . http_build_query( [
+						'error'  => $error,
+						'fields' => $errors,
+					] )
+				)
+			);
+		}
+
+		return new RedirectResponse( 302, admin_url( '/dt/plugin/example/?&updated=true' ) );
+	}
+}
+```
 
 #### Templating
 

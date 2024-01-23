@@ -7,6 +7,7 @@ use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
 use DT\Plugin\League\Plates\Engine;
 use DT\Plugin\Services\Template;
+use Exception;
 
 /**
  * Returns the singleton instance of the Plugin class.
@@ -27,6 +28,17 @@ function container(): Illuminate\Container\Container {
 }
 
 /**
+ * Retrieves the URL of a file or directory within the Bible Plugin directory.
+ *
+ * @param string $path Optional. The path of the file or directory within the Bible Plugin directory. Defaults to empty string.
+ *
+ * @return string The URL of the specified file or directory within the Bible Plugin directory.
+ */
+function plugin_url( string $path = '' ): string {
+	return plugins_url( 'bible-plugin' ) . '/' . ltrim( $path, '/' );
+}
+
+/**
  * Returns the path of a plugin file or directory, relative to the plugin directory.
  *
  * @param string $path The path of the file or directory relative to the plugin directory. Defaults to an empty string.
@@ -37,7 +49,7 @@ function plugin_path( string $path = '' ): string {
 	return '/' . implode( '/', [
 			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
 			trim( $path, '/' ),
-    ] );
+		] );
 }
 
 /**
@@ -141,4 +153,76 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
 		'url'    => $url,
 		'status' => $status,
 	] );
+}
+
+/**
+ * Validate the given data using the provided rules and messages.
+ *
+ * @param array $data The data to be validated.
+ * @param array $rules The validation rules to be applied.
+ * @param array $messages The custom error messages to be displayed.
+ *
+ * @return array The array of validation error messages, if any.
+ */
+function validate( array $data, array $rules, array $messages = [] ): array {
+	$validator = container()->make( Factory::class )->make( $data, $rules, $messages );
+	if ( $validator->fails() ) {
+		return $validator->errors()->toArray();
+	}
+
+	return [];
+}
+
+/**
+ * Set the value of an option.
+ *
+ * This function first checks if the option already exists. If it doesn't, it adds a new option with the given name and value.
+ * If the option already exists, it updates the existing option with the given value.
+ *
+ * @param string $option_name The name of the option.
+ * @param mixed $value The value to set for the option.
+ *
+ * @return bool Returns true if the option was successfully set, false otherwise.
+ */
+function set_option( string $option_name, mixed $value ): bool {
+	if ( get_option( $option_name ) === false ) {
+		return add_option( $option_name, $value );
+	} else {
+		return update_option( $option_name, $value );
+	}
+}
+
+/**
+ * Start a database transaction and execute a callback function within the transaction.
+ *
+ * @param callable $callback The callback function to execute within the transaction.
+ *
+ * @return bool|string Returns true if the transaction is successful, otherwise returns the last database error.
+ *
+ * @throws Exception If there is a database error before starting the transaction.
+ */
+function transaction( $callback ): bool|string {
+	global $wpdb;
+	if ( $wpdb->last_error ) {
+		return $wpdb->last_error;
+	}
+	$wpdb->query( 'START TRANSACTION' );
+	$callback();
+	if ( $wpdb->last_error ) {
+		$wpdb->query( 'ROLLBACK' );
+
+		return $wpdb->last_error;
+	}
+	$wpdb->query( 'COMMIT' );
+
+	return true;
+}
+
+/**
+ * Retrieves the HTTPFactory instance.
+ *
+ * @return HTTPFactory The HTTPFactory instance.
+ */
+function http(): HTTPFactory {
+	return container()->make( HTTPFactory::class );
 }
