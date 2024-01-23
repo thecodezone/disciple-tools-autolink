@@ -162,7 +162,7 @@ make use of automatic dependency injection.
 > responsible for handling requests and returning responses. Anything more than basic logic should be moved to a
 > service.
 
-##### Field Validation
+##### Validation
 
 The Illuminate validator can be used to validate requests.
 See [Laravel Rules](https://laravel.com/docs/master/validation#available-validation-rules).
