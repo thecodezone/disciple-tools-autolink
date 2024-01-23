@@ -21,12 +21,7 @@ class PluginTest extends TestCase {
 	/**
 	 * @test
 	 */
-	public function can_access_dashboard() {
-		$user = $this->factory()->user->create( [
-			'role' => 'administrator',
-		] );
-		wp_set_current_user( $user );
-
+	public function example_http_test() {
 		$response = $this->get( 'dt/plugin/api/hello' );
 
 		$this->assertEquals( 200, $response->getStatusCode() );

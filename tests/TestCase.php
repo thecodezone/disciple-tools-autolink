@@ -2,6 +2,11 @@
 
 namespace Tests;
 
+use DT\Plugin\CodeZone\Router\Middleware\HandleErrors;
+use DT\Plugin\CodeZone\Router\Middleware\HandleRedirects;
+use DT\Plugin\CodeZone\Router\Middleware\Render;
+use DT\Plugin\CodeZone\Router\Middleware\Stack;
+use DT\Plugin\Illuminate\Http\Request;
 use WP_UnitTestCase;
 
 abstract class TestCase extends WP_UnitTestCase {
@@ -45,15 +50,16 @@ abstract class TestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The request method sends a request to a specified URI using the specified HTTP method and additional parameters.
+	 * Performs a request using the given method and URI.
 	 *
-	 * @param string $method The HTTP method for the request.
-	 * @param string $uri The URI to send the request to.
-	 * @param array $parameters An array of parameters to include in the request.
-	 * @param array $cookies An array of cookies to include in the request.
-	 * @param array $files An array of files to include in the request.
-	 * @param array $server An array of server variables to include in the request.
-	 * @param mixed $content The content to send with the request.
+	 * @param string $method The HTTP method to use for the request.
+	 * @param string $uri The URI to request.
+	 * @param array $parameters An array of parameters to send with the request (optional).
+	 * @param array $headers An array of headers to include in the request (optional).
+	 * @param array $cookies An array of cookies to send with the request (optional).
+	 * @param array $files An array of files to send with the request (optional).
+	 * @param array $server An array of server variables to include in the request (optional).
+	 * @param mixed $content The content to include in the request body (optional).
 	 *
 	 * @return mixed The response from the request.
 	 */

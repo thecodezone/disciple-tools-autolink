@@ -357,6 +357,21 @@ vendor/bin/phpunit
 > **Note** Phpunit 10.0.0 is not compatible with WP testing. PHPUnit 9 is installed as a dependency. If you would rather
 > use your global PHPUnit, make sure to use version 9 or below.
 
+### Example Test
+
+```php
+/**
+ * @test
+ */
+public function example_http_test() {
+    $response = $this->post( 'dt/plugin/api/page', ['someField' => 'value'], [
+        'X-WP-Nonce' => wp_create_nonce( 'dt_plugin' ),
+    ] );
+
+    $this->assertEquals( 200, $response->getStatusCode() );
+}
+```
+
 ## Recommended
 
 - Disciple.Tools Theme installed on a local Wordpress
