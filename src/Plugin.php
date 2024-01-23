@@ -63,6 +63,7 @@ class Plugin {
 			$this->provider->boot();
 			$this->setup();
 		}, 20 );
+		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
 	}
 
 	/**
