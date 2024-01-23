@@ -4,7 +4,7 @@
 
 __Kick start your Disciple.Tools plugin project with this template!__
 
-This plugin is a modern opinionated extension starter template inspired by Laravel.
+This plugin is a modern, opinionated plugin starter template inspired by Laravel.
 
 > **Tip:** You can safely delete this README.md file and replace it with your own. You can always view this readme
 > at [github.com/thecodezone/dt-plugin](https://github.com/thecodezone/dt-plugin).
