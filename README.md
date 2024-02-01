@@ -4,7 +4,7 @@
 
 __Kick start your Disciple.Tools plugin project with this template!__
 
-This plugin is a modern opinionated extension starter template inspired by Laravel.
+This plugin is a modern, opinionated plugin starter template inspired by Laravel.
 
 > **Tip:** You can safely delete this README.md file and replace it with your own. You can always view this readme
 > at [github.com/thecodezone/dt-plugin](https://github.com/thecodezone/dt-plugin).
@@ -162,14 +162,10 @@ make use of automatic dependency injection.
 > responsible for handling requests and returning responses. Anything more than basic logic should be moved to a
 > service.
 
-##### Field Validation
+##### Validation
 
 The Illuminate validator can be used to validate requests.
 See [Laravel Rules](https://laravel.com/docs/master/validation#available-validation-rules).
-
-```php
-
-```
 
 ##### Example Controller
 
@@ -193,13 +189,13 @@ class ExampleController {
 	public function show( Request $request, Response $response ) {
 		return view( "example", [
 		    'option1' => get_option( 'option1' ),
-            'option2' => get_option( 'option2' ),
-        ] );
+		    'option2' => get_option( 'option2' ),
+		] );
 	}
 
 	/**
-     * A POST route should map to this method via [ExampleController::class, 'update'].
-     */
+         * A POST route should map to this method via [ExampleController::class, 'update'].
+         */
 	public function update( Request $request, Response $response ) {
 		$error = false;
 
