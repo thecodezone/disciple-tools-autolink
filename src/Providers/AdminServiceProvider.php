@@ -3,6 +3,7 @@
 namespace DT\Plugin\Providers;
 
 use DT\Plugin\CodeZone\Router\Middleware\Stack;
+use function DT\Plugin\namespace_string;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -34,7 +35,7 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_router(): void {
-		apply_filters( 'dt/plugin/middleware', $this->container->make( Stack::class ) )
+		apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
 			->run();
 	}
 

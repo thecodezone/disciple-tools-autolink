@@ -2,6 +2,7 @@
 
 namespace DT\Plugin\Providers;
 
+use DT\Plugin\CodeZone\Router;
 use DT\Plugin\CodeZone\Router\Middleware\DispatchController;
 use DT\Plugin\CodeZone\Router\Middleware\HandleErrors;
 use DT\Plugin\CodeZone\Router\Middleware\HandleRedirects;
@@ -14,6 +15,7 @@ use DT\Plugin\Middleware\LoggedIn;
 use DT\Plugin\Middleware\LoggedOut;
 use DT\Plugin\Middleware\MagicLink;
 use DT\Plugin\Middleware\Nonce;
+use function DT\Plugin\namespace_string;
 
 /**
  * Request middleware to be used in the request lifecycle.
@@ -47,13 +49,13 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register(): void {
-		add_filter( 'dt/plugin/middleware', function ( Stack $stack ) {
+		add_filter( namespace_string( 'middleware' ), function ( Stack $stack ) {
 			$stack->push( ...$this->middleware );
 
 			return $stack;
 		} );
 
-		add_filter( 'codezone/router/middleware', function ( array $middleware ) {
+		add_filter( Router\namespace_string( 'middleware' ), function ( array $middleware ) {
 			return array_merge( $middleware, $this->route_middleware );
 		} );
 
@@ -61,7 +63,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		 * Parse named signature to instantiate any middleware that takes arguments.
 		 * Signature format: "name:signature"
 		 */
-		add_filter( 'codezone/router/middleware/factory', function ( Middleware|null $middleware, $attributes ) {
+		add_filter( Router\namespace_string( 'middleware_factory' ), function ( Middleware|null $middleware, $attributes ) {
 			$classname = $attributes['className'] ?? null;
 			$name      = $attributes['name'] ?? null;
 			$signature = $attributes['signature'] ?? null;

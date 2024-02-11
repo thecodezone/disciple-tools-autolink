@@ -2,6 +2,7 @@
 
 namespace DT\Plugin;
 
+use CodeZone\Router;
 use DT\Plugin\Illuminate\Http\RedirectResponse;
 use DT\Plugin\Illuminate\Http\Request;
 use DT\Plugin\Illuminate\Support\Str;
@@ -35,7 +36,7 @@ function container(): Illuminate\Container\Container {
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
 function plugin_url( string $path = '' ): string {
-	return plugins_url( 'bible-plugin' ) . '/' . ltrim( $path, '/' );
+	return plugins_url( 'dt-plugin' ) . '/' . ltrim( $path, '/' );
 }
 
 /**
@@ -225,4 +226,15 @@ function transaction( $callback ): bool|string {
  */
 function http(): HTTPFactory {
 	return container()->make( HTTPFactory::class );
+}
+
+/**
+ * Concatenates the given string to the namespace of the Router class.
+ *
+ * @param string $string The string to be concatenated to the namespace.
+ *
+ * @return string The result of concatenating the given string to the namespace of the Router class.
+ */
+function namespace_string( string $string ) {
+	return Plugin::class . '\\' . $string;
 }
