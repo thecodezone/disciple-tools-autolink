@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 1.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-26T16:08:58+00:00\n"
+"POT-Creation-Date: 2024-02-20T16:56:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,14 +17,17 @@ msgstr ""
 "X-Domain: disciple-tools-autolink\n"
 
 #. Plugin Name of the plugin
+#: disciple-tools-autolink.php
 msgid "Disciple.Tools - Autolink"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: disciple-tools-autolink.php
 msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
 msgstr ""
 
 #. Description of the plugin
+#: disciple-tools-autolink.php
 msgid ""
 "Provides a simplified interface for managing and visualizing your Disciple."
 "Tools network. Share access with your downstream leaders to easily build "
@@ -32,6 +35,7 @@ msgid ""
 msgstr ""
 
 #. Author URI of the plugin
+#: disciple-tools-autolink.php
 msgid "https://www.eastwest.org/"
 msgstr ""
 

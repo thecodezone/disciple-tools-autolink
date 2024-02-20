@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2023-10-26T16:08:58+00:00\n"
+"POT-Creation-Date: 2024-02-20T16:56:10+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:52-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -27,14 +27,17 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-3: *.js\n"
 
 #. Plugin Name of the plugin
+#: disciple-tools-autolink.php
 msgid "Disciple.Tools - Autolink"
 msgstr "चेला.उपकरण - स्वत: लिङ्क"
 
 #. Plugin URI of the plugin
+#: disciple-tools-autolink.php
 msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin
+#: disciple-tools-autolink.php
 msgid ""
 "Provides a simplified interface for managing and visualizing your Disciple."
 "Tools network. Share access with your downstream leaders to easily build "
@@ -44,6 +47,7 @@ msgstr ""
 "। तपाईंको समूह रूख सजिलै निर्माण गर्न तपाईंको डाउनस्ट्रीम नेताहरूसँग पहुँच साझेदारी गर्नुहोस्."
 
 #. Author URI of the plugin
+#: disciple-tools-autolink.php
 msgid "https://www.eastwest.org/"
 msgstr "https://www.eastwest.org/"
 
