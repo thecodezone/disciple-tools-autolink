@@ -6,14 +6,16 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
 "POT-Creation-Date: 2023-10-26T16:08:58+00:00\n"
-"PO-Revision-Date: 2023-08-16 18:02-0500\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-01-29 23:21+0000\n"
+"Last-Translator: Mike Allbutt <mikeallbutt@gmail.com>\n"
+"Language-Team: Spanish (Latin America) <https://translate.disciple.tools/"
+"projects/disciple-tools/disciple-tools-autolink/es_419/>\n"
 "Language: es_419\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.3.1\n"
 "X-Domain: disciple-tools-autolink\n"
 
 #. Plugin Name of the plugin
@@ -68,73 +70,67 @@ msgstr "Editar registro"
 
 #: charts/groups-genmap.php:102 controllers/admin-general.php:32
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: charts/groups-genmap.php:103
 msgid "Zoom In"
-msgstr ""
+msgstr "Acercarse"
 
 #: charts/groups-genmap.php:104
-#, fuzzy
-#| msgid "Log Out"
 msgid "Zoom Out"
-msgstr "Salir"
+msgstr "Alejarse"
 
 #: controllers/admin-general.php:25
 msgid "Training videos could not be loaded. Resetting to default content."
 msgstr ""
+"No se pudieron cargar los videos de capacitación. Restablecer el contenido "
+"predeterminado."
 
 #: controllers/admin-general.php:29
 msgid "Training Videos"
-msgstr ""
+msgstr "Videos de entrenamiento"
 
 #: controllers/admin-general.php:30
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: controllers/admin-general.php:31
 msgid "Embed"
-msgstr ""
+msgstr "Empotrar"
 
 #: controllers/admin-general.php:33
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: controllers/admin-general.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #: controllers/admin-general.php:35
-#, fuzzy
-#| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to reset the training videos to default content?"
-msgstr "¿Está seguro de que desea eliminar esto? "
+msgstr ""
+"¿Está seguro de que desea restablecer los vídeos de formación al contenido "
+"predeterminado?"
 
 #: controllers/admin-general.php:36
-#, fuzzy
-#| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to remove this video?"
-msgstr "¿Está seguro de que desea eliminar esto? "
+msgstr "¿Estás seguro de que quieres eliminar este video?"
 
 #: controllers/admin-general.php:37
 msgid "Up"
-msgstr ""
+msgstr "Arriba"
 
 #: controllers/admin-general.php:38
 msgid "Down"
-msgstr ""
+msgstr "Abajo"
 
 #: controllers/admin-general.php:108
-#, fuzzy
-#| msgid "Invalid group nesting."
 msgid "Invalid training videos."
-msgstr "Anidamiento de grupo no válido."
+msgstr "Vídeos de entrenamiento no válidos."
 
 #: controllers/app.php:34
-#, fuzzy
-#| msgid "My "
 msgid "My"
-msgstr "Mi "
+msgstr "Mi"
 
 #: controllers/app.php:35
 msgid "Church Start Date"
@@ -159,7 +155,7 @@ msgstr "Editar"
 
 #: controllers/app.php:40
 msgid "More"
-msgstr ""
+msgstr "Más"
 
 #: controllers/controller.php:22 magic-link/functions.php:80
 #: magic-link/functions.php:254
@@ -169,7 +165,7 @@ msgstr "Hola"
 #: controllers/controller.php:25 magic-link/functions.php:81
 #: magic-link/functions.php:257
 msgid "Coached by"
-msgstr "Entrenado por"
+msgstr "Discipulado por"
 
 #: controllers/controller.php:26 magic-link/functions.php:82
 #: magic-link/functions.php:258
@@ -199,7 +195,7 @@ msgstr "GenMap"
 
 #: controllers/controller.php:41 magic-link/functions.php:78
 msgid "Training"
-msgstr ""
+msgstr "Entrenamiento"
 
 #: controllers/group.php:73
 msgid "Create"
@@ -207,11 +203,11 @@ msgstr "Crear"
 
 #: controllers/group.php:83
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: controllers/group.php:198
 msgid "Select a"
-msgstr ""
+msgstr "Seleccione un"
 
 #: controllers/group.php:241
 msgid "Unauthorized action. Please refresh the page and try again."
@@ -223,11 +219,11 @@ msgstr "Volver a AutoLink"
 
 #: controllers/group.php:457
 msgid "Unauthorized"
-msgstr ""
+msgstr "No autorizado"
 
 #: controllers/group.php:472
 msgid "Could not fetch groups"
-msgstr ""
+msgstr "No se pudieron recuperar grupos"
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
@@ -235,47 +231,43 @@ msgstr "Se ha producido un error inesperado."
 
 #: controllers/tree.php:23
 msgid "Unassigned"
-msgstr ""
+msgstr "No asignado"
 
 #: controllers/tree.php:24
 msgid "Move these to the"
-msgstr ""
+msgstr "Muévalos a la"
 
 #: controllers/tree.php:24
 msgid "to assign them to a"
-msgstr ""
+msgstr "a asignarlos a un"
 
 #: controllers/tree.php:25
 msgid "Key"
-msgstr ""
+msgstr "Clabe"
 
 #: controllers/tree.php:26
 msgid "you are assigned"
-msgstr ""
+msgstr "estas asignado"
 
 #: controllers/tree.php:27
 msgid "assigned to those you coach"
-msgstr ""
+msgstr "asignado a aquellos a quienes entrenas"
 
 #: controllers/tree.php:28
-#, fuzzy
-#| msgid "are you leading?"
 msgid "you lead"
-msgstr "¿Estás liderando?"
+msgstr "tu lideras"
 
 #: controllers/tree.php:29
 msgid "Generation Number"
-msgstr ""
+msgstr "Número de generación"
 
 #: controllers/tree.php:30
 msgid "No "
-msgstr ""
+msgstr "No "
 
 #: disciple-tools-autolink.php:178
-#, fuzzy
-#| msgid "Autolink Home"
 msgid "Autolink"
-msgstr "Inicio de Autolink"
+msgstr "Enlace automático"
 
 #: magic-link/functions.php:73
 msgid "Add Magic"
