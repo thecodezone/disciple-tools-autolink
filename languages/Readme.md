@@ -2,4 +2,4 @@
 {translation-domain}-{localisation}.po
 
 ex:
-dt-plugin-fr_FR.po
+disciple-tools-autolink-fr_FR.po

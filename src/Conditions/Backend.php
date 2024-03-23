@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Plugin\Conditions;
+namespace DT\Autolink\Conditions;
 
-use DT\Plugin\CodeZone\Router\Conditions\Condition;
+use DT\Autolink\CodeZone\Router\Conditions\Condition;
 
 class Backend implements Condition {
 

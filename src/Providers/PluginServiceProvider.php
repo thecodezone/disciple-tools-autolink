@@ -1,13 +1,13 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
 
-use DT\Plugin\Illuminate\Filesystem\Filesystem;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Translation\FileLoader;
-use DT\Plugin\Illuminate\Translation\Translator;
-use DT\Plugin\Illuminate\Validation\Factory;
+use DT\Autolink\Illuminate\Filesystem\Filesystem;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Translation\FileLoader;
+use DT\Autolink\Illuminate\Translation\Translator;
+use DT\Autolink\Illuminate\Validation\Factory;
 
 class PluginServiceProvider extends ServiceProvider {
 	/**

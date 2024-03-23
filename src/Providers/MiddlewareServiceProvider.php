@@ -1,27 +1,27 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\CodeZone\Router;
-use DT\Plugin\CodeZone\Router\Middleware\DispatchController;
-use DT\Plugin\CodeZone\Router\Middleware\HandleErrors;
-use DT\Plugin\CodeZone\Router\Middleware\HandleRedirects;
-use DT\Plugin\CodeZone\Router\Middleware\Middleware;
-use DT\Plugin\CodeZone\Router\Middleware\Render;
-use DT\Plugin\CodeZone\Router\Middleware\Route;
-use DT\Plugin\CodeZone\Router\Middleware\Stack;
-use DT\Plugin\CodeZone\Router\Middleware\UserHasCap;
-use DT\Plugin\Middleware\LoggedIn;
-use DT\Plugin\Middleware\LoggedOut;
-use DT\Plugin\Middleware\MagicLink;
-use DT\Plugin\Middleware\Nonce;
-use function DT\Plugin\namespace_string;
+use DT\Autolink\CodeZone\Router;
+use DT\Autolink\CodeZone\Router\Middleware\DispatchController;
+use DT\Autolink\CodeZone\Router\Middleware\HandleErrors;
+use DT\Autolink\CodeZone\Router\Middleware\HandleRedirects;
+use DT\Autolink\CodeZone\Router\Middleware\Middleware;
+use DT\Autolink\CodeZone\Router\Middleware\Render;
+use DT\Autolink\CodeZone\Router\Middleware\Route;
+use DT\Autolink\CodeZone\Router\Middleware\Stack;
+use DT\Autolink\CodeZone\Router\Middleware\UserHasCap;
+use DT\Autolink\Middleware\LoggedIn;
+use DT\Autolink\Middleware\LoggedOut;
+use DT\Autolink\Middleware\MagicLink;
+use DT\Autolink\Middleware\Nonce;
+use function DT\Autolink\namespace_string;
 
 /**
  * Request middleware to be used in the request lifecycle.
  *
  * Class MiddlewareServiceProvider
- * @package DT\Plugin\Providers
+ * @package DT\Autolink\Providers
  */
 class MiddlewareServiceProvider extends ServiceProvider {
 	protected $middleware = [
@@ -37,7 +37,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'can'   => UserHasCap::class, // can:manage_dt
 		'guest' => LoggedOut::class,
 		'magic' => MagicLink::class,
-		'nonce' => Nonce::class,  // nonce:dt_plugin_nonce
+		'nonce' => Nonce::class,  // nonce:disciple_tools_autolink_nonce
 	];
 
 	/**
@@ -71,7 +71,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 			switch ( $name ) {
 				case 'magic':
 					$magic_link_name       = $signature;
-					$magic_link_class_name = $this->container->make( 'DT\Plugin\MagicLinks' )->get( $magic_link_name );
+					$magic_link_class_name = $this->container->make( 'DT\Autolink\MagicLinks' )->get( $magic_link_name );
 					if ( ! $magic_link_class_name ) {
 						throw new Exception( "Magic link not found: $magic_link_name" );
 					}

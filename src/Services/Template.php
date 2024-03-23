@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Plugin\Services;
+namespace DT\Autolink\Services;
 
-use function DT\Plugin\Kucrut\Vite\enqueue_asset;
-use function DT\Plugin\plugin_path;
-use function DT\Plugin\view;
+use function DT\Autolink\Kucrut\Vite\enqueue_asset;
+use function DT\Autolink\plugin_path;
+use function DT\Autolink\view;
 
 class Template {
 
@@ -35,7 +35,7 @@ class Template {
 			plugin_path( '/dist' ),
 			'resources/js/plugin.js',
 			[
-				'handle'    => 'dt_plugin',
+				'handle'    => 'disciple_tools_autolink',
 				'css-media' => 'all', // Optional.
 				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
 				'in-footer' => false, // Optional. Defaults to false.

@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Plugin\MagicLinks;
+namespace DT\Autolink\MagicLinks;
 
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Support\Str;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
-use function DT\Plugin\container;
-use const DT\Plugin\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
+use function DT\Autolink\container;
+use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 
 /**
@@ -23,7 +23,7 @@ class StarterMagicApp extends DT_Magic_Url_Base {
 	 *
 	 * @var string $page_title The value of the page title.
 	 */
-	public $page_title = 'DT Plugin - Magic Links - Starter Magic App';
+	public $page_title = 'Disciple.Tools - Autolink - Magic Links - Starter Magic App';
 
 	/**
 	 * Initializes the value of the page description.

@@ -1,9 +1,9 @@
 <?php
 
-namespace DT\Plugin;
+namespace DT\Autolink;
 
-use DT\Plugin\Illuminate\Container\Container;
-use DT\Plugin\Providers\PluginServiceProvider;
+use DT\Autolink\Illuminate\Container\Container;
+use DT\Autolink\Providers\PluginServiceProvider;
 
 /**
  * This is the entry-object for the plugin.
@@ -20,7 +20,7 @@ class Plugin {
 	 * The route for the plugin's home page
 	 * @var string
 	 */
-	const HOME_ROUTE = 'dt/plugin';
+	const HOME_ROUTE = 'dt/autolnk';
 
 	/**
 	 * The instance of the plugin
@@ -63,7 +63,7 @@ class Plugin {
 			$this->provider->boot();
 			$this->setup();
 		}, 20 );
-		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
+		add_filter( 'disciple_tools_autolinks', [ $this, 'disciple_tools_autolinks' ] );
 	}
 
 	/**
@@ -114,13 +114,13 @@ class Plugin {
 	 * Register the plugin with disciple.tools
 	 * @return array
 	 */
-	public function dt_plugins(): array {
+	public function disciple_tools_autolinks(): array {
 		$plugin_data = get_file_data( __FILE__, [
 			'Version'     => '0.0',
-			'Plugin Name' => 'DT Plugin',
+			'Plugin Name' => 'Disciple.Tools - Autolink',
 		], false );
 
-		$plugins['dt-plugin'] = [
+		$plugins['disciple-tools-autolink'] = [
 			'plugin_url' => trailingslashit( plugin_dir_url( __FILE__ ) ),
 			'version'    => $plugin_data['Version'] ?? null,
 			'name'       => $plugin_data['Plugin Name'] ?? null,

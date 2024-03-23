@@ -1,14 +1,14 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\CodeZone\Router;
-use DT\Plugin\CodeZone\Router\FastRoute\Routes;
-use DT\Plugin\CodeZone\Router\Middleware\Stack;
-use DT\Plugin\FastRoute\RouteCollector;
-use DT\Plugin\Illuminate\Http\Response;
-use function DT\Plugin\namespace_string;
-use function DT\Plugin\routes_path;
+use DT\Autolink\CodeZone\Router;
+use DT\Autolink\CodeZone\Router\FastRoute\Routes;
+use DT\Autolink\CodeZone\Router\Middleware\Stack;
+use DT\Autolink\FastRoute\RouteCollector;
+use DT\Autolink\Illuminate\Http\Response;
+use function DT\Autolink\namespace_string;
+use function DT\Autolink\routes_path;
 
 class RouterServiceProvider extends ServiceProvider {
 	/**

@@ -1,9 +1,9 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\CodeZone\Router\Middleware\Stack;
-use function DT\Plugin\namespace_string;
+use DT\Autolink\CodeZone\Router\Middleware\Stack;
+use function DT\Autolink\namespace_string;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -21,10 +21,10 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function register_menu(): void {
 		add_submenu_page( 'dt_extensions',
-			__( 'DT Plugin', 'dt_plugin' ),
-			__( 'DT Plugin', 'dt_plugin' ),
+			__( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ),
+			__( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ),
 			'manage_dt',
-			'dt_plugin',
+			'disciple_tools_autolink',
 			[ $this, 'register_router' ]
 		);
 	}

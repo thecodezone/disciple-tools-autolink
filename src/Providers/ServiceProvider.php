@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\Illuminate\Container\Container;
+use DT\Autolink\Illuminate\Container\Container;
 
 /**
  * Class ServiceProvider

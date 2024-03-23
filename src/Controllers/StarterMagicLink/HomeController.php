@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Plugin\Controllers\StarterMagicLink;
+namespace DT\Autolink\Controllers\StarterMagicLink;
 
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Http\Response;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Http\Response;
 use DT_Magic_URL;
-use function DT\Plugin\template;
+use function DT\Autolink\template;
 
 class HomeController {
 	public function show( Request $request, Response $response, $key ) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\PostTypes\StarterPostType;
+use DT\Autolink\PostTypes\StarterPostType;
 
 class PostTypeServiceProvider extends ServiceProvider {
 
@@ -39,12 +39,12 @@ class PostTypeServiceProvider extends ServiceProvider {
 	 */
 	public function dt_post_type_modules(): array {
 		$modules['starter_base'] = [
-			'name'          => __( 'Starter', 'dt-plugin' ),
+			'name'          => __( 'Starter', 'disciple-tools-autolink' ),
 			'enabled'       => true,
 			'locked'        => true,
 			'prerequisites' => [ 'contacts_base' ],
 			'post_type'     => 'starter_post_type',
-			'description'   => __( 'Default starter functionality', 'dt-plugin' )
+			'description'   => __( 'Default starter functionality', 'disciple-tools-autolink' )
 		];
 
 		return $modules;

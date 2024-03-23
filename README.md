@@ -1,4 +1,4 @@
-![Build Status](https://github.com/thecodezone/dt-plugin/actions/workflows/ci.yml/badge.svg?branch=master)
+![Build Status](https://github.com/thecodezone/disciple-tools-autolink/actions/workflows/ci.yml/badge.svg?branch=master)
 
 # Disciple.Tools - Plugin
 
@@ -7,7 +7,7 @@ __Kick start your Disciple.Tools plugin project with this template!__
 This plugin is a modern, opinionated plugin starter template inspired by Laravel.
 
 > **Tip:** You can safely delete this README.md file and replace it with your own. You can always view this readme
-> at [github.com/thecodezone/dt-plugin](https://github.com/thecodezone/dt-plugin).
+> at [github.com/thecodezone/disciple-tools-autolink](https://github.com/thecodezone/disciple-tools-autolink).
 
 ## Purpose
 
@@ -21,7 +21,7 @@ We strive to make Disciple.Tools plugin development not only accessible but also
 already well-versed in Laravel and Symfony frameworks.
 
 > **Are you a WordPress developer?** You may feel more at home using
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-plugin/).
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/disciple-tools-autolink/).
 
 ## Included
 
@@ -54,8 +54,8 @@ already well-versed in Laravel and Symfony frameworks.
 1. Sample magic link.
 
 > **Tip:** This starter plugin does not attempt to provide every component provided by
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-plugin/). See
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-plugin/) for
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/disciple-tools-autolink/). See
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/disciple-tools-autolink/) for
 > implementation examples of charts, tiles and other components.
 
 ### Getting Started
@@ -94,7 +94,7 @@ are used to provide multilingual support.
 Hard-coded strings should be wrapped in the `__()` function. For example:
 
 ```php
-__( 'Hello World!', 'dt-plugin' );
+__( 'Hello World!', 'disciple-tools-autolink' );
 ```
 
 #### Service Providers
@@ -172,14 +172,14 @@ See [Laravel Rules](https://laravel.com/docs/master/validation#available-validat
 ```php
 <?php
 
-namespace DT\Plugin\Controllers\Admin;
+namespace DT\Autolink\Controllers\Admin;
 
-use DT\Plugin\Illuminate\Http\RedirectResponse;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Http\Response;
-use function DT\Plugin\transaction;
-use function DT\Plugin\validate;
-use function DT\Plugin\view;
+use DT\Autolink\Illuminate\Http\RedirectResponse;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Http\Response;
+use function DT\Autolink\transaction;
+use function DT\Autolink\validate;
+use function DT\Autolink\view;
 
 
 class ExampleController {
@@ -206,7 +206,7 @@ class ExampleController {
 		] );
 
 		if ( count( $errors ) > 0 ) {
-			$error = __( 'Please complete the required fields.', 'dt-plugin' );
+			$error = __( 'Please complete the required fields.', 'disciple-tools-autolink' );
 		}
 
 		if ( ! $error ) {
@@ -217,14 +217,14 @@ class ExampleController {
 			} );
 
 			if ( $result !== true ) {
-				$error = __( 'The form could not be submitted.', 'dt-plugin' );
+				$error = __( 'The form could not be submitted.', 'disciple-tools-autolink' );
 			}
 		}
 
 
 		if ( $error ) {
 			return new RedirectResponse( 302, admin_url(
-					'/dt/plugin/example/?' . http_build_query( [
+					'/dt/autolnk/example/?' . http_build_query( [
 						'error'  => $error,
 						'fields' => $errors,
 					] )
@@ -232,7 +232,7 @@ class ExampleController {
 			);
 		}
 
-		return new RedirectResponse( 302, admin_url( '/dt/plugin/example/?&updated=true' ) );
+		return new RedirectResponse( 302, admin_url( '/dt/autolnk/example/?&updated=true' ) );
 	}
 }
 ```
@@ -360,8 +360,8 @@ vendor/bin/phpunit
  * @test
  */
 public function example_http_test() {
-    $response = $this->post( 'dt/plugin/api/page', ['someField' => 'value'], [
-        'X-WP-Nonce' => wp_create_nonce( 'dt_plugin' ),
+    $response = $this->post( 'dt/autolnk/api/page', ['someField' => 'value'], [
+        'X-WP-Nonce' => wp_create_nonce( 'disciple_tools_autolink' ),
     ] );
 
     $this->assertEquals( 200, $response->getStatusCode() );
@@ -377,11 +377,11 @@ public function example_http_test() {
 ## Contribution
 
 Contributions welcome. You can report issues and bugs in the
-[Issues](https://github.com/thecodezone/dt-plugin/issues) section of the repo. You can
+[Issues](https://github.com/thecodezone/disciple-tools-autolink/issues) section of the repo. You can
 present ideas
-in the [Discussions](https://github.com/thecodezone/dt-plugin/discussions) section of the
+in the [Discussions](https://github.com/thecodezone/disciple-tools-autolink/discussions) section of the
 repo. And
 code contributions are welcome using
-the [Pull Request](https://github.com/thecodezone/dt-plugin/pulls)
+the [Pull Request](https://github.com/thecodezone/disciple-tools-autolink/pulls)
 system for git. For a more details on contribution see the
-[contribution guidelines](https://github.com/thecodezone/dt-plugin/blob/master/CONTRIBUTING.md).
+[contribution guidelines](https://github.com/thecodezone/disciple-tools-autolink/blob/master/CONTRIBUTING.md).

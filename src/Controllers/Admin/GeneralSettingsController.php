@@ -1,13 +1,13 @@
 <?php
 
-namespace DT\Plugin\Controllers\Admin;
+namespace DT\Autolink\Controllers\Admin;
 
-use DT\Plugin\Illuminate\Http\RedirectResponse;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Http\Response;
-use function DT\Plugin\transaction;
-use function DT\Plugin\validate;
-use function DT\Plugin\view;
+use DT\Autolink\Illuminate\Http\RedirectResponse;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Http\Response;
+use function DT\Autolink\transaction;
+use function DT\Autolink\validate;
+use function DT\Autolink\view;
 
 
 class GeneralSettingsController {
@@ -16,8 +16,8 @@ class GeneralSettingsController {
 	 */
 	public function show( Request $request, Response $response ) {
 		$tab        = "general";
-		$link       = 'admin.php?page=dt_plugin&tab=';
-		$page_title = "DT Plugin Settings";
+		$link       = 'admin.php?page=disciple_tools_autolink&tab=';
+		$page_title = "Disciple.Tools - Autolink Settings";
 
 		return view( "settings/general", compact( 'tab', 'link', 'page_title' ) );
 	}
@@ -35,7 +35,7 @@ class GeneralSettingsController {
 		] );
 
 		if ( count( $errors ) > 0 ) {
-			$error = __( 'Please complete the required fields.', 'dt-plugin' );
+			$error = __( 'Please complete the required fields.', 'disciple-tools-autolink' );
 		}
 
 		if ( ! $error ) {
@@ -46,14 +46,14 @@ class GeneralSettingsController {
 			} );
 
 			if ( $result !== true ) {
-				$error = __( 'The form could not be submitted.', 'dt-plugin' );
+				$error = __( 'The form could not be submitted.', 'disciple-tools-autolink' );
 			}
 		}
 
 
 		if ( $error ) {
 			return new RedirectResponse( 302, admin_url(
-					'admin.php?page=dt_plugin&tab=general&' . http_build_query( [
+					'admin.php?page=disciple_tools_autolink&tab=general&' . http_build_query( [
 						'error'  => $error,
 						'fields' => $errors,
 					] )
@@ -61,6 +61,6 @@ class GeneralSettingsController {
 			);
 		}
 
-		return new RedirectResponse( 302, admin_url( 'admin.php?page=dt_plugin&tab=general&updated=true' ) );
+		return new RedirectResponse( 302, admin_url( 'admin.php?page=disciple_tools_autolink&tab=general&updated=true' ) );
 	}
 }

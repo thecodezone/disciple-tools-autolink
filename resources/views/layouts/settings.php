@@ -1,10 +1,10 @@
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'DT Plugin', 'dt_plugin' ) ?></h2>
+    <h2><?php $this->esc_html_e( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=dt_plugin&tab=general"
+        <a href="admin.php?page=disciple_tools_autolink&tab=general"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'General', 'dt_plugin' ) ?>
+			<?php $this->esc_html_e( 'General', 'disciple_tools_autolink' ) ?>
         </a>
     </h2>
 

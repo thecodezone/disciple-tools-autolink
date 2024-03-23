@@ -1,13 +1,13 @@
 <?php
 
-namespace DT\Plugin;
+namespace DT\Autolink;
 
 use CodeZone\Router;
-use DT\Plugin\Illuminate\Http\RedirectResponse;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Support\Str;
-use DT\Plugin\League\Plates\Engine;
-use DT\Plugin\Services\Template;
+use DT\Autolink\Illuminate\Http\RedirectResponse;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Support\Str;
+use DT\Autolink\League\Plates\Engine;
+use DT\Autolink\Services\Template;
 use Exception;
 
 /**
@@ -36,7 +36,7 @@ function container(): Illuminate\Container\Container {
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
 function plugin_url( string $path = '' ): string {
-	return plugins_url( 'dt-plugin' ) . '/' . ltrim( $path, '/' );
+	return plugins_url( 'disciple-tools-autolink' ) . '/' . ltrim( $path, '/' );
 }
 
 /**

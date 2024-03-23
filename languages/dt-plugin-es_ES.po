@@ -1,8 +1,8 @@
 # Copyright (C) 2022 
-# This file is distributed under the same license as the Disciple.Tools - DT Plugin plugin.
+# This file is distributed under the same license as the Disciple.Tools - Disciple.Tools - Autolink plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Disciple.Tools - DT Plugin 0.1\n"
+"Project-Id-Version: Disciple.Tools - Disciple.Tools - Autolink 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "plugin-starter-template\n"
 "POT-Creation-Date: 2022-10-27T10:12:56+00:00\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.14.1\n"
-"X-Domain: dt-plugin\n"
+"X-Domain: disciple-tools-autolink\n"
 
 #: charts/one-page-chart-template.php:68
 msgid "Sample API Call"
@@ -183,7 +183,7 @@ msgid "All"
 msgstr ""
 
 #: tile/custom-tile.php:32
-msgid "DT Plugin"
+msgid "Disciple.Tools - Autolink"
 msgstr ""
 
 #: tile/custom-tile.php:33

@@ -12,24 +12,24 @@
  * @see https://github.com/thecodezone/wp-router
  */
 
-use DT\Plugin\CodeZone\Router\FastRoute\Routes;
-use DT\Plugin\Controllers\Admin\GeneralSettingsController;
-use DT\Plugin\Controllers\HelloController;
-use DT\Plugin\Controllers\StarterMagicLink\HomeController;
-use DT\Plugin\Controllers\StarterMagicLink\SubpageController;
-use DT\Plugin\Controllers\UserController;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Symfony\Component\HttpFoundation\Response;
+use DT\Autolink\CodeZone\Router\FastRoute\Routes;
+use DT\Autolink\Controllers\Admin\GeneralSettingsController;
+use DT\Autolink\Controllers\HelloController;
+use DT\Autolink\Controllers\StarterMagicLink\HomeController;
+use DT\Autolink\Controllers\StarterMagicLink\SubpageController;
+use DT\Autolink\Controllers\UserController;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 
 $r->condition( 'plugin', function ( $r ) {
-	$r->group( 'dt/plugin', function ( Routes $r ) {
+	$r->group( 'dt/autolnk', function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 	} );
 
-	$r->group( 'dt/plugin/api', function ( Routes $r ) {
+	$r->group( 'dt/autolnk/api', function ( Routes $r ) {
 		$r->get( '/hello', [ HelloController::class, 'show' ] );
 		$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 	} );
@@ -38,12 +38,12 @@ $r->condition( 'plugin', function ( $r ) {
 $r->condition( 'backend', function ( Routes $r ) {
 	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
-			$r->get( '?page=dt_plugin', [ GeneralSettingsController::class, 'show' ] );
-			$r->get( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'show' ] );
+			$r->get( '?page=disciple_tools_autolink', [ GeneralSettingsController::class, 'show' ] );
+			$r->get( '?page=disciple_tools_autolink&tab=general', [ GeneralSettingsController::class, 'show' ] );
 
 			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
-				$r->post( '?page=dt_plugin', [ GeneralSettingsController::class, 'update' ] );
-				$r->post( '?page=dt_plugin&tab=general', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=disciple_tools_autolink', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=disciple_tools_autolink&tab=general', [ GeneralSettingsController::class, 'update' ] );
 			} );
 		} );
 	} );

@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Plugin\Middleware;
+namespace DT\Autolink\Middleware;
 
-use DT\Plugin\CodeZone\Router\Middleware\Middleware;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Symfony\Component\HttpFoundation\Response;
+use DT\Autolink\CodeZone\Router\Middleware\Middleware;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 class Nonce implements Middleware {
 	protected $nonce_name;

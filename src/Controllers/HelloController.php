@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Plugin\Controllers;
+namespace DT\Autolink\Controllers;
 
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Http\Response;
-use function DT\Plugin\template;
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Http\Response;
+use function DT\Autolink\template;
 
 /**
  * And example controller class.

@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\League\Plates\Engine;
-use DT\Plugin\Services\Plates\Escape;
-use function DT\Plugin\views_path;
+use DT\Autolink\League\Plates\Engine;
+use DT\Autolink\Services\Plates\Escape;
+use function DT\Autolink\views_path;
 
 /**
  * Register the plates view engine

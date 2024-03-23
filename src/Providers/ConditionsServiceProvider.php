@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Plugin\Providers;
+namespace DT\Autolink\Providers;
 
-use DT\Plugin\CodeZone\Router;
-use DT\Plugin\CodeZone\Router\Conditions\HasCap;
-use DT\Plugin\Conditions\Backend;
-use DT\Plugin\Conditions\Frontend;
-use DT\Plugin\Conditions\Plugin;
+use DT\Autolink\CodeZone\Router;
+use DT\Autolink\CodeZone\Router\Conditions\HasCap;
+use DT\Autolink\Conditions\Backend;
+use DT\Autolink\Conditions\Frontend;
+use DT\Autolink\Conditions\Plugin;
 
 class ConditionsServiceProvider extends ServiceProvider {
 	protected $conditions = [
