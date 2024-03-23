@@ -1,0 +1,30 @@
+{
+  "name": "Disciple.Tools - Autolink",
+  "version": "1.0.11",
+  "last_updated": "2023-09",
+  "author": "EastWest + CodeZone",
+  "author_homepage": "https://disciple.tools",
+  "git_owner": "DiscipleTools",
+  "git_repo": "disciple-tools-autolink",
+  "download_url": "https://github.com/thecodezone/disciple-tools-autolink/releases/latest/download/disciple-tools-autolink.zip",
+  "homepage": "https://github.com/thecodezone/disciple-tools-autolink",
+  "issues_url": "https://github.com/thecodezone/disciple-tools-autolink/issues",
+  "projects_url": "https://github.com/thecodezone/disciple-tools-autolink/projects/1",
+  "discussions_url": "https://github.com/thecodezone/disciple-tools-autolink/discussions",
+  "wiki_url": "https://github.com/thecodezone/disciple-tools-autolink/wiki",
+  "license_url": "https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/LICENSE",
+  "readme_url": "https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/README.md",
+  "requires": "4.7",
+  "tested": "5.7",
+  "upgrade_notice": "Upgrade to get the latest features.",
+  "banners": {
+    "low": "https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/banner.png",
+    "high": "https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/banner.png"
+  },
+  "icon": "https://raw.githubusercontent.com/thecodezone/disciple-tools-autolink/master/documentation/icon.png",
+  "sections": {
+    "description": "A simple user interface for users to add churches and groups into Disciple Tools.",
+    "installation": "(Required) You must have Disciple.Tools Theme installed before using this plugin. Once Disciple.Tools is installed, you can use the normal Plugin system to install the plugin.",
+    "changelog": ""
+  }
+}
