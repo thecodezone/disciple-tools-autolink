@@ -8,6 +8,7 @@ use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Support\Str;
 use DT\Autolink\League\Plates\Engine;
 use DT\Autolink\Services\Template;
+use DT\Autolink\Services\Options;
 use Exception;
 
 /**
@@ -237,4 +238,33 @@ function http(): HTTPFactory {
  */
 function namespace_string( string $string ) {
 	return Plugin::class . '\\' . $string;
+}
+
+/**
+ * Retrieves the value of an option from the options container.
+ *
+ * @param string $option The name of the option to retrieve.
+ * @param mixed $default Optional. The default value to return if the option does not exist. Defaults to false.
+ *
+ * @return mixed The value of the option if it exists, or the default value if it doesn't.
+ */
+function get_plugin_option( $option, $default = null, $required = false ) {
+	$options = container()->make( Options::class );
+
+	return $options->get( $option, $default, $required );
+}
+
+/**
+ * Sets the value of a plugin option.
+ *
+ * @param string $option The name of the option to set.
+ * @param mixed $value The value to set for the option.
+ *
+ * @return bool true if the option was successfully set; otherwise, false.
+ */
+
+function set_plugin_option( $option, $value ): bool {
+	$options = container()->make( Options::class );
+
+	return $options->set( $option, $value );
 }

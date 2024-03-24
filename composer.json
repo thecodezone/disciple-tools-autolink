@@ -5,7 +5,7 @@
   "license": "GNU",
   "autoload": {
     "psr-4": {
-      "DT\\Plugin\\": "src/"
+      "DT\\Autolink\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -39,7 +39,7 @@
   },
   "extra": {
     "wpify-scoper": {
-      "prefix": "DT\\Plugin",
+      "prefix": "DT\\Autolink",
       "folder": "vendor-scoped",
       "globals": [
         "wordpress"

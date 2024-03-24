@@ -3,6 +3,7 @@
 namespace DT\Autolink\Providers;
 
 use DT\Autolink\CodeZone\Router\Middleware\Stack;
+use DT\Autolink\Services\Assets;
 use function DT\Autolink\namespace_string;
 
 class AdminServiceProvider extends ServiceProvider {
@@ -20,13 +21,37 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_menu(): void {
-		add_submenu_page( 'dt_extensions',
-			__( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ),
-			__( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ),
+		$menu = add_submenu_page( 'dt_extensions',
+			__( 'Autolink', 'disciple_tools_autolink' ),
+			__( 'Autolink', 'disciple_tools_autolink' ),
 			'manage_dt',
 			'disciple_tools_autolink',
 			[ $this, 'register_router' ]
 		);
+
+		add_filter(namespace_string( 'settings_tabs' ), function ( $menu ) {
+			$menu[] = [
+				'label' => __( 'General', 'dt_home' ),
+				'tab' => 'general'
+			];
+
+			return $menu;
+		}, 10, 1);
+
+		add_action( 'load-' . $menu, [ $this, 'load' ] );
+	}
+
+	/**
+	 * Loads the necessary scripts and styles for the admin area.
+	 *
+	 * This method adds an action hook to enqueue the necessary JavaScript when on the admin area.
+	 * The JavaScript files are enqueued using the `admin_enqueue_scripts` action hook.
+	 *
+	 * @return void
+	 */
+	public function load(): void
+	{
+		$this->container->make( Assets::class )->enqueue();
 	}
 
 	/**
@@ -55,6 +80,12 @@ class AdminServiceProvider extends ServiceProvider {
 		 */
 		$plugins = [
 			[
+				'name'     => 'Disciple.Tools Home Screen',
+				'slug'     => 'dt-home',
+				'source'   => 'https://github.com/DiscipleTools/dt-home/releases/latest/download/dt-home.zip',
+				'required' => false,
+			],
+			[
 				'name'     => 'Disciple.Tools Dashboard',
 				'slug'     => 'disciple-tools-dashboard',
 				'source'   => 'https://github.com/DiscipleTools/disciple-tools-dashboard/releases/latest/download/disciple-tools-dashboard.zip',
@@ -71,7 +102,7 @@ class AdminServiceProvider extends ServiceProvider {
 				'slug'     => 'disciple-tools-autolink',
 				'source'   => 'https://github.com/DiscipleTools/disciple-tools-genmapper/releases/latest/download/disciple-tools-autolink.zip',
 				'required' => true,
-			],
+			]
 		];
 
 		/*

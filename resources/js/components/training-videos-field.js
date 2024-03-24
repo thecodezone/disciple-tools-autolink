@@ -2,7 +2,7 @@ import {html, css, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 
-@customElement('admin-training-videos-field')
+@customElement('dta-training-videos-field')
 export class TrainingVideosField extends LitElement {
     static styles = css`
       .button,

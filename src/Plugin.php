@@ -20,7 +20,7 @@ class Plugin {
 	 * The route for the plugin's home page
 	 * @var string
 	 */
-	const HOME_ROUTE = 'dt/autolnk';
+	const HOME_ROUTE = 'autolink';
 
 	/**
 	 * The instance of the plugin
@@ -63,7 +63,7 @@ class Plugin {
 			$this->provider->boot();
 			$this->setup();
 		}, 20 );
-		add_filter( 'disciple_tools_autolinks', [ $this, 'disciple_tools_autolinks' ] );
+		add_filter( 'disciple_tools_plugins', [ $this, 'disciple_tools_plugins' ] );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Plugin {
 	 * Register the plugin with disciple.tools
 	 * @return array
 	 */
-	public function disciple_tools_autolinks(): array {
+	public function disciple_tools_plugins(): array {
 		$plugin_data = get_file_data( __FILE__, [
 			'Version'     => '0.0',
 			'Plugin Name' => 'Disciple.Tools - Autolink',

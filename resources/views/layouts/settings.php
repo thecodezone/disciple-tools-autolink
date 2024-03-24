@@ -1,12 +1,18 @@
+<?php
+use function DT\Autolink\namespace_string;
+$nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
+?>
 <div class="wrap">
     <h2><?php $this->esc_html_e( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ) ?></h2>
 
-    <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=disciple_tools_autolink&tab=general"
-           class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'General', 'disciple_tools_autolink' ) ?>
-        </a>
-    </h2>
+    <div class="nav-tab-wrapper">
+      <?php foreach ( $nav as $index => $item ): ?>
+          <a href="admin.php?page=dt_home&tab=<?php echo $this->e( $item['tab'] ) ?>"
+             class="nav-tab <?php echo $this->esc_html( ( $tab == $item['tab'] || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
+        <?php echo $this->e( $item['label'] ) ?>
+          </a>
+      <?php endforeach; ?>
+    </div>
 
     <div class="wrap">
         <div id="poststuff">
@@ -18,7 +24,7 @@
 					<?php if ( $error ?? '' ): ?>
                         <div class="notice notice-error is-dismissible">
                             <p>
-								<?php $this->e( $error ) ?>
+								<?php echo $this->e( $error ) ?>
                             </p>
                         </div>
 					<?php endif; ?>

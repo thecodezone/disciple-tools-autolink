@@ -24,7 +24,6 @@ use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( $r ) {
 	$r->group( 'dt/autolnk', function ( Routes $r ) {
-		$r->get( '/hello', [ HelloController::class, 'show' ] );
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 	} );

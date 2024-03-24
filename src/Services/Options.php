@@ -1,31 +1,29 @@
 <?php
 
-class Disciple_Tools_Autolink_Settings {
-	public function __construct() {
-		$this->setup_options();
-	}
+namespace DT\Autolink\Services;
 
-	/**
-	 * Make sure all the options existing in the database
-	 * @return void
-	 */
-	protected function setup_options(): void {
-		foreach ( $this->defaults() as $key => $value ) {
-			if ( get_option( $key, 'MIA' ) === 'MIA' ) {
-				add_option( $key, $value );
-			}
-		}
-	}
+use function DT\Autolink\set_option;
 
+/**
+ * Class Options
+ *
+ * This class provides methods for retrieving options from the database.
+ * Keys are scoped to the plugin to avoid conflicts with other plugins.
+ * Default values may be provided for each option to avoid duplication.
+ */
+class Options {
 	/**
-	 * Return a map of the fields and their default values
-	 * @return array
+	 * Get the default values for the method.
+	 *
+	 * This method returns an associative array with the default values for various keys.
+	 *
+	 * @return array An associative array with the default values.
 	 */
-	public function defaults(): array {
+	private function defaults(): array {
 		return [
-			'disciple_tools_autolink_allow_parent_group_selection' => true,
-      'disciple_tools_autolink_show_in_menu'                 => true,
-			'disciple_tools_autolink_training_videos'              => json_encode( $this->localized_training_videos() )
+			'allow_parent_group_selection' => true,
+			'show_in_menu'                 => true,
+			'training_videos'              => json_encode( $this->localized_training_videos() )
 		];
 	}
 
@@ -93,13 +91,55 @@ class Disciple_Tools_Autolink_Settings {
 	}
 
 	/**
-	 * Get an option and fall back to the default if it doesn't exist
+	 * Determines the scope key for a given key.
 	 *
-	 * @param $name
+	 * @param string $key The key for which to determine the scope key.
 	 *
-	 * @return false|mixed
+	 * @return string The scope key for the given key.
 	 */
-	public function get_option( $name ) {
-		return get_option( $name, $this->defaults()[ $name ] );
+	public function scope_key( string $key ): string {
+		return "disciple_tools_autolink_{$key}";
+	}
+
+	/**
+	 * Retrieves the value of the specified option.
+	 *
+	 * @param string $key The key of the option to retrieve.
+	 * @param mixed|null $default The default value to return if the option is not found. Default is null.
+	 *
+	 * @return mixed The value of the option if found, otherwise returns the default value.
+	 */
+	public function get( string $key, mixed $default = null, $required = false ) {
+		if ( $default !== null ) {
+			$default = Arr::get( $this->defaults(), $key );
+		}
+
+		$key = $this->scope_key( $key );
+
+
+		$result = get_option( $key, $default );
+
+
+		if ( $required && ! $result ) {
+			set_plugin_option( $key, $default );
+
+			return $default;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Sets the value of the specified option.
+	 *
+	 * @param string $key The key of the option to set.
+	 * @param mixed $value The value to set for the option.
+	 *
+	 * @return bool Returns true if the option was set successfully, otherwise returns false.
+	 */
+	public function set( string $key, mixed $value ): bool {
+		$key = $this->scope_key( $key );
+
+		return set_option( $key, $value );
 	}
 }
