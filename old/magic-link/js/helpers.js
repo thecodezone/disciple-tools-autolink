@@ -1,4 +1,4 @@
-export const loaded = function (callback) {
+``export const loaded = function (callback) {
     if (document.readyState === 'complete') {
         callback();
     } else {
@@ -8,4 +8,4 @@ export const loaded = function (callback) {
             }
         }
     }
-}
+}``

@@ -63,6 +63,5 @@ class Disciple_Tools_Autolink_Login_Controller extends Disciple_Tools_Autolink_C
     public function logout( $params = [] ) {
         wp_logout();
         $this->functions->redirect_to_link();
-        exit;
     }
 }

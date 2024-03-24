@@ -1,16 +1,16 @@
 import {loaded} from "./js/helpers";
 
-import "./js/menu.js";
-import "./js/collapse";
-import "./js/church";
-import "./js/church-tile";
-import "./js/lazyReveal";
-import "./js/churchMenu";
-import "./js/church-health-field";
-import "./js/ajax-field";
-import "./js/groups-tree";
-import "./js/churches"
-import "./js/submit-button"
+import "../../resources/js/components/menu.js";
+import "../../resources/js/components/collapse";
+import "../../resources/js/components/church";
+import "../../resources/js/components/_church-tile";
+import "../../resources/js/components/_lazy-reveal";
+import "../../resources/js/components/churchMenu";
+import "../../resources/js/components/_church-health-field";
+import "../../resources/js/components/ajax-field";
+import "../../resources/js/components/groups-tree";
+import "../../resources/js/components/churches"
+import "../../resources/js/components/_submit-button"
 
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import "@shoelace-style/shoelace/dist/components/tab-group/tab-group.js";
@@ -18,12 +18,12 @@ import "@shoelace-style/shoelace/dist/components/tab/tab.js";
 import "@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js";
 
 
-import locationField from "./js/locationField";
+import _locationField from "../../resources/js/_locationField";
 
 loaded(() => {
     document.body.classList.add("dom-loaded");
 
-    document.querySelectorAll(".location-field").forEach(locationField);
+    document.querySelectorAll(".location-field").forEach(_locationField);
 
     //Event Listener to update the church count number when the user updated the input in the modal.
     document.addEventListener("change", (event) => {

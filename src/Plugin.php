@@ -59,18 +59,15 @@ class Plugin {
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
-		add_action( 'init', function () {
-			$this->provider->boot();
-			$this->setup();
-		}, 20 );
+		add_action( 'wp_loaded', [$this, 'wp_loaded'], 20 );
 		add_filter( 'disciple_tools_plugins', [ $this, 'disciple_tools_plugins' ] );
 	}
 
 	/**
-	 * Runs after init
+	 * Runs after_theme_setup
 	 * @return void
 	 */
-	public function setup(): void {
+	public function wp_loaded(): void {
 		if ( ! $this->is_dt_version() ) {
 			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 			add_action( 'wp_ajax_dismissed_notice_handler', [ $this, 'ajax_notice_handler' ] );

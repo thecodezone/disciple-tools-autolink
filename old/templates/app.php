@@ -22,7 +22,7 @@
             </div>
 
             <div class="churches__list">
-                <app-churches
+                <al-churches
                         translations='<?php echo esc_attr( wp_json_encode( $translations ) ); ?>'
                         posts='<?php echo esc_attr( wp_json_encode( $churches['posts'] ) ); ?>'
                         total="<?php echo esc_attr( $churches['total'] ) ?>"
@@ -30,7 +30,7 @@
                         fields='<?php echo esc_attr( wp_json_encode( $church_fields ) ); ?>'
                         limit='<?php echo esc_attr( wp_json_encode( $limit ) ); ?>'
                         countFields='<?php echo esc_attr( wp_json_encode( $church_count_fields ) ); ?>'
-                ></app-churches>
+                ></al-churches>
             </div>
         </div>
     </dt-tile>

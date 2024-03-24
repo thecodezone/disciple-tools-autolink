@@ -4,6 +4,7 @@ namespace DT\Autolink\Services;
 
 use function DT\Autolink\Kucrut\Vite\enqueue_asset;
 use function DT\Autolink\plugin_path;
+use function DT\Autolink\namespace_string;
 
 class Assets {
 	private static $enqueued = false;
@@ -20,14 +21,38 @@ class Assets {
 		self::$enqueued = true;
 
 		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ], 1000 );
 			add_action( 'admin_head', [ $this, 'cloak_style' ] );
 		} else {
-			add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 1000 );
 			add_action( "wp_head", [ $this, 'cloak_style' ] );
 		}
 	}
 
+	/**
+	 * Reset asset queue
+	 * @return void
+	 */
+	private function filter_asset_queue() {
+		global $wp_scripts;
+		global $wp_styles;
+
+    $whitelist = apply_filters( namespace_string( 'allowed_scripts' ), [] );
+		foreach ( $wp_scripts->registered as $script ) {
+			if ( in_array( $script->handle, $whitelist ) ) {
+			  continue;
+			}
+			wp_dequeue_script( $script->handle );
+		}
+
+	  $whitelist = apply_filters( namespace_string( 'allowed_styles' ), [] );
+		foreach ( $wp_styles->registered as $style ) {
+			if ( in_array( $script->handle, $whitelist ) ) {
+				continue;
+			}
+			wp_dequeue_style( $style->handle );
+		}
+	}
 
 	/**
 	 * Enqueues scripts and styles for the frontend.
@@ -39,7 +64,7 @@ class Assets {
 	 * @return void
 	 */
 	public function wp_enqueue_scripts() {
-		global $wp_scripts;
+	  $this->filter_asset_queue();
 		enqueue_asset(
 			plugin_path( '/dist' ),
 			'resources/js/plugin.js',

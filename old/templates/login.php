@@ -65,5 +65,3 @@
             <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
         </dt-button>
     </div>
-
-    <?php include 'parts/footer.php'; ?>

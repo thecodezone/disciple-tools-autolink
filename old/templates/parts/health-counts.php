@@ -17,7 +17,7 @@ $group = DT_Posts::get_post( 'groups', $church['ID'], false, false );
                     <span class="count__value"><?php echo esc_html( $group[ $key ] ?? 0 ); ?></span>
                 </div>
                 <span slot="content">
-                <app-church-health-field
+                <al-church-health-field
                         id="<?php echo esc_attr( 'groups_' . $church['ID'] . '_' . $key ); ?>"
                         name="<?php echo esc_attr( $key ); ?>"
                         icon="<?php echo esc_html( $field['icon'] ); ?>"
@@ -30,7 +30,7 @@ $group = DT_Posts::get_post( 'groups', $church['ID'], false, false );
                         min="0"
                         placeholder="0"
                         nonce=<?php echo esc_attr( wp_create_nonce( 'wp_rest' ) ); ?>
-                ></app-church-health-field>
+                ></al-church-health-field>
             </span>
             </dt-modal>
         </div>

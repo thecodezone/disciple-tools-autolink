@@ -53,12 +53,12 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
       </td>
       <td style="text-align: left;">
         <div style="max-width: 600px">
-          <dta-training-videos-field
+          <al-training-videos-field
             name="training_videos"
             value='<?php echo esc_attr( wp_json_encode(  $old['training_videos'] ) ) ?>'
             default='<?php echo esc_attr( wp_json_encode( $default_training_videos ) ) ?>'
             translations='<?php echo esc_attr( json_encode( $training_videos_translations ) ) ?>'
-          ></dta-training-videos-field>
+          ></al-training-videos-field>
         </div>
       </td>
     </tr>

@@ -1,1 +1,1 @@
-import "./components/training-videos-field.js"
+import "./components/_training-videos-field.js"

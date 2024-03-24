@@ -9,6 +9,7 @@ use DT\Autolink\Illuminate\Support\Str;
 use DT\Autolink\League\Plates\Engine;
 use DT\Autolink\Services\Template;
 use DT\Autolink\Services\Options;
+use DT_Magic_URL;
 use Exception;
 
 /**
@@ -267,4 +268,24 @@ function set_plugin_option( $option, $value ): bool {
 	$options = container()->make( Options::class );
 
 	return $options->set( $option, $value );
+}
+
+/**
+ * Generates a magic URL using the DT_Magic_URL class.
+ *
+ * @param string $action Optional. The action to be performed by the magic URL. If not specified, an empty string is used.
+ * @param string $key Optional. The key used for the magic URL. If not specified, the key is retrieved from the user's options.
+ *
+ * @return string The generated magic URL.
+ *               If the key is not specified and could not be retrieved from the user's options, 'settings' is returned.
+ */
+function magic_url( $action = '', $key = '' ) {
+	if ( ! $key ) {
+		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'autolink', 'app' ) );
+		if ( ! $key ) {
+			return 'settings';
+		}
+	}
+
+	return DT_Magic_URL::get_link_url( 'autolink', 'app', $key, $action );
 }

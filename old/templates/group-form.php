@@ -74,13 +74,13 @@
                             options='<?php echo esc_attr( json_encode( $leader_options ) ) ?>'
                     ></dt-tags>
 
-                    <ajax-field
+                    <al-ajax-field
                             callback="<?php echo esc_attr( $parent_group_field_callback ); ?>"
                             watch="leaders"
                             events="<?php echo esc_attr( wp_json_encode( [ 'change' ] ) ); ?>"
                             prefetch
                     >
-                    </ajax-field>
+                    </al-ajax-field>
 
                     <dt-date
                             format=""
@@ -104,10 +104,10 @@
 
 
                     <div class="buttons">
-                        <submit-button context="success"
+                        <al-groups-tree context="success"
                                        type="submit">
 							<?php echo esc_html( $submit_label ) ?>
-                        </submit-button>
+                        </al-groups-tree>
 
                         <dt-button context="link"
                                    href="<?php echo esc_url( $cancel_url ); ?>"

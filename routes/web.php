@@ -15,22 +15,40 @@
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
 use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\HelloController;
-use DT\Autolink\Controllers\StarterMagicLink\HomeController;
-use DT\Autolink\Controllers\StarterMagicLink\SubpageController;
+use DT\Autolink\Controllers\LoginController;
+use DT\Autolink\Controllers\MagicLink\HomeController;
+use DT\Autolink\Controllers\MagicLink\ShareController;
+use DT\Autolink\Controllers\MagicLink\SubpageController;
+use DT\Autolink\Controllers\MagicLink\TrainingController;
+use DT\Autolink\Controllers\RedirectController;
+use DT\Autolink\Controllers\RegisterController;
 use DT\Autolink\Controllers\UserController;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 
-$r->condition( 'plugin', function ( $r ) {
-	$r->group( 'dt/autolnk', function ( Routes $r ) {
-		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
-		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
+$r->condition( 'plugin', function ( Routes $r ) {
+	$r->get( 'autolink', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+
+	$r->group( 'autolink', function ( Routes $r ) {
+		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+		$r->get( '/register', [ RegisterController::class, 'register' ] );
+		$r->post( '/register', [ RegisterController::class, 'process' ] );
 	} );
 
-	$r->group( 'dt/autolnk/api', function ( Routes $r ) {
-		$r->get( '/hello', [ HelloController::class, 'show' ] );
-		$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+	$r->middleware( 'magic:autolink/app', function ( Routes $r ) {
+		$r->group( 'autolink/app/{key}', function ( Routes $r ) {
+			$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
+				$r->get( '', [ HomeController::class, 'show' ] );
+				$r->get( '/training', [ TrainingController::class, 'show' ] );
+				$r->get( '/logout', [ LoginController::class, 'logout' ] );
+			} );
+
+			$r->get( '/share', [ ShareController::class, 'show' ] );
+
+			$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+		} );
 	} );
 } );
 
@@ -45,15 +63,5 @@ $r->condition( 'backend', function ( Routes $r ) {
 				$r->post( '?page=disciple_tools_autolink&tab=general', [ GeneralSettingsController::class, 'update' ] );
 			} );
 		} );
-	} );
-} );
-
-$r->middleware( 'magic:starter/app', function ( Routes $r ) {
-	$r->group( 'starter/app/{key}', function ( Routes $r ) {
-		$r->get( '', [ HomeController::class, 'show' ] );
-
-		// Remember to add any magic link routes to the actions array in the magic link class,
-		// otherwise they will be blocked.
-		$r->get( '/subpage', [ SubpageController::class, 'show' ] );
 	} );
 } );
