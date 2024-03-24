@@ -1,5 +1,6 @@
 import {css, html, nothing} from "lit";
 import {Collapse} from "./_collapse.js";
+import { customElement } from "lit/decorators.js";
 
 @customElement("al-church-menu")
 export class ChurchMenu extends Collapse {
@@ -89,5 +90,3 @@ export class ChurchMenu extends Collapse {
         return nothing;
     }
 }
-
-window.customElements.define("al-church-menu", ChurchMenu);

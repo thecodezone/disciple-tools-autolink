@@ -1,4 +1,5 @@
 import { DtNumberField } from "@disciple.tools/web-components";
+import { customElement } from "lit/decorators.js";
 
 @customElement("al-church-health-field")
 export class ChurchHealthField extends DtNumberField {

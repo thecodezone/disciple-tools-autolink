@@ -112,7 +112,7 @@ class Assets {
 	public function cloak_style(): void {
 		?>
 		<style>
-            .autolink-cloak {
+            .al-cloak {
                 visibility: hidden;
             }
 		</style>

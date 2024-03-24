@@ -1,5 +1,6 @@
 import {html, css} from "lit";
 import {DtTile} from "@disciple.tools/web-components";
+import { customElement } from "lit/decorators.js";
 
 @customElement("al-church-tile")
 export class ChurchTile extends DtTile {

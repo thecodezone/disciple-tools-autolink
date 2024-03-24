@@ -1,7 +1,7 @@
 import { css, html, LitElement, nothing } from "lit";
 import { DtBase } from "@disciple.tools/web-components";
 import { styleMap } from "lit/directives/style-map.js";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 
 @customElement("al-lazy-reveal")
 export class LazyReveal extends DtBase {

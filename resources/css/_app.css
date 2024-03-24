@@ -14,15 +14,15 @@ body blockquote {
     font-family: var(--font-family);
 }
 
-.cloak {
+.al-cloak {
     visibility: hidden;
 }
 
-body.dom-loaded .cloak {
+body.dom-loaded .al-cloak {
     visibility: visible;
 }
 
-.app__wrapper {
+.al__wrapper {
     display: flex;
     min-height: calc(100% - 22px);
     flex-direction: column;

@@ -30,12 +30,14 @@ $this->layout( 'layouts/auth' );
                 <?php endif; ?>
 
                 <dt-text name="username"
+                         id="username"
                          placeholder="<?php esc_attr_e( 'Username or Email Address', 'disciple-tools-autolink' ); ?>"
                          value="<?php echo esc_attr( $username ); ?>"
                          required
                          tabindex="1"
                 ></dt-text>
                 <dt-text name="password"
+                         id="password"
                          placeholder="<?php esc_attr_e( 'Password', 'disciple-tools-autolink' ); ?>"
                          value="<?php echo esc_attr( $password ); ?>"
                          type="password"

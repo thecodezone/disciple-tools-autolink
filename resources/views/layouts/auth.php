@@ -1,5 +1,5 @@
-<div class="app__wrapper <?php echo esc_attr( $app_class ?? "al--default" ); ?>">
-	<div class="app__inner">
+<div class="al__wrapper <?php echo esc_attr( $app_class ?? "al--default" ); ?>">
+	<div class="al__inner">
 
 		<?php echo $this->section('content'); ?>
 
