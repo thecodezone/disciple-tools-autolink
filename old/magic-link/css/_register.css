@@ -1,9 +1,0 @@
-.register .logo {
-    display: flex;
-    justify-content: center;
-}
-
-.register .logo__image {
-    width: 100%;
-    max-width: 200px;
-}

@@ -4,6 +4,7 @@ namespace DT\Autolink\Controllers;
 
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\Plugin;
 use function DT\Autolink\redirect;
 use function DT\Autolink\template;
 use function DT\Autolink\plugin_url;
@@ -51,7 +52,7 @@ class LoginController {
 
 		wp_set_current_user( $user->ID );
 
-		return redirect( '/home' );
+		return redirect( "/autolink" );
 	}
 
 	/**
@@ -68,8 +69,8 @@ class LoginController {
 	 * @return Response The response object.
 	 */
 	public function login( $params = [] ) {
-		$register_url = '/home/register';
-		$form_action  = '/home/login';
+		$register_url = '/autolink/register';
+		$form_action  = '/autolink/login';
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';

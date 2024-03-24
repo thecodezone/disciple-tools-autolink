@@ -112,9 +112,9 @@ class Assets {
 	public function cloak_style(): void {
 		?>
 		<style>
-            .al-cloak {
-                visibility: hidden;
-            }
+        .al-cloak {
+            visibility: hidden;
+        }
 		</style>
 		<?php
 	}

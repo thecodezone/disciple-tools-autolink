@@ -55,20 +55,20 @@ class RegisterController {
 			return $this->register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] );
 		}
 
-		return redirect( '/home' );
+		return redirect( '/autolink' );
 	}
 
 	/**
 	 * Show the register template
 	 */
 	public function register( $params = [] ) {
-		$form_action = '/home/register';
-		$login_url   = '/home/login';
+		$form_action = '/autolink/register';
+		$login_url   = '/autolink/login';
 		$error       = $params['error'] ?? '';
 		$username    = $params['username'] ?? '';
 		$email       = $params['email'] ?? '';
 		$password    = $params['password'] ?? '';
-		$logo_path   = plugin_url( 'resources/img/logo-color.png' );
+		$logo_url   = plugin_url( 'resources/img/logo-color.png' );
 
 		return template( 'auth/register', [
 
@@ -77,7 +77,7 @@ class RegisterController {
 			'username'    => $username,
 			'email'       => $email,
 			'password'    => $password,
-			'logo_path'   => $logo_path,
+			'logo_url'   => $logo_url,
 			'error'       => $error
 		] );
 	}
