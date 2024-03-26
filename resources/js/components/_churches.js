@@ -4,16 +4,11 @@ import { customElement, property, query } from "lit/decorators.js";
 import {ref, createRef} from 'lit/directives/ref.js';
 import httpBuildQuery from 'http-build-query'
 import {keyed} from 'lit/directives/keyed.js';
+import { api_url, route_url } from "../_helpers.js";
 
 @customElement('al-churches')
 export class Churches extends DtBase {
     loadTriggerRef = createRef();
-
-    @property({type: Object})
-    translations = {};
-
-    @property({type: Object})
-    links = {};
 
     @property({type: String})
     content = "";
@@ -64,12 +59,10 @@ export class Churches extends DtBase {
      */
     fetch() {
         const {limit, posts} = this
-        let url = window.app.rest_base + window.magic.rest_namespace;
+        let url = api_url("groups")
         const method = "get"
         const params = httpBuildQuery({
-            '_wpnonce': window.app.nonce,
-            'parts': window.magic.parts,
-            'action': 'groups',
+            '_wpnonce': $autolink.nonce,
             limit,
             offset: posts.length
         })
@@ -96,6 +89,7 @@ export class Churches extends DtBase {
     connectedCallback() {
         super.connectedCallback();
         setTimeout(this.listenForScrolled.bind(this), 1)
+        this.fetch()
     }
 
     listenForScrolled() {
@@ -167,7 +161,8 @@ export class Churches extends DtBase {
     }
 
     renderGroup(group, opened) {
-        const {translations, fields, links} = this;
+        const { fields} = this;
+        const {translations} = $autolink
 
         return html`
             <al-church-tile class="church"
@@ -182,16 +177,16 @@ export class Churches extends DtBase {
                         ?opened="${opened}"></al-church>
                 <al-church-menu>
                     <dt-button context="primary"
-                               href="${links.view_group + "&post=" + group.ID}">
+                               href="${ route_url("groups/" + group.ID) }">
                         ${translations.view_group}
                     </dt-button>
-                    <dt-button context="primary" W
-                               href="${links.edit_group + "&post=" + group.ID}"
+                    <dt-button context="primary" 
+                               href="${ route_url("groups/" + group.ID + "/edit") }"
                     >
                         ${translations.edit_group}
                     </dt-button>
                     <dt-button context="alert"
-                               href="${links.delete_group + "&post=" + group.ID}"
+                               href="${ route_url("groups/" + group.ID + "/delete") }"
                                confirm="${translations.delete_group_confirm}">
                         ${translations.delete_group}
                     </dt-button>
@@ -201,7 +196,7 @@ export class Churches extends DtBase {
     }
 
     renderCounts(group) {
-        const {translations, countFields} = this;
+        const { countFields} = this;
 
         if (!Object.values(countFields).length) {
             return null
@@ -242,10 +237,8 @@ export class Churches extends DtBase {
                                 value="${value}"
                                 postType="groups"
                                 postId="${group.ID}"
-                                apiRoot="${window.app.apiRoot}"
                                 min="0"
-                                placeholder="0"
-                                nonce="${window.app.nonce}"/>
+                                placeholder="0"/>
                     </div>
                 </dt-modal>
             </div>`
@@ -260,7 +253,8 @@ export class Churches extends DtBase {
     }
 
     renderPagination() {
-        const {posts, total, translations, loading} = this;
+        const {posts, total, loading} = this;
+        const {translations} = $autolink
 
         if (posts.length >= total) {
             return
@@ -271,7 +265,7 @@ export class Churches extends DtBase {
                 <div ${ref(this.loadTriggerRef)} class="churches__pagination">
                     ${loading ? this.renderLoading()
                             : html`
-                                <dt-button context="primary">
+                                <dt-button context="primary" @click="${this.fetch.bind(this)}">
                                     ${translations.more}
                                 </dt-button>
                             `

@@ -1,4 +1,3 @@
-console.log('here')
 import "../css/plugin.css";
 
 import {loaded} from "./_helpers.js";

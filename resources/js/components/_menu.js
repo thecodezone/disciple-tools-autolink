@@ -86,7 +86,7 @@ export class AppMenu extends DtBase {
             <nav class="menu">
                 <a
                         @click=${() => this.toggle()}
-                        title="${app.translations.toggle_menu}"
+                        title="${$autolink.translations.toggle_menu}"
                 >
                     <dt-icon class="menu__toggle" icon="${this.icon}"></dt-icon>
                 </a>
@@ -131,33 +131,33 @@ export class AppMenu extends DtBase {
                 <ul class="menu__list">
                     <li class="menu__item">
                         <a
-                                href="${app.urls.home}"
+                                href="${$autolink.urls.home}"
                                 class="menu__link"
-                                title="${app.translations.dt_nav_label}"
-                        >${app.translations.dt_nav_label}</a
+                                title="${$autolink.translations.dt_nav_label}"
+                        >${$autolink.translations.dt_nav_label}</a
                         >
                     </li>
                     <li class="menu__item">
                         <a
-                                href="${app.urls.survey}"
+                                href="${$autolink.urls.survey}"
                                 class="menu__link"
-                                title="${app.translations.survey_nav_label}"
-                        >${app.translations.survey_nav_label}</a
+                                title="${$autolink.translations.survey_nav_label}"
+                        >${$autolink.translations.survey_nav_label}</a
                         >
                     </li>
                     <li class="menu__item">
                         <a
-                                href="${app.urls.training}"
+                                href="${$autolink.urls.training}"
                                 class="menu__link"
-                                title="${app.translations.training_nav_label}"
-                        >${app.translations.training_nav_label}</a
+                                title="${$autolink.translations.training_nav_label}"
+                        >${$autolink.translations.training_nav_label}</a
                         >
                     <li class="menu__item">
                         <a
-                                href="${app.urls.logout}"
+                                href="${$autolink.urls.logout}"
                                 class="menu__link menu__link--logout"
-                                title="${app.translations.logout_nav_label}"
-                        >${app.translations.logout_nav_label}</a
+                                title="${$autolink.translations.logout_nav_label}"
+                        >${$autolink.translations.logout_nav_label}</a
                         >
                     </li>
                 </ul>
