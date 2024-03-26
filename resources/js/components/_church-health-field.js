@@ -1,5 +1,6 @@
 import { DtNumberField } from "@disciple.tools/web-components";
 import { customElement } from "lit/decorators.js";
+import { api_url } from "../_helpers.js";
 
 @customElement("al-church-health-field")
 export class ChurchHealthField extends DtNumberField {
@@ -18,7 +19,7 @@ export class ChurchHealthField extends DtNumberField {
   }
 
   get action() {
-    return window.app.rest_base + window.magic.rest_namespace;
+    return api_url("field");
   }
 
   async onChange(e) {
@@ -41,13 +42,11 @@ export class ChurchHealthField extends DtNumberField {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-WP-Nonce": this.nonce,
+          "X-WP-Nonce": $autolink.nonce,
         },
         body: JSON.stringify({
           id: this.id,
           value: e.target.value,
-          action: "update_field",
-          parts: window.magic.parts,
         }),
       };
 
@@ -55,11 +54,11 @@ export class ChurchHealthField extends DtNumberField {
         const response = await fetch(this.action, params);
         const body = await response.json();
 
-        if (body.data && body.data.status && body.data.status !== 200) {
+        if (response.status !== 200) {
+          alert(body.message);
           this.handleError(body.message);
-        } else if (body.success == false) {
-          this.handleError(body.data.message);
         }
+
       } catch (error) {
         this.handleError(error);
       }

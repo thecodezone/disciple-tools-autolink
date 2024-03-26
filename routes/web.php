@@ -15,6 +15,7 @@
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
 use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\AppController;
+use DT\Autolink\Controllers\FieldController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\Controllers\LoginController;
 use DT\Autolink\Controllers\RegisterController;
@@ -44,6 +45,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
 				$r->group("/api", function ( Routes $r ) {
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
+					$r->post( '/field', [ FieldController::class, 'update' ] );
 				});
 			});
 

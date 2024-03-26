@@ -347,6 +347,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 
 	public function autolink_health_fields( $fields ) {
 		return array_merge( [
+			'health_metrics',
 			'member_count',
 			'leader_count',
 			'believer_count',

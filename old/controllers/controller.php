@@ -16,7 +16,6 @@ abstract class Disciple_Tools_Autolink_Controller {
 	public function global_data() {
 		$data         = [];
 
-		$data['share_link']           = $this->functions->get_share_link();
 		$data['group_fields']         = DT_Posts::get_post_field_settings( 'groups' );
 		$data['create_group_link']    = $this->functions->get_create_group_url();
 		$data['edit_group_link']      = $this->functions->get_edit_group_url();

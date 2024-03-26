@@ -1,6 +1,7 @@
 import { css, html, nothing } from "lit";
 import { Collapse } from "./_collapse.js";
 import { customElement } from "lit/decorators.js";
+import { api_url } from "../_helpers.js";
 
 @customElement("al-church")
 export class Church extends Collapse {
@@ -72,26 +73,22 @@ export class Church extends Collapse {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-WP-Nonce": window.app.nonce,
+        "X-WP-Nonce": $autolink.nonce,
       },
       body: JSON.stringify({
         id: `groups_${group_id}_health_metrics`,
-        value: health_metrics,
-        action: "update_field",
-        parts: window.magic.parts,
+        value: health_metrics
       }),
     };
 
     const response = await fetch(
-      window.app.rest_base + window.magic.rest_namespace,
+      api_url("field"),
       params
     );
     const body = await response.json();
 
-    if (body.data && body.data.status && body.data.status !== 200) {
+    if (response.status !== 200) {
       throw new Error(body.message);
-    } else if (body.success == false) {
-      throw new Error(body.data.message);
     }
 
     return body;
