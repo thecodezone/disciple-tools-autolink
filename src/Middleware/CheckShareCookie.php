@@ -5,6 +5,7 @@ namespace DT\Autolink\Middleware;
 use DT\Autolink\CodeZone\Router\Middleware\Middleware;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
+use function DT\Autolink\namespace_string;
 
 /**
  * Class CheckShareCookie
@@ -27,8 +28,7 @@ class CheckShareCookie implements Middleware {
 		if ( ! is_user_logged_in() ) {
 			return $next( $request, $response );
 		}
-
-		$leader_id = $request->cookies->get( 'dt_autolink_share' );
+		$leader_id = $request->cookies->get( namespace_string( 'coached_by' ) );
 
 		if ( $leader_id ) {
 			try {
@@ -92,9 +92,10 @@ class CheckShareCookie implements Middleware {
 	 * @return void
 	 */
 	public function remove_cookie() {
-		if ( isset( $_COOKIE['dt_autolink_share'] ) ) {
-			unset( $_COOKIE['dt_autolink_share'] );
-			setcookie( 'dt_autolink_share', '', time() - 3600, '/' );
+		$cookie_name = namespace_string( 'coached_by' );
+		if ( isset( $_COOKIE[$cookie_name] ) ) {
+			unset( $_COOKIE[$cookie_name] );
+			setcookie( $cookie_name, '', time() - 3600, '/' );
 		};
 	}
 }

@@ -127,7 +127,7 @@ export class AjaxField extends DtBase {
             url = url.split( "?" )[0];
         }
 
-        params.set( "_wpnonce", window.app.nonce );
+        params.set( "_wpnonce", $autolink.nonce );
 
         const headers = new Headers();
         const endpoint = url + "?" + params;
@@ -188,7 +188,7 @@ export class AjaxField extends DtBase {
 
         if (loading) {
             return html`
-                <dt -spinner > < /dt -spinner >
+                <dt-spinner > </dt-spinner>
             `;
         }
 
@@ -198,7 +198,7 @@ export class AjaxField extends DtBase {
         }
 
         return html`
-            <slot > < /slot >`;
+            <slot></slot>`;
     }
 
     /**

@@ -34,8 +34,13 @@ $r->condition( 'plugin', function ( Routes $r ) {
 			$r->get( '', [ AppController::class, 'show' ] );
 			$r->get( '/training', [ TrainingController::class, 'show' ] );
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
+			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
+			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
 
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
+				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
+				$r->post( '/groups', [ GroupController::class, 'store' ] );
+				$r->post( '/groups/{group_id}', [ GroupController::class, 'update' ] );
 				$r->group("/api", function ( Routes $r ) {
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 				});
