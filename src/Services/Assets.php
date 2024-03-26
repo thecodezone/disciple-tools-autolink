@@ -2,9 +2,17 @@
 
 namespace DT\Autolink\Services;
 
+use DT\Autolink\Illuminate\Support\Str;
+use DT_Mapbox_API;
+use function DT\Autolink\group_label;
+use function DT\Autolink\groups_label;
 use function DT\Autolink\Kucrut\Vite\enqueue_asset;
+use function DT\Autolink\magic_url;
 use function DT\Autolink\plugin_path;
 use function DT\Autolink\namespace_string;
+use function DT\Autolink\plugin_url;
+use function DT\Autolink\route_url;
+use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 class Assets {
 	private static $enqueued = false;
@@ -54,6 +62,55 @@ class Assets {
 		}
 	}
 
+  private function whitelist_vite() {
+	  global $wp_scripts;
+	  global $wp_styles;
+
+    $scripts = [];
+    $styles = [];
+
+    foreach( $wp_scripts->registered as $script ) {
+      if ( $this->is_vite_asset( $script->handle ) ) {
+        $scripts[] = $script->handle;
+      }
+    }
+
+    add_filter( namespace_string( 'allowed_scripts' ), function( $allowed ) use ( $scripts ) {
+      return array_merge($allowed, $scripts);
+    });
+
+    foreach( $wp_styles->registered as $style ) {
+      if ( $this->is_vite_asset( $style->handle ) ) {
+        $styles[] = $style->handle;
+      }
+    }
+
+    add_filter( namespace_string( 'allowed_styles' ), function( $allowed ) use ( $styles ) {
+      return array_merge( $allowed, $styles );
+    });
+  }
+
+	/**
+	 * Determines if the given asset handle is allowed.
+	 *
+	 * This method checks if the provided asset handle is contained in the list of allowed handles.
+	 * Allows the Template script file and the Vite client script file for dev use.
+	 *
+	 * @param string $asset_handle The asset handle to check.
+	 *
+	 * @return bool True if the asset handle is allowed, false otherwise.
+	 */
+	private function is_vite_asset( $asset_handle ) {
+		if ( Str::contains( $asset_handle, [
+			'disciple-tools-autolink',
+			VITE_CLIENT_SCRIPT_HANDLE
+		] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Enqueues scripts and styles for the frontend.
 	 *
@@ -64,7 +121,6 @@ class Assets {
 	 * @return void
 	 */
 	public function wp_enqueue_scripts() {
-	  $this->filter_asset_queue();
 		enqueue_asset(
 			plugin_path( '/dist' ),
 			'resources/js/plugin.js',
@@ -75,6 +131,44 @@ class Assets {
 				'in-footer' => true, // Optional. Defaults to false.
 			]
 		);
+    $this->whitelist_vite();
+	  $this->filter_asset_queue();
+	  wp_localize_script( 'disciple-tools-autolink', '$autolink', [
+		  'nonce'        => wp_create_nonce( 'disciple-tools-autolink' ),
+      'map_key'      => DT_Mapbox_API::get_key(),
+      'urls'         => [
+        'root'           => esc_url_raw( trailingslashit( site_url() ) ),
+        'route'          => esc_url_raw( trailingslashit( route_url() ) ),
+        'plugin'           => esc_url_raw( trailingslashit( plugin_url() ) ),
+        'current'        => esc_url_raw( dt_get_url_path( true ) ),
+        'app'            => esc_url_raw( trailingslashit( magic_url() ) ),
+        'link'           => esc_url_raw( trailingslashit( magic_url( "share" ) ) ),
+        'survey'         => esc_url_raw( magic_url( "survey" ) ),
+        'logout'         => esc_url_raw( plugin_url( "logout" ) ),
+        'reset_password' => wp_lostpassword_url( plugin_url() ),
+        'training'       => esc_url_raw( magic_url( 'training' ) ),
+      ],
+      'translations' => [
+        'add'                => __( 'Add Magic', 'disciple-tools-autolink' ),
+        'dt_nav_label'       => __( 'Go to Disciple.Tools', 'disciple-tools-autolink' ),
+        'survey_nav_label'   => __( 'Update Survey Answers', 'disciple-tools-autolink' ),
+        'feedback_nav_label' => __( 'Give Feedback', 'disciple-tools-autolink' ),
+        'logout_nav_label'   => __( 'Log Out', 'disciple-tools-autolink' ),
+        'training_nav_label' => __( 'Training', 'disciple-tools-autolink' ),
+        'toggle_menu'        => __( 'Toggle Menu', 'disciple-tools-autolink' ),
+        'user_greeting,'     => __( 'Hello,', 'disciple-tools-autolink' ),
+        'coached_by'         => __( 'Coached by', 'disciple-tools-autolink' ),
+        'my_link'            => __( 'My Link', 'disciple-tools-autolink' ),
+        'my_churches'        => __( 'My Churches', 'disciple-tools-autolink' ),
+        'groups_heading'       => __( 'My', 'disciple-tools-autolink' ) . ' ' . groups_label(),
+        'start_date_label'     => __( 'Church Start Date', 'disciple-tools-autolink' ),
+        'view_group'           => __( 'View', 'disciple-tools-autolink' ) . ' ' . group_label(),
+        'delete_group'         => __( 'Delete', 'disciple-tools-autolink' ) . ' ' .group_label(),
+        'delete_group_confirm' => __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . strtolower( group_label() ) . '?',
+        'edit_group'           => __( 'Edit', 'disciple-tools-autolink' ) . ' ' . group_label(),
+        'more'                 => __( 'More', 'disciple-tools-autolink' )
+      ]
+    ] );
 	}
 
 	/**

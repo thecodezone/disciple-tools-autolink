@@ -41,6 +41,10 @@ function plugin_url( string $path = '' ): string {
 	return plugins_url( 'disciple-tools-autolink' ) . '/' . ltrim( $path, '/' );
 }
 
+function route_url( string $path = '' ): string {
+	return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ));
+}
+
 /**
  * Returns the path of a plugin file or directory, relative to the plugin directory.
  *
@@ -52,7 +56,7 @@ function plugin_path( string $path = '' ): string {
 	return '/' . implode( '/', [
 			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
 			trim( $path, '/' ),
-		] );
+    ] );
 }
 
 /**
@@ -233,7 +237,7 @@ function http(): HTTPFactory {
 /**
  * Concatenates the given string to the namespace of the Router class.
  *
- * @param string $string The string to be concatenated to the namespace.
+ * @param string $shelperstring The string to be concatenated to the namespace.
  *
  * @return string The result of concatenating the given string to the namespace of the Router class.
  */
@@ -287,5 +291,28 @@ function magic_url( $action = '', $key = '' ) {
 		}
 	}
 
-	return DT_Magic_URL::get_link_url( 'autolink', 'app', $key, $action );
+	return DT_Magic_URL::get_link_url( 'autolink', 'app', $key, trim( $action, "/" ) );
+}
+
+function logo_url() {
+	$logo_url        = plugin_url( 'resources/img/logo-color.png' );
+	$custom_logo_url = get_option( 'custom_logo_url' );
+	if ( ! empty( $custom_logo_url ) ) {
+		$logo_url = $custom_logo_url;
+	}
+
+	return $logo_url;
+}
+
+function group_labels() {
+	$post_type = get_post_type_object( 'groups' );
+	return get_post_type_labels( $post_type );
+}
+
+function groups_label() {
+	return group_labels()->name;
+}
+
+function group_label() {
+	return group_labels()->singular_name;
 }

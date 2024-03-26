@@ -1,9 +1,9 @@
 <?php
 /**
- * @var $logo_url string
  * @var $form_action string
  * @var $error string
  */
+use function DT\Autolink\logo_url;
 $this->layout( 'layouts/auth' );
 ?>
 
@@ -11,7 +11,7 @@ $this->layout( 'layouts/auth' );
     <dt-tile>
         <div class="section__inner">
             <div class="logo">
-                <img src="<?php echo esc_url( $logo_url ) ?>"
+                <img src="<?php echo esc_url( logo_url() ) ?>"
                      alt="Disciple.Tools"
                      class="logo__image">
             </div>

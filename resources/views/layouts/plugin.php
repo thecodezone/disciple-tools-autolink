@@ -1,15 +1,10 @@
-<header>
-    <h1><?php $this->esc_html_e( 'Plugin', 'disciple_tools_autolink' ); ?></h1>
-</header>
-
-<div>
-	<?php echo $this->section( 'content' ) ?>
+<div class="autolink  al-cloak <?php echo esc_attr( $app_class ?? "app--default" ); ?>">
+  <div class="autolink__inner">
+	  <?php
+      echo $this->section( 'content' )
+    ?>
+  </div>
+  <footer class="footer">
+    <p><?php esc_html_e( 'Powered by', 'disciple-tools-autolink' ) ?>  <a href="https://disciple.tools/">Disciple.Tools</a></p>
+  </footer>
 </div>
-
-<footer>
-    <p>
-		<?php $this->esc_html_e( 'Copyright ', 'disciple_tools_autolink' ); ?>
-
-		<?php echo $this->e( gmdate( 'Y' ) ); ?>
-    </p>
-</footer>
