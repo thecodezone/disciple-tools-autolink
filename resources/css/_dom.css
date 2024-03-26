@@ -4,4 +4,9 @@ body {
     height: 100%;
     background: #e2e2e2;
     color-scheme: light;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
 }
