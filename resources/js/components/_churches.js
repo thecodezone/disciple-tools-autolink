@@ -186,7 +186,7 @@ export class Churches extends DtBase {
                         ${translations.edit_group}
                     </dt-button>
                     <dt-button context="alert"
-                               href="${ route_url("groups/" + group.ID + "/delete") }"
+                               href="${ route_url("groups/" + group.ID + "/delete?_wpnonce=" + $autolink.nonce) }"
                                confirm="${translations.delete_group_confirm}">
                         ${translations.delete_group}
                     </dt-button>

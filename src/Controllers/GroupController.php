@@ -229,7 +229,7 @@ class GroupController {
 	 *
 	 * @return string The generated HTML for the parent group field.
 	 */
-	public function parent_group_field(Options $options) {
+	public function parent_group_field( Options $options ) {
 		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
 		$post_type    = get_post_type_object( 'groups' );
 		$group_labels = get_post_type_labels( $post_type );
@@ -379,7 +379,7 @@ class GroupController {
 								[ "value" => $contact_id ]
 							]
 						]
-					], true, false );
+                ], true, false );
 				$leaders[ $idx ] = $contact['ID'];
 				wp_publish_post( $contact['ID'] );
 			}
@@ -447,6 +447,45 @@ class GroupController {
 			] ) );
 		}
 
-		return redirect(route_url());
+		return redirect( route_url() );
+	}
+
+	/**
+	 * Delete a group
+	 */
+	public function destroy( Request $request, Response $response, $group_id ) {
+		$group_id = (int) $group_id;
+
+		$result = DT_Posts::delete_post( 'groups', $group_id, false );
+
+
+		if ( is_wp_error( $result ) ) {
+			return redirect( route_url( "?e=" . $result->get_error_message() ) );
+		}
+
+		return redirect( route_url() );
+	}
+
+	/**
+	 * Show the DT group in an iframe
+	 */
+	public function show( Request $request, Response $response, $group_id ) {
+		$post_id    = $group_id;
+		$back_link  = route_url();
+		$back_label = __( 'Back to AutoLink', 'disciple-tools-autolink' );
+
+		if ( ! $post_id || ! $back_link ) {
+			return redirect( route_url() );
+		}
+
+		$group = DT_Posts::get_post( 'groups', $post_id );
+
+		if ( is_wp_error( $group ) ) {
+			return redirect( route_url() );
+		}
+
+		$src = get_the_permalink( $group['ID'] );
+
+		return template("frame", compact('src', 'back_link', 'back_label'));
 	}
 }

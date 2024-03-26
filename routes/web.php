@@ -41,10 +41,13 @@ $r->condition( 'plugin', function ( Routes $r ) {
 				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
 				$r->post( '/groups', [ GroupController::class, 'store' ] );
 				$r->post( '/groups/{group_id}', [ GroupController::class, 'update' ] );
+				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
 				$r->group("/api", function ( Routes $r ) {
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 				});
 			});
+
+			$r->get( '/groups/{group_id}', [ GroupController::class, 'show' ] );
 		} );
 	} );
 

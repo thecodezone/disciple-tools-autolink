@@ -9,7 +9,7 @@ use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
 class AppController {
-	public function show( Request $request, Response $response, Options $options) {
+	public function show( Request $request, Response $response, Options $options ) {
 		$limit              = 10;
 		$churches           = \DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
@@ -30,9 +30,10 @@ class AppController {
 
 		$churches['total'] = $churches['total'] ?? 0;
 
-		$group_url = route_url('groups');
+		$group_url = route_url( 'groups' );
 
-		$error = $params['error'] ?? false;
+		$error = $request->input( 'e', false );
+
 		if ( is_wp_error( $churches ) ) {
 			$churches = [];
 		}
