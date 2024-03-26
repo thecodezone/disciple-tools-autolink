@@ -11,6 +11,7 @@ use DT\Autolink\CodeZone\Router\Middleware\Render;
 use DT\Autolink\CodeZone\Router\Middleware\Route;
 use DT\Autolink\CodeZone\Router\Middleware\Stack;
 use DT\Autolink\CodeZone\Router\Middleware\UserHasCap;
+use DT\Autolink\CodeZone\Router\Middleware\SetHeaders;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
@@ -31,6 +32,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		HandleErrors::class,
 		HandleRedirects::class,
 		Render::class,
+		SetHeaders::class,
 	];
 
 	protected $route_middleware = [

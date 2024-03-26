@@ -2,14 +2,14 @@
 
 namespace DT\Autolink\Providers;
 
-use DT\Autolink\MagicLinks\StarterMagicApp;
+use DT\Autolink\MagicLinks\App;
 use function DT\Autolink\collect;
 
 class MagicLinkServiceProvider extends ServiceProvider {
 	protected $container;
 
 	protected $magic_links = [
-		'starter/app' => StarterMagicApp::class,
+		'autolink/app' => App::class,
 	];
 
 	/**

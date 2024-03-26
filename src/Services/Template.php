@@ -2,8 +2,8 @@
 
 namespace DT\Autolink\Services;
 
-use function DT\Autolink\Kucrut\Vite\enqueue_asset;
-use function DT\Autolink\plugin_path;
+use DT\Autolink\CodeZone\Router;
+use DT\Autolink\Illuminate\Http\Response;
 use function DT\Autolink\view;
 
 class Template {
@@ -15,16 +15,6 @@ class Template {
 	 */
 	public function blank_access(): bool {
 		return true;
-	}
-
-	/**
-	 * Start with a blank template
-	 * @return void
-	 */
-	public function template_redirect(): void {
-		$path = get_theme_file_path( 'template-blank.php' );
-		include $path;
-		die();
 	}
 
 
@@ -45,13 +35,24 @@ class Template {
 	 * @return mixed
 	 */
 	public function render( $template, $data ) {
-		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
-		add_filter( 'dt_blank_access', [ $this, 'blank_access' ] );
-		add_action( 'dt_blank_head', [ $this, 'header' ] );
-		add_action( 'dt_blank_footer', [ $this, 'footer' ] );
+		add_action( Router\namespace_string( 'render' ), [ $this, 'render_response' ], 10, 2 );
+		add_filter( 'dt_blank_access', [ $this, 'blank_access' ], 11 );
+		add_action( 'dt_blank_head', [ $this, 'header' ], 11 );
+		add_action( 'dt_blank_footer', [ $this, 'footer' ], 11 );
 		$this->assets->enqueue();
 
 		return view()->render( $template, $data );
+	}
+
+	public function render_response( Response $response ) {
+		if ( apply_filters( 'dt_blank_access', false ) ) {
+			add_action( 'dt_blank_body', function () use ( $response ) {
+				// phpcs:ignore
+				echo $response->getContent();
+			}, 11 );
+		} else {
+			$response->send();
+		}
 	}
 
 	/**
