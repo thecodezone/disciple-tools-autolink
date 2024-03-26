@@ -16,14 +16,26 @@ use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 use function DT\Autolink\view;
 
+/**
+ * Ajax callback to get the parent group field.
+ * Renders when the leaders change.
+ *
+ * @param Request $request The request object.
+ * @param Response $response The response object.
+ * @param string $group_id The ID of the group.
+ *
+ * @return mixed The result of the edit operation.
+ */
 class GroupController {
 	/**
-	 * Performs an index operation.
+	 * Ajax callback to get the index of groups.
+	 * Retrieves a list of groups assigned to the current user.
 	 *
-	 * @param Request $request The request object.
-	 * @param Response $response The response object.
+	 * @param Request $request The HTTP request object.
+	 * @param Response $response The HTTP response object.
 	 *
-	 * @return mixed The result of the index operation.
+	 * @return false|array Returns an array containing the list of groups and the total count.
+	 *                    Each group may have additional formatted date information.
 	 */
 	public function index( Request $request, Response $response ) {
 		$limit  = $request->get( 'limit', 10 );
@@ -55,6 +67,14 @@ class GroupController {
 		return $result;
 	}
 
+	/**
+	 * Creates a new group.
+	 *
+	 * @param Request $request The HTTP request object.
+	 * @param Response $response The HTTP response object.
+	 *
+	 * @return mixed The result of the form method.
+	 */
 	public function create( Request $request, Response $response ) {
 		$params['action'] = route_url( '/groups' );
 
@@ -66,6 +86,18 @@ class GroupController {
 		return $this->form( $request, $response, $params );
 	}
 
+	/**
+	 * Edit method
+	 *
+	 * This method is responsible for editing a group. It retrieves the group details and populates the form with the
+	 * existing data. It then calls the 'form' method to render and display the form.
+	 *
+	 * @param Request $request The HTTP request object.
+	 * @param Response $response The HTTP response object.
+	 * @param int $group_id The ID of the group to edit.
+	 *
+	 * @return mixed The result of the 'form' method.
+	 */
 	public function edit( Request $request, Response $response, $group_id ) {
 		$params['action'] = route_url( '/groups/' . $group_id );
 
@@ -82,6 +114,15 @@ class GroupController {
 		return $this->form( $request, $response, $params );
 	}
 
+	/**
+	 * Creates or edits a form for a group.
+	 *
+	 * @param Request $request The request object.
+	 * @param Response $response The response object.
+	 * @param array $params An array of additional parameters (optional).
+	 *
+	 * @return string The rendered form template.
+	 */
 	private function form( Request $request, Response $response, $params = [] ) {
 		$group    = null;
 		$group_id = sanitize_key( wp_unslash( $_GET['post'] ?? $params['post'] ?? null ) );
@@ -182,9 +223,11 @@ class GroupController {
 	}
 
 	/**
-	 * Ajax callback to get the parent group field.
-	 * Renders when the leaders change.
-	 * @return false|void
+	 * Generates HTML for the parent group field.
+	 *
+	 * @param Options $options The options object.
+	 *
+	 * @return string The generated HTML for the parent group field.
 	 */
 	public function parent_group_field(Options $options) {
 		$group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
@@ -262,12 +305,30 @@ class GroupController {
 		return view( "groups/parent-group-field", compact( 'parent_group_options', 'parent_group', 'parent_group_label', 'allow_parent_group_selection', 'id', 'group', 'group_labels', 'group_fields' ) );
 	}
 
+	/**
+	 * Store method saves the data from the request into the database.
+	 *
+	 * @param Request $request The HTTP request object.
+	 * @param Response $response The HTTP response object.
+	 * @param array $params Optional. Additional parameters to be passed to the "process" method.
+	 *
+	 * @return mixed The result of the "process" method.
+	 */
 	public function store( Request $request, Response $response, $params = [] ) {
 		$params['action'] = route_url( '/groups' );
 
 		return $this->process( $request, $response, $params );
 	}
 
+	/**
+	 * Update method updates the data for a group in the database.
+	 *
+	 * @param Request $request The HTTP request object.
+	 * @param Response $response The HTTP response object.
+	 * @param int $group_id The ID of the group to be updated.
+	 *
+	 * @return mixed The result of the "process" method.
+	 */
 	public function update( Request $request, Response $response, $group_id ) {
 		$action           = route_url( '/groups/' . $group_id );
 		$params['action'] = $action;
