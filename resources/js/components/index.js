@@ -5,7 +5,7 @@ import "./_churches.js";
 import "./_church-health-field.js";
 import "./_church-tile.js";
 import "./_collapse.js";
-import "./_groups-tree.js";
+import "./_coaching-tree.js";
 import "./_lazy-reveal.js";
 import "./_menu.js";
 import "./_submit-button.js";

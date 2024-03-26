@@ -15,6 +15,7 @@
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
 use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\AppController;
+use DT\Autolink\Controllers\CoachingTreeController;
 use DT\Autolink\Controllers\FieldController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\Controllers\LoginController;
@@ -37,6 +38,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
 			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
 			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
+			$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
 
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
 				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
@@ -44,6 +46,8 @@ $r->condition( 'plugin', function ( Routes $r ) {
 				$r->post( '/groups/{group_id}', [ GroupController::class, 'update' ] );
 				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
 				$r->group("/api", function ( Routes $r ) {
+					$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
+					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 					$r->post( '/field', [ FieldController::class, 'update' ] );
 				});

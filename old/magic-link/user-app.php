@@ -73,7 +73,7 @@ class Disciple_Tools_Autolink_Magic_User_App extends DT_Magic_Url_Base {
 		if ( dt_is_rest() || $action === 'genmap'
 		                     && class_exists( 'DT_Genmapper_Metrics' ) ) {
 			require_once __DIR__ . "/../charts/groups-genmap.php";
-			new Disciple_Tools_Autolink_Genmap();
+			new GenmapChart();
 		}
 
 		/**

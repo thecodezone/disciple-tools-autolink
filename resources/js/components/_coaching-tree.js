@@ -2,12 +2,13 @@ import {html, css, LitElement} from "lit";
 import {classMap} from "lit/directives/class-map.js";
 import Sortable from 'sortablejs';
 import {customElement, property, query, queryAll} from "lit/decorators.js";
+import { api_url } from "../_helpers.js";
 
 /**
  * A component that renders a sortable tree of groups.
  */
-@customElement('al-groups-tree')
-export class GroupsTree extends LitElement {
+@customElement('al-coaching-tree')
+export class CoachingTree extends LitElement {
     sortableInstances = []
     @queryAll('.groups--sortable')
     sortables
@@ -341,7 +342,13 @@ export class GroupsTree extends LitElement {
         this.error = ''
         let result
         try {
-            result = await this.fetch('tree')
+            result = await fetch(api_url("coaching-tree"), {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'X-WP-Nonce': $autolink.nonce
+                }
+            })
         } catch (e) {
             this.loading = false
             this.error = e.message
@@ -396,27 +403,6 @@ export class GroupsTree extends LitElement {
                 })
             )
         });
-    }
-
-    /**
-     * Fetch data from the server.
-     * @param action
-     * @param data
-     * @returns {Promise<Response>}
-     */
-    fetch(action, data) {
-        return fetch(this.endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'X-WP-Nonce': window.app.nonce
-            },
-            body: JSON.stringify({
-                action,
-                parts: window.magic.parts,
-                data
-            })
-        })
     }
 
     /**
@@ -735,11 +721,19 @@ export class GroupsTree extends LitElement {
      */
     async saveParentConnection(id, oldParentId, newParentId) {
         try {
-            await this.fetch('onItemDrop', {
-                self: id,
-                new_parent: newParentId,
-                previous_parent: oldParentId
+            const result = await fetch(api_url("coaching-tree"), {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    'X-WP-Nonce': $autolink.nonce
+                },
+                body: JSON.stringify({
+                    self: id,
+                    new_parent: newParentId,
+                    previous_parent: oldParentId
+                })
             })
+            console.log(await result.json())
         } catch (e) {
             this.error = e.message
             console.error(e)

@@ -10,13 +10,8 @@
 */
 use function DT\Autolink\groups_label;
 use function DT\Autolink\route_url;
-$this->layout( 'layouts/app' );
+$this->layout( 'layouts/tool' );
 ?>
-
-<?php $this->push( 'top' ); ?>
-	<?php $this->insert( 'partials/greeting' ); ?>
-	<?php $this->insert( 'partials/tools-menu' ); ?>
-<?php $this->end(); ?>
 
 <div class="container">
 	<?php if ( !empty( $error ) ): ?>

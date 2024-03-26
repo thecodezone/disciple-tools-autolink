@@ -9,9 +9,9 @@ $action = $action ?? null;
 	           href="<?php echo esc_url( route_url() ); ?>">
 		<?php echo esc_html( __( "My ", 'disciple-tools-autolink' ) . groups_label() ); ?>
 	</dt-button>
-	<dt-button context="<?php echo $action === 'tree' ? 'primary' : 'inactive'; ?>"
-	           href="<?php echo esc_url( route_url( 'tree' ) ) ?>">
-		<?php echo esc_html( __( 'Tree', 'disciple-tools-autolink' ) ); ?>
+	<dt-button context="<?php echo $action === 'coaching-tree' ? 'primary' : 'inactive'; ?>"
+	           href="<?php echo esc_url( route_url( 'coaching-tree' ) ) ?>">
+		<?php echo esc_html( __( 'Coaching Tree', 'disciple-tools-autolink' ) ); ?>
 	</dt-button>
 	<?php if ( function_exists( 'dt_genmapper_metrics' ) ): ?>
 		<dt-button context="<?php echo $action === 'genmap' ? 'primary' : 'inactive'; ?>"

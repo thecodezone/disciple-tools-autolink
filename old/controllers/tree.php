@@ -1,5 +1,7 @@
 <?php
 
+use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\Illuminate\Http\Response;
 use jobs\DiscipleToolsAutolinkSaveTreeJob;
 
 class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Controller {
@@ -33,14 +35,20 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 		include __DIR__ . '/../templates/tree.php';
 	}
 
-	public function process( WP_REST_Request $request, $params, $user_id ) {
+	public function process( Request $request ) {
 		global $wpdb;
+
+		$user_id = get_current_user_id();
+		$params['data'] = $request->input();
+		return $params;
 
 		if ( ! isset( $params['data']['previous_parent'] ) ) {
 			$params['data']['previous_parent'] = 'root';
 		}
 		if ( ( ! isset( $params['data']['new_parent'] ) || ( ! isset( $params['data']['self'] ) ) ) ) {
-			return 'false';
+			return [
+				'success' => false,
+			];
 		}
 
 		$group     = DT_Posts::get_post( 'groups', $params['data']['self'], true, false );
@@ -48,7 +56,9 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 
 		if ( ! $new_group
 		     && ( (int) $group["assigned_to"]["id"] !== $user_id ) ) {
-			return "reload";
+			return [
+				'reload' => true,
+			];
 		}
 
 		$wpdb->query( "START TRANSACTION" );
@@ -67,7 +77,7 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 
 
 		if ( $params['data']['new_parent'] && $params['data']['new_parent'] !== 'root' ) {
-			$response = $wpdb->query( $wpdb->prepare(
+			$result = $wpdb->query( $wpdb->prepare(
 				"INSERT INTO $wpdb->p2p (p2p_from, p2p_to, p2p_type)
                     VALUES (%s, %s, 'groups_to_groups');
             ",
@@ -76,16 +86,20 @@ class Disciple_Tools_Autolink_Tree_Controller extends Disciple_Tools_Autolink_Co
 			) );
 
 
-			if ( ! $response ) {
+			if ( ! $result ) {
 				$wpdb->query( "ROLLBACK" );
 
-				return false;
+				return [
+					'success' => false,
+				];
 			}
 		}
 
 		$wpdb->query( "COMMIT" );
 
-		return true;
+		return [
+			'success' => true,
+		];
 	}
 
 	public function data( WP_REST_Request $request, $params, $user_id ) {
