@@ -23,7 +23,7 @@ class Options {
 		return [
 			'allow_parent_group_selection' => true,
 			'show_in_menu'                 => true,
-			'training_videos'              => json_encode( $this->localized_training_videos() )
+			'training_videos'              => json_encode( $this->localized_training_videos() ),
 		];
 	}
 
