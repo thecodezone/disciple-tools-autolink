@@ -68,7 +68,6 @@ class RegisterController {
 		$username    = $params['username'] ?? '';
 		$email       = $params['email'] ?? '';
 		$password    = $params['password'] ?? '';
-		$logo_url   = plugin_url( 'resources/img/logo-color.png' );
 
 		return template( 'auth/register', [
 
@@ -77,7 +76,6 @@ class RegisterController {
 			'username'    => $username,
 			'email'       => $email,
 			'password'    => $password,
-			'logo_url'   => $logo_url,
 			'error'       => $error
 		] );
 	}

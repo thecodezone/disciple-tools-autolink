@@ -74,7 +74,6 @@ class LoginController {
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
-		$logo_path    = plugin_url( 'resources/img/logo-color.png' );
 		$reset_url    = wp_lostpassword_url( plugin_url() );
 
 		return template( 'auth/login', [
@@ -82,7 +81,6 @@ class LoginController {
 			'form_action'  => $form_action,
 			'username'     => $username,
 			'password'     => $password,
-			'logo_path'    => $logo_path,
 			'reset_url'    => $reset_url,
 			'error'        => $error
 		] );
