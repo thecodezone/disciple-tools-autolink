@@ -8,8 +8,8 @@
  * @var array $limit
  * @var array $church_count_fields
 */
-use function DT\Autolink\magic_url;
 use function DT\Autolink\groups_label;
+use function DT\Autolink\route_url;
 $this->layout( 'layouts/app' );
 ?>
 
@@ -32,7 +32,7 @@ $this->layout( 'layouts/app' );
 				<h3><?php echo esc_attr( __( 'My ' . groups_label(), 'disciple-tools-autolink' ) ); ?></h3>
 				<dt-button class="churches__add"
 				           context="success"
-				           href="<?php echo esc_url( magic_url( '/groups/create' ) ) ?>"
+				           href="<?php echo esc_url( route_url( '/groups/create' ) ) ?>"
 				           rounded>
 					<dt-icon icon="ic:baseline-plus"></dt-icon>
 				</dt-button>

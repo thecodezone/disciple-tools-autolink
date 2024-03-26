@@ -7,11 +7,11 @@ use DT_Mapbox_API;
 use function DT\Autolink\group_label;
 use function DT\Autolink\groups_label;
 use function DT\Autolink\Kucrut\Vite\enqueue_asset;
-use function DT\Autolink\magic_url;
 use function DT\Autolink\plugin_path;
 use function DT\Autolink\namespace_string;
 use function DT\Autolink\plugin_url;
 use function DT\Autolink\route_url;
+use function DT\Autolink\share_url;
 use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 class Assets {
@@ -141,12 +141,11 @@ class Assets {
         'route'          => esc_url_raw( trailingslashit( route_url() ) ),
         'plugin'           => esc_url_raw( trailingslashit( plugin_url() ) ),
         'current'        => esc_url_raw( dt_get_url_path( true ) ),
-        'app'            => esc_url_raw( trailingslashit( magic_url() ) ),
-        'link'           => esc_url_raw( trailingslashit( magic_url( "share" ) ) ),
-        'survey'         => esc_url_raw( magic_url( "survey" ) ),
-        'logout'         => esc_url_raw( plugin_url( "logout" ) ),
+        'link'           => esc_url_raw( trailingslashit( share_url() ) ),
+        'survey'         => esc_url_raw( route_url( "survey" ) ),
+        'logout'         => esc_url_raw( route_url( "logout" ) ),
         'reset_password' => wp_lostpassword_url( plugin_url() ),
-        'training'       => esc_url_raw( magic_url( 'training' ) ),
+        'training'       => esc_url_raw( route_url( 'training' ) ),
       ],
       'translations' => [
         'add'                => __( 'Add Magic', 'disciple-tools-autolink' ),

@@ -2,7 +2,7 @@
 
 use DT\Autolink\Repositories\UserRepository;
 use function DT\Autolink\container;
-use function DT\Autolink\magic_url;
+use function DT\Autolink\share_url;
 
 $user_repository = container()->make( UserRepository::class );
 $user_name = $user_repository->display_name();
@@ -23,7 +23,7 @@ $coach_name = $user_repository->coach_name();
 	<dt-tile title="<?php echo esc_attr( __( 'My Link', 'disciple-tools-autolink' ) ); ?>"
 	         class="app__link">
 		<div class="section__inner">
-			<dt-copy-text value="<?php echo esc_attr( magic_url( "share" ) ); ?>" <?php language_attributes(); ?>></dt-copy-text>
+			<dt-copy-text value="<?php echo esc_url( share_url() ); ?>" <?php language_attributes(); ?>></dt-copy-text>
 			<span class="help-text cloak">
           <?php esc_html_e( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' ) ?>
       </span>

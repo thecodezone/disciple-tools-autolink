@@ -14,49 +14,36 @@
 
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
 use DT\Autolink\Controllers\Admin\GeneralSettingsController;
+use DT\Autolink\Controllers\AppController;
 use DT\Autolink\Controllers\GroupController;
-use DT\Autolink\Controllers\HelloController;
 use DT\Autolink\Controllers\LoginController;
-use DT\Autolink\Controllers\MagicLink\AppController;
-use DT\Autolink\Controllers\MagicLink\ShareController;
-use DT\Autolink\Controllers\MagicLink\SubpageController;
-use DT\Autolink\Controllers\MagicLink\TrainingController;
-use DT\Autolink\Controllers\RedirectController;
 use DT\Autolink\Controllers\RegisterController;
-use DT\Autolink\Controllers\UserController;
+use DT\Autolink\Controllers\TrainingController;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 
 $r->condition( 'plugin', function ( Routes $r ) {
-	$r->get( 'autolink', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
-
 	$r->group( 'autolink', function ( Routes $r ) {
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
 		$r->post( '/register', [ RegisterController::class, 'process' ] );
-	} );
 
-	$r->middleware( 'magic:autolink/app', function ( Routes $r ) {
-		$r->group( 'autolink/app/{key}', function ( Routes $r ) {
-			$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
-				$r->get( '', [ AppController::class, 'show' ] );
-				$r->get( '/training', [ TrainingController::class, 'show' ] );
-				$r->get( '/logout', [ LoginController::class, 'logout' ] );
-			} );
-
-			$r->get( '/share', [ ShareController::class, 'show' ] );
+		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
+			$r->get( '', [ AppController::class, 'show' ] );
+			$r->get( '/training', [ TrainingController::class, 'show' ] );
+			$r->get( '/logout', [ LoginController::class, 'logout' ] );
 
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
 				$r->group("/api", function ( Routes $r ) {
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 				});
 			});
-
-			$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 		} );
 	} );
+
+	$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 } );
 
 $r->condition( 'backend', function ( Routes $r ) {

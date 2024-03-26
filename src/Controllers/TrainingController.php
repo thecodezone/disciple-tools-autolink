@@ -1,6 +1,6 @@
 <?php
 
-namespace DT\Autolink\Controllers\MagicLink;
+namespace DT\Autolink\Controllers;
 
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;

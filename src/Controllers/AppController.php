@@ -1,18 +1,15 @@
 <?php
 
-namespace DT\Autolink\Controllers\MagicLink;
+namespace DT\Autolink\Controllers;
 
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;
 use DT\Autolink\Services\Options;
-use DT_Magic_URL;
-use function DT\Autolink\group_label;
-use function DT\Autolink\groups_label;
-use function DT\Autolink\magic_url;
+use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
 class AppController {
-	public function show( Request $request, Response $response, Options $options, $key ) {
+	public function show( Request $request, Response $response, Options $options) {
 		$limit              = 10;
 		$churches           = \DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
@@ -33,7 +30,7 @@ class AppController {
 
 		$churches['total'] = $churches['total'] ?? 0;
 
-		$group_url = magic_url('groups');
+		$group_url = route_url('groups');
 
 		$error = $params['error'] ?? false;
 		if ( is_wp_error( $churches ) ) {
@@ -73,7 +70,7 @@ class AppController {
 		return $response;
 	}
 
-	public function data( Request $request, Response $response, $key ) {
+	public function data( Request $request, Response $response ) {
 		$user = wp_get_current_user();
 		$data = [
 			'user_login' => $user->user_login,

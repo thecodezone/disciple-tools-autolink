@@ -283,15 +283,23 @@ function set_plugin_option( $option, $value ): bool {
  * @return string The generated magic URL.
  *               If the key is not specified and could not be retrieved from the user's options, 'settings' is returned.
  */
-function magic_url( $action = '', $key = '' ) {
-	if ( ! $key ) {
-		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'autolink', 'app' ) );
-		if ( ! $key ) {
-			return 'settings';
-		}
+function share_url() {
+	$current_user_id = get_current_user_id();
+	$record          = \DT_Posts::get_post( 'contacts', \Disciple_Tools_Users::get_contact_for_user( $current_user_id ), true, false );
+	$meta_key        = 'autolink_coached_by_magic_key';
+	if ( isset( $record[ $meta_key ] ) ) {
+		$key = $record[ $meta_key ];
+	} else {
+		$key = dt_create_unique_key();
+		update_post_meta( get_the_ID(), $meta_key, $key );
 	}
 
-	return DT_Magic_URL::get_link_url( 'autolink', 'app', $key, trim( $action, "/" ) );
+	return DT_Magic_URL::get_link_url_for_post(
+		'contacts',
+		$record['ID'],
+		'autolink',
+		'coached_by'
+	);
 }
 
 function logo_url() {

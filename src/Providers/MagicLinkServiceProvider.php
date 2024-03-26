@@ -2,14 +2,18 @@
 
 namespace DT\Autolink\Providers;
 
-use DT\Autolink\MagicLinks\App;
+use DT\Autolink\MagicLinks\CoachingLink;
+use DT\Autolink\MagicLinks\GroupLeaderLink;
+use DT\Autolink\MagicLinks\UserRedirect;
 use function DT\Autolink\collect;
 
 class MagicLinkServiceProvider extends ServiceProvider {
 	protected $container;
 
 	protected $magic_links = [
-		'autolink/app' => App::class,
+		'autolink/app' => UserRedirect::class,
+		'autolink/coached_by' => CoachingLink::class,
+		'autolink/group_leader' => GroupLeaderLink::class,
 	];
 
 	/**

@@ -19,14 +19,6 @@ export const route_url = ( path ) => {
   return `${$autolink.urls.route.replace(/\/$/, "").trim()}/${path.replace(/^\/|\/$/g, '').trim()}`
 }
 
-export const app_url = ( path ) => {
-  return  `${$autolink.urls.app.replace(/\/$/, "").trim()}/${path.replace(/^\/|\/$/g, '').trim()}`
-}
-
 export const api_url = ( path ) => {
-  return app_url("api/" + path)
-}
-
-export const magic_api_url = ( path ) => {
-  return app_url("api/" + path)
+  return route_url("api/" + path)
 }

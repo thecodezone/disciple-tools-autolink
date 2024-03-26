@@ -5,12 +5,12 @@ namespace DT\Autolink\MagicLinks;
 use DT_Magic_Url_Base;
 
 
-abstract class UserMagicApp extends DT_Magic_Url_Base {
+abstract class MagicApp extends DT_Magic_Url_Base {
 
-	public $page_title = 'Starter - Magic Links - User App';
-	public $page_description = 'User App - Magic Links.';
-	public $root = 'starter_magic_app';
-	public $type = 'starter_user_app';
+	public $page_title = 'Magic App';
+	public $page_description = 'Magic Link';
+	public $root = 'magic';
+	public $type = 'app';
 	public $post_type = 'user';
 	private $meta_key = '';
 	public $show_bulk_send = false;
@@ -76,6 +76,10 @@ abstract class UserMagicApp extends DT_Magic_Url_Base {
 		}
 
 		$this->boot();
+	}
+
+	public function add_endpoints() {
+		// Extend this function to add custom endpoints
 	}
 
 	abstract public function boot();
