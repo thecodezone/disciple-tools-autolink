@@ -18,7 +18,7 @@ class Template {
 	}
 
 
-	/**
+	/*
 	 * Render the header
 	 * @return void
 	 */

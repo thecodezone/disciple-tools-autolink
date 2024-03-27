@@ -77,7 +77,7 @@ class Assets {
 
     add_filter( namespace_string( 'allowed_scripts' ), function ( $allowed ) use ( $scripts ) {
 			  return array_merge( $allowed, $scripts );
-		});
+    });
 
 		foreach ( $wp_styles->registered as $style ) {
 			if ( $this->is_vite_asset( $style->handle ) ) {
@@ -87,7 +87,7 @@ class Assets {
 
     add_filter( namespace_string( 'allowed_styles' ), function ( $allowed ) use ( $styles ) {
 			  return array_merge( $allowed, $styles );
-		});
+    });
 	}
 
 	/**
@@ -133,40 +133,7 @@ class Assets {
 		);
     $this->whitelist_vite();
 	  $this->filter_asset_queue();
-    wp_localize_script( 'disciple-tools-autolink', '$autolink', [
-		  'nonce'        => wp_create_nonce( 'disciple-tools-autolink' ),
-        'map_key'      => DT_Mapbox_API::get_key(),
-        'urls'         => [
-        'root'           => esc_url_raw( trailingslashit( site_url() ) ),
-        'route'          => esc_url_raw( trailingslashit( route_url() ) ),
-        'plugin'           => esc_url_raw( trailingslashit( plugin_url() ) ),
-        'current'        => esc_url_raw( dt_get_url_path( true ) ),
-        'survey'         => esc_url_raw( route_url( "survey" ) ),
-        'logout'         => esc_url_raw( route_url( "logout" ) ),
-        'reset_password' => wp_lostpassword_url( plugin_url() ),
-        'training'       => esc_url_raw( route_url( 'training' ) ),
-        ],
-        'translations' => [
-        'add'                => __( 'Add Magic', 'disciple-tools-autolink' ),
-        'dt_nav_label'       => __( 'Go to Disciple.Tools', 'disciple-tools-autolink' ),
-        'survey_nav_label'   => __( 'Update Survey Answers', 'disciple-tools-autolink' ),
-        'feedback_nav_label' => __( 'Give Feedback', 'disciple-tools-autolink' ),
-        'logout_nav_label'   => __( 'Log Out', 'disciple-tools-autolink' ),
-        'training_nav_label' => __( 'Training', 'disciple-tools-autolink' ),
-        'toggle_menu'        => __( 'Toggle Menu', 'disciple-tools-autolink' ),
-        'user_greeting,'     => __( 'Hello,', 'disciple-tools-autolink' ),
-        'coached_by'         => __( 'Coached by', 'disciple-tools-autolink' ),
-        'my_link'            => __( 'My Link', 'disciple-tools-autolink' ),
-        'my_churches'        => __( 'My Churches', 'disciple-tools-autolink' ),
-        'groups_heading'       => __( 'My', 'disciple-tools-autolink' ) . ' ' . groups_label(),
-        'start_date_label'     => __( 'Church Start Date', 'disciple-tools-autolink' ),
-        'view_group'           => __( 'View', 'disciple-tools-autolink' ) . ' ' . group_label(),
-        'delete_group'         => __( 'Delete', 'disciple-tools-autolink' ) . ' ' .group_label(),
-        'delete_group_confirm' => __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . strtolower( group_label() ) . '?',
-        'edit_group'           => __( 'Edit', 'disciple-tools-autolink' ) . ' ' . group_label(),
-        'more'                 => __( 'More', 'disciple-tools-autolink' )
-        ]
-    ] );
+    wp_localize_script( 'disciple-tools-autolink', '$autolink', apply_filters( namespace_string( 'javascript_globals' ), [] ) );
 	}
 
 	/**

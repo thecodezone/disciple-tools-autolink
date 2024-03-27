@@ -5,7 +5,6 @@ namespace DT\Autolink\Controllers;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;
 use DT\Autolink\Repositories\SurveyRepository;
-use function DT\Autolink\groups_label;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
