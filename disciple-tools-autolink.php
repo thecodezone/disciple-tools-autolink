@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Disciple.Tools - Autolink
- * Plugin URI: https://github.com/DiscipleTools/disciple-tools-autolink
+ * Plugin URI: https://github.com/thecodezone/disciple-tools-autolink
  * Description: Provides a simplified interface for managing and visualizing your Disciple.Tools network. Share access with your downstream leaders to easily build your group tree.
  * Text Domain: disciple-tools-autolink
  * Domain Path: /languages
