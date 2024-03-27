@@ -2,6 +2,10 @@
 
 namespace DT\Autolink\Services\Charts;
 
+use DT\Autolink\Repositories\GroupTreeRepository;
+use function DT\Autolink\container;
+use function DT\Autolink\plugin_path;
+use function DT\Autolink\plugin_url;
 use function DT\Autolink\route_url;
 
 require_once WP_PLUGIN_DIR . '/disciple-tools-genmapper/includes/charts/charts-base.php';
@@ -31,9 +35,6 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 	 * Load scripts for the plugin
 	 */
 	public function scripts() {
-
-		$plugin_url            = plugins_url() . '/disciple-tools-autolink';
-		$plugin_path           = WP_PLUGIN_DIR . '/disciple-tools-autolink';
 		$genmapper_plugin_url  = plugins_url() . '/disciple-tools-genmapper';
 		$genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
@@ -43,7 +44,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		wp_register_script( 'd3', 'https://d3js.org/d3.v5.min.js', false, '5' );
 
 
-		$group_fields = DT_Posts::get_post_field_settings( "groups" );
+		$group_fields = \DT_Posts::get_post_field_settings( "groups" );
 		wp_enqueue_script( 'gen-template', $genmapper_plugin_url . "/includes/charts/church-circles/template.js", [
 			'jquery',
 			'jquery-ui-core',
@@ -58,17 +59,17 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 			]
 		);
 
-		wp_enqueue_script( 'dt_' . $this->slug . '_script', $plugin_url . '/magic-link/js/churchCirclesGenmap.js', [
+		wp_enqueue_script( 'dt_' . $this->slug . '_script', plugin_url( 'resources/js/church-circles-genmap.js' ), [
 			'jquery',
 			'genmapper',
-		], filemtime( $plugin_path . '/magic-link/js/churchCirclesGenmap.js' ), true );
+		], filemtime( plugin_path( 'resources/js/church-circles-genmap.js' ) ), true );
 
-		wp_enqueue_script( 'genmapper', $plugin_url . '/magic-link/js/genmapper.js', [
+		wp_enqueue_script( 'genmapper', plugin_url( 'resources/js/genmapper.js' ), [
 			'jquery',
 			'jquery-ui-core',
 			'd3',
 			'gen-template',
-		], filemtime( $plugin_path . '/magic-link/js/genmapper.js' ), true );
+		], filemtime( plugin_path( 'resources/js/genmapper.js' ) ), true );
 
 		wp_localize_script(
 			'genmapper', 'genApiTemplate', [
@@ -128,9 +129,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 	 *
 	 * @return array|WP_Error
 	 */
-	public function groups_tree( \WP_REST_Request $request ) {
-
-		$params = $request->get_params();
+	public function groups_tree( $params ) {
 
 		$groups    = \DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
@@ -149,7 +148,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				"name"     => "source",
 			],
 		];
-		$groups         = dt_autolink_queries()->tree( 'groups', $args );
+		$groups = container()->make(GroupTreeRepository::class)->tree( 'groups', $args );
 
 		if ( is_wp_error( $groups ) ) {
 			return $groups;

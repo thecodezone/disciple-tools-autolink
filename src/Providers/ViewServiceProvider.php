@@ -56,6 +56,7 @@ class ViewServiceProvider extends ServiceProvider {
 			$allowed_js[] = 'portal-app-domenu-js';
 			$allowed_js[] = 'google-search-widget';
 			$allowed_js[] = 'shared-functions';
+			$allowed_js[] = 'typeahead-jquery';
 			return $allowed_js;
 		} );
 	}

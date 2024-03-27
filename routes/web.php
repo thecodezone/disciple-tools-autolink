@@ -17,6 +17,7 @@ use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\AppController;
 use DT\Autolink\Controllers\CoachingTreeController;
 use DT\Autolink\Controllers\FieldController;
+use DT\Autolink\Controllers\GenMapController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\Controllers\LoginController;
 use DT\Autolink\Controllers\RegisterController;
@@ -39,7 +40,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
 			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
 			$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
-
+			$r->get( '/genmap', [ GenMapController::class, 'show' ] );
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
 				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
 				$r->post( '/groups', [ GroupController::class, 'store' ] );
@@ -50,6 +51,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 					$r->post( '/field', [ FieldController::class, 'update' ] );
+					$r->get( '/genmap', [ GenMapController::class, 'index' ] );
 				});
 			});
 

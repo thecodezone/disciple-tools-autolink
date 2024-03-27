@@ -272,7 +272,6 @@ class genmapper {
     }
 
     openRecord(d) {
-        console.log("here");
         let id = d.data.id;
         let url = genApiTemplate.app_url;
         let query = `?action=group&post=${id}&return=${window.location.href}`;
@@ -350,7 +349,6 @@ class genmapper {
         const node = this.gNodes.selectAll(".node").data(this.nodes.descendants());
 
         node.enter().text(function (d) {
-            console.log(d);
         });
 
         node.exit().remove();
@@ -764,7 +762,6 @@ class genmapper {
      */
     validTree(parsedCsv) {
         const treeTest = d3.tree();
-        console.log(parsedCsv)
         const stratifiedDataTest = d3.stratify()(parsedCsv);
         treeTest(stratifiedDataTest);
     }

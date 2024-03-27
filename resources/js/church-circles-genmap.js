@@ -37,40 +37,43 @@
          * Groups
          */
         let group_search_input = $(".js-typeahead-groups");
-        $.typeahead({
-            input: ".js-typeahead-groups",
-            minLength: 0,
-            accent: true,
-            searchOnFocus: true,
-            maxItem: 20,
-            template: function (query, item) {
-                return `<span>${window.lodash.escape(item.name)}</span>`;
-            },
-            source: TYPEAHEADS.typeaheadSource(
-                "groups",
-                "dt-posts/v2/groups/compact/"
-            ),
-            display: "name",
-            templateValue: "{{name}}",
-            dynamic: true,
-            callback: {
-                onClick: function (node, a, item, event) {
-                    //genmapper.rebaseOnNodeID( item.ID ) //disabled because of possibility of multiple parents
-                    get_groups(item.ID);
+        if (group_search_input.length) {
+            $.typeahead({
+                input: ".js-typeahead-groups",
+                minLength: 0,
+                accent: true,
+                searchOnFocus: true,
+                maxItem: 20,
+                template: function (query, item) {
+                    return `<span>${window.lodash.escape(item.name)}</span>`;
                 },
-                onResult: function (node, query, result, resultCount) {
-                    let text = TYPEAHEADS.typeaheadHelpText(resultCount, query, result);
-                    $("#groups-result-container").html(text);
+                source: TYPEAHEADS.typeaheadSource(
+                  "groups",
+                  "dt-posts/v2/groups/compact/"
+                ),
+                display: "name",
+                templateValue: "{{name}}",
+                dynamic: true,
+                callback: {
+                    onClick: function (node, a, item, event) {
+                        //genmapper.rebaseOnNodeID( item.ID ) //disabled because of possibility of multiple parents
+                        get_groups(item.ID);
+                    },
+                    onResult: function (node, query, result, resultCount) {
+                        let text = TYPEAHEADS.typeaheadHelpText(resultCount, query, result);
+                        $("#groups-result-container").html(text);
+                    },
+                    onHideLayout: function () {
+                        $("#groups-result-container").html("");
+                    },
+                    onCancel(node, item, event) {
+                        get_groups();
+                        event.preventDefault();
+                    },
                 },
-                onHideLayout: function () {
-                    $("#groups-result-container").html("");
-                },
-                onCancel(node, item, event) {
-                    get_groups();
-                    event.preventDefault();
-                },
-            },
-        });
+            });
+        }
+
 
         $("#reset_tree").on("click", function () {
             group_search_input.val("");
@@ -87,9 +90,9 @@
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    url: `${localizedObject.root}dt/v1/autolink/group-tree?node=${group}`,
+                    url: $autolink.urls.route + `api/genmap/?node=${group}`,
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader("X-WP-Nonce", localizedObject.nonce);
+                        xhr.setRequestHeader("X-WP-Nonce", $autolink.nonce);
                     },
                 })
                 .fail(function (err) {
@@ -97,8 +100,8 @@
                 })
                 .then((e) => {
                     loading_spinner.removeClass("active");
-                    genmapper.importJSON(e, group === null);
-                    genmapper.origPosition(true);
+                    window.genmapper.importJSON(e, group === null);
+                    window.genmapper.origPosition(true);
                 });
         });
     }
