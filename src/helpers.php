@@ -328,6 +328,14 @@ function magic_url( $root, $type, $id ): string {
 }
 
 
+/**
+ * Retrieves the URL for the logo image.
+ *
+ * By default, the method returns the URL for the plugin's logo image located in the resources/img directory.
+ * However, if a custom logo URL is set via the 'custom_logo_url' option, that URL will be returned instead.
+ *
+ * @return string The URL for the logo image.
+ */
 function logo_url() {
 	$logo_url        = plugin_url( 'resources/img/logo-color.png' );
 	$custom_logo_url = get_option( 'custom_logo_url' );
@@ -338,15 +346,30 @@ function logo_url() {
 	return $logo_url;
 }
 
+/**
+ * Retrieve the labels for the "groups" post type.
+ *
+ * @return object The labels for the "groups" post type.
+ */
 function group_labels() {
 	$post_type = get_post_type_object( 'groups' );
 	return get_post_type_labels( $post_type );
 }
 
+/**
+ * Returns the label of the groups.
+ *
+ * @return string The label of the groups.
+ */
 function groups_label() {
 	return group_labels()->name;
 }
 
+/**
+ * Returns the singular name of the group label.
+ *
+ * @return string The singular name of the group label.
+ */
 function group_label() {
 	return group_labels()->singular_name;
 }
