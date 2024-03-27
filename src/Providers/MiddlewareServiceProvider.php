@@ -17,6 +17,7 @@ use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
 use DT\Autolink\Middleware\Nonce;
+use DT\Autolink\Middleware\SurveyCompleted;
 use function DT\Autolink\namespace_string;
 
 /**
@@ -36,12 +37,13 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	];
 
 	protected $route_middleware = [
-		'auth'  => LoggedIn::class,
-		'can'   => UserHasCap::class, // can:manage_dt
+		'auth' => LoggedIn::class,
+		'can' => UserHasCap::class, // can:manage_dt
 		'guest' => LoggedOut::class,
 		'magic' => MagicLink::class,
 		'nonce' => Nonce::class,  // nonce:disciple_tools_autolink_nonce
 		'check_share' => CheckShareCookie::class,
+		'survey' => SurveyCompleted::class
 	];
 
 	/**

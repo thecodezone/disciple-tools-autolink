@@ -5,7 +5,7 @@
       action="<?php echo esc_url( $action ); ?>"
       method="POST">
 
-    <?php wp_nonce_field( 'dt_autolink_survey' ); ?>
+    <?php wp_nonce_field( 'disciple-tools-autolink' ); ?>
 
     <dt-tile title="<?php echo esc_attr( $question['label'] ); ?>"
              class="question">
@@ -21,8 +21,7 @@
 
             <div class="question__pagination">
                 <?php if ( $previous_url ) : ?>
-                    <dt-button type="submit"
-                               class="pagination__previous"
+                    <dt-button class="pagination__previous"
                                href="<?php echo esc_url( $previous_url ) ?>"
                                rounded>
                         <dt-icon icon="mdi:chevron-left"></dt-icon>

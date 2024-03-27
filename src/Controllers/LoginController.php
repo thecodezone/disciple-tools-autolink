@@ -96,6 +96,6 @@ class LoginController {
 	public function logout( $params = [] ) {
 		wp_logout();
 
-		return redirect( '/home/login' );
+		return redirect( '/autolink/login' );
 	}
 }

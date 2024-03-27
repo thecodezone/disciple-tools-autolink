@@ -21,6 +21,7 @@ use DT\Autolink\Controllers\GenMapController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\Controllers\LoginController;
 use DT\Autolink\Controllers\RegisterController;
+use DT\Autolink\Controllers\SurveyController;
 use DT\Autolink\Controllers\TrainingController;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
@@ -34,18 +35,25 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/register', [ RegisterController::class, 'process' ] );
 
 		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
-			$r->get( '', [ AppController::class, 'show' ] );
-			$r->get( '/training', [ TrainingController::class, 'show' ] );
+			$r->middleware('survey', function ( Routes $r ) {
+				$r->get( '', [ AppController::class, 'show' ] );
+				$r->get( '/training', [ TrainingController::class, 'show' ] );
+				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
+				$r->get( '/genmap', [ GenMapController::class, 'show' ] );
+			});
+
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
 			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
 			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
-			$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
-			$r->get( '/genmap', [ GenMapController::class, 'show' ] );
+			$r->get( '/survey', [ SurveyController::class, 'show' ] );
+			$r->get( '/survey/{page}', [ SurveyController::class, 'show' ] );
+
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
 				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
 				$r->post( '/groups', [ GroupController::class, 'store' ] );
 				$r->post( '/groups/{group_id}', [ GroupController::class, 'update' ] );
 				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
+				$r->post( '/survey/{page}', [ SurveyController::class, 'update' ] );
 				$r->group("/api", function ( Routes $r ) {
 					$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
 					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );

@@ -62,33 +62,33 @@ class Assets {
 		}
 	}
 
-  private function whitelist_vite() {
-	  global $wp_scripts;
-	  global $wp_styles;
+	private function whitelist_vite() {
+		global $wp_scripts;
+		global $wp_styles;
 
-    $scripts = [];
-    $styles = [];
+	  $scripts = [];
+	  $styles = [];
 
-    foreach( $wp_scripts->registered as $script ) {
-      if ( $this->is_vite_asset( $script->handle ) ) {
-        $scripts[] = $script->handle;
-      }
-    }
+		foreach ( $wp_scripts->registered as $script ) {
+			if ( $this->is_vite_asset( $script->handle ) ) {
+				$scripts[] = $script->handle;
+			}
+		}
 
-    add_filter( namespace_string( 'allowed_scripts' ), function( $allowed ) use ( $scripts ) {
-      return array_merge($allowed, $scripts);
-    });
+    add_filter( namespace_string( 'allowed_scripts' ), function ( $allowed ) use ( $scripts ) {
+			  return array_merge( $allowed, $scripts );
+		});
 
-    foreach( $wp_styles->registered as $style ) {
-      if ( $this->is_vite_asset( $style->handle ) ) {
-        $styles[] = $style->handle;
-      }
-    }
+		foreach ( $wp_styles->registered as $style ) {
+			if ( $this->is_vite_asset( $style->handle ) ) {
+				$styles[] = $style->handle;
+			}
+		}
 
-    add_filter( namespace_string( 'allowed_styles' ), function( $allowed ) use ( $styles ) {
-      return array_merge( $allowed, $styles );
-    });
-  }
+    add_filter( namespace_string( 'allowed_styles' ), function ( $allowed ) use ( $styles ) {
+			  return array_merge( $allowed, $styles );
+		});
+	}
 
 	/**
 	 * Determines if the given asset handle is allowed.
@@ -133,21 +133,20 @@ class Assets {
 		);
     $this->whitelist_vite();
 	  $this->filter_asset_queue();
-	  wp_localize_script( 'disciple-tools-autolink', '$autolink', [
+    wp_localize_script( 'disciple-tools-autolink', '$autolink', [
 		  'nonce'        => wp_create_nonce( 'disciple-tools-autolink' ),
-      'map_key'      => DT_Mapbox_API::get_key(),
-      'urls'         => [
+        'map_key'      => DT_Mapbox_API::get_key(),
+        'urls'         => [
         'root'           => esc_url_raw( trailingslashit( site_url() ) ),
         'route'          => esc_url_raw( trailingslashit( route_url() ) ),
         'plugin'           => esc_url_raw( trailingslashit( plugin_url() ) ),
         'current'        => esc_url_raw( dt_get_url_path( true ) ),
-        'link'           => esc_url_raw( trailingslashit( share_url() ) ),
         'survey'         => esc_url_raw( route_url( "survey" ) ),
         'logout'         => esc_url_raw( route_url( "logout" ) ),
         'reset_password' => wp_lostpassword_url( plugin_url() ),
         'training'       => esc_url_raw( route_url( 'training' ) ),
-      ],
-      'translations' => [
+        ],
+        'translations' => [
         'add'                => __( 'Add Magic', 'disciple-tools-autolink' ),
         'dt_nav_label'       => __( 'Go to Disciple.Tools', 'disciple-tools-autolink' ),
         'survey_nav_label'   => __( 'Update Survey Answers', 'disciple-tools-autolink' ),
@@ -166,7 +165,7 @@ class Assets {
         'delete_group_confirm' => __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . strtolower( group_label() ) . '?',
         'edit_group'           => __( 'Edit', 'disciple-tools-autolink' ) . ' ' . group_label(),
         'more'                 => __( 'More', 'disciple-tools-autolink' )
-      ]
+        ]
     ] );
 	}
 
