@@ -68,7 +68,7 @@ class Plugin {
 		static::$instance = $this;
 		$this->provider->register();
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
-		add_filter( 'disciple_tools_plugins', [ $this, 'disciple_tools_plugins' ] );
+		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
 		add_action( 'init', [ $this, 'rewrite_rules' ] );
 		add_action( 'query_vars', [ $this, 'query_vars' ] );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], );
@@ -177,7 +177,7 @@ class Plugin {
 	 * Register the plugin with disciple.tools
 	 * @return array
 	 */
-	public function disciple_tools_plugins(): array {
+	public function dt_plugins(): array {
 		$plugin_data = get_file_data( __FILE__, [
 			'Version'     => "1.1.0",
 			'Plugin Name' => 'Disciple.Tools - Autolink',
