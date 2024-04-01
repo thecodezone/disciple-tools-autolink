@@ -43,8 +43,8 @@ $r->condition( 'plugin', function ( Routes $r ) {
 			});
 
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
-			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
-			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
+			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'form' ] );
+			$r->get( '/groups/create', [ GroupController::class, 'form' ] );
 			$r->get( '/survey', [ SurveyController::class, 'show' ] );
 			$r->get( '/survey/{page}', [ SurveyController::class, 'show' ] );
 

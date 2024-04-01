@@ -1,4 +1,5 @@
 import "../css/plugin.css";
+import "foundation-sites/dist/js/foundation";
 
 import {loaded} from "./_helpers.js";
 

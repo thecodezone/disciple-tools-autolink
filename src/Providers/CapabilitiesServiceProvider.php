@@ -39,7 +39,7 @@ class CapabilitiesServiceProvider extends ServiceProvider {
 	 *
 	 * @return array The updated capabilities.
 	 */
-	public function user_has_cap( $all, $cap, $args ) {
+	public function user_has_cap( $all_caps, $cap, $args ) {
 
 		// Add some capabilities to the user if this is a plugin route.
 		if ( $this->container->make( IsPlugin::class )->test() ) {

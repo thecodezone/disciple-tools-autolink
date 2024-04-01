@@ -2,6 +2,7 @@
 
 namespace DT\Autolink\Services;
 
+use Disciple_Tools_Google_Geocode_API;
 use DT\Autolink\Illuminate\Support\Str;
 use DT_Mapbox_API;
 use function DT\Autolink\group_label;
@@ -16,6 +17,33 @@ use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 class Assets {
 	private static $enqueued = false;
+
+	public function enqueue_mapbox( $post_id, $post ) {
+		DT_Mapbox_API::load_mapbox_header_scripts();
+		DT_Mapbox_API::load_mapbox_search_widget();
+
+    wp_dequeue_script( 'mapbox-search-widget' );
+    wp_enqueue_script( 'mapbox-search-widget', plugin_url( '/resources/js/mapbox-search-widget.js' ), [ 'disciple-tools-autolink' ], null, true );
+		wp_localize_script(
+            'mapbox-search-widget', 'dtMapbox', [
+            'post_type'      => 'groups',
+            'post_id'        => $post_id ?? 0,
+            'post'           => $post ?? false,
+            'map_key'        => DT_Mapbox_API::get_key(),
+            'mirror_source'  => dt_get_location_grid_mirror( true ),
+            'google_map_key' => ( class_exists( 'Disciple_Tools_Google_Geocode_API' ) && Disciple_Tools_Google_Geocode_API::get_key() ) ? Disciple_Tools_Google_Geocode_API::get_key() : false,
+            'spinner_url'    => get_stylesheet_directory_uri() . '/spinner.svg',
+            'theme_uri'      => get_stylesheet_directory_uri(),
+            'translations'   => [
+			  'add'             => __( 'add', 'disciple_tools' ),
+			  'use'             => __( 'Use', 'disciple_tools' ),
+			  'search_location' => __( 'Search Location', 'disciple_tools' ),
+			  'delete_location' => __( 'Delete Location', 'disciple_tools' ),
+			  'open_mapping'    => __( 'Open Mapping', 'disciple_tools' ),
+			  'clear'           => __( 'Clear', 'disciple_tools' )
+            ]
+		] );
+	}
 
 	/**
 	 * Register method to add necessary actions for enqueueing scripts and adding cloaked styles
@@ -77,7 +105,7 @@ class Assets {
 
     add_filter( namespace_string( 'allowed_scripts' ), function ( $allowed ) use ( $scripts ) {
 			  return array_merge( $allowed, $scripts );
-    });
+		});
 
 		foreach ( $wp_styles->registered as $style ) {
 			if ( $this->is_vite_asset( $style->handle ) ) {
@@ -87,7 +115,7 @@ class Assets {
 
     add_filter( namespace_string( 'allowed_styles' ), function ( $allowed ) use ( $styles ) {
 			  return array_merge( $allowed, $styles );
-    });
+		});
 	}
 
 	/**

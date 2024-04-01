@@ -26,87 +26,89 @@ $this->layout( "layouts/app" )
 
 <div class="app">
 	<div class="container login">
-		<dt-tile title="<?php echo esc_attr( $heading ); ?>">
+		<dt-tile title="<?php echo esc_attr( $heading ?? '' ); ?>">
 			<div class="section__inner">
-				<?php if ( $error ): ?>
+				<?php if ( $error ?? false ): ?>
 					<dt-alert context="alert"
 					          dismissable>
 						<?php echo esc_html( $error ); ?>
 					</dt-alert>
 				<?php endif; ?>
-				<form class="create-group"
-				      action="<?php echo esc_attr( $action ) ?>"
-				      method="POST">
+        <?php if ( $nonce ?? false ): ?>
+          <form class="create-group"
+                action="<?php echo esc_attr( $action ) ?>"
+                method="POST">
 
-					<?php
-					wp_nonce_field( $nonce );
-					?>
+            <?php
+            wp_nonce_field( $nonce );
+            ?>
 
-					<?php if ( ! empty( $group_id ) ): ?>
-						<input type="hidden"
-						       name="id"
-						       value="<?php echo esc_attr( $group_id ); ?>">
-					<?php endif; ?>
+            <?php if ( ! empty( $group_id ) ): ?>
+              <input type="hidden"
+                     name="id"
+                     value="<?php echo esc_attr( $group_id ); ?>">
+            <?php endif; ?>
 
-					<dt-text
-						class="create-group__input"
-						label="<?php echo esc_html( $name_label ); ?>"
-						type="text"
-						name="name"
-						value="<?php echo esc_attr( $name ) ?>"
-						placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
-					></dt-text>
+            <dt-text
+              class="create-group__input"
+              label="<?php echo esc_html( $name_label ); ?>"
+              type="text"
+              name="name"
+              value="<?php echo esc_attr( $name ) ?>"
+              placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
+            ></dt-text>
 
-					<dt-tags
-						allowAdd
-						class="create-group__input"
-						label="<?php echo esc_html( $leaders_label ); ?>"
-						name="leaders"
-						value="<?php echo esc_attr( wp_json_encode( $leader_ids ) ) ?>"
-						options="<?php echo esc_attr( wp_json_encode( $leader_options ) ) ?>"
-					></dt-tags>
+            <dt-tags
+              allowAdd
+              class="create-group__input"
+              label="<?php echo esc_html( $leaders_label ); ?>"
+              name="leaders"
+              value="<?php echo esc_attr( wp_json_encode( $leader_ids ) ) ?>"
+              options="<?php echo esc_attr( wp_json_encode( $leader_options ) ) ?>"
+            ></dt-tags>
 
-					<al-ajax-field
-						callback="<?php echo esc_attr( $parent_group_field_callback ); ?>"
-						watch="leaders"
-						events="<?php echo esc_attr( wp_json_encode( [ 'change' ] ) ); ?>"
-						prefetch
-					>
-					</al-ajax-field>
+            <al-ajax-field
+              callback="<?php echo esc_attr( $parent_group_field_callback ); ?>"
+              watch="leaders"
+              events="<?php echo esc_attr( wp_json_encode( [ 'change' ] ) ); ?>"
+              prefetch
+            >
+            </al-ajax-field>
 
-					<dt-date
-						format=""
-						name="start_date"
-						label="<?php echo esc_html( $start_date_label ); ?>"
-						value="<?php echo esc_attr( $start_date ) ?>"
-					></dt-date>
+            <dt-date
+              format=""
+              name="start_date"
+              label="<?php echo esc_html( $start_date_label ); ?>"
+              value="<?php echo esc_attr( $start_date ) ?>"
+            ></dt-date>
 
-					<?php if ( $show_location_field ): ?>
-						<div class="location-field">
-							<?php
-							render_field_for_display( 'location_grid_meta', $group_fields, $group );
-							?>
-							<input type="hidden"
-							       name="location">
-						</div>
-					<?php else : ?>
-						<input type="hidden"
-						       name="location">
-					<?php endif; ?>
+            <?php if ( $show_location_field ): ?>
+              <div class="location-field">
+                <?php
+                render_field_for_display( 'location_grid_meta', $group_fields, $group );
+                ?>
+                <input type="hidden"
+                       name="location">
+              </div>
+            <?php else : ?>
+              <input type="hidden"
+                     name="location">
+            <?php endif; ?>
 
 
-					<div class="buttons">
-						<al-submit-button context="success"
-						                type="submit">
-							<?php echo esc_html( $submit_label ) ?>
-						</al-submit-button>
+            <div class="buttons">
+              <al-submit-button context="success"
+                              type="submit">
+                <?php echo esc_html( $submit_label ) ?>
+              </al-submit-button>
 
-						<dt-button context="link"
-						           href="<?php echo esc_url( $cancel_url ); ?>"
-						           title="<?php echo esc_html( $cancel_label ) ?>">
-							<?php echo esc_html( $cancel_label ) ?>
-						</dt-button>
-				</form>
+              <dt-button context="link"
+                         href="<?php echo esc_url( $cancel_url ); ?>"
+                         title="<?php echo esc_html( $cancel_label ) ?>">
+                <?php echo esc_html( $cancel_label ) ?>
+              </dt-button>
+          </form>
+        <?php endif; ?>
 			</div>
 		</dt-tile>
 	</div>

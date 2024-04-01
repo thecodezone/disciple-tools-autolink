@@ -39,13 +39,6 @@ function write_results_box() {
               v.grid_meta_id
             )}" dir="auto" value="${window.lodash.escape(v.label)}" readonly />
             <div class="input-group-button">
-              <button type="button" class="button success delete-button-style open-mapping-grid-modal" title="${
-                window.lodash.escape(
-                  dtMapbox.translations.open_mapping
-                ) /*Open Modal*/
-              }" data-id="${window.lodash.escape(
-            v.grid_meta_id
-          )}"><i class="fi-map"></i></button>
               <button type="button" class="button alert delete-button-style delete-button mapbox-delete-button" title="${
                 window.lodash.escape(
                   dtMapbox.translations.delete_location

@@ -2,11 +2,11 @@
 
 namespace DT\Autolink;
 
-use CodeZone\Router;
+use DT\Autolink\GuzzleHttp\Psr7\HttpFactory;
 use DT\Autolink\Illuminate\Http\RedirectResponse;
 use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Support\Arr;
 use DT\Autolink\Illuminate\Support\Str;
+use DT\Autolink\Illuminate\Validation\Factory;
 use DT\Autolink\League\Plates\Engine;
 use DT\Autolink\Services\Template;
 use DT\Autolink\Services\Options;
