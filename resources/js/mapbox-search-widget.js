@@ -1,5 +1,10 @@
+
 /** Mapbox search box widget */
 jQuery(document).ready(function () {
+  init_mapbox()
+});
+
+function init_mapbox()  {
   // load widget
   if (dtMapbox.post.length !== 0) {
     write_results_box();
@@ -7,7 +12,7 @@ jQuery(document).ready(function () {
   jQuery("#new-mapbox-search").on("click", function () {
     write_input_widget();
   });
-});
+}
 
 // write location list from post contents
 function write_results_box() {

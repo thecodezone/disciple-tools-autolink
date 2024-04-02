@@ -1,4 +1,5 @@
 import "./_ajax-field.js";
+import "./_ajax-form.js";
 import "./_church.js";
 import "./_church-menu.js";
 import "./_churches.js";

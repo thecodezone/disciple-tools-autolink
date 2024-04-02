@@ -2,7 +2,9 @@
 
 namespace DT\Autolink\Services\Charts;
 
+use DT\Autolink\League\Plates\Extension\Asset;
 use DT\Autolink\Repositories\GroupTreeRepository;
+use DT\Autolink\Services\Assets;
 use function DT\Autolink\container;
 use function DT\Autolink\plugin_path;
 use function DT\Autolink\plugin_url;
@@ -38,6 +40,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		$genmapper_plugin_url  = plugins_url() . '/disciple-tools-genmapper';
 		$genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
+		container()->make(Assets::class)->enqueue_mapbox(0, false);
 		wp_enqueue_style( "hint", "https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.1/hint.min.css", [], "2.5.1" );
 		wp_enqueue_style( "group-styles", $genmapper_plugin_url . "/includes/charts/church-circles/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/style.css" ) );
 		wp_enqueue_style( "chart-styles", $genmapper_plugin_url . "/includes/charts/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/style.css" ) );

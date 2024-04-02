@@ -80,7 +80,9 @@ class AssetServiceProvider extends ServiceProvider {
 					'delete_group'         => __( 'Delete', 'disciple-tools-autolink' ) . ' ' .group_label(),
 					'delete_group_confirm' => __( 'Are you sure you want to delete this ', 'disciple-tools-autolink' ) . strtolower( group_label() ) . '?',
 					'edit_group'           => __( 'Edit', 'disciple-tools-autolink' ) . ' ' . group_label(),
-					'more'                 => __( 'More', 'disciple-tools-autolink' )
+					'save'                 => __( 'Save', 'disciple-tools-autolink' ),
+					'more'                 => __( 'More', 'disciple-tools-autolink' ),
+					'close'                => __( 'Close', 'disciple-tools-autolink' ),
 				]
 			]);
 		});

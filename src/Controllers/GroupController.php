@@ -93,10 +93,11 @@ class GroupController {
 		if ( $request->wantsJson() ) {
 			return [
 				'content' => view( 'groups/form', $params ),
+				'post' => DT_Posts::get_post( 'groups', $group_id, true, false ),
 				'code' => 200
 			];
 		} else {
-			return template( 'groups/form', $params );
+			return template( 'groups/form-page', $params );
 		}
 	}
 
@@ -115,7 +116,7 @@ class GroupController {
 			$group = DT_Posts::get_post( 'groups', $group_id, true, false );
 			if ( is_wp_error( $group ) ) {
 				return [
-					'error' => group_label() . __( 'not found', 'disciple-tools-autolink' )
+					'error' => group_label() . ' ' .  __( 'not found', 'disciple-tools-autolink' )
 				];
 			}
 		}
@@ -169,6 +170,7 @@ class GroupController {
 				'label' => $coached['name'],
 			];
 		}
+		$parent_group = count( $group['parent_groups'] ?? [] ) ? $group['parent_groups'][0]["ID"] : '';
 		$parent_group_field_callback = route_url( '/groups/parent-group-field' );
 
 		$show_location_field = DT_Mapbox_API::is_active_mapbox_key();
@@ -179,7 +181,7 @@ class GroupController {
 			$start_date = dt_format_date( $start_date['timestamp'] );
 		}
 
-		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'nonce', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error' );
+		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'nonce', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error', 'parent_group' );
 	}
 
 	/**
@@ -441,14 +443,15 @@ class GroupController {
 				"force_values" => true,
 				"values"       => $leaders
 			],
-			"parent_groups" => [
-				"force_values" => true,
-				"values"       => $parent_group ? [
-					[ "value" => $parent_group ]
-				] : []
-			],
 			"start_date"    => $start_date,
 		];
+
+		if ( $parent_group ) {
+			$fields['parent_groups'] = [
+				'force_values' => true,
+				'values'       => [ [ 'value' => $parent_group ] ]
+			];
+		}
 
 		if ( ! empty( $location ) ) {
 			$fields['location_grid_meta'] = [

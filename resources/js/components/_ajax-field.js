@@ -18,9 +18,6 @@ export class AjaxField extends DtBase {
     @property( {type: String} )
     method = "GET";
 
-    @property( {type: String} )
-    nonce = "";
-
     @property( {type: String | Array} )
     watch = "*";
 
@@ -46,7 +43,7 @@ export class AjaxField extends DtBase {
     static get styles() {
         return css`
           :host {
-				width: fit -content;
+				width: fit-content;
 				display: block;
 		}
         `;

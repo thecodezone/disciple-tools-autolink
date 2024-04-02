@@ -1,20 +1,13 @@
 class genmapper {
-    // GenMapper
-    // App for mapping generations of simple churches
-    // https://github.com/dvopalecky/gen-mapper
-    // Copyright (c) 2016-2018 Daniel Vopalecky, MIT license
-
     constructor() {
         this.plugin_uri = window.wpApiGenmapper.plugin_uri;
         this.showMetrics = window.genApiTemplate.show_metrics === "1";
         this.showIcons = window.genApiTemplate.show_icons === "1";
-        this.appVersion = "0.2.16";
         this.translations = window.wpApiGenmapper.translation;
 
         this.language = "en";
 
         this.margin = {top: 50, right: 30, bottom: 50, left: 30};
-        this.projectName = "Untitled project";
 
         this.updateDOMafterLangSwitch();
 
@@ -73,7 +66,6 @@ class genmapper {
                 if (this.alertElement.classList.contains("alert-message--active")) {
                     this.alertElement.classList.remove("alert-message--active");
                 } else {
-                    document.getElementById("intro").classList.remove("intro--active");
                     this.editGroupElement.classList.remove("edit-group--active");
                 }
             } else if (e.keyCode === 13) {
@@ -104,56 +96,27 @@ class genmapper {
 
         document.getElementById(
             "edit-group"
-        ).innerHTML = `<div id="edit-group-content">
-     <h1>${this.translations.edit_record}</h1>
-     <form>
-       <table>
-         <tr>
-           <td class="left-field"> ${this.translations.parent_label} </td>
-           <td class="right-field"><p id="edit-parent"></p></td>
-         </tr>
-       </table>
-     </form>
-     <div id="edit-buttons">
-       <button id="edit-cancel"> ${this.translations.cancel_label}  </button>
-       <button id="open-record"> ${this.translations.open_label} </button>
-       <button id="rebase-node"> ${this.translations.rebase_label} </button>
-     </div>
-    </div>`;
-
-        // document.getElementById('intro-content').innerHTML = `<h2>
-        // GenMapper Help
-        // </h2>
-        // <p>${ __( "Hello, this app should serve for mapping generations of simple churches. I pray it serves you to advance Jesus' kingdom.", 'disciple_tools' ) }</p>
-        // Legend
-        // <h3>Panning / Zooming</h3>
-        // <p>You can pan by draging the map and zoom by mouse wheel or using buttons on the left.</p>
-        // <h3>Credits</h3>
-        // <p>Thanks to Curtis Sergeant for the idea of generational mapping and for providing useful feedback.<br>
-        // JavaScript/CSS libraries used
-        // : <a href="https://github.com/chinchang/hint.css/">hint.css</a>, <a href="https://d3js.org">d3.js</a>,
-        // <a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a>, <a href="https://github.com/SheetJS/js-xlsx">js-xlsx</a>,
-        // <a href="https://lodash.com">lodash</a>
-        // Icons used
-        // : <a href="https://github.com/Keyamoon/IcoMoon-Free">IcoMoon-Free</a><br><br>
-        // Copyright (c) 2016 - 2018 Daniel Vopalecky<br>
-        // Licensed with MIT Licence<br>
-        // <a href="https://github.com/dvopalecky/gen-mapper">Github repository</a><br>
-        // <br></p>
-        // <button onclick="genmapper.introSwitchVisibility()">Close</button>`
-
+        ).innerHTML = `<div id="edit-group-content"></div>`;
         document.getElementById(
             "alert-message"
         ).innerHTML = `<div id="alert-message-content">
       <p id="alert-message-text"></p>
       <button onclick="genmapper.closeAlert()">${this.translations.ok_label}</button>
     </div>`;
-
-        // document.getElementById('gen-mapper-version').innerHTML = this.appVersion
-        // document.getElementById('template-version').innerHTML = template.name
     }
 
     getInitialValue(field) {
+        switch (field.header) {
+            case "line_1":
+                return 'New';
+            case "attenders":
+                return 1;
+            case "believers":
+            case "baptized":
+            case "baptized_in_group":
+                return 0;
+
+        }
         return field.initial;
     }
 
@@ -205,62 +168,69 @@ class genmapper {
         document.getElementById("intro").classList.toggle("intro--active");
     }
 
-    popupEditGroupModal(d) {
+    async popupEditGroupModal(group) {
         this.editGroupElement.classList.add("edit-group--active");
-        template.fields.forEach((field) => {
-            if (field.type === "text") {
-                this.editFieldElements[field.header].value = d.data[field.header] || "";
-            } else if (field.type === "radio") {
-                field.values.forEach((value) => {
-                    const status = value.header === d.data[field.header];
-                    this.editFieldElements[field.header + "-" + value.header].checked =
-                        status;
-                });
-            } else if (field.type === "checkbox") {
-                this.editFieldElements[field.header].checked = d.data[field.header];
+        const groupData = group.data;
+        const container = document.getElementById("edit-group-content")
+        container.innerHTML = `
+              <dt-tile>
+                  <div class="section__inner">
+                    <al-ajax-form callback="${$autolink.urls.route}/groups/${groupData.id}/edit"></al-ajax-form>
+                  </div>
+              </dt-tile>
+        `
+        const  form = container.querySelector("al-ajax-form")
+
+        form.addEventListener('loaded', (e) => {
+            const parentField = container.querySelector('input[name="parent_group"]')
+            if (group?.parent?.id) {
+                parentField.value = group.parent.id
+            }
+
+            const script = document.querySelector('#mapbox-search-widget-js')
+
+            if(script) {
+                dtMapbox.post_id = e.detail.post.ID
+                dtMapbox.post = e.detail.post
+                init_mapbox()
             }
         });
-        // select first element
-        this.editFieldElements[Object.keys(this.editFieldElements)[0]].select();
 
-        this.editParentElement.innerHTML = d.parent ? d.parent.data.name : "N/A";
-        const groupData = d.data;
-        const group = d;
-        d3.select("#edit-submit").on("click", () => {
+        form.addEventListener("cancel", () => {
+            this.editGroupElement.classList.remove("edit-group--active");
+        });
+
+        form.addEventListener("success", (e) => {
+            groupData.name = e.detail.name;
             this.editGroup(groupData);
-        });
-        d3.select("#edit-cancel").on("click", () => {
-            this.editGroupElement.classList.remove("edit-group--active");
-        });
-        d3.select("#open-record").on("click", () => {
-            this.openRecord(group);
-        });
-        d3.select("#rebase-node").on("click", () => {
-            this.rebaseOnNode(group);
-            this.editGroupElement.classList.remove("edit-group--active");
         });
     }
 
     editGroup(groupData) {
-        let groupFields = {};
+        let groupFields = {
+        };
+
         template.fields.forEach((field) => {
-            if (field.type === "text") {
-                groupData[field.header] = this.editFieldElements[field.header].value;
-                if (field.header === "name") {
-                    groupFields["title"] = this.editFieldElements[field.header].value;
-                }
-            } else if (field.type === "radio") {
-                field.values.forEach((value) => {
-                    if (
-                        this.editFieldElements[field.header + "-" + value.header].checked
-                    ) {
-                        groupData[field.header] = value.header;
-                    }
-                });
-            } else if (field.type === "checkbox") {
-                groupData[field.header] = this.editFieldElements[field.header].checked;
+            switch (field.type) {
+                case "text":
+                case "radio":
+                case "checkbox":
+                    groupFields[field.header] = groupData[field.header];
+                break;
+            }
+
+            switch(field.header) {
+                case "name":
+                    groupFields["line_1"] = groupData.name;
+                break;
             }
         });
+
+        const node = this.findNodeById(groupData.id);
+        Object.entries(groupFields).forEach(([key, value]) => {
+            node.data[key] = value;
+        })
+
         jQuery("#chart").trigger("node-updated", [
             groupData.id,
             groupData,
@@ -328,24 +298,7 @@ class genmapper {
                     (d.parent.y + boxHeight)
                 );
             });
-        // update the link text between the nodes
-        // const LINK_TEXT_POSITION = 0.3 // 1 -> parent, 0 -> child
-        // const linkText = this.gLinksText.selectAll('.link-text')
-        //       .data(this.nodes.descendants().slice(1))
-        // linkText.exit()
-        //     .remove()
-        // linkText.enter()
-        //     .append('text')
-        //   .merge(linkText)
-        //     .attr('class', function (d) {
-        //       return 'link-text ' + (d.data.active ? ' link-text--active' : ' link-text--inactive')
-        //     })
-        //     .attr('x', function (d) { return d.x * (1 - LINK_TEXT_POSITION) + d.parent.x * LINK_TEXT_POSITION })
-        //     .attr('y', function (d) { return d.y * (1 - LINK_TEXT_POSITION) + (d.parent.y + boxHeight) * LINK_TEXT_POSITION })
-        //     .text(function (d) {
-        //       return d.data.coach
-        //     })
-        // update nodes
+
         const node = this.gNodes.selectAll(".node").data(this.nodes.descendants());
 
         node.enter().text(function (d) {
@@ -355,9 +308,6 @@ class genmapper {
 
         // NEW ELEMENTS
         const newGroup = node.enter().append("g");
-
-        this.appendRebaseButton(newGroup);
-        this.appendAddButton(newGroup);
 
         // append SVG elements without fields
         Object.keys(template.svg).forEach((svgElement) => {
@@ -381,6 +331,9 @@ class genmapper {
                 }
             }
         });
+
+        this.appendRebaseButton(newGroup);
+        this.appendAddButton(newGroup);
 
         // UPDATE including NEW
         const nodeWithNew = node.merge(newGroup);
@@ -448,18 +401,18 @@ class genmapper {
                 this.popupEditGroupModal(d);
             });
 
-        nodeWithNew.select(".removeNode").on("click", (d) => {
+        nodeWithNew.select(".removeNode svg").on("click", (d) => {
             console.log("removeNode");
             this.removeNode(d);
             d3.event.stopPropagation();
         });
-        nodeWithNew.select(".rebaseNode").on("click", (d) => {
+        nodeWithNew.select(".rebaseNode svg").on("click", (d) => {
             console.log("rebaseNode");
             this.rebaseOnNode(d);
             d3.event.stopPropagation();
         });
 
-        nodeWithNew.select(".addNode").on("click", (d) => {
+        nodeWithNew.select(".addNode svg").on("click", (d) => {
             this.addNode(d);
             d3.event.stopPropagation();
         });
@@ -679,6 +632,10 @@ class genmapper {
         if (node) {
             this.rebaseOnNode(node);
         }
+    }
+
+    reset() {
+        jQuery("#chart").trigger("reset-requested");
     }
 
     removeNode(d) {

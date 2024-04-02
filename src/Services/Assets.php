@@ -20,29 +20,37 @@ class Assets {
 
 	public function enqueue_mapbox( $post_id, $post ) {
 		DT_Mapbox_API::load_mapbox_header_scripts();
-		DT_Mapbox_API::load_mapbox_search_widget();
 
-    wp_dequeue_script( 'mapbox-search-widget' );
-    wp_enqueue_script( 'mapbox-search-widget', plugin_url( '/resources/js/mapbox-search-widget.js' ), [ 'disciple-tools-autolink' ], null, true );
-		wp_localize_script(
-            'mapbox-search-widget', 'dtMapbox', [
-            'post_type'      => 'groups',
-            'post_id'        => $post_id ?? 0,
-            'post'           => $post ?? false,
-            'map_key'        => DT_Mapbox_API::get_key(),
-            'mirror_source'  => dt_get_location_grid_mirror( true ),
-            'google_map_key' => ( class_exists( 'Disciple_Tools_Google_Geocode_API' ) && Disciple_Tools_Google_Geocode_API::get_key() ) ? Disciple_Tools_Google_Geocode_API::get_key() : false,
-            'spinner_url'    => get_stylesheet_directory_uri() . '/spinner.svg',
-            'theme_uri'      => get_stylesheet_directory_uri(),
-            'translations'   => [
+		if ( ! function_exists( 'dt_get_location_grid_mirror' ) ) {
+			require_once get_template_directory() . '/dt-mapping/globals.php';
+		}
+
+	  wp_enqueue_script( 'mapbox-search-widget', plugin_url( '/resources/js/mapbox-search-widget.js' ), [ 'disciple-tools-autolink' ], null, true );
+	  wp_localize_script(
+		  'mapbox-search-widget', 'dtMapbox', [
+		  'post_type'      => 'groups',
+		  'post_id'        => $post_id ?? 0,
+		  'post'           => $post ?? false,
+		  'map_key'        => DT_Mapbox_API::get_key(),
+		  'mirror_source'  => dt_get_location_grid_mirror( true ),
+		  'google_map_key' => ( class_exists( 'Disciple_Tools_Google_Geocode_API' ) && Disciple_Tools_Google_Geocode_API::get_key() ) ? Disciple_Tools_Google_Geocode_API::get_key() : false,
+		  'spinner_url'    => get_stylesheet_directory_uri() . '/spinner.svg',
+		  'theme_uri'      => get_stylesheet_directory_uri(),
+		  'translations'   => [
 			  'add'             => __( 'add', 'disciple_tools' ),
 			  'use'             => __( 'Use', 'disciple_tools' ),
 			  'search_location' => __( 'Search Location', 'disciple_tools' ),
 			  'delete_location' => __( 'Delete Location', 'disciple_tools' ),
 			  'open_mapping'    => __( 'Open Mapping', 'disciple_tools' ),
 			  'clear'           => __( 'Clear', 'disciple_tools' )
-            ]
-		] );
+		  ]
+	  ] );
+	  add_action( 'wp_head', [ 'DT_Mapbox_API', 'mapbox_search_widget_css' ] );
+
+	  // load Google Geocoder if key is present.
+		if ( class_exists( 'Disciple_Tools_Google_Geocode_API' ) && Disciple_Tools_Google_Geocode_API::get_key() ){
+			Disciple_Tools_Google_Geocode_API::load_google_geocoding_scripts();
+		}
 	}
 
 	/**
