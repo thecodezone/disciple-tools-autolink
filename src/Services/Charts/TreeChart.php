@@ -117,6 +117,7 @@ class TreeChart {
 			'coached_by' => [ $contact['ID'] ],
 		], false )['posts'] ?? [];
 
+		$allowed_group_ids = [];
 		foreach ( $groups as $group ) {
 			$allowed_group_ids[]              = (int) $group['ID'];
 			$groups[]                         = $group;
