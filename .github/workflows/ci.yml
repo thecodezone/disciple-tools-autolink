@@ -1,8 +1,6 @@
-name: Tests
+name: CI
 
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -42,13 +40,12 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
 
-      - name: Report PHP version
-        run: php -v
+      - name: Add Composer Global to PATH
+        run: echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
 
-      - name: Setup wpify/scoper
-        run:  |
+      - name: Install Scoper
+        run: |
           ./setup-scoper.sh
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
 
       - name: Install dependencies
         run: composer install --no-interaction --optimize-autoloader
