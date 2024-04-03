@@ -144,7 +144,6 @@ class GroupController {
 		$name_placeholder = $group_fields['name']['name'];
 		$start_date_label = $group_fields['start_date']['name'];
 		$leaders_label    = $group_fields['leaders']['name'];
-		$nonce            = wp_create_nonce( 'disciple-tools-autolink' );
 		$cancel_url       = route_url();
 		$cancel_label     = __( 'Cancel', 'disciple-tools-autolink' );
 		$submit_label     = __( 'Save', 'disciple-tools-autolink' );
@@ -181,7 +180,7 @@ class GroupController {
 			$start_date = dt_format_date( $start_date['timestamp'] );
 		}
 
-		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'nonce', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error', 'parent_group' );
+		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error', 'parent_group' );
 	}
 
 	/**

@@ -28,7 +28,7 @@
       method="POST">
 
 	<?php
-	wp_nonce_field( $nonce );
+	wp_nonce_field(  'disciple-tools-autolink' );
 	?>
 
 	<?php if ( ! empty( $group_id ) ): ?>
