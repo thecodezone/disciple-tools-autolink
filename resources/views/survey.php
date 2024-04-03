@@ -16,7 +16,7 @@ $this->layout( 'layouts/app' );
       action="<?php echo esc_url( $action ); ?>"
       method="POST">
 
-	<?php wp_nonce_field( 'dt_autolink_survey' ); ?>
+	<?php wp_nonce_field( 'disciple-tools-autolink' ); ?>
 
 	<dt-tile title="<?php echo esc_attr( $question['label'] ); ?>"
 	         class="question">
