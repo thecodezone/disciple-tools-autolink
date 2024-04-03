@@ -24,7 +24,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: "8.2"
+          php-version: "8.1"
 
       - name: Add Composer Global to PATH
         run: echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
