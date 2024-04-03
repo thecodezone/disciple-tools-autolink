@@ -15,7 +15,7 @@ $this->layout( 'layouts/auth' );
     <dt-tile>
         <div class="section__inner">
             <div class="logo">
-                <img src="<?php echo esc_url(  logo_url() ) ?>"
+                <img src="<?php echo esc_url( logo_url() ) ?>"
                      alt="Disciple.Tools"
                      class="logo__image">
             </div>

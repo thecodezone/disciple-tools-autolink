@@ -55,7 +55,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
         <div style="max-width: 600px">
           <al-training-videos-field
             name="training_videos"
-            value='<?php echo esc_attr( wp_json_encode(  $old['training_videos'] ) ) ?>'
+            value='<?php echo esc_attr( wp_json_encode( $old['training_videos'] ) ) ?>'
             default='<?php echo esc_attr( wp_json_encode( $default_training_videos ) ) ?>'
             translations='<?php echo esc_attr( json_encode( $training_videos_translations ) ) ?>'
           ></al-training-videos-field>

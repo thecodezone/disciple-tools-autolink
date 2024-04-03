@@ -26,8 +26,8 @@ class Assets {
 		}
 
 	  wp_enqueue_script( 'mapbox-search-widget', plugin_url( '/resources/js/mapbox-search-widget.js' ), [ 'disciple-tools-autolink' ], null, true );
-	  wp_localize_script(
-		  'mapbox-search-widget', 'dtMapbox', [
+    wp_localize_script(
+        'mapbox-search-widget', 'dtMapbox', [
 		  'post_type'      => 'groups',
 		  'post_id'        => $post_id ?? 0,
 		  'post'           => $post ?? false,
@@ -44,7 +44,7 @@ class Assets {
 			  'open_mapping'    => __( 'Open Mapping', 'disciple_tools' ),
 			  'clear'           => __( 'Clear', 'disciple_tools' )
 		  ]
-	  ] );
+    ] );
 	  add_action( 'wp_head', [ 'DT_Mapbox_API', 'mapbox_search_widget_css' ] );
 
 	  // load Google Geocoder if key is present.
@@ -111,19 +111,24 @@ class Assets {
 			}
 		}
 
-    add_filter( namespace_string( 'allowed_scripts' ), function ( $allowed ) use ( $scripts ) {
-			  return array_merge( $allowed, $scripts );
-		});
+    // phpcs:ignore
+    add_filter( namespace_string( 'allowed_scripts' ),
+        function ( $allowed ) use ( $scripts ) {
+			    return array_merge( $allowed, $scripts );
+        }
+    );
 
 		foreach ( $wp_styles->registered as $style ) {
 			if ( $this->is_vite_asset( $style->handle ) ) {
-				$styles[] = $style->handle;
+			$styles[] = $style->handle;
 			}
 		}
 
-    add_filter( namespace_string( 'allowed_styles' ), function ( $allowed ) use ( $styles ) {
-			  return array_merge( $allowed, $styles );
-		});
+    add_filter( namespace_string( 'allowed_styles' ),
+        function ( $allowed ) use ( $styles ) {
+			    return array_merge( $allowed, $styles );
+        }
+    );
 	}
 
 	/**

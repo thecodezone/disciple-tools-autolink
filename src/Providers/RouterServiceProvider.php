@@ -29,7 +29,6 @@ class RouterServiceProvider extends ServiceProvider {
 	 * DT is not yet registered.
 	 */
 	public function boot(): void {
-
 	}
 
 	/**

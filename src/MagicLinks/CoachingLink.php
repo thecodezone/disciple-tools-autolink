@@ -18,7 +18,7 @@ class CoachingLink extends MagicApp {
 
 	public function boot() {
 		$coach = \DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
-		$cookie_name = namespace_string('coached_by');
+		$cookie_name = namespace_string( 'coached_by' );
 		if ( !isset( $_COOKIE[$cookie_name] ) ) {
 			setcookie( $cookie_name, $coach['ID'], time() + ( 86400 * 30 ), "/" );
 		}

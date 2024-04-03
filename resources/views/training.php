@@ -2,7 +2,7 @@
 /**
 * @var array $videos
  */
-$this->layout('layouts/tool', ['action' => 'training']);
+$this->layout( 'layouts/tool', [ 'action' => 'training' ] );
 ?>
 <div class="container">
 	<?php foreach ( $videos as $video ): ?>

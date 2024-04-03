@@ -82,7 +82,7 @@
 			<input type="hidden"
 			       name="location">
 		</div>
-	<?php else: ?>
+	<?php else : ?>
 		<input type="hidden"
 		       name="location">
 	<?php endif; ?>

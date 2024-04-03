@@ -13,11 +13,9 @@ use function DT\Autolink\set_option;
  */
 class Options {
 	/**
-	 * Get the default values for the method.
+	 * Returns an array of default option values.
 	 *
-	 * This method returns an associative array with the default values for various keys.
-	 *
-	 * @return array An associative array with the default values.
+	 * @return array An associative array of default option values.
 	 */
 	private function defaults(): array {
 		return [
@@ -28,9 +26,11 @@ class Options {
 	}
 
 	/**
-	 * @param $locale
+	 * Retrieves an array of localized training videos.
 	 *
-	 * @return array|array[]
+	 * @param string|null $locale The locale of the videos to retrieve. Default is null.
+	 *
+	 * @return array An array of video titles and embed codes based on the specified locale. If the specified locale is not found, the default locale is used.
 	 */
 	public function localized_training_videos( $locale = null ): array {
 		$locale = $locale ?? get_user_locale();
@@ -43,6 +43,14 @@ class Options {
 		}, $this->training_videos() );
 	}
 
+	/**
+	 * Retrieves the list of training videos.
+	 *
+	 * @return array The list of training videos in the following format:
+	 *               - title: The title of the video.
+	 *               - embed: The embedded HTML code of the video.
+	 *               - hi_IN: The embedded HTML code of the video with Hindi subtitles.
+	 */
 	public function training_videos() {
 		return [
 			[

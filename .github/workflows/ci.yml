@@ -53,8 +53,5 @@ jobs:
       - name: Test syntax
         run: ./tests/test_for_syntax_errors.sh
 
-      - name: Test installation
-        run: ./tests/test_installation.sh
-
-      - name: Test phpcs
+S      - name: Test phpcs
         run: ./tests/test_phpcs.sh

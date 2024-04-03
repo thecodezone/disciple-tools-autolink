@@ -24,7 +24,7 @@ $this->layout( 'layouts/tool' );
 	<dt-tile class="churches">
 		<div class="section__inner">
 			<div class="churches__heading">
-				<h3><?php echo esc_attr( __( 'My ' . groups_label(), 'disciple-tools-autolink' ) ); ?></h3>
+				<h3><?php echo esc_attr( __( 'My', 'disciple-tools-autolink' ) . ' ' .  groups_label() ); ?></h3>
 				<dt-button class="churches__add"
 				           context="success"
 				           href="<?php echo esc_url( route_url( '/groups/create' ) ) ?>"

@@ -1,15 +1,20 @@
 <?php
 use function DT\Autolink\namespace_string;
+/**
+ * @var string $tab
+ * @var string $error
+ */
 $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
+
 ?>
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ) ?></h2>
+    <h2><?php esc_html_e( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ) ?></h2>
 
     <div class="nav-tab-wrapper">
       <?php foreach ( $nav as $index => $item ): ?>
-          <a href="admin.php?page=dt_home&tab=<?php echo $this->e( $item['tab'] ) ?>"
-             class="nav-tab <?php echo $this->esc_html( ( $tab == $item['tab'] || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-        <?php echo $this->e( $item['label'] ) ?>
+          <a href="admin.php?page=dt_home&tab=<?php esc_attr( $item['tab'] ) ?>"
+             class="nav-tab <?php echo esc_html( ( $tab == $item['tab'] || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
+        <?php echo esc_html( $item['label'] ) ?>
           </a>
       <?php endforeach; ?>
     </div>
@@ -24,7 +29,7 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
 					<?php if ( $error ?? '' ): ?>
                         <div class="notice notice-error is-dismissible">
                             <p>
-								<?php echo $this->e( $error ) ?>
+								<?php echo esc_html( $error ) ?>
                             </p>
                         </div>
 					<?php endif; ?>

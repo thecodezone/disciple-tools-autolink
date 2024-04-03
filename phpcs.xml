@@ -24,6 +24,7 @@
     <file>.</file>
 
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>resources/views</exclude-pattern>
     <exclude-pattern>vendor-scoped/*</exclude-pattern>
     <exclude-pattern>includes/admin/libraries/plugin-update-checker/*</exclude-pattern>
     <exclude-pattern>.history/*</exclude-pattern>

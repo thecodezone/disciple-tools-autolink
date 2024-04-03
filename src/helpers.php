@@ -238,7 +238,7 @@ function http(): HTTPFactory {
 /**
  * Concatenates the given string to the namespace of the Router class.
  *
- * @param string $shelperstring The string to be concatenated to the namespace.
+ * @param string $string The string to be concatenated to the namespace.
  *
  * @return string The result of concatenating the given string to the namespace of the Router class.
  */
@@ -310,7 +310,7 @@ function magic_app( $root, $type ): array|bool {
  */
 function magic_url( $root, $type, $id ): string {
 	$app = magic_app( $root, $type );
-	if (!$app) {
+	if ( !$app ) {
 		return "";
 	}
 	$record = \DT_Posts::get_post( $app["post_type"], $id, true, false );

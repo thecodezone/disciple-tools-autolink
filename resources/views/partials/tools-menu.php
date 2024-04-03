@@ -1,6 +1,7 @@
 <?php
 use function DT\Autolink\route_url;
 use function DT\Autolink\groups_label;
+// phpcs:ignore
 $action = $action ?? null;
 ?>
 

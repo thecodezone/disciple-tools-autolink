@@ -3,7 +3,7 @@
  * @var string $fetch_url
  * @var array $translations
  */
-$this->layout( 'layouts/tool', ["action" => "coaching-tree"] );
+$this->layout( 'layouts/tool', [ "action" => "coaching-tree" ] );
 ?>
 
 <div class="container">

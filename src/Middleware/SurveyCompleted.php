@@ -11,14 +11,14 @@ use function DT\Autolink\route_url;
 
 class SurveyCompleted implements Middleware {
 
-	public function __construct(private SurveyRepository $surveyRepository){}
+	public function __construct( private SurveyRepository $survey_repository ){}
 
 	public function handle( Request $request, Response $response, callable $next ){
-		$survey = $this->surveyRepository->questions();
+		$survey = $this->survey_repository->questions();
 		$user          = wp_get_current_user();
 		$contact_id    = \Disciple_Tools_Users::get_contact_for_user( $user->ID, true );
 
-		foreach ($survey as $page => $question) {
+		foreach ( $survey as $page => $question ) {
 			$question_name = $question['name'];
 			$answer = get_post_meta( $contact_id, $question_name, true );
 		    if ( ! $answer ) {

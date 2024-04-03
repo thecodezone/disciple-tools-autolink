@@ -1,6 +1,7 @@
 <?php
 
 namespace DT\Autolink\Repositories;
+
 /**
  * Class Disciple_Tools_Autolink_Queries
  */
@@ -8,7 +9,7 @@ class GroupTreeRepository {
 	/**
 	 * Group tree queries
 	 *
-	 * @param $query_name
+	 * @param string $query_name
 	 * @param array $args
 	 *
 	 * @return mixed

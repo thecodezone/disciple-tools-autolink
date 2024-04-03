@@ -45,7 +45,7 @@ class SurveyController {
 	 * @return mixed The appropriate redirect after processing the answer.
 	 * @throws Exception When the survey question is not found.
 	 */
-	public function update( Request $request, Response $response, SurveyRepository $survey_repository, $page) {
+	public function update( Request $request, Response $response, SurveyRepository $survey_repository, $page ) {
 		$question      = $survey_repository->get( $page );
 		$next_page     = $page + 1;
 		$question_name = $question['name'];

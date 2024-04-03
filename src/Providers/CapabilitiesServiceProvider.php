@@ -31,13 +31,17 @@ class CapabilitiesServiceProvider extends ServiceProvider {
 
 
 	/**
-	 * Determines whether a user has a specific capability.
+	 * Check if a user has a specific capability.
 	 *
-	 * @param boolean $all Whether the user has all capabilities.
+	 * This method is used to determine if a user has a specific capability. It takes an array of
+	 * all capabilities currently assigned to the user, the capability to check, and any additional
+	 * arguments that may be required for the capability check.
+	 *
+	 * @param array $all_caps An array of all capabilities assigned to the user.
 	 * @param string $cap The capability to check.
-	 * @param array $args Optional arguments.
+	 * @param mixed $args Additional arguments required for the capability check.
 	 *
-	 * @return array The updated capabilities.
+	 * @return array An updated array of all capabilities assigned to the user, including any additional capabilities.
 	 */
 	public function user_has_cap( $all_caps, $cap, $args ) {
 

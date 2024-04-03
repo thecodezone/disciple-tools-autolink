@@ -1,7 +1,7 @@
 <div class="al-cloak al__wrapper <?php echo esc_attr( $app_class ?? "al--default" ); ?>">
 	<div class="al__inner">
 
-		<?php echo $this->section('content'); ?>
+		<?php echo $this->section( 'content' ); ?>
 
 	</div>
 	<footer class="footer">

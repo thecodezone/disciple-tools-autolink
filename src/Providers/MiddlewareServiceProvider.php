@@ -18,6 +18,7 @@ use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
 use DT\Autolink\Middleware\Nonce;
 use DT\Autolink\Middleware\SurveyCompleted;
+use Exception;
 use function DT\Autolink\namespace_string;
 
 /**
@@ -53,6 +54,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	 * The middleware is added to the stack in the order it is defined above.
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function register(): void {
 		add_filter( namespace_string( 'middleware' ), function ( Stack $stack ) {
@@ -79,7 +81,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 					$magic_link_name       = $signature;
 					$magic_link_class_name = $this->container->make( 'DT\Autolink\MagicLinks' )->get( $magic_link_name );
 					if ( ! $magic_link_class_name ) {
-						throw new Exception( "Magic link not found: $magic_link_name" );
+						throw new Exception( esc_html( "Magic link not found: $magic_link_name" ) );
 					}
 					$magic_link = $this->container->make( $magic_link_class_name );
 

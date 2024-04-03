@@ -14,7 +14,12 @@ class TreeChart {
 	const UNNESTED_META_KEY = 'dt_autolink_unnested';
 
 	/**
-	 * Disciple_Tools_Autolink_Groups_Tree constructor.
+	 * Class constructor
+	 *
+	 * Initializes the object and adds necessary action hooks.
+	 * If the current action is not 'tree', the constructor returns without executing the remaining code.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'rest_api_init', [ $this, 'p2p_created_connection' ] );
@@ -29,6 +34,14 @@ class TreeChart {
 	}
 
 	/**
+	 * Enqueue scripts and styles for the front end.
+	 *
+	 * This method is used to enqueue scripts and styles for the front end of the website.
+	 * It registers and enqueues the necessary scripts and styles using WordPress functions.
+	 * The scripts and styles are loaded from the plugin directory.
+	 *
+	 * @return void
+	 * @since 1.0.0
 	 *
 	 */
 	public function wp_enqueue_scripts() {
@@ -44,17 +57,20 @@ class TreeChart {
 	}
 
 	/**
-	 * Add a meta to the group to indicate that it was created by autolink
-	 * so we know to handle it differently during tree nesting
+	 * Autolink the group that was created
 	 *
-	 * @param $group
+	 * @param array $group The created group data
 	 */
 	public function dt_autolink_group_created( $group ) {
 		add_post_meta( $group['ID'], self::UNNESTED_META_KEY, true );
 	}
 
 	/**
-	 * When a group is created, we don't need to nest it differently anymore
+	 * Handle the creation of a connection between groups
+	 *
+	 * @param int $connection_id The ID of the connection being created
+	 *
+	 * @return void
 	 */
 	public function p2p_created_connection( $connection_id ) {
 		$connection = p2p_get_connection( $connection_id );
@@ -72,7 +88,9 @@ class TreeChart {
 	}
 
 	/**
-	 * Get the tree of groups
+	 * Generates a tree structure based on the given input data.
+	 *
+	 * @return array The generated tree structure.
 	 */
 	public function tree() {
 		$title_list          = [];
@@ -202,16 +220,13 @@ class TreeChart {
 	}
 
 	/**
-	 * Parse the tree
+	 * Parses the given tree structure and generates a nested tree structure based on the provided metadata.
 	 *
-	 * @param $tree
-	 * @param $title_list
-	 * @param $has_parent_list
-	 * @param $assigned_list
-	 * @param $root
-	 * @param $allowed_group_ids
+	 * @param array $tree The tree structure to parse.
+	 * @param array $meta The metadata required for generating the tree structure.
+	 * @param string|null $root The root element to start the parsing. Default is null.
 	 *
-	 * @return array|null
+	 * @return array|null The nested tree structure generated from the given input data.
 	 */
 	private function parse_tree( $tree, $meta, $root = null ) {
 		$return = [];

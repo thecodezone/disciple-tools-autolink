@@ -40,7 +40,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		$genmapper_plugin_url  = plugins_url() . '/disciple-tools-genmapper';
 		$genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
-		container()->make(Assets::class)->enqueue_mapbox(0, false);
+		container()->make( Assets::class )->enqueue_mapbox( 0, false );
 		wp_enqueue_style( "hint", "https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.1/hint.min.css", [], "2.5.1" );
 		wp_enqueue_style( "group-styles", $genmapper_plugin_url . "/includes/charts/church-circles/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/style.css" ) );
 		wp_enqueue_style( "chart-styles", $genmapper_plugin_url . "/includes/charts/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/style.css" ) );
@@ -126,11 +126,14 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 	}
 
 	/**
-	 * Respond to transfer request of files
+	 * Retrieve the hierarchical tree of groups.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param array $params {
+	 *     Optional. An associative array of parameters. Default empty array.
 	 *
-	 * @return array|WP_Error
+	 * @type string $node The ID of the node to retrieve its descendants. Default empty string.
+	 * }
+	 * @return array|\WP_Error The hierarchical tree of groups if successful, otherwise WP_Error object.
 	 */
 	public function groups_tree( $params ) {
 
@@ -151,7 +154,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				"name"     => "source",
 			],
 		];
-		$groups = container()->make(GroupTreeRepository::class)->tree( 'groups', $args );
+		$groups = container()->make( GroupTreeRepository::class )->tree( 'groups', $args );
 
 		if ( is_wp_error( $groups ) ) {
 			return $groups;

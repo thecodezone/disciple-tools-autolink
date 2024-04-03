@@ -37,7 +37,7 @@ class GeneralSettingsController {
 			if ( ! $is_valid ) {
 				$error = __( 'Invalid training videos.', 'disciple-tools-autolink' );
 			}
-			set_plugin_option( 'training_videos', $training_videos);
+			set_plugin_option( 'training_videos', $training_videos );
 		}
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
@@ -47,7 +47,7 @@ class GeneralSettingsController {
 			return redirect( 'admin.php?page=disciple_tools_autolink&tab=general&error=' . $error );
 		}
 
-		return redirect( 'admin.php?page=disciple_tools_autolink&tab=general');
+		return redirect( 'admin.php?page=disciple_tools_autolink&tab=general' );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class GeneralSettingsController {
 	 *
 	 * @return View
 	 */
-	public function show( Request $request, Response $response, Options $options) {
+	public function show( Request $request, Response $response, Options $options ) {
 		$old                     = [
 			'allow_parent_group_selection' => get_plugin_option( 'allow_parent_group_selection' ),
 			'training_videos'              => get_plugin_option( 'training_videos' ),
