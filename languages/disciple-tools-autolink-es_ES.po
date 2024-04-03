@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2024-02-20T16:56:10+00:00\n"
+"POT-Creation-Date: 2024-04-03T15:07:49+00:00\n"
 "PO-Revision-Date: 2024-01-29 23:21+0000\n"
 "Last-Translator: Mike Allbutt <mikeallbutt@gmail.com>\n"
 "Language-Team: Spanish <https://translate.disciple.tools/projects/disciple-"
@@ -36,7 +36,9 @@ msgstr "Disciple.Tools - Autolink"
 
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+#, fuzzy
+#| msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgid "https://github.com/thecodezone/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin

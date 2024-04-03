@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2024-02-20T16:56:10+00:00\n"
+"POT-Creation-Date: 2024-04-03T15:07:49+00:00\n"
 "PO-Revision-Date: 2023-08-16 17:52-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -33,7 +33,9 @@ msgstr "चेला.उपकरण - स्वत: लिङ्क"
 
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
-msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+#, fuzzy
+#| msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
+msgid "https://github.com/thecodezone/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
 #. Description of the plugin
