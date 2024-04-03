@@ -34,7 +34,7 @@ jobs:
           ./setup-scoper.sh
 
       - name: Install dependencies
-        run: composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs
+        run: composer install --no-dev --no-interaction --ignore-platform-reqs
 
       - name: Package release
         run: | 
