@@ -46,7 +46,10 @@ jobs:
         run: php -v
 
       - name: Install dependencies
-        run: composer install --no-interaction
+        run: |
+          ./setup-scoper.sh
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
+          composer install --no-interaction --no-dev --optimize-autoloader
 
       - name: Test Syntax
         run: ./tests/test_for_syntax_errors.sh

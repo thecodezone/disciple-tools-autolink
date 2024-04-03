@@ -22,11 +22,15 @@
       "email": "craig@codezone.io"
     }
   ],
+  "scripts": {
+    "pre-install-cmd": [
+      "./setup-scoper.sh"
+    ]
+  },
   "require": {
     "ext-json": "*",
     "ext-zip": "*",
-    "composer-plugin-api": "^1.0 || ^2.0",
-    "wpify/scoper": "^3.0"
+    "composer-plugin-api": "^1.0 || ^2.0"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -51,8 +55,7 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "bamarni/composer-bin-plugin": true,
-      "wpify/scoper": true
+      "bamarni/composer-bin-plugin": true
     }
   }
 }

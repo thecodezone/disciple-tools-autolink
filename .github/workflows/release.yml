@@ -19,7 +19,9 @@ jobs:
         run: |
           npm install
           npm run build
-          composer install --no-interaction --no-dev
+          ./setup-scoper.sh
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
+          composer install --no-interaction --no-dev --optimize-autoloader
           mkdir disciple-tools-autolink
           cp -r disciple-tools-autolink.php dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json version-control.json SECURITY.md disciple-tools-autolink/
           zip -r disciple-tools-autolink.zip disciple-tools-autolink

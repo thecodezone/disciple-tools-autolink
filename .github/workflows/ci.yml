@@ -45,13 +45,18 @@ jobs:
       - name: Report PHP version
         run: php -v
 
-      - name: Install dependencies
-        run: composer install --no-interaction
+      - name: Setup wpify/scoper
+        run:  |
+          ./setup-scoper.sh
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
 
-      - name: Test Syntax
+      - name: Install dependencies
+        run: composer install --no-interaction --optimize-autoloader
+
+      - name: Test syntax
         run: ./tests/test_for_syntax_errors.sh
 
-      - name: Test Installation
+      - name: Test installation
         run: ./tests/test_installation.sh
 
       - name: Test phpcs
