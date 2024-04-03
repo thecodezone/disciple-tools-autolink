@@ -27,9 +27,7 @@
       action="<?php echo esc_attr( $action ) ?>"
       method="POST">
 
-	<?php
-	wp_nonce_field(  'disciple-tools-autolink' );
-	?>
+	<?php wp_nonce_field(  'disciple-tools-autolink' ); ?>
 
 	<?php if ( ! empty( $group_id ) ): ?>
 		<input type="hidden"
