@@ -47,7 +47,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          PATH=$(composer global config bin-dir --absolute --quiet):$PATH
           ./setup-scoper.sh
           sudo chown -R $USER:$USER $GITHUB_WORKSPACE/vendor
           composer install --no-interaction --no-dev --optimize-autoloader

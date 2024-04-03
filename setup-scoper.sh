@@ -1,5 +1,6 @@
 if ! command -v php-scoper > /dev/null 2>&1; then
   echo "PHP Scoper is not installed. Installing..."
+  PATH=$(composer global config bin-dir --absolute --quiet):$PATH
   composer global config --no-plugins allow-plugins.wpify/scoper true
   composer global require wpify/scoper
 fi
