@@ -36,10 +36,8 @@ if ( !request()->wantsJson() ) {
 						<?php echo esc_html( $error ); ?>
 					</dt-alert>
 				<?php endif; ?>
-        <?php if ( $name_label ?? false ): ?>
-          <?php $this->insert( 'groups/form', get_defined_vars() ); ?>
-        <?php endif; ?>
-			</div>
+		    <?php $this->insert( 'groups/form', get_defined_vars() ); ?>
+      </div>
 		</dt-tile>
 	</div>
 </div>
