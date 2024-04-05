@@ -60,11 +60,7 @@ class UserRepository {
 	 * @return array|null Returns an array containing the coach's contact information, or null if no coach is found.
 	 */
 	public function coach( $id = null ) {
-		$coach_id = $this->coached_by( $id )[0] ?? null;
-		if ( !$coach_id ) {
-			return null;
-		}
-		return \DT_Posts::get_post( 'contacts', $coach_id );
+		return $this->coached_by( $id )[0] ?? null;
 	}
 
 	/**
