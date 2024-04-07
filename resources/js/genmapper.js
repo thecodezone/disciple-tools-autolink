@@ -171,14 +171,9 @@ class genmapper {
     async popupEditGroupModal(group) {
         this.editGroupElement.classList.add("edit-group--active");
         const groupData = group.data;
+        const action = `${$autolink.urls.route}groups/${groupData.id}/edit`;
+        this.injectForm(action)
         const container = document.getElementById("edit-group-content")
-        container.innerHTML = `
-              <dt-tile>
-                  <div class="section__inner">
-                    <al-ajax-form callback="${$autolink.urls.route}/groups/${groupData.id}/edit"></al-ajax-form>
-                  </div>
-              </dt-tile>
-        `
         const  form = container.querySelector("al-ajax-form")
 
         form.addEventListener('loaded', (e) => {
@@ -194,16 +189,74 @@ class genmapper {
                 dtMapbox.post = e.detail.post
                 init_mapbox()
             }
-        });
 
-        form.addEventListener("cancel", () => {
-            this.editGroupElement.classList.remove("edit-group--active");
+
+            const addButton = form.querySelector(".group__add");
+            if (addButton) {
+                addButton.addEventListener("click", () => this.addGroup(groupData));
+            }
+
+            const closeButton = form.querySelector(".group__close")
+            if (closeButton) {
+                closeButton.addEventListener("click", this.closeEditGroupModal.bind(this));
+            }
         });
 
         form.addEventListener("success", (e) => {
             groupData.name = e.detail.name;
             this.editGroup(groupData);
         });
+    }
+
+    injectForm(action, group) {
+        const container = document.getElementById("edit-group-content")
+        container.innerHTML = `
+              <dt-tile>
+                  <div class="section__inner">
+                    <al-ajax-form callback="${action}"></al-ajax-form>
+                  </div>
+              </dt-tile>
+        `
+    }
+
+    addGroup(parentGroup) {
+        const action = `${$autolink.urls.route}groups/create/`
+        this.injectForm(action)
+        const container = document.getElementById("edit-group-content")
+        const  form = container.querySelector("al-ajax-form")
+
+        form.addEventListener('loaded', (e) => {
+            const parentField = container.querySelector('input[name="parent_group"]')
+            parentField.value = parentGroup.id
+
+            const script = document.querySelector('#mapbox-search-widget-js')
+
+            if(script) {
+                dtMapbox.post_id = null
+                dtMapbox.post = false
+                init_mapbox()
+            }
+
+            const closeButton = form.querySelector(".group__close")
+            if (closeButton) {
+                closeButton.addEventListener("click", this.closeEditGroupModal.bind(this));
+            }
+        });
+
+        form.addEventListener("success", (e) => {
+            const newNodeData = {};
+            newNodeData["id"] = e.detail.group.ID;
+            newNodeData["parentId"] = parentGroup.id;
+            newNodeData["title"] = e.detail.name;
+            newNodeData["name"] = e.detail.name;
+            newNodeData["line_1"] = e.detail.name;
+            this.createNode(newNodeData);
+            this.closeEditGroupModal();
+        });
+    }
+
+    closeEditGroupModal() {
+        this.editGroupElement.classList.remove("edit-group--active");
     }
 
     editGroup(groupData) {
@@ -332,8 +385,8 @@ class genmapper {
             }
         });
 
-        this.appendRebaseButton(newGroup);
-        this.appendAddButton(newGroup);
+        //this.appendRebaseButton(newGroup);
+        //this.appendAddButton(newGroup);
 
         // UPDATE including NEW
         const nodeWithNew = node.merge(newGroup);
@@ -571,10 +624,6 @@ class genmapper {
         });
         this.data.push(newNode);
         this.redraw(template);
-        let node = this.findNodeById(newNode.id);
-        if (node) {
-            this.popupEditGroupModal(node);
-        }
     }
 
     findNodeById(id) {

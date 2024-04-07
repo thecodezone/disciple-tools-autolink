@@ -77,25 +77,6 @@
         get_groups(node.data.id);
     });
 
-    chartDiv.on("add-node-requested", function (e, parent) {
-        let loading_spinner = $(".loading-spinner");
-        loading_spinner.addClass("active");
-        let fields = {
-            title: "New",
-            parent_groups: {values: [{value: parent.data.id}]},
-            group_type: "group",
-        };
-        window.API.create_post("groups", fields).then((newGroup) => {
-            let newNodeData = {};
-            newNodeData["id"] = newGroup["ID"];
-            newNodeData["parentId"] = parent.data.id;
-            newNodeData["name"] = fields.title;
-            window.genmapper.createNode(newNodeData);
-            loading_spinner.removeClass("active");
-        });
-
-    });
-
     chartDiv.on("reset-requested", function (e, parent) {
         get_groups();
     });

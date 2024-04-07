@@ -74,12 +74,11 @@ class GroupController {
 	 * Form method handles the generation of the form.
 	 *
 	 * @param Request $request The HTTP request object.
-	 * @param Response $response The HTTP response object.
 	 * @param Assets $assets The assets object used to enqueue assets.
 	 *
 	 * @return mixed The form content or an error message.
 	 */
-	public function form( Request $request, Response $response, Assets $assets, $group_id = null ): mixed {
+	public function form( Request $request, Assets $assets, $group_id = null ): mixed {
 		add_action( 'wp_enqueue_scripts', function () use ( $assets, $group_id ) {
 			$assets->enqueue_mapbox(
 				$group_id,
@@ -92,14 +91,15 @@ class GroupController {
 
 		if ( $request->wantsJson() ) {
 			return [
-				'content' => view( 'groups/form', $params ),
-				'post' => DT_Posts::get_post( 'groups', $group_id, true, false ),
+				'content' => view( 'groups/modal', $params ),
+				'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
 				'code' => 200
 			];
 		} else {
-			return template( 'groups/form-page', $params );
+			return template( 'groups/page', $params );
 		}
 	}
+
 
 	/**
 	 * Generate the view parameters for the form view.
@@ -180,7 +180,7 @@ class GroupController {
 			$start_date = dt_format_date( $start_date['timestamp'] );
 		}
 
-		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error', 'parent_group' );
+		return compact( 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label', 'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'group', 'action', 'error', 'parent_group', 'group_id' );
 	}
 
 	/**
@@ -315,7 +315,8 @@ class GroupController {
 
 		if ( $request->wantsJson() ) {
 			return [
-				'success' => true
+				'success' => true,
+				'group' => $group
 			];
 		} {
 			return redirect( route_url() );

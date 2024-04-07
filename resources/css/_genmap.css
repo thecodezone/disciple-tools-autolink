@@ -56,3 +56,13 @@
 .genmap [name="parent_group"] {
     display: none;
 }
+
+.group .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 3px;
+}
+
+.group .buttons {
+
+}

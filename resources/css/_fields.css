@@ -45,3 +45,10 @@ dt-copy-text {
 .open-mapping-grid-modal {
     display: none;
 }
+
+.ajax-form__loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}

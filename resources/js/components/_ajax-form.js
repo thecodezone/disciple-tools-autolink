@@ -120,10 +120,11 @@ export class AjaxForm extends DtBase {
           "X-WP-Nonce": $autolink.nonce
         }),
       });
-      const { success = false, content =  "" } = await response.json();
+      const data = await response.json();
+      const { success = false, content =  "" } = data;
       this.success = success
       this.error = !success
-      this.dispatchSuccess(this.data)
+      this.dispatchSuccess(data)
       if (content) {
         this.injectContent(content)
       }
@@ -149,6 +150,9 @@ export class AjaxForm extends DtBase {
   }
 
   dispatchSuccess( data ) {
+    data.action = this.action;
+    data.method = this.form.method;
+    Object.assign(data, this.data)
     this.dispatchEvent(new CustomEvent('success', {detail: data}));
   }
 
@@ -164,7 +168,9 @@ export class AjaxForm extends DtBase {
           "ajax-form--success": this.success,
           "ajax-form--loading": this.loading,
       })}">
-        ${this.loading ? html`<div class="ajax-form__loader">Loading</div>` : nothing}
+        ${this.loading ? html`<div class="ajax-form__loader">
+          <dt-spinner></dt-spinner>
+        </div>` : nothing}
         <slot></slot>
         ${!this.loading && this.content ? html`<div class="ajax-form__content">
           ${unsafeHTML(this.content)}
@@ -178,11 +184,8 @@ export class AjaxForm extends DtBase {
 
   renderButton() {
     return html`
-      <dt-button @click="${this.submit}" ?disabled="${this.submitting}" context="success">
+      <dt-button @click="${this.submit}" ?disabled="${this.submitting}" context="primary">
         ${$autolink.translations.save}
-      </dt-button>
-      <dt-button @click="${this.cancel}" context="alert">
-        ${$autolink.translations.close}
       </dt-button>
     `;
   }
