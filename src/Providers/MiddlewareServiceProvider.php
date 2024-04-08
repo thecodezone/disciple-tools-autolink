@@ -33,8 +33,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		DispatchController::class,
 		HandleErrors::class,
 		HandleRedirects::class,
-		Render::class,
 		SetHeaders::class,
+		Render::class,
 	];
 
 	protected $route_middleware = [
