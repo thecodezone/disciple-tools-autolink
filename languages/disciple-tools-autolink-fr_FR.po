@@ -24,7 +24,6 @@ msgstr "Disciple.Tools - Lien automatique"
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
 #, fuzzy
-#| msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
 msgid "https://github.com/thecodezone/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
@@ -82,7 +81,6 @@ msgstr ""
 
 #: charts/groups-genmap.php:104
 #, fuzzy
-#| msgid "Log Out"
 msgid "Zoom Out"
 msgstr "Déconnexion"
 
@@ -112,13 +110,11 @@ msgstr ""
 
 #: controllers/admin-general.php:35
 #, fuzzy
-#| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to reset the training videos to default content?"
 msgstr "Êtes-vous certain de vouloir supprimer "
 
 #: controllers/admin-general.php:36
 #, fuzzy
-#| msgid "Are you sure you want to delete this "
 msgid "Are you sure you want to remove this video?"
 msgstr "Êtes-vous certain de vouloir supprimer "
 
@@ -132,13 +128,11 @@ msgstr ""
 
 #: controllers/admin-general.php:108
 #, fuzzy
-#| msgid "Invalid group nesting."
 msgid "Invalid training videos."
 msgstr "Imbrication de groupe non valide."
 
 #: controllers/app.php:34
 #, fuzzy
-#| msgid "My "
 msgid "My"
 msgstr "Mes "
 
@@ -264,7 +258,6 @@ msgstr ""
 
 #: controllers/tree.php:28
 #, fuzzy
-#| msgid "are you leading?"
 msgid "you lead"
 msgstr "Dirigez-vous?"
 
@@ -278,7 +271,6 @@ msgstr ""
 
 #: disciple-tools-autolink.php:178
 #, fuzzy
-#| msgid "Autolink Home"
 msgid "Autolink"
 msgstr "Autolink Accueil"
 
@@ -375,7 +367,6 @@ msgid "Register"
 msgstr "S'inscrire"
 
 #, fuzzy
-#~| msgid "Parent"
 #~ msgid "Parent group"
 #~ msgstr "Parent"
 
