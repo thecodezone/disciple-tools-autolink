@@ -26,7 +26,6 @@ msgstr "Disciple.Tools - Autolink"
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
 #, fuzzy
-#| msgid "https://github.com/DiscipleTools/disciple-tools-autolink"
 msgid "https://github.com/thecodezone/disciple-tools-autolink"
 msgstr "https://github.com/DiscipleTools/disciple-tools-autolink"
 
@@ -368,7 +367,6 @@ msgid "Register"
 msgstr "Regístrate"
 
 #, fuzzy
-#~| msgid "Parent"
 #~ msgid "Parent group"
 #~ msgstr "Padre"
 
