@@ -36,10 +36,10 @@ $r->condition( 'plugin', function ( Routes $r ) {
 
 		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
 			$r->middleware('survey', function ( Routes $r ) {
-				$r->get( '', [ AppController::class, 'show' ] );
+                $r->get( '', [ GenMapController::class, 'show' ] );
+				$r->get( '/groups', [ AppController::class, 'show' ] );
 				$r->get( '/training', [ TrainingController::class, 'show' ] );
 				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
-				$r->get( '/genmap', [ GenMapController::class, 'show' ] );
 			});
 
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
