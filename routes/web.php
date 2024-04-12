@@ -36,10 +36,10 @@ $r->condition( 'plugin', function ( Routes $r ) {
 
 		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
 			$r->middleware('survey', function ( Routes $r ) {
-				$r->get( '', [ AppController::class, 'show' ] );
+				$r->get( '', [ AppController::class, 'show' ,[ 'middleware' => 'leader' ]]);
 				$r->get( '/training', [ TrainingController::class, 'show' ] );
-				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
-				$r->get( '/genmap', [ GenMapController::class, 'show' ] );
+				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ,[ 'middleware' => 'leader' ]] );
+				$r->get( '/genmap', [ GenMapController::class, 'show' ,[ 'middleware' => 'leader' ]] );
 			});
 
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
@@ -55,11 +55,11 @@ $r->condition( 'plugin', function ( Routes $r ) {
 				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
 				$r->post( '/survey/{page}', [ SurveyController::class, 'update' ] );
 				$r->group("/api", function ( Routes $r ) {
-					$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
-					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
+					$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update']);
+					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index']);
 					$r->get( '/groups', [ GroupController::class, 'index' ] );
 					$r->post( '/field', [ FieldController::class, 'update' ] );
-					$r->get( '/genmap', [ GenMapController::class, 'index' ] );
+					$r->get( '/genmap', [ GenMapController::class, 'index' ]);
 				});
 			});
 
