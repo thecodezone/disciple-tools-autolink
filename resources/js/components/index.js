@@ -11,3 +11,4 @@ import "./_lazy-reveal.js";
 import "./_menu.js";
 import "./_submit-button.js";
 import "./_training-videos-field.js";
+import "./_church-count.js";
