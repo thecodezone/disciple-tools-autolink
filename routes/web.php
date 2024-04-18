@@ -36,7 +36,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 
 		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
 			$r->middleware('survey', function ( Routes $r ) {
-				$r->get( '', [ GenMapController::class, 'show',[ 'middleware' => 'leader' ]]);
+				$r->get( '', [ GenMapController::class, 'show'] );
 				$r->get( '/training', [ TrainingController::class, 'show' ] );
 				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ,[ 'middleware' => 'leader' ]] );
 				$r->get( '/genmap', [ AppController::class, 'show' ,[ 'middleware' => 'leader' ]] );
