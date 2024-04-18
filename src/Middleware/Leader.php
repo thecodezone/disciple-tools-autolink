@@ -15,11 +15,9 @@ class Leader implements Middleware {
            'assigned_to' => [ get_current_user_id() ],
            'sort'        => '-post_date'
        ], false );
-       // dd($request->path());
-        if ($churches['total'] > 0 && $request->path() !== "autolink/genmap" ) {
-               $response = new RedirectResponse( "/autolink/genmap", 302 );
-        }elseif ($request->path() !== "autolink"){
-               $response = new RedirectResponse( "/autolink", 302 );
+
+        if ($churches['total'] == 0 ) {
+               $response = new RedirectResponse( "/autolink/groups", 302 );
         }
 		return $next( $request, $response );
 	}
