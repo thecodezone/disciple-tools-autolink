@@ -9,10 +9,11 @@ use DT\Autolink\CodeZone\Router\Middleware\HandleRedirects;
 use DT\Autolink\CodeZone\Router\Middleware\Middleware;
 use DT\Autolink\CodeZone\Router\Middleware\Render;
 use DT\Autolink\CodeZone\Router\Middleware\Route;
+use DT\Autolink\CodeZone\Router\Middleware\SetHeaders;
 use DT\Autolink\CodeZone\Router\Middleware\Stack;
 use DT\Autolink\CodeZone\Router\Middleware\UserHasCap;
-use DT\Autolink\CodeZone\Router\Middleware\SetHeaders;
 use DT\Autolink\Middleware\CheckShareCookie;
+use DT\Autolink\Middleware\Genmap;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
@@ -44,7 +45,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'magic' => MagicLink::class,
 		'nonce' => Nonce::class,  // nonce:disciple_tools_autolink_nonce
 		'check_share' => CheckShareCookie::class,
-		'survey' => SurveyCompleted::class
+		'survey' => SurveyCompleted::class,
+        'genmap' => Genmap::class
 	];
 
 	/**
