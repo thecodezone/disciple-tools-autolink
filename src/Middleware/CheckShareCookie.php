@@ -108,27 +108,15 @@ class CheckShareCookie implements Middleware {
 			unset( $_COOKIE[$cookie_name] );
 			setcookie( $cookie_name, '', time() - 3600, '/' );
 		}
+
+        $cookie_name = namespace_string( 'leads_group' );
+        if ( isset( $_COOKIE[$cookie_name] ) ) {
+            unset( $_COOKIE[$cookie_name] );
+            setcookie( $cookie_name, '', time() - 3600, '/' );
+
+        }
     }
 
-//    public function add_as_group_leader( $group_id ) {
-//
-//        $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-//
-//        $fields = [
-//            "leaders"       => [
-//                "force_values" => false,
-//                "values"       => [
-//                   [ 'value' => $contact ]
-//                ]
-//            ],
-//        ];
-//
-//        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
-//
-//        if ( ! $group ) {
-//            $this->remove_cookie();
-//        }
-//  }
 
     public function add_as_group_leader( $group_id ) {
 
@@ -146,25 +134,6 @@ class CheckShareCookie implements Middleware {
         ];
         $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
 
-        if ( !$group ) {
-            $this->remove_cookie();
-        } else {
-            // Check if the current user has a coach
-            $current_user_coach = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-
-            // If the current user doesn't have a coach, link them to the original user's coach
-            if ( !$current_user_coach ) {
-                // Get the original user who sent the link
-                $original_user_id = get_original_user_id();
-
-                // Get the coach of the original user
-                $original_user_coach = Disciple_Tools_Users::get_contact_for_user( $original_user_id );
-
-                // Link the current user to the original user's coach
-                if ( $original_user_coach ) {
-                    Disciple_Tools_Users::set_contact_for_user( get_current_user_id(), $original_user_coach );
-                }
-            }
-        }
+        $this->remove_cookie();
     }
 }
