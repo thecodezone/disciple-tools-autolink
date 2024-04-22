@@ -2,9 +2,12 @@
 
 namespace DT\Autolink\Middleware;
 
+use Disciple_Tools_Users;
 use DT\Autolink\CodeZone\Router\Middleware\Middleware;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
+use DT_Posts;
+use Exception;
 use function DT\Autolink\namespace_string;
 
 /**
@@ -29,14 +32,24 @@ class CheckShareCookie implements Middleware {
 			return $next( $request, $response );
 		}
 		$leader_id = $request->cookies->get( namespace_string( 'coached_by' ) );
+        $group_id = $request->cookies->get( namespace_string( 'leads_group' ) );
 
 		if ( $leader_id ) {
 			try {
 				$this->add_leader( $leader_id );
-			} catch ( \Exception $e ) {
+			} catch ( Exception $e ) {
 				$this->remove_cookie();
 			}
 		}
+
+        if ( $group_id ) {
+
+            try {
+                $this->add_as_group_leader( $group_id );
+            } catch ( Exception $e ) {
+                $this->remove_cookie();
+            }
+        }
 
 		return $next( $request, $response );
 	}
@@ -53,16 +66,15 @@ class CheckShareCookie implements Middleware {
 			return;
 		}
 
-		$contact = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+		$contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
 		if ( $leader_id == $contact ) {
 			$this->remove_cookie();
-
 			return;
 		}
 
-		$contact_record = \DT_Posts::get_post( 'contacts', $contact, true, false );
-		$leader         = \DT_Posts::get_post( 'contacts', $leader_id, true, false );
+		$contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
+		$leader         = DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
 		if ( ! $contact_record || ! $leader ) {
 			$this->remove_cookie();
@@ -79,8 +91,7 @@ class CheckShareCookie implements Middleware {
 				'assigned_to' => (string) $leader['corresponds_to_user']
 			];
 
-
-			\DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+			DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
 		}
 
 		$this->remove_cookie();
@@ -96,6 +107,64 @@ class CheckShareCookie implements Middleware {
 		if ( isset( $_COOKIE[$cookie_name] ) ) {
 			unset( $_COOKIE[$cookie_name] );
 			setcookie( $cookie_name, '', time() - 3600, '/' );
-		};
-	}
+		}
+    }
+
+//    public function add_as_group_leader( $group_id ) {
+//
+//        $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+//
+//        $fields = [
+//            "leaders"       => [
+//                "force_values" => false,
+//                "values"       => [
+//                   [ 'value' => $contact ]
+//                ]
+//            ],
+//        ];
+//
+//        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
+//
+//        if ( ! $group ) {
+//            $this->remove_cookie();
+//        }
+//  }
+
+    public function add_as_group_leader( $group_id ) {
+
+        // Get the current user's contact information
+        $current_user_contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+        // Update the group with the new leader
+        $fields = [
+            "leaders" => [
+                "force_values" => false,
+                "values" => [
+                    [ 'value' => $current_user_contact ]
+                ]
+            ],
+        ];
+        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
+
+        if ( !$group ) {
+            $this->remove_cookie();
+        } else {
+            // Check if the current user has a coach
+            $current_user_coach = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+            // If the current user doesn't have a coach, link them to the original user's coach
+            if ( !$current_user_coach ) {
+                // Get the original user who sent the link
+                $original_user_id = get_original_user_id();
+
+                // Get the coach of the original user
+                $original_user_coach = Disciple_Tools_Users::get_contact_for_user( $original_user_id );
+
+                // Link the current user to the original user's coach
+                if ( $original_user_coach ) {
+                    Disciple_Tools_Users::set_contact_for_user( get_current_user_id(), $original_user_coach );
+                }
+            }
+        }
+    }
 }
