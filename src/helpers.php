@@ -283,7 +283,9 @@ function set_plugin_option( $option, $value ): bool {
 function share_url() {
 	return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 }
-
+function group_leader_share_url($group_id) {
+    return magic_url( "autolink", "group_leader", $group_id);
+}
 /**
  * Returns the registered magic apps for a specific root and type.
  *
