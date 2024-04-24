@@ -45,6 +45,7 @@ class CheckShareCookie implements Middleware {
         if ( $group_id ) {
 
             try {
+
                 $this->add_as_group_leader( $group_id );
             } catch ( Exception $e ) {
                 $this->remove_cookie();
