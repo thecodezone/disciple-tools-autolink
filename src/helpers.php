@@ -280,6 +280,9 @@ function set_plugin_option( $option, $value ): bool {
  *
  * @return string The generated share URL.
  */
+function group_leader_share_url($group_id) {
+    return magic_url( "autolink", "group_leader", $group_id);
+}
 function share_url() {
 	return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 }
