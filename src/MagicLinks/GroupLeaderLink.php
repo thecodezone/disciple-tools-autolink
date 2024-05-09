@@ -3,6 +3,7 @@
 namespace DT\Autolink\MagicLinks;
 
 use DT_Magic_Url_Base;
+use DT_Posts;
 use function DT\Autolink\namespace_string;
 use function DT\Autolink\route_url;
 
@@ -18,13 +19,18 @@ class GroupLeaderLink extends MagicApp {
 	public $show_app_tile = true;
 
 	public function boot() {
-		$group = \DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
+		$group = DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
 		$cookie_name = namespace_string( 'leads_group' );
 
 		if ( !isset( $cookie_name ) ) {
 			setcookie( $cookie_name, $group['ID'], time() + ( 86400 * 30 ), "/" );
 		}
+		if ( request()->has( 'coached_by' ) ){
+            $cookie_name = namespace_string( 'coached_by' );
+            setcookie( $cookie_name, request()->get( 'coached_by' ), time() + ( 86400 * 30 ), "/" );
 
-		wp_redirect( route_url() );
+		}
+
+        wp_redirect( route_url() );
 	}
 }

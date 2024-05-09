@@ -1,6 +1,6 @@
 <?php
 /**
-* @var string $action
+ * @var string $action
  * @var string $nonce
  * @var string $group_id
  * @var string $name_label

@@ -56,7 +56,8 @@
     "platform-check": false,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
-      "bamarni/composer-bin-plugin": true
+      "bamarni/composer-bin-plugin": true,
+      "wpify/scoper": true
     }
   }
 }
