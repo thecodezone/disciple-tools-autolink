@@ -48,5 +48,9 @@ use function DT\Autolink\group_label;
         </dt-tile>
     <?php endif; ?>
 
-
+    <?php if ( ! empty( $group_id ) ): ?>
+        <!--        --><?php //if ( request()->wantsJson() ): ?>
+        <?php $this->insert( 'groups/share-field', get_defined_vars() ); ?>
+        <!--        --><?php //endif; ?>
+    <?php endif; ?>
 </div>

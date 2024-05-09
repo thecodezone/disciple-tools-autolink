@@ -29,6 +29,7 @@
 
 	<?php wp_nonce_field(  'disciple-tools-autolink' ); ?>
 
+
 	<?php if ( ! empty( $group_id ) ): ?>
 		<input type="hidden"
 		       name="id"

@@ -31,6 +31,3 @@ $user_name = $user_repository->display_name();
 $coach_name = $user_repository->coach_name();
 ?>
 <dt-copy-text value="<?php echo esc_url( group_leader_share_url($group_id) ); ?>" <?php language_attributes(); ?>></dt-copy-text>
-<span class="help-text cloak">
-          <?php esc_html_e( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' ) ?>
-      </span>
