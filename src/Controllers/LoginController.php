@@ -52,7 +52,21 @@ class LoginController {
 
 		wp_set_current_user( $user->ID );
 
-		return redirect( "/autolink" );
+        $churches           = \DT_Posts::list_posts( 'groups', [
+           'assigned_to' => [ get_current_user_id() ],
+           'sort'        => '-post_date'
+       ], false );
+
+        if ($churches['total'] > 0) {
+            return redirect( "/autolink/genmap/" );
+              // $response = new RedirectResponse( "/autolink/genmap/", 302 );
+
+        }else{
+            return redirect( "/autolink" );
+             //  $response = new RedirectResponse( "/autolink", 302 );
+        }
+
+		// return redirect( "/autolink" );
 	}
 
 	/**

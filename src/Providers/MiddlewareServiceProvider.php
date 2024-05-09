@@ -13,6 +13,7 @@ use DT\Autolink\CodeZone\Router\Middleware\Stack;
 use DT\Autolink\CodeZone\Router\Middleware\UserHasCap;
 use DT\Autolink\CodeZone\Router\Middleware\SetHeaders;
 use DT\Autolink\Middleware\CheckShareCookie;
+use DT\Autolink\Middleware\Leader;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
@@ -44,7 +45,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'magic' => MagicLink::class,
 		'nonce' => Nonce::class,  // nonce:disciple_tools_autolink_nonce
 		'check_share' => CheckShareCookie::class,
-		'survey' => SurveyCompleted::class
+		'survey' => SurveyCompleted::class,
+        'leader' => Leader::class
 	];
 
 	/**
