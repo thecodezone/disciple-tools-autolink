@@ -2,15 +2,17 @@
 
 namespace DT\Autolink;
 
+use Disciple_Tools_Users;
 use DT\Autolink\GuzzleHttp\Psr7\HttpFactory;
 use DT\Autolink\Illuminate\Http\RedirectResponse;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Support\Str;
 use DT\Autolink\Illuminate\Validation\Factory;
 use DT\Autolink\League\Plates\Engine;
-use DT\Autolink\Services\Template;
 use DT\Autolink\Services\Options;
+use DT\Autolink\Services\Template;
 use DT_Magic_URL;
+use DT_Posts;
 use Exception;
 
 /**
@@ -18,8 +20,9 @@ use Exception;
  *
  * @return Plugin The singleton instance of the Plugin class.
  */
-function plugin(): Plugin {
-	return Plugin::$instance;
+function plugin(): Plugin
+{
+    return Plugin::$instance;
 }
 
 /**
@@ -27,8 +30,9 @@ function plugin(): Plugin {
  *
  * @return Illuminate\Container\Container The container object.
  */
-function container(): Illuminate\Container\Container {
-	return plugin()->container;
+function container(): Illuminate\Container\Container
+{
+    return plugin()->container;
 }
 
 /**
@@ -38,12 +42,14 @@ function container(): Illuminate\Container\Container {
  *
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
-function plugin_url( string $path = '' ): string {
-	return plugins_url( 'disciple-tools-autolink' ) . '/' . ltrim( $path, '/' );
+function plugin_url( string $path = '' ): string
+{
+    return plugins_url( 'disciple-tools-autolink' ) . '/' . ltrim( $path, '/' );
 }
 
-function route_url( string $path = '' ): string {
-	return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+function route_url( string $path = '' ): string
+{
+    return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
 }
 
 /**
@@ -53,11 +59,12 @@ function route_url( string $path = '' ): string {
  *
  * @return string The full path of the file or directory, relative to the plugin directory.
  */
-function plugin_path( string $path = '' ): string {
-	return '/' . implode( '/', [
-			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
-			trim( $path, '/' ),
-    ] );
+function plugin_path( string $path = '' ): string
+{
+    return '/' . implode('/', [
+            trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
+            trim( $path, '/' ),
+    ]);
 }
 
 /**
@@ -67,8 +74,9 @@ function plugin_path( string $path = '' ): string {
  *
  * @return string The complete source path.
  */
-function src_path( string $path = '' ): string {
-	return plugin_path( 'src/' . $path );
+function src_path( string $path = '' ): string
+{
+    return plugin_path( 'src/' . $path );
 }
 
 /**
@@ -78,8 +86,9 @@ function src_path( string $path = '' ): string {
  *
  * @return string The path to the resources directory, with optional subdirectory appended.
  */
-function resources_path( string $path = '' ): string {
-	return plugin_path( 'resources/' . $path );
+function resources_path( string $path = '' ): string
+{
+    return plugin_path( 'resources/' . $path );
 }
 
 /**
@@ -89,8 +98,9 @@ function resources_path( string $path = '' ): string {
  *
  * @return string The path to the routes directory, with optional subdirectory appended.
  */
-function routes_path( string $path = '' ): string {
-	return plugin_path( 'routes/' . $path );
+function routes_path( string $path = '' ): string
+{
+    return plugin_path( 'routes/' . $path );
 }
 
 /**
@@ -100,8 +110,9 @@ function routes_path( string $path = '' ): string {
  *
  * @return string The path to the views directory, with optional subdirectory appended.
  */
-function views_path( string $path = '' ): string {
-	return plugin_path( 'resources/views/' . $path );
+function views_path( string $path = '' ): string
+{
+    return plugin_path( 'resources/views/' . $path );
 }
 
 /**
@@ -112,13 +123,14 @@ function views_path( string $path = '' ): string {
  *
  * @return string|Engine The rendered view if a view name is provided, otherwise the view engine object.
  */
-function view( string $view = "", array $args = [] ): string|Engine {
-	$engine = container()->make( Engine::class );
-	if ( ! $view ) {
-		return $engine;
-	}
+function view( string $view = "", array $args = [] ): string|Engine
+{
+    $engine = container()->make( Engine::class );
+    if ( !$view ) {
+        return $engine;
+    }
 
-	return $engine->render( $view, $args );
+    return $engine->render( $view, $args );
 }
 
 /**
@@ -130,13 +142,14 @@ function view( string $view = "", array $args = [] ): string|Engine {
  * @return mixed If $template is not specified, an instance of the Template service is returned.
  *               If $template is specified, the rendered template is returned.
  */
-function template( string $template = "", array $args = [] ): mixed {
-	$service = container()->make( Template::class );
-	if ( ! $template ) {
-		return $service;
-	}
+function template( string $template = "", array $args = [] ): mixed
+{
+    $service = container()->make( Template::class );
+    if ( !$template ) {
+        return $service;
+    }
 
-	return $service->render( $template, $args );
+    return $service->render( $template, $args );
 }
 
 /**
@@ -144,8 +157,9 @@ function template( string $template = "", array $args = [] ): mixed {
  *
  * @return Request The Request object.
  */
-function request(): Request {
-	return container()->make( Request::class );
+function request(): Request
+{
+    return container()->make( Request::class );
 }
 
 /**
@@ -156,11 +170,12 @@ function request(): Request {
  *
  * @return RedirectResponse A new RedirectResponse instance.
  */
-function redirect( string $url, int $status = 302 ): RedirectResponse {
-	return container()->makeWith( RedirectResponse::class, [
-		'url'    => $url,
-		'status' => $status,
-	] );
+function redirect( string $url, int $status = 302 ): RedirectResponse
+{
+    return container()->makeWith(RedirectResponse::class, [
+        'url' => $url,
+        'status' => $status,
+    ]);
 }
 
 /**
@@ -172,13 +187,14 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
  *
  * @return array The array of validation error messages, if any.
  */
-function validate( array $data, array $rules, array $messages = [] ): array {
-	$validator = container()->make( Factory::class )->make( $data, $rules, $messages );
-	if ( $validator->fails() ) {
-		return $validator->errors()->toArray();
-	}
+function validate( array $data, array $rules, array $messages = [] ): array
+{
+    $validator = container()->make( Factory::class )->make( $data, $rules, $messages );
+    if ( $validator->fails() ) {
+        return $validator->errors()->toArray();
+    }
 
-	return [];
+    return [];
 }
 
 /**
@@ -192,12 +208,13 @@ function validate( array $data, array $rules, array $messages = [] ): array {
  *
  * @return bool Returns true if the option was successfully set, false otherwise.
  */
-function set_option( string $option_name, mixed $value ): bool {
-	if ( get_option( $option_name ) === false ) {
-		return add_option( $option_name, $value );
-	} else {
-		return update_option( $option_name, $value );
-	}
+function set_option( string $option_name, mixed $value ): bool
+{
+    if ( get_option( $option_name ) === false ) {
+        return add_option( $option_name, $value );
+    } else {
+        return update_option( $option_name, $value );
+    }
 }
 
 /**
@@ -209,21 +226,22 @@ function set_option( string $option_name, mixed $value ): bool {
  *
  * @throws Exception If there is a database error before starting the transaction.
  */
-function transaction( $callback ): bool|string {
-	global $wpdb;
-	if ( $wpdb->last_error ) {
-		return $wpdb->last_error;
-	}
-	$wpdb->query( 'START TRANSACTION' );
-	$callback();
-	if ( $wpdb->last_error ) {
-		$wpdb->query( 'ROLLBACK' );
+function transaction( $callback ): bool|string
+{
+    global $wpdb;
+    if ( $wpdb->last_error ) {
+        return $wpdb->last_error;
+    }
+    $wpdb->query( 'START TRANSACTION' );
+    $callback();
+    if ( $wpdb->last_error ) {
+        $wpdb->query( 'ROLLBACK' );
 
-		return $wpdb->last_error;
-	}
-	$wpdb->query( 'COMMIT' );
+        return $wpdb->last_error;
+    }
+    $wpdb->query( 'COMMIT' );
 
-	return true;
+    return true;
 }
 
 /**
@@ -231,8 +249,9 @@ function transaction( $callback ): bool|string {
  *
  * @return HTTPFactory The HTTPFactory instance.
  */
-function http(): HTTPFactory {
-	return container()->make( HTTPFactory::class );
+function http(): HTTPFactory
+{
+    return container()->make( HTTPFactory::class );
 }
 
 /**
@@ -242,8 +261,9 @@ function http(): HTTPFactory {
  *
  * @return string The result of concatenating the given string to the namespace of the Router class.
  */
-function namespace_string( string $string ) {
-	return Plugin::class . '\\' . $string;
+function namespace_string( string $string )
+{
+    return Plugin::class . '\\' . $string;
 }
 
 /**
@@ -254,10 +274,11 @@ function namespace_string( string $string ) {
  *
  * @return mixed The value of the option if it exists, or the default value if it doesn't.
  */
-function get_plugin_option( $option, $default = null, $required = false ) {
-	$options = container()->make( Options::class );
+function get_plugin_option( $option, $default = null, $required = false )
+{
+    $options = container()->make( Options::class );
 
-	return $options->get( $option, $default, $required );
+    return $options->get( $option, $default, $required );
 }
 
 /**
@@ -269,10 +290,11 @@ function get_plugin_option( $option, $default = null, $required = false ) {
  * @return bool true if the option was successfully set; otherwise, false.
  */
 
-function set_plugin_option( $option, $value ): bool {
-	$options = container()->make( Options::class );
+function set_plugin_option( $option, $value ): bool
+{
+    $options = container()->make( Options::class );
 
-	return $options->set( $option, $value );
+    return $options->set( $option, $value );
 }
 
 /**
@@ -280,15 +302,24 @@ function set_plugin_option( $option, $value ): bool {
  *
  * @return string The generated share URL.
  */
-function group_leader_share_url($group_id) {
-    return magic_url( "autolink", "group_leader", $group_id);
+/**
+ * function group_leader_share_url( $group_id )
+ * {
+ * return magic_url( "autolink", "group_leader", $group_id );
+ * }
+ */
+function group_leader_share_url( $group_id )
+{
+    $current_user_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+    return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
 }
-function share_url() {
-	return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+
+function share_url()
+{
+    return magic_url( "autolink", "coached_by", Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 }
-function group_leader_share_url($group_id) {
-    return magic_url( "autolink", "group_leader", $group_id);
-}
+
 /**
  * Returns the registered magic apps for a specific root and type.
  *
@@ -298,10 +329,11 @@ function group_leader_share_url($group_id) {
  * @return array|bool The registered magic apps for the given root and type.
  *                  Returns an array if found, otherwise returns false.
  */
-function magic_app( $root, $type ): array|bool {
-	$magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-	$root_apps = $magic_apps[ $root ] ?? [];
-	return $root_apps[ $type ] ?? false;
+function magic_app( $root, $type ): array|bool
+{
+    $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+    $root_apps = $magic_apps[$root] ?? [];
+    return $root_apps[$type] ?? false;
 }
 
 /**
@@ -313,23 +345,24 @@ function magic_app( $root, $type ): array|bool {
  *
  * @return string The generated magic URL.
  */
-function magic_url( $root, $type, $id ): string {
-	$app = magic_app( $root, $type );
-	if ( !$app ) {
-		return "";
-	}
-	$record = \DT_Posts::get_post( $app["post_type"], $id, true, false );
-	if ( !isset( $record[ $app["meta_key"] ] ) ) {
-		$key = dt_create_unique_key();
-		update_post_meta( get_the_ID(), $app["meta_key"], $key );
-	}
+function magic_url( $root, $type, $id ): string
+{
+    $app = magic_app( $root, $type );
+    if ( !$app ) {
+        return "";
+    }
+    $record = DT_Posts::get_post( $app["post_type"], $id, true, false );
+    if ( !isset( $record[$app["meta_key"]] ) ) {
+        $key = dt_create_unique_key();
+        update_post_meta( get_the_ID(), $app["meta_key"], $key );
+    }
 
-	return DT_Magic_URL::get_link_url_for_post(
-		$app["post_type"],
-		$id,
-		$app["root"],
-		$app["type"]
-	);
+    return DT_Magic_URL::get_link_url_for_post(
+        $app["post_type"],
+        $id,
+        $app["root"],
+        $app["type"]
+    );
 }
 
 
@@ -341,14 +374,15 @@ function magic_url( $root, $type, $id ): string {
  *
  * @return string The URL for the logo image.
  */
-function logo_url() {
-	$logo_url        = plugin_url( 'resources/img/logo-color.png' );
-	$custom_logo_url = get_option( 'custom_logo_url' );
-	if ( ! empty( $custom_logo_url ) ) {
-		$logo_url = $custom_logo_url;
-	}
+function logo_url()
+{
+    $logo_url = plugin_url( 'resources/img/logo-color.png' );
+    $custom_logo_url = get_option( 'custom_logo_url' );
+    if ( !empty( $custom_logo_url ) ) {
+        $logo_url = $custom_logo_url;
+    }
 
-	return $logo_url;
+    return $logo_url;
 }
 
 /**
@@ -356,9 +390,10 @@ function logo_url() {
  *
  * @return object The labels for the "groups" post type.
  */
-function group_labels() {
-	$post_type = get_post_type_object( 'groups' );
-	return get_post_type_labels( $post_type );
+function group_labels()
+{
+    $post_type = get_post_type_object( 'groups' );
+    return get_post_type_labels( $post_type );
 }
 
 /**
@@ -366,8 +401,9 @@ function group_labels() {
  *
  * @return string The label of the groups.
  */
-function groups_label() {
-	return group_labels()->name;
+function groups_label()
+{
+    return group_labels()->name;
 }
 
 /**
@@ -375,6 +411,7 @@ function groups_label() {
  *
  * @return string The singular name of the group label.
  */
-function group_label() {
-	return group_labels()->singular_name;
+function group_label()
+{
+    return group_labels()->singular_name;
 }
