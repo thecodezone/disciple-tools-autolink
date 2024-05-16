@@ -18,6 +18,15 @@ use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 class Assets {
 	private static $enqueued = false;
 
+	public function register_mapbox( $post_id = false ) {
+		add_action( 'wp_enqueue_scripts', function () use ( $post_id ) {
+			$this->enqueue_mapbox(
+          $post_id,
+          $post_id ? \DT_Posts::get_post( 'groups', $post_id ) : false
+			);
+		}, 1 );
+	}
+
 	public function enqueue_mapbox( $post_id, $post ) {
 		DT_Mapbox_API::load_mapbox_header_scripts();
 

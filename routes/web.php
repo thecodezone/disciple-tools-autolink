@@ -43,10 +43,12 @@ $r->condition( 'plugin', function ( Routes $r ) {
 			});
 
 			$r->get( '/logout', [ LoginController::class, 'logout' ] );
-			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'form' ] );
-			$r->get( '/groups/create', [ GroupController::class, 'form' ] );
 			$r->get( '/survey', [ SurveyController::class, 'show' ] );
 			$r->get( '/survey/{page}', [ SurveyController::class, 'show' ] );
+			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
+			$r->get( '/groups/modal/create', [ GroupController::class, 'create_modal' ] );
+			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
+			$r->get( '/groups/{group_id}/modal', [ GroupController::class, 'show_modal' ] );
 
 			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
 				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );

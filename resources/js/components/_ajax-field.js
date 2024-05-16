@@ -185,7 +185,7 @@ export class AjaxField extends DtBase {
 
         if (loading) {
             return html`
-                <dt-spinner > </dt-spinner>
+                <dt-spinner></dt-spinner>
             `;
         }
 

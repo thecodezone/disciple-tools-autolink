@@ -171,7 +171,7 @@ class genmapper {
     async popupEditGroupModal(group) {
         this.editGroupElement.classList.add("edit-group--active");
         const groupData = group.data;
-        const action = `${$autolink.urls.route}groups/${groupData.id}/edit`;
+        const action = `${$autolink.urls.route}groups/${groupData.id}/modal`;
         this.injectForm(action)
         const container = document.getElementById("edit-group-content")
         const  form = container.querySelector("al-ajax-form")
@@ -220,7 +220,7 @@ class genmapper {
     }
 
     addGroup(parentGroup) {
-        const action = `${$autolink.urls.route}groups/create/`
+        const action = `${$autolink.urls.route}groups/modal/create/`
         this.injectForm(action)
         const container = document.getElementById("edit-group-content")
         const  form = container.querySelector("al-ajax-form")

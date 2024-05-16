@@ -70,6 +70,49 @@ class GroupController {
         return $result;
     }
 
+	/**
+	 * Show modal method returns the content and post data for a specific group modal.
+	 *
+	 * @param Request $request The HTTP request object.
+	 * @param int $group_id The ID of the group.
+	 *
+	 * @return array The array containing the content, post, and code.
+	 */
+	public function show_modal( Request $request, $group_id ) {
+		return [
+			'content' => view( 'groups/modal', $this->form_view_params( $request, $group_id) ),
+			'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
+			'code' => 200
+		];
+	}
+
+	/**
+	 * Create modal method returns the content and HTTP code for a create modal view.
+	 *
+	 * @param Request $request The HTTP request object.
+	 *
+	 * @return array The array containing the content and HTTP code.
+	 */
+	public function create_modal( Request $request ) {
+		return [
+			'content' => view( 'groups/create-modal', $this->form_view_params( $request ) ),
+			'code' => 200
+		];
+	}
+
+	/**
+	 * Edit method retrieves the data for a group from the database.
+	 *
+	 * @param Request $request The HTTP request object.
+	 *
+	 * @return mixed The form content or an error message.
+	 */
+	public function create( Request $request, Assets $assets ) {
+		$assets->register_mapbox();
+
+		return template( 'groups/page', $this->form_view_params( $request ) );
+	}
+
     /**
      * Form method handles the generation of the form.
      *
@@ -78,26 +121,10 @@ class GroupController {
      *
      * @return mixed The form content or an error message.
      */
-    public function form( Request $request, Assets $assets, $group_id = null ): mixed {
-        add_action( 'wp_enqueue_scripts', function () use ( $assets, $group_id ) {
-            $assets->enqueue_mapbox(
-                $group_id,
-                $group_id ? DT_Posts::get_post( 'groups', $group_id ) : false
-            );
-        }, 1 );
+    public function edit( Request $request, Assets $assets, $group_id ): mixed {
+		$assets->register_mapbox( $group_id );
 
-
-        $params = $this->form_view_params( $request, $group_id );
-
-        if ( $request->wantsJson() ) {
-            return [
-                'content' => view( 'groups/modal', $params ),
-                'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
-                'code' => 200
-            ];
-        } else {
-            return template( 'groups/page', $params );
-        }
+	    return template( 'groups/page', $this->form_view_params( $request, $group_id ) );
     }
 
 
@@ -320,7 +347,7 @@ class GroupController {
                 'group' => $group
             ];
         } {
-            return redirect( route_url() );
+            return redirect( route_url( 'groups' ) );
         }
     }
 
@@ -374,7 +401,7 @@ class GroupController {
                 'success' => true
             ];
         } {
-            return redirect( route_url() );
+            return redirect( route_url( 'groups ') );
         }
     }
 
