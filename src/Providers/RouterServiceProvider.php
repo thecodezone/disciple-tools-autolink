@@ -4,11 +4,8 @@ namespace DT\Autolink\Providers;
 
 use DT\Autolink\CodeZone\Router;
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
-use DT\Autolink\CodeZone\Router\Middleware\Stack;
 use DT\Autolink\FastRoute\RouteCollector;
-use DT\Autolink\Illuminate\Http\Response;
-use function DT\Autolink\is_plugin_route;
-use function DT\Autolink\namespace_string;
+use DT\Autolink\Plugin;
 use function DT\Autolink\routes_path;
 
 class RouterServiceProvider extends ServiceProvider {
@@ -19,6 +16,7 @@ class RouterServiceProvider extends ServiceProvider {
 	public function register(): void {
 		Router::register( [
 			'container' => $this->container,
+			'route_param' => Plugin::ROUTE_QUERY_PARAM,
 		] );
 
 		add_filter( Router\namespace_string( "routes" ), [ $this, 'include_route_file' ], 1 );

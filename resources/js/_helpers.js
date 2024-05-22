@@ -15,8 +15,8 @@ export const loaded = function (callback) {
   }
 }
 
-export const route_url = ( path ) => {
-  return `${$autolink.urls.route.replace(/\/$/, "").trim()}/${path.replace(/^\/|\/$/g, '').trim()}`
+export const route_url = ( path, params = {} ) => {
+  return add_url_params(`${$autolink.urls.route.replace(/\/$/, "").trim()}/${path.replace(/^\/|\/$/g, '').trim()}`, params);
 }
 
 export const api_url = ( path ) => {
@@ -45,4 +45,16 @@ export const form_data_to_object = (formData) => {
   }
 
   return data;
+}
+
+function add_url_params(url, params = {}){
+  let urlObj = new URL(url);
+
+  // Merge existing params with new params.
+  for(const key in params) {
+    urlObj.searchParams.append(key, params[key]);
+  }
+
+  // Construct the final URL.
+  return urlObj.toString();
 }

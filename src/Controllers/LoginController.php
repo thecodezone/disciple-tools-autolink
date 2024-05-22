@@ -6,6 +6,7 @@ use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;
 use DT\Autolink\Plugin;
 use function DT\Autolink\redirect;
+use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 use function DT\Autolink\plugin_url;
 
@@ -69,8 +70,8 @@ class LoginController {
 	 * @return Response The response object.
 	 */
 	public function login( $params = [] ) {
-		$register_url = '/autolink/register';
-		$form_action  = '/autolink/login';
+		$register_url = route_url( 'register' );
+		$form_action  = route_url( 'login' );
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
@@ -96,6 +97,6 @@ class LoginController {
 	public function logout( $params = [] ) {
 		wp_logout();
 
-		return redirect( '/autolink/login' );
+		return redirect( route_url( 'login' ) );
 	}
 }

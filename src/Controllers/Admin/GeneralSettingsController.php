@@ -28,6 +28,7 @@ class GeneralSettingsController {
 			$training_videos = stripslashes( preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $training_videos ) );
 		}
 
+
 		$allow_parent_group_selection = $request->post( "allow_parent_group_selection" ) == "1" ? "1" : "0";
 		$show_in_menu = $request->post( "show_in_menu" ) == "1" ? "1" : "0";
 
@@ -40,14 +41,16 @@ class GeneralSettingsController {
 			set_plugin_option( 'training_videos', $training_videos );
 		}
 
+
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
 		set_plugin_option( 'show_in_menu', $show_in_menu );
 
 		if ( $error ) {
-			return redirect( 'admin.php?page=disciple_tools_autolink&tab=general&error=' . $error );
+			\wp_redirect( 'admin.php?page=disciple_tools_autolink&tab=general&error=' . $error );
+		} else {
+			\wp_redirect( 'admin.php?page=disciple_tools_autolink&tab=general' );
 		}
-
-		return redirect( 'admin.php?page=disciple_tools_autolink&tab=general' );
+		exit;
 	}
 
 	/**

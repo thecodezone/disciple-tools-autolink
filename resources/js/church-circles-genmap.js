@@ -6,6 +6,18 @@
         show_template_overview();
     });
 
+    function add_url_params(url, params = {}){
+        let urlObj = new URL(url);
+
+        // Merge existing params with new params.
+        for(const key in params) {
+            urlObj.searchParams.append(key, params[key]);
+        }
+
+        // Construct the final URL.
+        return urlObj.toString();
+    }
+
     function show_template_overview() {
         const windowHeight = document.documentElement.clientHeight;
         chartDiv.empty().html(`
@@ -37,13 +49,14 @@
     function get_groups(group = null) {
         let loading_spinner = $(".loading-spinner");
         loading_spinner.addClass("active");
+
         jQuery(document).ready(function () {
             return jQuery
                 .ajax({
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    url: $autolink.urls.route + `api/genmap/?node=${group}`,
+                    url: add_url_params($autolink.urls.route + "/api/genmap", {"node": group}),
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("X-WP-Nonce", $autolink.nonce);
                     },

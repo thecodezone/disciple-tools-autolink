@@ -4,8 +4,8 @@ namespace DT\Autolink\Controllers;
 
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Illuminate\Http\Response;
-use function DT\Autolink\plugin_url;
 use function DT\Autolink\redirect;
+use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
 class RegisterController {
@@ -62,8 +62,8 @@ class RegisterController {
 	 * Show the register template
 	 */
 	public function register( $params = [] ) {
-		$form_action = '/autolink/register';
-		$login_url   = '/autolink/login';
+		$form_action = route_url( 'register' );
+		$login_url   = route_url( 'login' );
 		$error       = $params['error'] ?? '';
 		$username    = $params['username'] ?? '';
 		$email       = $params['email'] ?? '';

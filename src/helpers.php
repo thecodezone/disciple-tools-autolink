@@ -44,12 +44,27 @@ function container(): Illuminate\Container\Container
  */
 function plugin_url( string $path = '' ): string
 {
-    return plugins_url( 'disciple-tools-autolink' ) . '/' . ltrim( $path, '/' );
+	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
 }
 
+/**
+ * Generates the URL for a given route path.
+ *
+ * If route rewriting is not enabled, the URL is constructed using the query string
+ * format with the route path added as a query parameter. Otherwise, the URL is
+ * constructed using the home route and the provided path.
+ *
+ * @param string $path The route path.
+ *
+ * @return string The generated URL.
+ */
 function route_url( string $path = '' ): string
 {
-    return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+	if ( ! has_route_rewrite() ) {
+		return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
+	} else {
+		return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+	}
 }
 
 /**
@@ -414,4 +429,21 @@ function groups_label()
 function group_label()
 {
     return group_labels()->singular_name;
+}
+
+/**
+ * Checks if the route rewrite rule exists in the WordPress rewrite rules.
+ *
+ * @return bool Whether the route rewrite rule exists in the rewrite rules.
+ * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
+ *
+ */
+function has_route_rewrite(): bool {
+	global $wp_rewrite;
+
+	if ( ! is_array( $wp_rewrite->rules ) ) {
+		return false;
+	}
+
+	return array_key_exists( '^' . Plugin::HOME_ROUTE . '/(.+)/?', $wp_rewrite->rules );
 }

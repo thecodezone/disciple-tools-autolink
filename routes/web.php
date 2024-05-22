@@ -26,50 +26,43 @@ use DT\Autolink\Controllers\TrainingController;
 use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
+$r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth', 'check_share' ] ] ] );
+$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+$r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+$r->get( 'register', [ RegisterController::class, 'register' ] );
+$r->post( 'register', [ RegisterController::class, 'process' ] );
 
-$r->condition( 'plugin', function ( Routes $r ) {
-	$r->group( 'autolink', function ( Routes $r ) {
-		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
-		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
-		$r->get( '/register', [ RegisterController::class, 'register' ] );
-		$r->post( '/register', [ RegisterController::class, 'process' ] );
+$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
+	$r->middleware('survey', function ( Routes $r ) {
+		$r->get( 'groups', [ AppController::class, 'show' ] );
+		$r->get( 'training', [ TrainingController::class, 'show' ] );
+		$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] );
+	});
 
-		$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
-			$r->middleware('survey', function ( Routes $r ) {
-                $r->get( '', [ GenMapController::class, 'show', [ 'middleware' => 'genmap' ] ] );
-				$r->get( '/groups', [ AppController::class, 'show' ] );
-				$r->get( '/training', [ TrainingController::class, 'show' ] );
-				$r->get( '/coaching-tree', [ CoachingTreeController::class, 'show' ] );
-			});
+	$r->get( 'logout', [ LoginController::class, 'logout' ] );
+	$r->get( 'survey', [ SurveyController::class, 'show' ] );
+	$r->get( 'survey/{page}', [ SurveyController::class, 'show' ] );
+	$r->get( 'groups/create', [ GroupController::class, 'create' ] );
+	$r->get( 'groups/modal/create', [ GroupController::class, 'create_modal' ] );
+	$r->get( 'groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
+	$r->get( 'groups/{group_id}/modal', [ GroupController::class, 'show_modal' ] );
 
-			$r->get( '/logout', [ LoginController::class, 'logout' ] );
-			$r->get( '/survey', [ SurveyController::class, 'show' ] );
-			$r->get( '/survey/{page}', [ SurveyController::class, 'show' ] );
-			$r->get( '/groups/create', [ GroupController::class, 'create' ] );
-			$r->get( '/groups/modal/create', [ GroupController::class, 'create_modal' ] );
-			$r->get( '/groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
-			$r->get( '/groups/{group_id}/modal', [ GroupController::class, 'show_modal' ] );
+	$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
+		$r->get( 'groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
+		$r->post( 'groups', [ GroupController::class, 'store' ] );
+		$r->post( 'groups/{group_id}', [ GroupController::class, 'update' ] );
+		$r->get( 'groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
+		$r->post( 'survey/{page}', [ SurveyController::class, 'update' ] );
+		$r->group("api", function ( Routes $r ) {
+			$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
+			$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
+			$r->get( '/groups', [ GroupController::class, 'index' ] );
+			$r->post( '/field', [ FieldController::class, 'update' ] );
+			$r->get( '/genmap', [ GenMapController::class, 'index' ] );
+		});
+	});
 
-			$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
-				$r->get( '/groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
-				$r->post( '/groups', [ GroupController::class, 'store' ] );
-				$r->post( '/groups/{group_id}', [ GroupController::class, 'update' ] );
-				$r->get( '/groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
-				$r->post( '/survey/{page}', [ SurveyController::class, 'update' ] );
-				$r->group("/api", function ( Routes $r ) {
-					$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
-					$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
-					$r->get( '/groups', [ GroupController::class, 'index' ] );
-					$r->post( '/field', [ FieldController::class, 'update' ] );
-					$r->get( '/genmap', [ GenMapController::class, 'index' ] );
-				});
-			});
-
-			$r->get( '/groups/{group_id}', [ GroupController::class, 'show' ] );
-		} );
-	} );
-
-	$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+	$r->get( 'groups/{group_id}', [ GroupController::class, 'show' ] );
 } );
 
 $r->condition( 'backend', function ( Routes $r ) {
