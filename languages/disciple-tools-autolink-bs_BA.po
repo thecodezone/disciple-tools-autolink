@@ -6,7 +6,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
 "POT-Creation-Date: 2024-04-07T04:51:43+00:00\n"
-"PO-Revision-Date: 2024-05-18 19:59+0000\n"
+"PO-Revision-Date: 2024-05-26 17:59+0000\n"
 "Last-Translator: Dragana <celikdragana0@gmail.com>\n"
 "Language-Team: Bosnian <https://translate.disciple.tools/projects/"
 "disciple-tools/disciple-tools-autolink/bs_BA/>\n"
@@ -22,12 +22,12 @@ msgstr ""
 #. Plugin Name of the plugin
 #: disciple-tools-autolink.php
 msgid "Disciple.Tools - Autolink"
-msgstr ""
+msgstr "Disciple.Tools - autolink"
 
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
 msgid "https://github.com/thecodezone/disciple-tools-autolink"
-msgstr ""
+msgstr "https://github.com/thecodezone/disciple-tools-autolink"
 
 #. Description of the plugin
 #: disciple-tools-autolink.php
@@ -36,116 +36,120 @@ msgid ""
 "Tools network. Share access with your downstream leaders to easily build "
 "your group tree."
 msgstr ""
+"Pruža pojednostavljeno sučelje za upravljanje i vizualizaciju vaše "
+"Disciple.Tools mreže. Podijelite pristup sa svojim nižim vođama kako biste "
+"jednostavno izgradili stablo grupe."
 
 #. Author URI of the plugin
 #: disciple-tools-autolink.php
 msgid "https://www.eastwest.org/"
-msgstr ""
+msgstr "https://www.eastwest.org/"
 
 #: charts/groups-genmap.php:95 controllers/group.php:207
 msgid "Parent"
-msgstr ""
+msgstr "Roditelj"
 
 #: charts/groups-genmap.php:96
 msgid "Save Changes"
-msgstr ""
+msgstr "Sačuvaj promjene"
 
 #: charts/groups-genmap.php:97 controllers/group.php:82
 msgid "Cancel"
-msgstr ""
+msgstr "Otkažite"
 
 #: charts/groups-genmap.php:98 charts/groups-genmap.php:105
 msgid "Open Record"
-msgstr ""
+msgstr "Otvorite snimanje"
 
 #: charts/groups-genmap.php:99
 msgid "Center on this Node"
-msgstr ""
+msgstr "Centar na ovom čvoru"
 
 #: charts/groups-genmap.php:100
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: charts/groups-genmap.php:101
 msgid "Edit Record"
-msgstr ""
+msgstr "Uredi zapis"
 
 #: charts/groups-genmap.php:102 controllers/admin-general.php:32
 msgid "Reset"
-msgstr ""
+msgstr "Resetovati"
 
 #: charts/groups-genmap.php:103
 msgid "Zoom In"
-msgstr ""
+msgstr "Približi"
 
 #: charts/groups-genmap.php:104
 msgid "Zoom Out"
-msgstr ""
+msgstr "Udalji"
 
 #: controllers/admin-general.php:25
 msgid "Training videos could not be loaded. Resetting to default content."
-msgstr ""
+msgstr "Video snimci kursa se ne može učitati. Vraćanje na zadani sadržaj."
 
 #: controllers/admin-general.php:29
 msgid "Training Videos"
-msgstr ""
+msgstr "Video zapisi kursa"
 
 #: controllers/admin-general.php:30
 msgid "Title"
-msgstr ""
+msgstr "Naslov"
 
 #: controllers/admin-general.php:31
 msgid "Embed"
-msgstr ""
+msgstr "Umetni"
 
 #: controllers/admin-general.php:33
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: controllers/admin-general.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Ukloni"
 
 #: controllers/admin-general.php:35
 msgid "Are you sure you want to reset the training videos to default content?"
 msgstr ""
+"Jeste li sigurni da želite vratiti videozapise treninga na zadani sadržaj?"
 
 #: controllers/admin-general.php:36
 msgid "Are you sure you want to remove this video?"
-msgstr ""
+msgstr "Jeste li sigurni da želite ukloniti ovaj videozapis?"
 
 #: controllers/admin-general.php:37
 msgid "Up"
-msgstr ""
+msgstr "Gore"
 
 #: controllers/admin-general.php:38
 msgid "Down"
-msgstr ""
+msgstr "Dole"
 
 #: controllers/admin-general.php:108
 msgid "Invalid training videos."
-msgstr ""
+msgstr "Nevažeći video zapisi obuke."
 
 #: controllers/app.php:34
 msgid "My"
-msgstr ""
+msgstr "Moje"
 
 #: controllers/app.php:35
 msgid "Church Start Date"
-msgstr ""
+msgstr "Datum početka crkve"
 
 #: controllers/app.php:36 controllers/controller.php:36
 #: magic-link/functions.php:267
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 #: controllers/app.php:37
 msgid "Delete"
-msgstr ""
+msgstr "Izbriši"
 
 #: controllers/app.php:38
 msgid "Are you sure you want to delete this "
-msgstr ""
+msgstr "Jeste li sigurni da želite ovo izbrisati "
 
 #: controllers/app.php:39 controllers/group.php:71
 msgid "Edit"
@@ -158,45 +162,45 @@ msgstr "Više"
 #: controllers/controller.php:22 magic-link/functions.php:80
 #: magic-link/functions.php:254
 msgid "Hello,"
-msgstr ""
+msgstr "Zdravo,"
 
 #: controllers/controller.php:25 magic-link/functions.php:81
 #: magic-link/functions.php:257
 msgid "Coached by"
-msgstr ""
+msgstr "Obučen od"
 
 #: controllers/controller.php:26 magic-link/functions.php:82
 #: magic-link/functions.php:258
 msgid "My Link"
-msgstr ""
+msgstr "Moj link"
 
 #: controllers/controller.php:27 magic-link/functions.php:259
 msgid "Copy this link and share it with people you are coaching."
-msgstr ""
+msgstr "Kopirajte ovaj link i podijelite ga s ljudima koje podučavate."
 
 #: controllers/controller.php:28 magic-link/functions.php:260
 msgid "My "
-msgstr ""
+msgstr "Moje "
 
 #: controllers/controller.php:38 magic-link/functions.php:269
 msgid "Health"
-msgstr ""
+msgstr "Zdravlje"
 
 #: controllers/controller.php:39 magic-link/functions.php:270
 msgid "Tree"
-msgstr ""
+msgstr "Drvo"
 
 #: controllers/controller.php:40 magic-link/functions.php:271
 msgid "GenMap"
-msgstr ""
+msgstr "Generacijska mapa"
 
 #: controllers/controller.php:41 magic-link/functions.php:78
 msgid "Training"
-msgstr ""
+msgstr "Kurs"
 
 #: controllers/group.php:73
 msgid "Create"
-msgstr ""
+msgstr "Kreiraj"
 
 #: controllers/group.php:83
 msgid "Save"
@@ -204,156 +208,156 @@ msgstr "Spremite"
 
 #: controllers/group.php:198
 msgid "Select a"
-msgstr ""
+msgstr "Izaberi"
 
 #: controllers/group.php:241
 msgid "Unauthorized action. Please refresh the page and try again."
-msgstr ""
+msgstr "Neovlaštena radnja. Osvježite stranicu i pokušajte ponovo."
 
 #: controllers/group.php:263
 msgid "Back to AutoLink"
-msgstr ""
+msgstr "Nazad na AutoLink"
 
 #: controllers/group.php:457
 msgid "Unauthorized"
-msgstr ""
+msgstr "Neovlašteno"
 
 #: controllers/group.php:472
 msgid "Could not fetch groups"
-msgstr ""
+msgstr "Nije moguće preuzeti grupe"
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
-msgstr ""
+msgstr "Došlo je do neočekivane greške."
 
 #: controllers/tree.php:23
 msgid "Unassigned"
-msgstr ""
+msgstr "Nedodijeljeno"
 
 #: controllers/tree.php:24
 msgid "Move these to the"
-msgstr ""
+msgstr "Premjestite ovo na"
 
 #: controllers/tree.php:24
 msgid "to assign them to a"
-msgstr ""
+msgstr "da ih dodijelite"
 
 #: controllers/tree.php:25
 msgid "Key"
-msgstr ""
+msgstr "Ključ"
 
 #: controllers/tree.php:26
 msgid "you are assigned"
-msgstr ""
+msgstr "ti si dodijeljen"
 
 #: controllers/tree.php:27
 msgid "assigned to those you coach"
-msgstr ""
+msgstr "dodijeljen onima koje obučavate"
 
 #: controllers/tree.php:28
 msgid "you lead"
-msgstr ""
+msgstr "ti vodiš"
 
 #: controllers/tree.php:29
 msgid "Generation Number"
-msgstr ""
+msgstr "Broj"
 
 #: controllers/tree.php:30
 msgid "No "
-msgstr ""
+msgstr "Ne. "
 
 #: disciple-tools-autolink.php:178
 msgid "Autolink"
-msgstr ""
+msgstr "Autolink"
 
 #: magic-link/functions.php:73
 msgid "Add Magic"
-msgstr ""
+msgstr "Dodaj magično"
 
 #: magic-link/functions.php:74
 msgid "Go to Disciple.Tools"
-msgstr ""
+msgstr "Idi na Disciple.Tools"
 
 #: magic-link/functions.php:75
 msgid "Update Survey Answers"
-msgstr ""
+msgstr "Ažurirajte odgovore na anketu"
 
 #: magic-link/functions.php:76
 msgid "Give Feedback"
-msgstr ""
+msgstr "Daj povratne informacije"
 
 #: magic-link/functions.php:77
 msgid "Log Out"
-msgstr ""
+msgstr "Odjavi se"
 
 #: magic-link/functions.php:79
 msgid "Toggle Menu"
-msgstr ""
+msgstr "Prebaci meni"
 
 #: magic-link/functions.php:83
 msgid "My Churches"
-msgstr ""
+msgstr "Moje crkve"
 
 #: magic-link/functions.php:233
 msgid "How many leaders are you coaching?"
-msgstr ""
+msgstr "Koliko lidera obučavate?"
 
 #: magic-link/functions.php:237
 msgid "How many"
-msgstr ""
+msgstr "Koliko"
 
 #: magic-link/functions.php:237
 msgid "are you leading?"
-msgstr ""
+msgstr "vodiš li?"
 
 #: magic-link/login-app.php:144
 msgid "Error: Invalid username/password combination."
-msgstr ""
+msgstr "Greška: nevažeća kombinacija korisničkog imena/lozinke."
 
 #: templates/genmap.php:6
 msgid "Group Generation Map"
-msgstr ""
+msgstr "Generacijska mapa grupa"
 
 #: templates/login.php:32
 msgid "Username or Email Address"
-msgstr ""
+msgstr "Korisničko ime ili adresa e-pošte"
 
 #: templates/login.php:38 templates/register.php:39
 msgid "Password"
-msgstr ""
+msgstr "Lozinka"
 
 #: templates/login.php:48
 msgid "Login"
-msgstr ""
+msgstr "Ulogovati se"
 
 #: templates/login.php:54 templates/login.php:55
 msgid "Create Account"
-msgstr ""
+msgstr "Kreiraj račun"
 
 #: templates/login.php:65
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Zaboravio si lozinku?"
 
 #: templates/parts/footer.php:3
 msgid "Powered by"
-msgstr ""
+msgstr "Napravljeno od"
 
 #: templates/parts/navbar.php:5
 msgid "Autolink Home"
-msgstr ""
+msgstr "Autolink početna"
 
 #: templates/register.php:31
 msgid "Username"
-msgstr ""
+msgstr "Korisničko ime"
 
 #: templates/register.php:35
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/register.php:44
 msgid "Confirm Password"
-msgstr ""
+msgstr "Potvrdi lozinku"
 
 #: templates/register.php:52
 msgid "Register"
-msgstr ""
+msgstr "Registrirajte se"
