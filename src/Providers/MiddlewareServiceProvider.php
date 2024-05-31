@@ -14,6 +14,7 @@ use DT\Autolink\CodeZone\Router\Middleware\Stack;
 use DT\Autolink\CodeZone\Router\Middleware\UserHasCap;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\Genmap;
+use DT\Autolink\Middleware\HasGroups;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
@@ -46,7 +47,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'nonce' => Nonce::class,  // nonce:disciple_tools_autolink_nonce
 		'check_share' => CheckShareCookie::class,
 		'survey' => SurveyCompleted::class,
-        'genmap' => Genmap::class
+        'genmap' => Genmap::class,
+        'has_groups' => HasGroups::class
 	];
 
 	/**

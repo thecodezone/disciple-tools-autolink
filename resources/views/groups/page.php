@@ -1,4 +1,6 @@
 <?php
+use function DT\Autolink\request;
+
 /**
 * @var string $heading
  * @var string $error

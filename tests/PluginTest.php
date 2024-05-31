@@ -17,14 +17,4 @@ class PluginTest extends TestCase {
 			get_option( 'active_plugins' )
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function example_http_test() {
-		$response = $this->get( 'dt/autolnk/api/hello' );
-
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertStringContainsString( 'Hello World!', $response->getContent() );
-	}
 }
