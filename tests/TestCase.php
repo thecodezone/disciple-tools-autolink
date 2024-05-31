@@ -47,7 +47,7 @@ abstract class TestCase extends WP_UnitTestCase {
 	 *
 	 * @return mixed The response returned from the GET request.
 	 */
-	public function get( $uri, $parameters, array $headers = [] ) {
+	public function get( $uri, $parameters = [], array $headers = [] ) {
 		return $this->request( 'GET', $uri, $parameters, $headers );
 	}
 

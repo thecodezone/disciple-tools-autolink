@@ -1,4 +1,6 @@
 <?php
+use function DT\Autolink\request;
+
 /**
 * @var string $action
  * @var string $nonce

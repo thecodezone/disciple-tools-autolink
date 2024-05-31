@@ -24,18 +24,18 @@ use DT\Autolink\Controllers\RegisterController;
 use DT\Autolink\Controllers\SurveyController;
 use DT\Autolink\Controllers\TrainingController;
 
-$r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth', 'check_share' ] ] ] );
+$r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth', 'check_share', 'survey', 'has_groups' ] ] ] );
 $r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 $r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 $r->get( 'register', [ RegisterController::class, 'register' ] );
 $r->post( 'register', [ RegisterController::class, 'process' ] );
 
-$r->middleware([ 'auth', 'check_share' ], function ( Routes $r ) {
-    $r->middleware('survey', function ( Routes $r ) {
-        $r->get( 'groups', [ AppController::class, 'show' ] );
-        $r->get( 'training', [ TrainingController::class, 'show' ] );
-        $r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] );
-    });
+$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
+	$r->middleware('survey', function ( Routes $r ) {
+		$r->get( 'groups', [ AppController::class, 'show' ] );
+		$r->get( 'training', [ TrainingController::class, 'show' ] );
+		$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show', ['middleware' => 'has_groups'] ] );
+	});
 
     $r->get( 'logout', [ LoginController::class, 'logout' ] );
     $r->get( 'survey', [ SurveyController::class, 'show' ] );
