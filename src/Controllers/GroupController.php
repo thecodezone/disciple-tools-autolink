@@ -168,9 +168,10 @@ class GroupController
         $church_count_fields = [];
 
         foreach ( $allowed_church_count_fields as $field ) {
-            //Fields can be registered or deregistered by plugins,so check and make sure it exists
+            // Fields can be registered or deregistered by plugins, so check and make sure it exists
             if ( isset( $group_fields[$field] ) && ( !isset( $group_fields[$field]['hidden'] ) || !$group_fields[$field]['hidden'] ) ) {
-                $church_count_fields[$field] = $group_fields[$field];
+                // Assign group_id to each church_count_field
+                $church_count_fields[$field] = array_merge( $group_fields[$field], [ 'group_id' => $group_id ] );
             }
         }
 

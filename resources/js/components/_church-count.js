@@ -26,6 +26,7 @@ class ChurchCounts extends LitElement {
   @property({type: Object}) group = {};
 
   render() {
+    
     const {countFields, group} = this;
     if (!Object.values(countFields).length) {
       return null;

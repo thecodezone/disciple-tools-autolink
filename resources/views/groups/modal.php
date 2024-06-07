@@ -35,8 +35,8 @@ use function DT\Autolink\group_label;
 
                     <al-church-counts
                         countFields='<?php echo htmlspecialchars(json_encode($church_count_fields)); ?>'
-                        group='<?php echo htmlspecialchars(json_encode($group_fields)); ?>
-                    '></al-church-counts>
+                        group='<?php echo htmlspecialchars(json_encode($group)); ?>'
+                    ></al-church-counts>
                     <al-church
                         group='<?php echo htmlspecialchars(json_encode($group)); ?>'
                         fields='<?php echo esc_attr(wp_json_encode($church_fields)); ?>'
