@@ -44,7 +44,7 @@ function container(): Illuminate\Container\Container
  */
 function plugin_url( string $path = '' ): string
 {
-	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
+    return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
 }
 
 /**
@@ -60,11 +60,11 @@ function plugin_url( string $path = '' ): string
  */
 function route_url( string $path = '' ): string
 {
-	if ( ! has_route_rewrite() ) {
-		return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
-	} else {
-		return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
-	}
+    if ( !has_route_rewrite() ) {
+        return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
+    } else {
+        return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+    }
 }
 
 /**
@@ -327,7 +327,7 @@ function group_leader_share_url( $group_id )
 {
     $current_user_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
-    return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
+    return magic_url( "autolink", "group_leader", $group_id ) . "?coached_by=" . $current_user_contact_id;
 }
 
 function share_url()
@@ -438,12 +438,13 @@ function group_label()
  * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
  *
  */
-function has_route_rewrite(): bool {
-	global $wp_rewrite;
+function has_route_rewrite(): bool
+{
+    global $wp_rewrite;
 
-	if ( ! is_array( $wp_rewrite->rules ) ) {
-		return false;
-	}
+    if ( !is_array( $wp_rewrite->rules ) ) {
+        return false;
+    }
 
-	return array_key_exists( '^' . Plugin::HOME_ROUTE . '/(.+)/?', $wp_rewrite->rules );
+    return array_key_exists( '^' . Plugin::HOME_ROUTE . '/(.+)/?', $wp_rewrite->rules );
 }

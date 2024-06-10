@@ -21,7 +21,9 @@ class GroupLeaderLink extends MagicApp
 
     public function boot()
     {
+
         $group = DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );
+
         $cookie_name = namespace_string( 'leads_group' );
 
         if ( !isset( $cookie_name ) ) {
@@ -33,10 +35,6 @@ class GroupLeaderLink extends MagicApp
             setcookie( $cookie_name, request()->get( 'coached_by' ), time() + ( 86400 * 30 ), "/" );
         }
 
-        if ( request()->has( 'contact' ) ) {
-            $cookie_name = namespace_string( 'contact' );
-            setcookie( $cookie_name, request()->get( 'contact' ), time() + ( 86400 * 30 ), "/" );
-        }
 
         wp_redirect( route_url() );
     }
