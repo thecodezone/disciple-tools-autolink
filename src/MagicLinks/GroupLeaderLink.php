@@ -2,9 +2,9 @@
 
 namespace DT\Autolink\MagicLinks;
 
-use DT_Magic_Url_Base;
 use DT_Posts;
 use function DT\Autolink\namespace_string;
+use function DT\Autolink\request;
 use function DT\Autolink\route_url;
 
 
@@ -12,12 +12,13 @@ class GroupLeaderLink extends MagicApp
 {
 
     public $page_title = 'Group leader autolink';
-    public $page_description = 'Share this link with the leader of this group.';
+    public $page_description = 'Share this link with the .0 of this group.';
     public $root = 'autolink';
     public $type = 'group_leader';
     public $post_type = 'group';
     public $show_bulk_send = true;
     public $show_app_tile = true;
+
 
     public function boot()
     {
@@ -34,7 +35,6 @@ class GroupLeaderLink extends MagicApp
             $cookie_name = namespace_string( 'coached_by' );
             setcookie( $cookie_name, request()->get( 'coached_by' ), time() + ( 86400 * 30 ), "/" );
         }
-
 
         wp_redirect( route_url() );
     }
