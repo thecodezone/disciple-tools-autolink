@@ -20,6 +20,8 @@ use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\MagicLink;
 use DT\Autolink\Middleware\Nonce;
 use DT\Autolink\Middleware\SurveyCompleted;
+use DT\Autolink\Middleware\UnCached;
+use DT\Autolink\Middleware\SetBypassCookie;
 use Exception;
 use function DT\Autolink\namespace_string;
 
@@ -36,6 +38,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		HandleErrors::class,
 		HandleRedirects::class,
 		SetHeaders::class,
+        UnCached::class,
+        SetBypassCookie::class,
 		Render::class,
 	];
 
