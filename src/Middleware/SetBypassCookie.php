@@ -16,7 +16,7 @@ class SetBypassCookie implements Middleware {
 
     public function handle(Request $request, Response $response, callable $next)
     {
-        setcookie( 'DT_HOME', $this->get_bypass_value(), time() + 600, '/');
+        setcookie( 'DT_AUTOLINK', $this->get_bypass_value(), time() + 600, '/');
 
         return $next( $request, $response );
     }
