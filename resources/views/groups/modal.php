@@ -29,7 +29,8 @@ use function DT\Autolink\group_label;
                 <?php $this->insert('groups/share-field', get_defined_vars()); ?>
             </div>
         </dt-tile>
-        <dt-tile class="app__link" title="<?php echo esc_attr(__('Health Church', 'disciple-tools-autolink')); ?>">
+        <dt-tile class="app__link"
+                 title="<?php echo esc_attr($name) ?>">
             <div class="section__inner">
                 <div class="churches__list">
 

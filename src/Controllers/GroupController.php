@@ -395,7 +395,7 @@ class GroupController
         $user = wp_get_current_user();
         $contact_id = Disciple_Tools_Users::get_contact_for_user( $user->ID );
         $parent_group = $request->get( 'parent_group', 0 );
-
+        $pre_group = $request->get( 'group_type', 'pre-group' );
 
         if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
             $location = $location['location_grid_meta']['values'];
