@@ -31,8 +31,8 @@ class CheckShareCookie implements Middleware {
 		if ( ! is_user_logged_in() ) {
 			return $next( $request, $response );
 		}
-		$leader_id = $request->cookies->get( namespace_string( 'coached_by' ) );
-        $group_id = $request->cookies->get( namespace_string( 'leads_group' ) );
+		$leader_id = sanitize_text_field( wp_unslash( $_COOKIE[ namespace_string( 'coached_by' ) ] ?? '' ) );
+        $group_id = sanitize_text_field( wp_unslash( $_COOKIE[ namespace_string( 'leads_group' ) ] ?? '' ) );
 
 		if ( $leader_id ) {
 			try {
@@ -43,9 +43,7 @@ class CheckShareCookie implements Middleware {
 		}
 
         if ( $group_id ) {
-
             try {
-
                 $this->add_as_group_leader( $group_id );
             } catch ( Exception $e ) {
                 $this->remove_cookie();
@@ -124,16 +122,18 @@ class CheckShareCookie implements Middleware {
         // Get the current user's contact information
         $current_user_contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
+
         // Update the group with the new leader
         $fields = [
             "leaders" => [
                 "force_values" => false,
                 "values" => [
-                    [ 'value' => $current_user_contact ]
+                    [ 'value' => (string) $current_user_contact ]
                 ]
             ],
+            'assigned_to' => (string) get_current_user_id(),
         ];
-        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
+        DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
 
         $this->remove_cookie();
     }

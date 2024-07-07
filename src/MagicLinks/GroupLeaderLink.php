@@ -12,7 +12,7 @@ class GroupLeaderLink extends MagicApp
 {
 
     public $page_title = 'Group leader autolink';
-    public $page_description = 'Share this link with the .0 of this group.';
+    public $page_description = 'Share this link with the leader of this group.';
     public $root = 'autolink';
     public $type = 'group_leader';
     public $post_type = 'group';
@@ -27,9 +27,7 @@ class GroupLeaderLink extends MagicApp
 
         $cookie_name = namespace_string( 'leads_group' );
 
-        if ( !isset( $cookie_name ) ) {
-            setcookie( $cookie_name, $group['ID'], time() + ( 86400 * 30 ), "/" );
-        }
+        setcookie( $cookie_name, $group['ID'], time() + ( 86400 * 30 ), "/" );
 
         if ( request()->has( 'coached_by' ) ) {
             $cookie_name = namespace_string( 'coached_by' );
