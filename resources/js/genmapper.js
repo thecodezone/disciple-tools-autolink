@@ -258,6 +258,7 @@ class GenMapper {
 
   closeEditGroupModal() {
     this.editGroupElement.classList.remove("edit-group--active");
+    this.reset();
   }
 
   editGroup(groupData) {
