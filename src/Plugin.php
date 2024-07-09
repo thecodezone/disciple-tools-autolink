@@ -169,7 +169,6 @@ class Plugin {
 	 */
 	public function wp_loaded(): void {
 		if ( ! $this->is_dt_version() ) {
-			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 			add_action( 'wp_ajax_dismissed_notice_handler', [ $this, 'ajax_notice_handler' ] );
 
 			return;
