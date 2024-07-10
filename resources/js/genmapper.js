@@ -114,7 +114,7 @@ class GenMapper {
         return 1;
       case "believers":
       case "baptized":
-      case "baptized_in_group":
+      case "newlyBaptized":
         return 0;
 
     }
@@ -618,12 +618,14 @@ class GenMapper {
    *
    */
   createNode(newNode) {
+    //debugger;
     template.fields.forEach((field) => {
       if (!newNode[field.header]) {
         newNode[field.header] = this.getInitialValue(field);
       }
     });
     this.data.push(newNode);
+    console.log("newNode", newNode);
     this.redraw(template);
   }
 
