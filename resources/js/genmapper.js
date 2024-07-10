@@ -114,7 +114,7 @@ class GenMapper {
         return 1;
       case "believers":
       case "baptized":
-      case "baptized_in_group":
+      case "newlyBaptized":
         return 0;
 
     }
