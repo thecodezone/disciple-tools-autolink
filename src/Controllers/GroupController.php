@@ -528,7 +528,7 @@ class GroupController
             return redirect( route_url( "?e=" . $result->get_error_message() ) );
         }
 
-        return redirect( route_url() );
+        return redirect( route_url( 'groups' ) );
     }
 
     /**
