@@ -48,10 +48,10 @@ class Disciple_Tools_Autolink_Menu {
 	public function admin_enqueue_scripts() {
 		$plugin_url = plugins_url() . '/disciple-tools-autolink';
 
-		wp_enqueue_script( 'magic_link_scripts', $plugin_url . '/admin/admin.js', [
+		wp_enqueue_script( 'magic_link_scripts', $plugin_url . '/dist/admin.js', [
 			'jquery',
 			'lodash',
-		], filemtime( plugin_dir_path( __FILE__ ) . './admin.js' ), true );
+		], filemtime( plugin_dir_path( __FILE__ ) . '../dist/admin.js' ), true );
 	} // End __construct()
 
 	/**

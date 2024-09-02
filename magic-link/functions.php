@@ -85,7 +85,7 @@ class Disciple_Tools_Autolink_Magic_Functions {
 			]
 		);
 
-		wp_enqueue_style( 'magic_link_css', $plugin_url . '/magic-link/magic-link.css', [], filemtime( $plugin_path . '/magic-link/magic-link.css' ) );
+		wp_enqueue_style( 'magic_link_css', $plugin_url . '/dist/magic-link.css', [], filemtime( $plugin_path . '/dist/magic-link.css' ) );
 	}
 
 	/**
