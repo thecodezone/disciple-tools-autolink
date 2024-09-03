@@ -11,6 +11,7 @@ class Disciple_Tools_Autolink_Menu {
 
 	private static $_instance = null;
 	public $token = 'disciple_tools_autolink';
+    public $page_title = 'Autolink';
 	private $controller = null;
 
 	/**
@@ -23,7 +24,7 @@ class Disciple_Tools_Autolink_Menu {
 		add_action( 'admin_menu', [ $this, 'register_menu' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 
-		$this->page_title = __( 'Autolink', 'disciple-tools-plugin-starter-template' );
+		$this->page_title = __( 'Autolink', 'disciple-tools-autolink' );
 		$this->controller = new Disciple_Tools_Autolink_Admin_Controller();
 	} // End instance()
 
@@ -58,7 +59,7 @@ class Disciple_Tools_Autolink_Menu {
 	 * @since 0.1
 	 */
 	public function register_menu() {
-		$this->page_title = __( 'Autolink', 'disciple-tools-plugin-starter-template' );
+		$this->page_title = __( 'Autolink', 'disciple-tools-autolink' );
 
 		add_submenu_page( 'dt_extensions', $this->page_title, $this->page_title, 'manage_dt', $this->token, [
 			$this,
