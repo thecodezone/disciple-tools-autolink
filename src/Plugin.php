@@ -72,8 +72,8 @@ class Plugin {
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
-		register_activation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'activation_hook' ] );
-		register_deactivation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'deactivation_hook' ] );
+		register_activation_hook( plugin_path( 'disciple-tools-autolink.php' ), [ $this, 'activation_hook' ] );
+		register_deactivation_hook( plugin_path( 'disciple-tools-autolink.php' ), [ $this, 'deactivation_hook' ] );
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
 		add_action( 'init', [ $this, 'rewrite_rules' ] );
