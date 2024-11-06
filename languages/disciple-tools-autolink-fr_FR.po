@@ -5,15 +5,17 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2024-07-09T20:15:14+00:00\n"
-"PO-Revision-Date: 2023-08-16 18:02-0500\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2024-09-18T17:40:38+00:00\n"
+"PO-Revision-Date: 2024-10-12 10:59+0000\n"
+"Last-Translator: Sarah <s.colpart@gmail.com>\n"
+"Language-Team: French <https://translate.disciple.tools/projects/"
+"disciple-tools/disciple-tools-autolink/fr_FR/>\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Domain: disciple-tools-autolink\n"
 
 #. Plugin Name of the plugin
@@ -90,11 +92,11 @@ msgstr ""
 
 #: controllers/admin-general.php:29
 msgid "Training Videos"
-msgstr ""
+msgstr "Vidéos d'entraînement"
 
 #: controllers/admin-general.php:30
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: controllers/admin-general.php:31
 msgid "Embed"
@@ -102,11 +104,11 @@ msgstr ""
 
 #: controllers/admin-general.php:33
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: controllers/admin-general.php:34
 msgid "Remove"
-msgstr ""
+msgstr "Enlever"
 
 #: controllers/admin-general.php:35
 #, fuzzy
@@ -127,14 +129,13 @@ msgid "Down"
 msgstr ""
 
 #: controllers/admin-general.php:108
-#, fuzzy
 msgid "Invalid training videos."
-msgstr "Imbrication de groupe non valide."
+msgstr "Vidéos d'entraînement invalides"
 
 #: controllers/app.php:34
 #, fuzzy
 msgid "My"
-msgstr "Mes "
+msgstr "Mes"
 
 #: controllers/app.php:35
 msgid "Church Start Date"
@@ -155,7 +156,7 @@ msgstr "Êtes-vous certain de vouloir supprimer "
 
 #: controllers/app.php:39 controllers/group.php:71
 msgid "Edit"
-msgstr "Modifier"
+msgstr "Éditer"
 
 #: controllers/app.php:40
 msgid "More"
@@ -198,7 +199,7 @@ msgstr "Carte générale"
 
 #: controllers/controller.php:41 magic-link/functions.php:78
 msgid "Training"
-msgstr ""
+msgstr "Entraînement"
 
 #: controllers/group.php:73
 msgid "Create"
@@ -230,7 +231,7 @@ msgstr ""
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
-msgstr "Une erreur inattendue est survenue."
+msgstr "Une erreur inattendue a eu lieu."
 
 #: controllers/tree.php:23
 msgid "Unassigned"
@@ -292,7 +293,7 @@ msgstr "Donnez votre avis"
 
 #: magic-link/functions.php:77
 msgid "Log Out"
-msgstr "Déconnexion"
+msgstr "Se déconnecter"
 
 #: magic-link/functions.php:79
 msgid "Toggle Menu"
@@ -324,7 +325,7 @@ msgstr "Carte de génération de groupe"
 
 #: templates/login.php:32
 msgid "Username or Email Address"
-msgstr "Identifiant ou adresse email"
+msgstr "Nom d'utilisateur ou adresse e-mail"
 
 #: templates/login.php:38 templates/register.php:39
 msgid "Password"
@@ -332,7 +333,7 @@ msgstr "Mot de passe"
 
 #: templates/login.php:48
 msgid "Login"
-msgstr "Connexion"
+msgstr "Se connecter"
 
 #: templates/login.php:54 templates/login.php:55
 msgid "Create Account"
@@ -340,7 +341,7 @@ msgstr "Créer un compte"
 
 #: templates/login.php:65
 msgid "Forgot Password?"
-msgstr "Mot de passe oublié ?"
+msgstr "Mot de passe oublié ?"
 
 #: templates/parts/footer.php:3
 msgid "Powered by"
@@ -356,7 +357,7 @@ msgstr "Nom d'utilisateur"
 
 #: templates/register.php:35
 msgid "Email"
-msgstr "Courriel"
+msgstr "Email"
 
 #: templates/register.php:44
 msgid "Confirm Password"

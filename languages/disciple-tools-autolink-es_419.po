@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Disciple.Tools - Autolink 0.23.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
-"POT-Creation-Date: 2024-07-09T20:15:14+00:00\n"
-"PO-Revision-Date: 2024-04-25 09:54+0000\n"
+"POT-Creation-Date: 2024-09-18T17:40:38+00:00\n"
+"PO-Revision-Date: 2024-10-14 03:14+0000\n"
 "Last-Translator: Mike Allbutt <mikeallbutt@gmail.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.disciple.tools/"
 "projects/disciple-tools/disciple-tools-autolink/es_419/>\n"
@@ -15,13 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Domain: disciple-tools-autolink\n"
 
 #. Plugin Name of the plugin
 #: disciple-tools-autolink.php
 msgid "Disciple.Tools - Autolink"
-msgstr "Disciple.Tools - Autolink"
+msgstr "Disciple.Tools - Enlace Automatico"
 
 #. Plugin URI of the plugin
 #: disciple-tools-autolink.php
@@ -92,7 +92,7 @@ msgstr ""
 
 #: controllers/admin-general.php:29
 msgid "Training Videos"
-msgstr "Videos de entrenamiento"
+msgstr "Videos de capacitación"
 
 #: controllers/admin-general.php:30
 msgid "Title"
@@ -147,7 +147,7 @@ msgstr "Ver"
 
 #: controllers/app.php:37
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Borrar"
 
 #: controllers/app.php:38
 msgid "Are you sure you want to delete this "
@@ -195,11 +195,11 @@ msgstr "Árbol"
 
 #: controllers/controller.php:40 magic-link/functions.php:271
 msgid "GenMap"
-msgstr "GenMap"
+msgstr "Mapa Generacional"
 
 #: controllers/controller.php:41 magic-link/functions.php:78
 msgid "Training"
-msgstr "Entrenamiento"
+msgstr "Formación"
 
 #: controllers/group.php:73
 msgid "Create"
@@ -231,7 +231,7 @@ msgstr "No se pudieron recuperar grupos"
 
 #: controllers/login.php:38 controllers/register.php:56
 msgid "An unexpected error has occurred."
-msgstr "Se ha producido un error inesperado."
+msgstr "Ha ocurrido un error inesperado."
 
 #: controllers/tree.php:23
 msgid "Unassigned"
@@ -291,7 +291,7 @@ msgstr "Dar retroalimentación"
 
 #: magic-link/functions.php:77
 msgid "Log Out"
-msgstr "Salir"
+msgstr "Cerrar sesión"
 
 #: magic-link/functions.php:79
 msgid "Toggle Menu"
@@ -323,7 +323,7 @@ msgstr "Mapa de generación de grupos"
 
 #: templates/login.php:32
 msgid "Username or Email Address"
-msgstr "Nombre de usuario o dirección de correo electrónico"
+msgstr "Nombre de usuario o correo electrónico"
 
 #: templates/login.php:38 templates/register.php:39
 msgid "Password"
@@ -339,7 +339,7 @@ msgstr "Crear cuenta"
 
 #: templates/login.php:65
 msgid "Forgot Password?"
-msgstr "¿Olvidaste tu contraseña?"
+msgstr "¿Se te olvidó tu contraseña?"
 
 #: templates/parts/footer.php:3
 msgid "Powered by"
@@ -355,15 +355,15 @@ msgstr "Nombre de usuario"
 
 #: templates/register.php:35
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr "Email"
 
 #: templates/register.php:44
 msgid "Confirm Password"
-msgstr "Confirme contraseña"
+msgstr "Confirmar contraseña"
 
 #: templates/register.php:52
 msgid "Register"
-msgstr "Regístrate"
+msgstr "Registrarse"
 
 #, fuzzy
 #~ msgid "Parent group"
