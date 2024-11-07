@@ -6,14 +6,16 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "autolink\n"
 "POT-Creation-Date: 2024-09-18T17:40:38+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-11-07 15:00+0000\n"
+"Last-Translator: Cody Adams <izmirdeyabanci@gmail.com>\n"
+"Language-Team: Turkish <https://translate.disciple.tools/projects/"
+"disciple-tools/disciple-tools-autolink/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.8.3\n"
 "X-Domain: disciple-tools-autolink\n"
 
 #. Plugin Name of the plugin
@@ -48,7 +50,7 @@ msgstr ""
 #: charts/groups-genmap.php:97
 #: controllers/group.php:82
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: charts/groups-genmap.php:98
 #: charts/groups-genmap.php:105
