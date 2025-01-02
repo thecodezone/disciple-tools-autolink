@@ -2,7 +2,7 @@
   "name": "dt/autolnk",
   "description": "A modern disciple.tools plugin starter template.",
   "type": "project",
-  "license": "GNU",
+  "license": "GPL-2.0-only",
   "autoload": {
     "psr-4": {
       "DT\\Autolink\\": "src/"
@@ -24,23 +24,29 @@
   ],
   "scripts": {
     "pre-install-cmd": [
-      "./setup-scoper.sh"
+      "./bin/setup-scoper.sh"
     ]
   },
   "require": {
+    "php": "7.4.27",
     "ext-json": "*",
     "ext-zip": "*",
     "composer-plugin-api": "^1.0 || ^2.0"
   },
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "1.*",
+    "phpcsstandards/phpcsutils": "^1.0",
     "php-parallel-lint/php-parallel-lint": "^1.3.1",
     "phpcompatibility/php-compatibility": "^9.0",
     "yoast/phpunit-polyfills": "^1.0",
     "wp-coding-standards/wpcs": "^3.0",
-    "phpunit/phpunit": "^9"
+    "phpunit/phpunit": "^9",
+    "fakerphp/faker": "^1.14"
   },
   "extra": {
+    "composer-runtime-api": {
+      "platform_check": false
+    },
     "wpify-scoper": {
       "prefix": "DT\\Autolink",
       "folder": "vendor-scoped",
@@ -53,6 +59,10 @@
     }
   },
   "config": {
+    "autoloader-suffix": "dt_autolink",
+    "platform": {
+      "php": "7.4.27"
+    },
     "platform-check": false,
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
