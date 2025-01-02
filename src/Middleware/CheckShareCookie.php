@@ -2,58 +2,53 @@
 
 namespace DT\Autolink\Middleware;
 
-use Disciple_Tools_Users;
-use DT\Autolink\CodeZone\Router\Middleware\Middleware;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Symfony\Component\HttpFoundation\Response;
-use DT_Posts;
-use Exception;
-use function DT\Autolink\namespace_string;
+use DT\Autolink\Psr\Http\Message\ResponseInterface;
+use DT\Autolink\Psr\Http\Message\ServerRequestInterface;
+use DT\Autolink\Psr\Http\Server\MiddlewareInterface;
+use DT\Autolink\Psr\Http\Server\RequestHandlerInterface;
+use function DT\Autolink\config;
 
-/**
- * Class CheckShareCookie
- *
- * This class implements the Middleware interface and is responsible for checking
- * the value of the "dt_autolink_share" cookie and perform the necessary actions.
- */
-class CheckShareCookie implements Middleware {
-	/**
-	 * Handle the incoming request.
-	 *
-	 * @param Request $request The incoming request
-	 * @param Response $response The response object
-	 * @param callable $next The next handler in the middleware stack
-	 *
-	 * @return mixed The result of the next handler
-	 */
-	public function handle( Request $request, Response $response, callable $next ) {
+class CheckShareCookie implements MiddlewareInterface {
 
-		if ( ! is_user_logged_in() ) {
-			return $next( $request, $response );
-		}
-		$leader_id = $request->cookies->get( namespace_string( 'coached_by' ) );
-        $group_id = $request->cookies->get( namespace_string( 'leads_group' ) );
+ /**
+     * If the user is not logged in, the request handler is directly called and the response is returned.
+     * If the 'dt_home_share' cookie exists, sanitize and assign its value to $leader_id, otherwise set $leader_id to null.
+     * If $leader_id is not null, attempt to add the leader with the given ID.
+     * If an exception occurs during adding the leader, remove the 'dt_home_share' cookie.
+     * Finally, call the request handler and return the response.
+     *
+     * @param ServerRequestInterface $request The request object.
+     * @param RequestHandlerInterface $handler The request handler object.
+     *
+     * @return ResponseInterface The response object.
+     */
+    public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface {
+        if ( ! is_user_logged_in() ) {
+            return $handler->handle( $request );
+        }
 
-		if ( $leader_id ) {
-			try {
-				$this->add_leader( $leader_id );
-			} catch ( Exception $e ) {
-				$this->remove_cookie();
-			}
-		}
+	    $leader_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.coached_by' ) ] ?? '' ) );
+	    $group_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.leads_group' ) ] ?? '' ) );
 
-        if ( $group_id ) {
-
+        if ( $leader_id ) {
             try {
-
-                $this->add_as_group_leader( $group_id );
-            } catch ( Exception $e ) {
+                $this->add_leader( $leader_id );
+            } catch ( \Exception $e ) {
                 $this->remove_cookie();
             }
         }
 
-		return $next( $request, $response );
-	}
+	    if ( $group_id ) {
+		    try {
+			    $this->add_as_group_leader( $group_id );
+		    } catch ( \Exception $e ) {
+			    $this->remove_cookie();
+		    }
+	    }
+
+        return $handler->handle( $request );
+    }
+
 
 	/**
 	 * Add a leader to a contact's coached_by field and update assigned_to field.
@@ -104,17 +99,16 @@ class CheckShareCookie implements Middleware {
 	 * @return void
 	 */
 	public function remove_cookie() {
-		$cookie_name = namespace_string( 'coached_by' );
+		$cookie_name = config( 'plugin.cookies.coached_by' );
 		if ( isset( $_COOKIE[$cookie_name] ) ) {
 			unset( $_COOKIE[$cookie_name] );
 			setcookie( $cookie_name, '', time() - 3600, '/' );
 		}
 
-        $cookie_name = namespace_string( 'leads_group' );
+        $cookie_name = config( 'plugin.cookies.leads_group' );
         if ( isset( $_COOKIE[$cookie_name] ) ) {
             unset( $_COOKIE[$cookie_name] );
             setcookie( $cookie_name, '', time() - 3600, '/' );
-
         }
     }
 
@@ -133,7 +127,7 @@ class CheckShareCookie implements Middleware {
                 ]
             ],
         ];
-        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
+        DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
 
         $this->remove_cookie();
     }

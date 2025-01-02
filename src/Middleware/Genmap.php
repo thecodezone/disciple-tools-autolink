@@ -3,22 +3,21 @@
 
 namespace DT\Autolink\Middleware;
 
-use DT\Autolink\CodeZone\Router\Middleware\Middleware;
-use DT\Autolink\Illuminate\Http\RedirectResponse;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Symfony\Component\HttpFoundation\Response;
+use DT\Autolink\Psr\Http\Message\ResponseInterface;
+use DT\Autolink\Psr\Http\Message\ServerRequestInterface;
+use DT\Autolink\Psr\Http\Server\MiddlewareInterface;
+use DT\Autolink\Psr\Http\Server\RequestHandlerInterface;
+use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 
-class Genmap implements Middleware
+class Genmap implements MiddlewareInterface
 {
-    public function handle( Request $request, Response $response, $next )
+	public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface
     {
-
         if ( ! function_exists( 'dt_genmapper_metrics' ) ) {
-
-            $response = new RedirectResponse( route_url( "groups" ), 302 );
+			return redirect( route_url( "groups" ), 302 );
         }
 
-        return $next( $request, $response );
+	    return $handler->handle( $request );
     }
 }
