@@ -6,6 +6,6 @@ node_modules
 temp-*
 tmp-*
 dist/*
-dt-plugin.zip
+dt-autolink.zip
 /yarn.lock
 .env
