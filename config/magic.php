@@ -3,13 +3,16 @@
 /**
  * @var $config DT\Autolink\CodeZone\WPSupport\Config\ConfigInterface
  */
-
-use DT\Autolink\MagicLinks\ExampleMagicLink;
+use DT\Autolink\MagicLinks\CoachingLink;
+use DT\Autolink\MagicLinks\GroupLeaderLink;
+use DT\Autolink\MagicLinks\UserRedirect;
 
 $config->merge( [
     'magic' => [
         'links' => [
-            ExampleMagicLink::class
+	        UserRedirect::class,
+	        CoachingLink::class,
+	        GroupLeaderLink::class
         ]
     ]
 ] );
