@@ -2,22 +2,18 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT_Posts;
 use Exception;
 use function DT\Autolink\namespace_string;
-
+use function DT\Autolink\response;
 class FieldController {
 	/**
 	 * Update a post.
 	 *
 	 * @param Request $request The request object.
-	 * @param Response $response The response object.
-	 *
-	 * @return mixed The updated post or an error message.
 	 */
-	public function update( Request $request, Response $response ) {
+	public function update( Request $request ) {
 		$body      = $request->all();
 		$whitelist = apply_filters( namespace_string( 'updatable_group_fields' ), [
 			'health_metrics',
@@ -28,14 +24,14 @@ class FieldController {
 			'baptized_in_group_count'
 		] );
 		if ( ! isset( $body['id'] ) || ! isset( $body['value'] ) ) {
-			return $response->setStatusCode( 400 )->setContent( [ "message" => "Invalid request" ] );
+			return response( [ "message" => "Invalid request" ], 400 );
 		}
 
 		$id         = sanitize_key( wp_unslash( $body['id'] ) );
 		$field_info = explode( "_", $id );
 
 		if ( ! is_array( $field_info ) || count( $field_info ) < 3 ) {
-			return $response->setStatusCode( 400 )->setContent( [ "message" => "Invalid request" ] );
+			return response( [ "message" => "Invalid request" ], 400 );
 		}
 
 		$post_type = array_shift( $field_info );
@@ -50,7 +46,7 @@ class FieldController {
 		$is_allowed = in_array( $field, $whitelist );
 
 		if ( ! $is_allowed ) {
-			return $response->setStatusCode( 400 )->setContent( [ "message" => "Invalid request" ] );
+			return response( [ "message" => "Invalid request" ], 400 );
 		}
 
 		$payload = [
@@ -60,7 +56,7 @@ class FieldController {
 		try {
 			$result = DT_Posts::update_post( $post_type, $id, $payload );
 		} catch ( Exception $e ) {
-			return $response->setStatusCode( 500 )->setContent( [ "message" => $e->getMessage() ] );
+			return response( [ "message" => "Invalid request" ], 500 );
 		}
 
 
@@ -68,6 +64,6 @@ class FieldController {
 			return $result;
 		}
 
-		return $response->setStatusCode( 500 )->setContent( [ "message" => $result->get_error_message() ] );
+		return response( [ "message" => "Invalid request" ], 500 );
 	}
 }

@@ -2,8 +2,8 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
@@ -13,12 +13,13 @@ class RegisterController {
 	/**
 	 * Process the register form
 	 */
-	public function process( Request $request, Response $response ) {
+	public function process( Request $request ) {
 
-		$username         = $request->input( 'username' ?? '' );
-		$email            = $request->input( 'email' ?? '' );
-		$password         = $request->input( 'password' ?? '' );
-		$confirm_password = $request->input( 'confirm_password' ?? '' );
+		$input = extract_request_input( $request );
+		$username         = $input['username'] ?? [];
+		$email            = $input['email'] ?? '';
+		$password         = $input['password'] ?? '';
+		$confirm_password = $input['confirm_password'] ?? '';
 
 		if ( ! $username || ! $password || ! $email ) {
 			return $this->register( [

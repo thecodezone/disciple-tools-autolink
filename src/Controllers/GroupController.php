@@ -3,21 +3,20 @@
 namespace DT\Autolink\Controllers;
 
 use Disciple_Tools_Users;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
-use DT\Autolink\Illuminate\Support\Arr;
-use DT\Autolink\Repositories\GroupTreeRepository;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Assets;
 use DT\Autolink\Services\Options;
 use DT_Mapbox_API;
 use DT_Posts;
 use function DT\Autolink\container;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\group_label;
 use function DT\Autolink\redirect;
+use function DT\Autolink\request_wants_json;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
-use function DT\Autolink\validate;
 use function DT\Autolink\view;
+use function DT\Autolink\response;
 
 /**
  * Ajax callback to get the parent group field.
@@ -35,14 +34,11 @@ class GroupController {
      * Retrieves a list of groups assigned to the current user.
      *
      * @param Request $request The HTTP request object.
-     * @param Response $response The HTTP response object.
-     *
-     * @return false|array Returns an array containing the list of groups and the total count.
-     *                    Each group may have additional formatted date information.
      */
-    public function index( Request $request, Response $response ) {
-        $limit  = $request->get( 'limit', 10 );
-        $offset = $request->get( 'offset', 0 );
+    public function index( Request $request ) {
+		$params = extract_request_input( $request );
+        $limit  = $params['limit'] ?? 10;
+        $offset = $params['offset'] ?? 0;
 
         $result = \DT_Posts::list_posts( 'groups', [
             'assigned_to' => [ get_current_user_id() ],
@@ -52,8 +48,7 @@ class GroupController {
         ], false );
 
         if ( ! $result ) {
-            $response->setStatusCode( 400 );
-            return $response;
+            return response( 'Invalid request', 400 );
         }
 
         $result['posts'] = array_map( function ( $church ) {
@@ -80,7 +75,7 @@ class GroupController {
 	 */
 	public function show_modal( Request $request, $group_id ) {
 		return [
-			'content' => view( 'groups/modal', $this->form_view_params( $request, $group_id) ),
+			'content' => view( 'groups/modal', $this->form_view_params( $request, $group_id ) ),
 			'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
 			'code' => 200
 		];
@@ -107,7 +102,8 @@ class GroupController {
 	 *
 	 * @return mixed The form content or an error message.
 	 */
-	public function create( Request $request, Assets $assets ) {
+	public function create( Request $request ) {
+		$assets = container()->get( Assets::class );
 		$assets->register_mapbox();
 
 		return template( 'groups/page', $this->form_view_params( $request ) );
@@ -117,12 +113,12 @@ class GroupController {
      * Form method handles the generation of the form.
      *
      * @param Request $request The HTTP request object.
-     * @param Assets $assets The assets object used to enqueue assets.
      *
      * @return mixed The form content or an error message.
      */
-    public function edit( Request $request, Assets $assets, $group_id ): mixed {
-		$assets->register_mapbox( $group_id );
+    public function edit( Request $request, $group_id ): mixed {
+	    $assets = container()->get( Assets::class );
+	    $assets->register_mapbox( $group_id );
 
 	    return template( 'groups/page', $this->form_view_params( $request, $group_id ) );
     }
@@ -137,69 +133,70 @@ class GroupController {
      * @return array The view parameters.
      * @throws \Exception
      */
-    private function form_view_params(Request $request, $group_id = null): array {
+    private function form_view_params( Request $request, $group_id = null ): array {
         $group = null;
-        $action = route_url("/groups");
+		$params = extract_request_input( $request );
+        $action = route_url( "/groups" );
         $leaders = null;
 
-        if ($group_id) {
-            $group = DT_Posts::get_post('groups', $group_id, true, false);
-            if (is_wp_error($group)) {
+        if ( $group_id ) {
+            $group = DT_Posts::get_post( 'groups', $group_id, true, false );
+            if ( is_wp_error( $group ) ) {
                 return [
-                    'error' => group_label() . ' ' . __('not found', 'disciple-tools-autolink')
+                    'error' => group_label() . ' ' . __( 'not found', 'disciple-tools-autolink' )
                 ];
             }
-            $action = route_url("/groups/" . $group_id);
+            $action = route_url( "/groups/" . $group_id );
         } else {
-            $leaders = [(string) Disciple_Tools_Users::get_contact_for_user(get_current_user_id())];
+            $leaders = [ (string) Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) ];
         }
 
-        $group_fields = DT_Posts::get_post_settings('groups')['fields'];
+        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
         $user = wp_get_current_user();
-        $contact_id = Disciple_Tools_Users::get_contact_for_user($user->ID);
-        $heading = $group_id ? __('Edit', 'disciple-tools-autolink') . ' ' . group_label() : __('Create', 'disciple-tools-autolink') . ' ' . group_label();
+        $contact_id = Disciple_Tools_Users::get_contact_for_user( $user->ID );
+        $heading = $group_id ? __( 'Edit', 'disciple-tools-autolink' ) . ' ' . group_label() : __( 'Create', 'disciple-tools-autolink' ) . ' ' . group_label();
         $name_label = $group_fields['name']['name'];
         $name_placeholder = $group_fields['name']['name'];
         $start_date_label = $group_fields['start_date']['name'];
         $leaders_label = $group_fields['leaders']['name'];
         $cancel_url = route_url();
-        $cancel_label = __('Cancel', 'disciple-tools-autolink');
-        $submit_label = __('Save', 'disciple-tools-autolink');
-        $error = $request->get('e', $request->get('error'));
+        $cancel_label = __( 'Cancel', 'disciple-tools-autolink' );
+        $submit_label = __( 'Save', 'disciple-tools-autolink' );
+        $error = $params['e'] ?? '';
         $name = $group['name'] ?? '';
-        $contacts = [DT_Posts::get_post('contacts', $contact_id)];
-        $leader_ids = $leaders ?? array_map(function ($leader) {
+        $contacts = [ DT_Posts::get_post( 'contacts', $contact_id ) ];
+        $leader_ids = $leaders ?? array_map(function ( $leader ) {
             return (string) $leader['ID'];
         }, $group['leaders'] ?? []);
-        $leader_options = array_map(function ($contact) {
+        $leader_options = array_map(function ( $contact ) {
             return [
                 'id' => (string) $contact['ID'],
                 'label' => $contact['name'],
             ];
         }, $contacts);
-        $parent_group = count($group['parent_groups'] ?? []) ? $group['parent_groups'][0]["ID"] : '';
-        $parent_group_field_callback = route_url('/groups/parent-group-field');
+        $parent_group = count( $group['parent_groups'] ?? [] ) ? $group['parent_groups'][0]["ID"] : '';
+        $parent_group_field_callback = route_url( '/groups/parent-group-field' );
         $show_location_field = DT_Mapbox_API::is_active_mapbox_key();
-        $start_date = $request->get('start_date') ?? $group['start_date'] ?? '';
+        $start_date = $params['start_date'] ?? $group['start_date'] ?? '';
 
-        if ($start_date && is_array($start_date)) {
-            $start_date = dt_format_date($start_date['timestamp']);
+        if ( $start_date && is_array( $start_date ) ) {
+            $start_date = dt_format_date( $start_date['timestamp'] );
         }
 
         // Additional data from previous context
         $limit = 10;
         $churches = DT_Posts::list_posts('groups', [
-            'assigned_to' => [get_current_user_id()],
+            'assigned_to' => [ get_current_user_id() ],
             'limit' => $limit,
             'sort' => '-post_date'
         ], false);
 
-        $group_fields = DT_Posts::get_post_field_settings('groups');
+        $group_fields = DT_Posts::get_post_field_settings( 'groups' );
         $church_fields = [
             'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
         ];
 
-        $opened =  true;
+        $opened = true;
 
         // Compact and return all relevant data
         return compact(
@@ -220,10 +217,11 @@ class GroupController {
      * @return mixed The view with the parent group field options and data.
      */
     public function parent_group_field( Request $request, Options $options ) {
-        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
+	    $params = extract_request_input( $request );
+	    $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
         $post_type    = get_post_type_object( 'groups' );
         $group_labels = get_post_type_labels( $post_type );
-        $leaders_ids  = $request->get( 'leaders', [] );
+        $leaders_ids  = $params['leaders'] ?? [];
 
         //Filter out new leaders
         $leader_ids = array_filter( $leaders_ids, function ( $leader ) {
@@ -261,7 +259,7 @@ class GroupController {
             'limit'       => 1000
         ], false ) : [ 'posts' => [] ];
 
-        $id                           = $request->get( 'id' );
+        $id                           = $params['id'] ?? null;
         $group                        = $id ? DT_Posts::get_post( 'groups', $id, true, false ) : null;
         $default_parent_group         = count( $groups ) ? $groups[0]['ID'] ?? null : null;
         $allow_parent_group_selection = $options->get( 'allow_parent_group_selection' );
@@ -307,29 +305,26 @@ class GroupController {
      * @throws \Exception
      */
     public function store( Request $request, Response $response ) {
-        $errors = validate($request->all(), [
-            'name' => 'required'
-        ]);
+		$input = extract_request_input( $request );
+		$wants_json = request_wants_json( $request );
 
-        if ( $errors ) {
-            $error = __( 'Invalid field: ' ) . array_key_first( $errors );
-            if ( $request->wantsJson() ) {
-                return [
-                    'error' => $error,
-                    'success' => false
-                ];
-            } else {
-                return redirect( route_url( "/groups/create?" . http_build_query(
-                        array_merge( [ 'e' => $error ], $request->all() )
-                    ) ) );
-            }
-        }
-
+		if ( !isset( $input['name'] ) ) {
+			if ( $wants_json ) {
+				return [
+					'error' => __( 'Invalid field: name' ),
+					'code' => 400
+				];
+			} else {
+				return redirect( route_url( "/groups/create?" . http_build_query(
+                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
+                ) ) );
+			}
+		}
 
         $fields = $this->group_fields_from_request( $request );
         $group = DT_Posts::create_post( 'groups', $fields, false, false );
         if ( is_wp_error( $group ) ) {
-            if ( $request->wantsJson() ) {
+            if ( $wants_json ) {
                 return [
                     'content' => $group->get_error_message(),
                     'code' => 400
@@ -341,7 +336,7 @@ class GroupController {
 
         do_action( 'dt_autolink_group_created', $group );
 
-        if ( $request->wantsJson() ) {
+        if ( $wants_json ) {
             return [
                 'success' => true,
                 'group' => $group
@@ -355,36 +350,33 @@ class GroupController {
      * Update method updates the data for a group in the database.
      *
      * @param Request $request The HTTP request object.
-     * @param Response $response The HTTP response object.
      * @param int $group_id The ID of the group to be updated.
      *
      * @return mixed The result of the "process" method.
      * @throws \Exception
      */
-    public function update( Request $request, Response $response, $group_id ) {
-        $errors = validate($request->all(), [
-            'name' => 'required'
-        ]);
+    public function update( Request $request, $group_id ) {
+	    $input = extract_request_input( $request );
+	    $wants_json = request_wants_json( $request );
 
-        if ( $errors ) {
-            $error = __( 'Invalid field: ' ) . array_key_first( $errors );
-            if ( $request->wantsJson() ) {
-                return [
-                    'error' => $error,
-                    'success' => false
-                ];
-            } else {
-                return redirect( route_url( "/groups/" . $group_id . "/edit?" . http_build_query(
-                        array_merge( [ 'e' => $error ], $request->all() )
-                    ) ) );
-            }
-        }
+	    if ( !isset( $input['name'] ) ) {
+		    if ( $wants_json ) {
+			    return [
+				    'error' => __( 'Invalid field: name' ),
+				    'code' => 400
+			    ];
+		    } else {
+			    return redirect( route_url( "/groups/create?" . http_build_query(
+                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
+                ) ) );
+		    }
+	    }
 
 
         $fields = $this->group_fields_from_request( $request );
         $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
         if ( is_wp_error( $group ) ) {
-            if ( $request->wantsJson() ) {
+            if ( $wants_json ) {
                 return [
                     'error' => $group->get_error_message(),
                     'success' => false
@@ -396,12 +388,12 @@ class GroupController {
 
         do_action( 'dt_autolink_group_updated', $group );
 
-        if ( $request->wantsJson() ) {
+        if ( $wants_json ) {
             return [
                 'success' => true
             ];
         } {
-            return redirect( route_url( 'groups ') );
+            return redirect( route_url( 'groups ' ) );
         }
     }
 
@@ -416,18 +408,19 @@ class GroupController {
      * @throws \Exception When there are validation errors in the request fields.
      */
     private function group_fields_from_request( $request ) {
-        $id           = $request->get( 'id', '' );
-        $name         = $request->get( 'name', '' );
+		$input = extract_request_input( $request );
+        $id           = $input['id'] ?? null;
+        $name         = $input['name'] ?? '';
 
         $start_date   = strtotime(
-            $request->get( 'start_date', '' )
+            $input['start_date'] ?? '',
         );
-        $location = $request->get( 'location', '' );
-        $leaders  = $request->get( 'leaders', [] );
+        $location = $input['location'] ?? '';
+        $leaders  = $input['leaders'] ?? [];
         $location     = $location ? json_decode( $location, true ) : '';
         $user         = wp_get_current_user();
         $contact_id   = Disciple_Tools_Users::get_contact_for_user( $user->ID );
-        $parent_group = $request->get( 'parent_group', 0 );
+        $parent_group = $input['parent_group'] ?? '';
 
 
         if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
@@ -445,7 +438,7 @@ class GroupController {
                                 [ "value" => $contact_id ]
                             ]
                         ]
-                    ], true, false );
+                ], true, false );
                 $leaders[ $idx ] = $contact['ID'];
                 wp_publish_post( $contact['ID'] );
             }
@@ -494,7 +487,7 @@ class GroupController {
     /**
      * Delete a group
      */
-    public function destroy( Request $request, Response $response, $group_id ) {
+    public function destroy( Request $request, $group_id ) {
         $group_id = (int) $group_id;
 
         $result = DT_Posts::delete_post( 'groups', $group_id, false );
@@ -510,7 +503,7 @@ class GroupController {
     /**
      * Show the DT group in an iframe
      */
-    public function show( Request $request, Response $response, $group_id ) {
+    public function show( Request $request, $group_id ) {
         $post_id    = $group_id;
         $back_link  = route_url();
         $back_label = __( 'Back to AutoLink', 'disciple-tools-autolink' );

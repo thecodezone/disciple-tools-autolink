@@ -419,6 +419,10 @@ function extract_request_input( RequestInterface $request ): array {
     }
 }
 
+function request_wants_json( RequestInterface $request ): bool {
+	return strpos( $request->getHeaderLine( 'Accept' ), 'application/json' ) !== false;
+}
+
 /**
  * Extracts data from a request and returns it as an array.
  *

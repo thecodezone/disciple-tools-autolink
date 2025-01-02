@@ -2,15 +2,17 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\GuzzleHttp\Psr7\Response;
 use DT\Autolink\Services\Charts\GenmapChart;
+use function DT\Autolink\container;
 use function DT\Autolink\template;
+use function DT\Autolink\response;
 
 class GenMapController {
-	public function show( Request $request, Response $response, GenmapChart $chart ) {
+	public function show( Request $request ) {
+		$chart = container()->get( GenmapChart::class );
 		if ( ! class_exists( 'DT_Genmapper_Groups_chart' ) ) {
-			return $response->setStatusCode( 404 );
+			return response( __( 'Not Found', 'disciple-tools-autolink' ), 404 );
 		}
 
 		return template( 'genmap' );

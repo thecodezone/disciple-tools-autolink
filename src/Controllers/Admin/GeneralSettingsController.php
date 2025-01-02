@@ -2,17 +2,13 @@
 
 namespace DT\Autolink\Controllers\Admin;
 
-use DT\Autolink\Illuminate\Http\RedirectResponse;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Options;
 use Exception;
+use function DT\Autolink\container;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\plugin_url;
-use function DT\Autolink\redirect;
-use function DT\Autolink\set_option;
 use function DT\Autolink\set_plugin_option;
-use function DT\Autolink\transaction;
-use function DT\Autolink\validate;
 use function DT\Autolink\view;
 use function DT\Autolink\get_plugin_option;
 
@@ -21,16 +17,18 @@ class GeneralSettingsController {
 	/**
 	 * Submit the general settings admin tab form
 	 */
-	public function update( Request $request, Response $response ) {
+	public function update( Request $request ) {
 		$error = false;
-		$training_videos = $request->post( "training_videos" );
+		$input = extract_request_input( $request );
+		$training_videos = $input['training_videos'] ?? null;
 		if ( $training_videos ) {
 			$training_videos = stripslashes( preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $training_videos ) );
 		}
 
-
-		$allow_parent_group_selection = $request->post( "allow_parent_group_selection" ) == "1" ? "1" : "0";
-		$show_in_menu = $request->post( "show_in_menu" ) == "1" ? "1" : "0";
+		$allow_parent_group_selection = $input['allow_parent_group_selection'] ?? null;
+		$show_in_menu = $input['show_in_menu'] ?? null;
+		$allow_parent_group_selection = $allow_parent_group_selection == "1" ? "1" : "0";
+		$show_in_menu = $show_in_menu == "1" ? "1" : "0";
 
 
 		if ( $training_videos ) {
@@ -57,12 +55,9 @@ class GeneralSettingsController {
 	 * Show the admin settings view
 	 *
 	 * @param Request $request
-	 * @param Response $response
-	 * @param Options $options
-	 *
-	 * @return View
 	 */
-	public function show( Request $request, Response $response, Options $options ) {
+	public function show( Request $request ) {
+		$options = container()->get( Options::class );
 		$old                     = [
 			'allow_parent_group_selection' => get_plugin_option( 'allow_parent_group_selection' ),
 			'training_videos'              => get_plugin_option( 'training_videos' ),

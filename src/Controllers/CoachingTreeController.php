@@ -2,14 +2,13 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
-use DT\Autolink\Illuminate\Support\Str;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Charts\TreeChart;
-use DT\Autolink\Symfony\Component\HttpKernel\Kernel;
 use DT_Posts;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\group_label;
 use function DT\Autolink\groups_label;
+use function DT\Autolink\response;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
@@ -19,7 +18,11 @@ use function DT\Autolink\template;
  * The CoachingTreeController class is responsible for managing the coaching tree functionality.
  */
 class CoachingTreeController {
-	public function __construct( private TreeChart $tree_chart ) {}
+	private TreeChart $tree_chart;
+
+	public function __construct( TreeChart $tree_chart ) {
+		$this->tree_chart = $tree_chart;
+	}
 
 	/**
 	 * Retrieves the coaching tree template.
@@ -70,25 +73,19 @@ class CoachingTreeController {
 	 * and returns the result information in an array.
 	 *
 	 * @param Request $request The Request object.
-	 * @param Response $response The Response object.
-	 *
-	 * @return Response The result information, including the success status.
 	 */
-	public function update( Request $request, Response $response ) {
+	public function update( Request $request ) {
 		global $wpdb;
 
 		$user_id = get_current_user_id();
-		$params = $request->input();
+		$params = extract_request_input( $request );
 		$params  = dt_recursive_sanitize_array( $params );
 
 		if ( ! isset( $params['previous_parent'] ) ) {
 			$params['previous_parent'] = 'root';
 		}
 		if ( ( ! isset( $params['new_parent'] ) || ( ! isset( $params['self'] ) ) ) ) {
-			return $response->setContent([
-				'success' => false,
-				'message' => __( 'Invalid request.', 'disciple-tools-autolink' ),
-			])->setStatusCode( 400 );
+			return response( $params, 400 );
 		}
 
 		$group     = DT_Posts::get_post( 'groups', $params['self'], true, false );
@@ -96,10 +93,12 @@ class CoachingTreeController {
 
 		if ( ! $new_group
 		     && ( (int) $group["assigned_to"]["id"] !== $user_id ) ) {
-			return $response->setContent([
+
+			return response( [
 				'success' => false,
 				'message' => __( 'You do not have permission to move this group.', 'disciple-tools-autolink' ),
-			])->setStatusCode( 403 );
+			], 403 );
+
 		}
 
 		if ( $params['previous_parent'] ) {
@@ -125,16 +124,16 @@ class CoachingTreeController {
 
 
 			if ( ! $result ) {
-				return $response->setContent([
+				return response( [
 					'success' => false,
 					'message' => __( 'An error occurred while moving the group.', 'disciple-tools-autolink' ),
-				])->setStatusCode( 500 );
+				], 500 );
 			}
 		}
 
-		return $response->setContent([
+		return [
 			'success' => true,
 			'message' => __( 'Group moved successfully.', 'disciple-tools-autolink' ),
-		])->setStatusCode( 200 );
+		];
 	}
 }

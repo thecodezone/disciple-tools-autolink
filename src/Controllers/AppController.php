@@ -2,15 +2,16 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
-use DT\Autolink\Services\Options;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
+use function DT\Autolink\extract_request_input;
 
 class AppController {
-	public function show( Request $request, Response $response, Options $options ) {
+	public function show( Request $request ) {
 		$limit              = 10;
+		$params = extract_request_input( $request );
+
 		$churches           = \DT_Posts::list_posts( 'groups', [
 			'assigned_to' => [ get_current_user_id() ],
 			'limit'       => $limit,
@@ -32,7 +33,7 @@ class AppController {
 
 		$group_url = route_url( 'groups' );
 
-		$error = $request->input( 'e', false );
+		$error = $params['e'] ?? null;
 
 		if ( is_wp_error( $churches ) ) {
 			$churches = [];
@@ -58,7 +59,7 @@ class AppController {
 				$church_count_fields[ $field ] = $group_fields[ $field ];
 			}
 		}
-		$response->setContent( template( 'app', compact(
+		return template( 'app', compact(
 			'limit',
 			'churches',
 			'group_url',
@@ -67,17 +68,6 @@ class AppController {
 			'church_fields',
 			'church_health_field',
 			'church_count_fields'
-		) ) );
-		return $response;
-	}
-
-	public function data( Request $request, Response $response ) {
-		$user = wp_get_current_user();
-		$data = [
-			'user_login' => $user->user_login,
-		];
-		$response->setContent( $data );
-
-		return $response;
+		) );
 	}
 }

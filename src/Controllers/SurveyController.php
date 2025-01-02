@@ -2,9 +2,10 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Repositories\SurveyRepository;
+use function DT\Autolink\container;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
@@ -17,12 +18,12 @@ class SurveyController {
 	 * Retrieves the survey question to be displayed on the current page.
 	 *
 	 * @param Request $request The request object containing the page number.
-	 * @param Response $response The response object.
 	 *
 	 * @return mixed The template for displaying the survey question.
 	 * @throws Exception When the survey question is not found.
 	 */
-	public function show( Request $request, Response $response, SurveyRepository $survey_repository, $page = 0 ) {
+	public function show( Request $request, $page = 0 ) {
+		$survey_repository = container()->get( SurveyRepository::class );
 		$prev_page = $page - 1;
 		$question = $survey_repository->get( $page );
 		if ( ! $question ) {
@@ -40,12 +41,13 @@ class SurveyController {
 	 * Process the user's answer to a survey question.
 	 *
 	 * @param Request $request The request object containing the user's answer.
-	 * @param Response $response The response object.
 	 *
 	 * @return mixed The appropriate redirect after processing the answer.
 	 * @throws Exception When the survey question is not found.
 	 */
-	public function update( Request $request, Response $response, SurveyRepository $survey_repository, $page ) {
+	public function update( Request $request, $page ) {
+		$survey_repository = container()->get( SurveyRepository::class );
+		$input         = extract_request_input( $request );
 		$question      = $survey_repository->get( $page );
 		$next_page     = $page + 1;
 		$question_name = $question['name'];
@@ -56,7 +58,7 @@ class SurveyController {
 			return redirect( route_url( 'survey' ) );
 		}
 
-		$answer = $request->input( $question_name );
+		$answer = $input[$question_name] ?? '';
 
 		if ( !$answer ) {
 			return redirect( route_url( 'survey/' . $page ) );

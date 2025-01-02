@@ -2,9 +2,8 @@
 
 namespace DT\Autolink\Controllers;
 
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Http\Response;
-use DT\Autolink\Plugin;
+use DT\Autolink\GuzzleHttp\Psr7\Request;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
@@ -21,15 +20,15 @@ class LoginController {
 	 * Processes the login request.
 	 *
 	 * @param Request $request The request object.
-	 * @param Response $response The response object.
 	 *
 	 * @return Response The response object.
 	 */
-	public function process( Request $request, Response $response ) {
+	public function process( Request $request ) {
 		global $errors;
 
-		$username = $request->input( 'username' ?? '' );
-		$password = $request->input( 'password' ?? '' );
+		$input = extract_request_input( $request );
+		$username = $input['username'] ?? '';
+		$password = $input['password'] ?? '';
 
 		$user = wp_authenticate( $username, $password );
 
