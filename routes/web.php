@@ -13,6 +13,7 @@
  */
 
 use DT\Autolink\CodeZone\Router\FastRoute\Routes;
+use DT\Autolink\CodeZone\WPSupport\Middleware\HasCap;
 use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\AppController;
 use DT\Autolink\Controllers\CoachingTreeController;
@@ -24,20 +25,22 @@ use DT\Autolink\Controllers\RegisterController;
 use DT\Autolink\Controllers\SurveyController;
 use DT\Autolink\Controllers\TrainingController;
 use DT\Autolink\Illuminate\Http\Request;
+use DT\Autolink\League\Route\RouteCollectionInterface;
+use DT\Autolink\Middleware\CheckShareCookie;
+use DT\Autolink\Middleware\LoggedIn;
+use DT\Autolink\Middleware\SurveyCompleted;
 use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
-$r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth', 'check_share' ] ] ] );
+$r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth' ] ] ] );
 $r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 $r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 $r->get( 'register', [ RegisterController::class, 'register' ] );
 $r->post( 'register', [ RegisterController::class, 'process' ] );
 
-$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
-	$r->middleware('survey', function ( Routes $r ) {
-		$r->get( 'groups', [ AppController::class, 'show' ] );
-		$r->get( 'training', [ TrainingController::class, 'show' ] );
-		$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] );
-	});
+$r->group('', function ( RouteCollectionInterface $r ) {
+	$r->get( 'groups', [ AppController::class, 'show' ] )->middleware( new SurveyCompleted() );
+	$r->get( 'training', [ TrainingController::class, 'show' ] )->middleware( new SurveyCompleted() );
+	$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] )->middleware( new SurveyCompleted() );
 
 	$r->get( 'logout', [ LoginController::class, 'logout' ] );
 	$r->get( 'survey', [ SurveyController::class, 'show' ] );
@@ -47,34 +50,5 @@ $r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
 	$r->get( 'groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
 	$r->get( 'groups/{group_id}/modal', [ GroupController::class, 'show_modal' ] );
 
-	$r->middleware( 'nonce:disciple-tools-autolink', function ( Routes $r ) {
-		$r->get( 'groups/parent-group-field', [ GroupController::class, 'parent_group_field' ] );
-		$r->post( 'groups', [ GroupController::class, 'store' ] );
-		$r->post( 'groups/{group_id}', [ GroupController::class, 'update' ] );
-		$r->get( 'groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
-		$r->post( 'survey/{page}', [ SurveyController::class, 'update' ] );
-		$r->group("api", function ( Routes $r ) {
-			$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
-			$r->get( '/coaching-tree', [ CoachingTreeController::class, 'index' ] );
-			$r->get( '/groups', [ GroupController::class, 'index' ] );
-			$r->post( '/field', [ FieldController::class, 'update' ] );
-			$r->get( '/genmap', [ GenMapController::class, 'index' ] );
-		});
-	});
-
 	$r->get( 'groups/{group_id}', [ GroupController::class, 'show' ] );
-} );
-
-$r->condition( 'backend', function ( Routes $r ) {
-	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
-		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
-			$r->get( '?page=disciple_tools_autolink', [ GeneralSettingsController::class, 'show' ] );
-			$r->get( '?page=disciple_tools_autolink&tab=general', [ GeneralSettingsController::class, 'show' ] );
-
-			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
-				$r->post( '?page=disciple_tools_autolink', [ GeneralSettingsController::class, 'update' ] );
-				$r->post( '?page=disciple_tools_autolink&tab=general', [ GeneralSettingsController::class, 'update' ] );
-			} );
-		} );
-	} );
-} );
+})->middlewares( [ new LoggedIn(), new CheckShareCookie(), new HasCap( 'manage_contacts' ) ] );
