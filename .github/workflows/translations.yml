@@ -3,8 +3,8 @@ run-name: Regenerating pot file
 
 on:
   workflow_run:
-    workflows: ["Release"]
-    types: [requested]
+    workflows: [ "Release" ]
+    types: [ requested ]
   workflow_dispatch:
 
 concurrency:
