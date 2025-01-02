@@ -10,10 +10,9 @@ UPPER_CAMEL_CASE="DT_Autolink"
 KEBAB_CASE="dt-autolink"
 
 # Exclude specified directories
-EXCLUDE_DIRS="-path ./vendor -o -path ./vendor-scoped -o -path ./node_modules -o -path ./.git -o -path ./.idea"
+EXCLUDE_DIRS="-path ./vendor -o -path ./vendor-scoped -o -path ./node_modules -o -path ./.git -o -path ./.idea -o -path ./bin/setup.sh"
 
-PLACEHOLDER="dt_plugins"
--o -path ./bin/setup.sh
+PLACEHOLDER="dt_autolinks"
 
 # Copy ../.env.example as .env unless it exists
 if [ -f ".env.example" ] && [ ! -f ".env" ]; then
@@ -22,6 +21,7 @@ fi
 
 # Replace strings in files excluding specified directories
 find ./ \( $EXCLUDE_DIRS \) -prune -o -type f -print0 | xargs -0 perl -pi -e "s/DT Plugin/$NAME/g"
+find ./ \( $EXCLUDE_DIRS \) -prune -o -type f -print0 | xargs -0 perl -pi -e "s/dt\/plugin/$PACKAGE/g"
 find ./ \( $EXCLUDE_DIRS \) -prune -o -type f -print0 | xargs -0 perl -pi -e "s/DT\\Plugin/$NAMESPACE/g"
 find ./ \( $EXCLUDE_DIRS \) -prune -o -type f -print0 | xargs -0 perl -pi -e "s/DT\\\\Plugin/$NAMESPACE_ESCAPED/g"
 find ./ \( $EXCLUDE_DIRS \) -prune -o -type f -print0 | xargs -0 perl -pi -e "s/DT_Plugin/$UPPER_CAMEL_CASE/g"
