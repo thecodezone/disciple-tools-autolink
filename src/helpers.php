@@ -2,69 +2,135 @@
 
 namespace DT\Autolink;
 
-use Disciple_Tools_Users;
-use DT\Autolink\GuzzleHttp\Psr7\HttpFactory;
-use DT\Autolink\Illuminate\Http\RedirectResponse;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Support\Str;
-use DT\Autolink\Illuminate\Validation\Factory;
+use DT\Autolink\CodeZone\WPSupport\Config\ConfigInterface;
+use DT\Autolink\CodeZone\WPSupport\Container\ContainerFactory;
+use DT\Autolink\CodeZone\WPSupport\Options\OptionsInterface;
+use DT\Autolink\CodeZone\WPSupport\Rewrites\RewritesInterface;
+use DT\Autolink\CodeZone\WPSupport\Router\ResponseFactory;
+use DT\Autolink\League\Container\Container;
 use DT\Autolink\League\Plates\Engine;
-use DT\Autolink\Services\Options;
+use DT\Autolink\Psr\Http\Message\RequestInterface;
+use DT\Autolink\Psr\Http\Message\ResponseInterface;
+use DT\Autolink\Psr\Http\Message\ServerRequestInterface;
 use DT\Autolink\Services\Template;
 use DT_Magic_URL;
-use DT_Posts;
 use Exception;
+
+/**
+ * @var $container Container
+ */
 
 /**
  * Returns the singleton instance of the Plugin class.
  *
  * @return Plugin The singleton instance of the Plugin class.
  */
-function plugin(): Plugin
-{
-    return Plugin::$instance;
+function plugin(): Plugin {
+	return container()->get( Plugin::class );
 }
 
 /**
- * Returns the container object.
+ * Return the container instance.
  *
- * @return Illuminate\Container\Container The container object.
+ * @return Container The container instance.
+ * @see https://container.thephpleague.com/4.x/
  */
-function container(): Illuminate\Container\Container
-{
-    return plugin()->container;
+function container(): Container {
+	return ContainerFactory::singleton();
 }
 
 /**
- * Retrieves the URL of a file or directory within the Bible Plugin directory.
+ * Returns the ConfigInterface object or the value of a specific configuration key.
+ * If a key is provided, the method will return the value of the specified key from the ConfigInterface object.
+ * If no key is provided, the method will return the ConfigInterface object itself.
+ *
+ * @param string|null $key (optional) The configuration key to retrieve the value for.
+ *
+ * @return mixed The ConfigInterface object if no key is provided, or the value of the specified configuration key.
+ * @see https://config.thephpleague.com/
+ */
+function config( $key = null, $default = null ) {
+	$service = container()->get( ConfigInterface::class );
+
+	if ( $key ) {
+		return $service->get( $key, $default );
+	}
+
+	return $service;
+}
+
+function set_config( $key, $value ) {
+	$service = container()->get( ConfigInterface::class );
+
+	return $service->set( $key, $value );
+}
+
+/**
+ * Checks if the route rewrite rule exists in the WordPress rewrite rules.
+ *
+ * @return bool Whether the route rewrite rule exists in the rewrite rules.
+ * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
+ *
+ */
+function has_route_rewrite(): bool {
+	$rewrites = container()->get( RewritesInterface::class );
+
+	return $rewrites->exists(
+		array_key_first( config()->get( 'routes.rewrites' ) )
+	);
+}
+
+/**
+ * Retrieves the URL of a file or directory within the plugin directory.
  *
  * @param string $path Optional. The path of the file or directory within the Bible Plugin directory. Defaults to empty string.
  *
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
-function plugin_url( string $path = '' ): string
-{
-	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
+function plugin_url( string $path = '' ): string {
+	return plugins_url( 'dt-autolink' ) . '/' . ltrim( $path, '/' );
 }
 
 /**
- * Generates the URL for a given route path.
+ * Returns the URL for a given route.
  *
- * If route rewriting is not enabled, the URL is constructed using the query string
- * format with the route path added as a query parameter. Otherwise, the URL is
- * constructed using the home route and the provided path.
+ * @param string $path The path of the route. Defaults to an empty string.
+ * @param string $key The key of the route file in the configuration. Defaults to 'web'.
  *
- * @param string $path The route path.
+ * @return string The URL for the given route.
+ */
+function route_url( string $path = '', $key = 'web' ): string {
+	$file = config()->get( 'routes.files' )[ $key ];
+
+	if ( ! has_route_rewrite() ) {
+		return site_url() . '?' . http_build_query( [ $file['query'] => $path ] );
+	} else {
+		return site_url( $file['path'] . '/' . ltrim( $path, '/' ) );
+	}
+}
+
+/**
+ * Returns the URL of an API endpoint based on the given path.
+ *
+ * @param string $path The path of the API endpoint.
+ *
+ * @return string The URL of the API endpoint.
+ *
+ * @see route_url()
+ */
+function api_url( string $path ) {
+	return route_url( $path, 'api' );
+}
+
+/**
+ * Returns the URL for a given web path.
+ *
+ * @param string $path The web path to generate the URL for.
  *
  * @return string The generated URL.
  */
-function route_url( string $path = '' ): string
-{
-	if ( ! has_route_rewrite() ) {
-		return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
-	} else {
-		return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
-	}
+function web_url( string $path ) {
+	return route_url( $path, 'web' );
 }
 
 /**
@@ -73,13 +139,10 @@ function route_url( string $path = '' ): string
  * @param string $path The path of the file or directory relative to the plugin directory. Defaults to an empty string.
  *
  * @return string The full path of the file or directory, relative to the plugin directory.
+ * @see https://developer.wordpress.org/reference/functions/plugin_dir_path/
  */
-function plugin_path( string $path = '' ): string
-{
-    return '/' . implode('/', [
-            trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
-            trim( $path, '/' ),
-    ]);
+function plugin_path( string $path = '' ): string {
+	return Plugin::dir_path() . '/' . trim( $path, '/' );
 }
 
 /**
@@ -89,9 +152,8 @@ function plugin_path( string $path = '' ): string
  *
  * @return string The complete source path.
  */
-function src_path( string $path = '' ): string
-{
-    return plugin_path( 'src/' . $path );
+function src_path( string $path = '' ): string {
+	return plugin_path( config( 'plugin.paths.src' ) . '/' . $path );
 }
 
 /**
@@ -101,9 +163,8 @@ function src_path( string $path = '' ): string
  *
  * @return string The path to the resources directory, with optional subdirectory appended.
  */
-function resources_path( string $path = '' ): string
-{
-    return plugin_path( 'resources/' . $path );
+function resources_path( string $path = '' ): string {
+	return plugin_path( config( 'plugin.paths.resources' ) . '/' . $path );
 }
 
 /**
@@ -113,9 +174,8 @@ function resources_path( string $path = '' ): string
  *
  * @return string The path to the routes directory, with optional subdirectory appended.
  */
-function routes_path( string $path = '' ): string
-{
-    return plugin_path( 'routes/' . $path );
+function routes_path( string $path = '' ): string {
+	return plugin_path( config( 'plugin.paths.routes' ) . '/' . $path );
 }
 
 /**
@@ -125,31 +185,32 @@ function routes_path( string $path = '' ): string
  *
  * @return string The path to the views directory, with optional subdirectory appended.
  */
-function views_path( string $path = '' ): string
-{
-    return plugin_path( 'resources/views/' . $path );
+function views_path( string $path = '' ): string {
+	return plugin_path( config( 'plugin.paths.views' ) . '/' . $path );
 }
 
 /**
- * Renders a view using the provided view engine.
+ * Renders a view and returns a response.
  *
  * @param string $view Optional. The name of the view to render. Defaults to an empty string.
  * @param array $args Optional. An array of data to pass to the view. Defaults to an empty array.
  *
- * @return string|Engine The rendered view if a view name is provided, otherwise the view engine object.
+ * @return ResponseInterface The rendered view if a view name is provided, otherwise the view engine object.
+ * @see https://platesphp.com/v3/
  */
-function view( string $view = "", array $args = [] ): string|Engine
-{
-    $engine = container()->make( Engine::class );
-    if ( !$view ) {
-        return $engine;
-    }
+function view( string $view = "", array $args = [] ) {
+	$engine = container()->get( Engine::class );
+	if ( ! $view ) {
+		return $engine;
+	}
 
-    return $engine->render( $view, $args );
+	return response(
+		$engine->render( $view, $args )
+	);
 }
 
 /**
- * Renders a template using the Template service.
+ * Renders a template using the Template service and returns a response
  *
  * @param string $template Optional. The template to render. If not specified, the Template service instance is returned.
  * @param array $args Optional. An array of arguments to be passed to the template.
@@ -157,79 +218,98 @@ function view( string $view = "", array $args = [] ): string|Engine
  * @return mixed If $template is not specified, an instance of the Template service is returned.
  *               If $template is specified, the rendered template is returned.
  */
-function template( string $template = "", array $args = [] ): mixed
-{
-    $service = container()->make( Template::class );
-    if ( !$template ) {
-        return $service;
-    }
+function template( string $template = "", array $args = [] ) {
+	$service = container()->get( Template::class );
+	if ( ! $template ) {
+		return $service;
+	}
 
-    return $service->render( $template, $args );
+	$service->register();
+
+	return view( $template, $args );
 }
 
 /**
  * Returns the Request object.
- *
- * @return Request The Request object.
+ * @see https://github.com/guzzle/psr7
  */
-function request(): Request
-{
-    return container()->make( Request::class );
+function request(): ServerRequestInterface {
+	return container()->get( ServerRequestInterface::class );
 }
 
 /**
- * Creates a new RedirectResponse instance for the given URL.
+ * Creates a new ResponseInterface instance for the given URL.
  *
  * @param string $url The URL to redirect to.
  * @param int $status Optional. The status code for the redirect response. Default is 302.
  *
- * @return RedirectResponse A new RedirectResponse instance.
+ * @return ResponseInterface A new RedirectResponse instance.
+ * @see https://github.com/guzzle/psr7
  */
-function redirect( string $url, int $status = 302 ): RedirectResponse
-{
-    return container()->makeWith(RedirectResponse::class, [
-        'url' => $url,
-        'status' => $status,
-    ]);
+function redirect( string $url, int $status = 302, $headers = [] ): ResponseInterface {
+	return ResponseFactory::redirect( $url, $status, $headers );
 }
 
 /**
- * Validate the given data using the provided rules and messages.
+ * Returns a response object.
  *
- * @param array $data The data to be validated.
- * @param array $rules The validation rules to be applied.
- * @param array $messages The custom error messages to be displayed.
+ * @param mixed $content The content of the response. Can be an array or a string.
+ * @param int $status Optional. The HTTP status code of the response. Default is 200.
+ * @param array $headers Optional. Additional headers to include in the response. Default is an empty array.
  *
- * @return array The array of validation error messages, if any.
+ * @return ResponseInterface The response object with the specified content, status, and headers.
+ * @see https://github.com/guzzle/psr7
  */
-function validate( array $data, array $rules, array $messages = [] ): array
-{
-    $validator = container()->make( Factory::class )->make( $data, $rules, $messages );
-    if ( $validator->fails() ) {
-        return $validator->errors()->toArray();
-    }
-
-    return [];
+function response( $content, $status = 200, $headers = [] ) {
+	return ResponseFactory::make( $content, $status, $headers );
 }
 
 /**
  * Set the value of an option.
  *
- * This function first checks if the option already exists. If it doesn't, it adds a new option with the given name and value.
- * If the option already exists, it updates the existing option with the given value.
+ * This is a convenience function that checks if the option exists before setting it.
  *
  * @param string $option_name The name of the option.
  * @param mixed $value The value to set for the option.
  *
  * @return bool Returns true if the option was successfully set, false otherwise.
+ * @see https://developer.wordpress.org/reference/functions/add_option/
+ * @see https://developer.wordpress.org/reference/functions/update_option/
  */
-function set_option( string $option_name, mixed $value ): bool
-{
-    if ( get_option( $option_name ) === false ) {
-        return add_option( $option_name, $value );
-    } else {
-        return update_option( $option_name, $value );
-    }
+function set_option( string $option_name, $value ): bool {
+	if ( get_option( $option_name ) === false ) {
+		return add_option( $option_name, $value );
+	} else {
+		return update_option( $option_name, $value );
+	}
+}
+
+/**
+ * Retrieves the value of an option taking the default value set in the options service provider.
+ *
+ * @param string $option The name of the option to retrieve.
+ * @param mixed $default Optional. The default value to return if the option does not exist. Defaults to false.
+ *
+ * @return mixed The value of the option if it exists, or the default value if it doesn't.
+ */
+function get_plugin_option( $option, $default = null, $required = false ) {
+	$options = container()->get( OptionsInterface::class );
+
+	return $options->get( $option, $default, $required );
+}
+
+/**
+ * Sets the value of a plugin option.
+ *
+ * @param mixed $option The option to set.
+ * @param mixed $value The value to set for the option.
+ *
+ * @return bool True if the option value was successfully set, false otherwise.
+ */
+function set_plugin_option( $option, $value ): bool {
+	$options = container()->get( OptionsInterface::class );
+
+	return $options->set( $option, $value );
 }
 
 /**
@@ -241,98 +321,32 @@ function set_option( string $option_name, mixed $value ): bool
  *
  * @throws Exception If there is a database error before starting the transaction.
  */
-function transaction( $callback ): bool|string
-{
-    global $wpdb;
-    if ( $wpdb->last_error ) {
-        return $wpdb->last_error;
-    }
-    $wpdb->query( 'START TRANSACTION' );
-    $callback();
-    if ( $wpdb->last_error ) {
-        $wpdb->query( 'ROLLBACK' );
+function transaction( $callback ) {
+	global $wpdb;
+	if ( $wpdb->last_error ) {
+		return $wpdb->last_error;
+	}
+	$wpdb->query( 'START TRANSACTION' );
+	$callback();
+	if ( $wpdb->last_error ) {
+		$wpdb->query( 'ROLLBACK' );
 
-        return $wpdb->last_error;
-    }
-    $wpdb->query( 'COMMIT' );
+		return $wpdb->last_error;
+	}
+	$wpdb->query( 'COMMIT' );
 
-    return true;
+	return true;
 }
 
 /**
- * Retrieves the HTTPFactory instance.
- *
- * @return HTTPFactory The HTTPFactory instance.
- */
-function http(): HTTPFactory
-{
-    return container()->make( HTTPFactory::class );
-}
-
-/**
- * Concatenates the given string to the namespace of the Router class.
+ * Concatenates the given string to the namespace of the Plugin class.
  *
  * @param string $string The string to be concatenated to the namespace.
  *
  * @return string The result of concatenating the given string to the namespace of the Router class.
  */
-function namespace_string( string $string )
-{
-    return Plugin::class . '\\' . $string;
-}
-
-/**
- * Retrieves the value of an option from the options container.
- *
- * @param string $option The name of the option to retrieve.
- * @param mixed $default Optional. The default value to return if the option does not exist. Defaults to false.
- *
- * @return mixed The value of the option if it exists, or the default value if it doesn't.
- */
-function get_plugin_option( $option, $default = null, $required = false )
-{
-    $options = container()->make( Options::class );
-
-    return $options->get( $option, $default, $required );
-}
-
-/**
- * Sets the value of a plugin option.
- *
- * @param string $option The name of the option to set.
- * @param mixed $value The value to set for the option.
- *
- * @return bool true if the option was successfully set; otherwise, false.
- */
-
-function set_plugin_option( $option, $value ): bool
-{
-    $options = container()->make( Options::class );
-
-    return $options->set( $option, $value );
-}
-
-/**
- * Generates the share URL for the user based on their ID and other parameters.
- *
- * @return string The generated share URL.
- */
-/**
- * function group_leader_share_url( $group_id )
- * {
- * return magic_url( "autolink", "group_leader", $group_id );
- * }
- */
-function group_leader_share_url( $group_id )
-{
-    $current_user_contact_id = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-
-    return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
-}
-
-function share_url()
-{
-    return magic_url( "autolink", "coached_by", Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+function namespace_string( string $string ): string {
+	return config( 'plugin.text_domain' ) . '.' . $string;
 }
 
 /**
@@ -344,11 +358,11 @@ function share_url()
  * @return array|bool The registered magic apps for the given root and type.
  *                  Returns an array if found, otherwise returns false.
  */
-function magic_app( $root, $type ): array|bool
-{
-    $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-    $root_apps = $magic_apps[$root] ?? [];
-    return $root_apps[$type] ?? false;
+function magic_app( $root, $type ) {
+	$magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+	$root_apps  = $magic_apps[ $root ] ?? [];
+
+	return $root_apps[ $type ] ?? false;
 }
 
 /**
@@ -360,50 +374,57 @@ function magic_app( $root, $type ): array|bool
  *
  * @return string The generated magic URL.
  */
-function magic_url( $root, $type, $id ): string
-{
-    $app = magic_app( $root, $type );
-    if ( !$app ) {
-        return "";
-    }
-    $record = DT_Posts::get_post( $app["post_type"], $id, true, false );
-    if ( !isset( $record[$app["meta_key"]] ) ) {
-        $key = dt_create_unique_key();
-        update_post_meta( get_the_ID(), $app["meta_key"], $key );
-    }
+function magic_url( $root, $type, $id ): string {
+	$app = magic_app( $root, $type );
+	if ( ! $app ) {
+		return "";
+	}
+	if ( $app['post_type'] === 'user' ) {
+		$app_user_key = get_user_option( $app['meta_key'] );
+		$app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
 
-    return DT_Magic_URL::get_link_url_for_post(
-        $app["post_type"],
-        $id,
-        $app["root"],
-        $app["type"]
-    );
+		return $app_url_base . $app_user_key;
+	} else {
+		return DT_Magic_URL::get_link_url_for_post(
+			$app["post_type"],
+			$id,
+			$app["root"],
+			$app["type"]
+		);
+	}
 }
 
-
 /**
- * Retrieves the URL for the logo image.
+ * Extracts data from a request and returns it as an array.
  *
- * By default, the method returns the URL for the plugin's logo image located in the resources/img directory.
- * However, if a custom logo URL is set via the 'custom_logo_url' option, that URL will be returned instead.
+ * Works with JSON requests, GET requests
  *
- * @return string The URL for the logo image.
+ * @param RequestInterface $request The request object from which to
  */
-function logo_url()
-{
-    $logo_url = plugin_url( 'resources/img/logo-color.png' );
-    $custom_logo_url = get_option( 'custom_logo_url' );
-    if ( !empty( $custom_logo_url ) ) {
-        $logo_url = $custom_logo_url;
+function extract_request_input( RequestInterface $request ): array {
+    $content_type = $request->getHeaderLine( 'Content-Type' );
+
+    if ( strpos( $content_type, 'application/json' ) !== false ) {
+        // Handle JSON content type.
+        $body = $request->getBody()->getContents();
+
+        return json_decode( $body, true );
     }
 
-    return $logo_url;
+    switch ( strtoupper( $request->getMethod() ) ) {
+        case 'GET':
+            return $request->getQueryParams();
+        default:
+            return $request->getParsedBody();
+    }
 }
 
 /**
- * Retrieve the labels for the "groups" post type.
+ * Extracts data from a request and returns it as an array.
  *
- * @return object The labels for the "groups" post type.
+ * Works with JSON requests, GET requests
+ *
+ * @param RequestInterface $request The request object from which to
  */
 function group_labels()
 {
@@ -429,21 +450,4 @@ function groups_label()
 function group_label()
 {
     return group_labels()->singular_name;
-}
-
-/**
- * Checks if the route rewrite rule exists in the WordPress rewrite rules.
- *
- * @return bool Whether the route rewrite rule exists in the rewrite rules.
- * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
- *
- */
-function has_route_rewrite(): bool {
-	global $wp_rewrite;
-
-	if ( ! is_array( $wp_rewrite->rules ) ) {
-		return false;
-	}
-
-	return array_key_exists( '^' . Plugin::HOME_ROUTE . '/(.+)/?', $wp_rewrite->rules );
 }
