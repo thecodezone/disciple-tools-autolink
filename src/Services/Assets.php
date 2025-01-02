@@ -2,31 +2,63 @@
 
 namespace DT\Autolink\Services;
 
-use Disciple_Tools_Google_Geocode_API;
-use DT\Autolink\Illuminate\Support\Str;
-use DT_Mapbox_API;
-use function DT\Autolink\group_label;
-use function DT\Autolink\groups_label;
+use DT\Autolink\CodeZone\WPSupport\Assets\AssetQueue;
+use DT\Autolink\CodeZone\WPSupport\Assets\AssetQueueInterface;
+use function DT\Autolink\config;
 use function DT\Autolink\Kucrut\Vite\enqueue_asset;
-use function DT\Autolink\plugin_path;
 use function DT\Autolink\namespace_string;
-use function DT\Autolink\plugin_url;
-use function DT\Autolink\route_url;
-use function DT\Autolink\share_url;
-use const DT\Autolink\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
-class Assets {
-	private static $enqueued = false;
+/**
+ * Class Assets
+ *
+ * This class is responsible for registering necessary actions for enqueueing scripts and styles,
+ * whitelisting specific assets, and providing methods for enqueueing scripts and styles for the frontend and admin area.
+ *
+ * @see https://github.com/kucrut/vite-for-wp
+ *
+ */
+class Assets
+{
+	/**
+	 * AssetQueue Service.
+	 *
+	 * @var AssetQueue $asset_queue The AssetQueue instance.
+	 */
+	private AssetQueueInterface $asset_queue;
 
+	public function __construct( AssetQueueInterface $asset_queue )
+	{
+		$this->asset_queue = $asset_queue;
+	}
+
+	/**
+	 * Registers the Mapbox functionality by enqueueing scripts and initializing configurations.
+	 *
+	 * @param int|bool $post_id The ID of the post to associate with Mapbox, or false if not specified.
+	 *
+	 * @return void
+	 */
 	public function register_mapbox( $post_id = false ) {
 		add_action( 'wp_enqueue_scripts', function () use ( $post_id ) {
 			$this->enqueue_mapbox(
-          $post_id,
-          $post_id ? \DT_Posts::get_post( 'groups', $post_id ) : false
+				$post_id,
+				$post_id ? \DT_Posts::get_post( 'groups', $post_id ) : false
 			);
 		}, 1 );
 	}
 
+	/**
+	 * Enqueue the necessary Mapbox scripts and resources for the search widget.
+	 *
+	 * This method ensures the inclusion of Mapbox header scripts, localization of translation strings,
+	 * and enqueues the required JavaScript for the Mapbox search widget. Additionally, it also conditionally
+	 * includes Google Geocoder scripts if its API key is available.
+	 *
+	 * @param int $post_id The ID of the current post being processed.
+	 * @param mixed $post The post object or false if not available.
+	 *
+	 * @return void
+	 */
 	public function enqueue_mapbox( $post_id, $post ) {
 		DT_Mapbox_API::load_mapbox_header_scripts();
 
@@ -77,88 +109,22 @@ class Assets {
 			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ], 1000 );
 			add_action( 'admin_head', [ $this, 'cloak_style' ] );
 		} else {
-			add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 1000 );
+			add_action( 'wp_print_styles', [ $this, 'wp_print_styles' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
 			add_action( "wp_head", [ $this, 'cloak_style' ] );
 		}
 	}
 
 	/**
 	 * Reset asset queue
+	 *
 	 * @return void
 	 */
-	private function filter_asset_queue() {
-		global $wp_scripts;
-		global $wp_styles;
-
-    $whitelist = apply_filters( namespace_string( 'allowed_scripts' ), [] );
-		foreach ( $wp_scripts->registered as $script ) {
-			if ( in_array( $script->handle, $whitelist ) ) {
-			  continue;
-			}
-			wp_dequeue_script( $script->handle );
-		}
-
-	  $whitelist = apply_filters( namespace_string( 'allowed_styles' ), [] );
-		foreach ( $wp_styles->registered as $style ) {
-			if ( in_array( $script->handle, $whitelist ) ) {
-				continue;
-			}
-			wp_dequeue_style( $style->handle );
-		}
-	}
-
-	private function whitelist_vite() {
-		global $wp_scripts;
-		global $wp_styles;
-
-	  $scripts = [];
-	  $styles = [];
-
-		foreach ( $wp_scripts->registered as $script ) {
-			if ( $this->is_vite_asset( $script->handle ) ) {
-				$scripts[] = $script->handle;
-			}
-		}
-
-    // phpcs:ignore
-    add_filter( namespace_string( 'allowed_scripts' ),
-        function ( $allowed ) use ( $scripts ) {
-			    return array_merge( $allowed, $scripts );
-        }
-    );
-
-		foreach ( $wp_styles->registered as $style ) {
-			if ( $this->is_vite_asset( $style->handle ) ) {
-			$styles[] = $style->handle;
-			}
-		}
-
-    add_filter( namespace_string( 'allowed_styles' ),
-        function ( $allowed ) use ( $styles ) {
-			    return array_merge( $allowed, $styles );
-        }
-    );
-	}
-
-	/**
-	 * Determines if the given asset handle is allowed.
-	 *
-	 * This method checks if the provided asset handle is contained in the list of allowed handles.
-	 * Allows the Template script file and the Vite client script file for dev use.
-	 *
-	 * @param string $asset_handle The asset handle to check.
-	 *
-	 * @return bool True if the asset handle is allowed, false otherwise.
-	 */
-	private function is_vite_asset( $asset_handle ) {
-		if ( Str::contains( $asset_handle, [
-			'disciple-tools-autolink',
-			VITE_CLIENT_SCRIPT_HANDLE
-		] ) ) {
-			return true;
-		}
-
-		return false;
+	public function wp_print_styles() {
+		$this->asset_queue->filter(
+			apply_filters( namespace_string( 'allowed_scripts' ), [] ),
+			apply_filters( namespace_string( 'allowed_styles' ), [] )
+		);
 	}
 
 	/**
@@ -169,22 +135,23 @@ class Assets {
 	 * or CSS files. Optional parameters can be specified to customize the enqueue behavior.
 	 *
 	 * @return void
+	 * @see https://github.com/kucrut/vite-for-wp
 	 */
 	public function wp_enqueue_scripts() {
 		enqueue_asset(
-			plugin_path( '/dist' ),
+			config( 'assets.manifest_dir' ),
 			'resources/js/plugin.js',
 			[
-				'handle'    => 'disciple-tools-autolink',
+				'handle'    => 'dt-autolink',
 				'css-media' => 'all', // Optional.
 				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
 				'in-footer' => true, // Optional. Defaults to false.
 			]
 		);
-    $this->whitelist_vite();
-	  $this->filter_asset_queue();
-    wp_localize_script( 'disciple-tools-autolink', '$autolink', apply_filters( namespace_string( 'javascript_globals' ), [] ) );
+		wp_localize_script( 'dt-autolink', config( 'assets.javascript_global_scope' ), apply_filters( namespace_string( 'javascript_globals' ), [] ) );
 	}
+
+
 
 	/**
 	 * Enqueues the necessary assets for the admin area.

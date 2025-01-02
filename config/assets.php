@@ -19,18 +19,6 @@ $config->merge( [
             'dt-autolink-admin',
         ],
         'javascript_global_scope' => '$dt_autolink',
-        'javascript_globals' => [],
         'manifest_dir' => plugin_path( '/dist' )
     ]
 ] );
-
-
-
-add_action('wp_loaded', function () use ( $config ) {
-    $config->set( 'assets.javascript_globals', [
-        'nonce' => wp_create_nonce( config( 'plugin.nonce_name' ) ),
-        'urls' => [
-            'root' => esc_url_raw( trailingslashit( route_url() ) ),
-        ]
-    ]);
-});

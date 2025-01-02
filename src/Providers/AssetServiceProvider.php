@@ -2,50 +2,51 @@
 
 namespace DT\Autolink\Providers;
 
-use function DT\Autolink\group_label;
-use function DT\Autolink\groups_label;
+use DT\Autolink\League\Container\ServiceProvider\AbstractServiceProvider;
+use DT\Autolink\CodeZone\WPSupport\Assets\AssetQueue;
+use DT\Autolink\CodeZone\WPSupport\Assets\AssetQueueInterface;
+use DT\Autolink\Services\Assets;
+use function DT\Autolink\config;
 use function DT\Autolink\namespace_string;
-use function DT\Autolink\plugin_url;
 use function DT\Autolink\route_url;
+use function DT\Autolink\plugin_url;
+use function DT\Autolink\groups_label;
+use function DT\Autolink\group_label;
 
-class AssetServiceProvider extends ServiceProvider {
+/**
+ * Class AssetServiceProvider
+ *
+ * The AssetServiceProvider class provides asset-related services.
+ */
+class AssetServiceProvider extends AbstractServiceProvider {
 
+	/**
+	 * Provide the services that this provider is responsible for.
+	 *
+	 * @param string $id The ID to check.
+	 * @return bool Returns true if the given ID is provided, false otherwise. */
+	public function provides( string $id ): bool
+	{
+		return in_array($id, [
+			AssetQueue::class,
+			Assets::class
+		]);
+	}
+
+	/**
+	 * Register method.
+	 *
+	 * This method is used to register filters and dependencies for the plugin.
+	 *
+	 * @return void
+	 */
 	public function register(): void{
 		add_filter( namespace_string( 'allowed_styles' ), function ( $allowed_css ) {
-			$allowed_css[] = 'disciple-tools-autolink';
-			$allowed_css[] = 'magic_link_css';
-			$allowed_css[] = "hint";
-			$allowed_css[] = 'group-styles';
-			$allowed_css[] = "styles";
-			$allowed_css[] = 'chart-styles';
-			$allowed_css[] = 'mapbox-gl-css';
-			$allowed_css[] = 'portal-app-domenu-css';
-			return $allowed_css;
+			return array_merge( $allowed_css, config( 'assets.allowed_styles' ) );
 		} );
 
 		add_filter( namespace_string( 'allowed_scripts' ), function ( $allowed_js ) {
-			$allowed_js[] = 'disciple-tools-autolink';
-			$allowed_js[] = 'magic_link_scripts';
-			$allowed_js[] = 'gen-template';
-			$allowed_js[] = 'genApiTemplate';
-			$allowed_js[] = 'genmapper';
-			$allowed_js[] = "d3";
-			$allowed_js[] = "dt_groups_wpApiGenmapper";
-			$allowed_js[] = 'wp-i18n';
-			$allowed_js[] = 'jquery';
-			$allowed_js[] = 'jquery-ui-core';
-			$allowed_js[] = 'dt_groups_script';
-			$allowed_js[] = 'mapbox-search-widget';
-			$allowed_js[] = 'mapbox-gl';
-			$allowed_js[] = 'mapbox-cookie';
-			$allowed_js[] = 'jquery-cookie';
-			$allowed_js[] = 'mapbox-search-widget';
-			$allowed_js[] = 'jquery-touch-punch';
-			$allowed_js[] = 'portal-app-domenu-js';
-			$allowed_js[] = 'google-search-widget';
-			$allowed_js[] = 'shared-functions';
-			$allowed_js[] = 'typeahead-jquery';
-			return $allowed_js;
+			return array_merge( $allowed_js, config( 'assets.allowed_scripts' ) );
 		} );
 
 		add_filter( namespace_string( 'javascript_globals' ), function ( $data ) {
@@ -86,8 +87,15 @@ class AssetServiceProvider extends ServiceProvider {
 				]
 			]);
 		});
-	}
-	public function boot(): void{
-	 // TODO: Implement boot() method.
+
+		$this->getContainer()->add( AssetQueueInterface::class, function () {
+			return new AssetQueue();
+		} );
+
+		$this->getContainer()->add( Assets::class, function () {
+			return new Assets(
+				$this->getContainer()->get( AssetQueueInterface::class )
+			);
+		} );
 	}
 }
