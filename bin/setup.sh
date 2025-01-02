@@ -15,8 +15,8 @@ EXCLUDE_DIRS="-path ./vendor -o -path ./vendor-scoped -o -path ./node_modules -o
 PLACEHOLDER="dt_plugins"
 
 # Copy ../.env.example as .env unless it exists
-if [ ! -f "../.env" ]; then
-  cp ../.env.example ../.env
+if [ -f ".env.example" ] && [ ! -f ".env" ]; then
+  cp .env.example .env
 fi
 
 # Replace strings in files excluding specified directories
