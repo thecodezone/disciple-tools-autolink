@@ -2,75 +2,46 @@
 
 namespace DT\Autolink\Providers;
 
-use DT\Autolink\Illuminate\Filesystem\Filesystem;
-use DT\Autolink\Illuminate\Http\Request;
-use DT\Autolink\Illuminate\Translation\FileLoader;
-use DT\Autolink\Illuminate\Translation\Translator;
-use DT\Autolink\Illuminate\Validation\Factory;
-use function DT\Autolink\group_label;
-use function DT\Autolink\groups_label;
-use function DT\Autolink\namespace_string;
-use function DT\Autolink\plugin_url;
-use function DT\Autolink\route_url;
+use DT\Autolink\CodeZone\WPSupport\Config\ConfigInterface;
+use DT\Autolink\League\Container\Exception\NotFoundException;
+use DT\Autolink\League\Container\ServiceProvider\AbstractServiceProvider;
+use DT\Autolink\Plugin;
+use DT\Autolink\Psr\Container\ContainerExceptionInterface;
+use DT\Autolink\CodeZone\WPSupport\Rewrites\RewritesInterface;
 
-class PluginServiceProvider extends ServiceProvider {
-	/**
-	 * List of providers to register
-	 *
-	 * @var array
-	 */
-	protected $providers = [
-		ViewServiceProvider::class,
-		ConditionsServiceProvider::class,
-		CapabilitiesServiceProvider::class,
-		MiddlewareServiceProvider::class,
-		AssetServiceProvider::class,
-		AdminServiceProvider::class,
-		MagicLinkServiceProvider::class,
-		RouterServiceProvider::class,
-	];
-
-	/**
-	 * Do any setup needed before the theme is ready.
-	 * DT is not yet registered.
-	 */
-	public function register(): void {
-		$this->container->singleton( Request::class, function () {
-			return Request::capture();
-		} );
-
-		foreach ( $this->providers as $provider ) {
-			$provider = $this->container->make( $provider );
-			$provider->register();
-		}
-
-		$this->registerValidator();
-	}
-
-	/**
-	 * Register the validator
-	 */
-	protected function registerValidator(): void {
-		$this->container->bind( FileLoader::class, function ( $container ) {
-			return new FileLoader( $container->make( Filesystem::class ), 'lang' );
-		} );
-
-		$this->container->bind( Factory::class, function ( $container ) {
-			$loader     = $container->make( FileLoader::class );
-			$translator = new Translator( $loader, 'en' );
-
-			return new Factory( $translator, $container );
-		} );
-	}
+/**
+ * Class PluginServiceProvider
+ *
+ * This class is the main service provider for the plugin.
+ */
+class PluginServiceProvider extends AbstractServiceProvider {
+    /**
+     * Provide the services that this provider is responsible for.
+     *
+     * @param string $id The ID to check.
+     * @return bool Returns true if the given ID is provided, false otherwise.
+     */
+    public function provides( string $id ): bool
+    {
+        return in_array( $id, [
+            Plugin::class
+        ]);
+    }
 
 
-	/**
-	 * Do any setup after services have been registered and the theme is ready
-	 */
-	public function boot(): void {
-		foreach ( $this->providers as $provider ) {
-			$provider = $this->container->make( $provider );
-			$provider->boot();
-		}
-	}
+    /**
+     * Register the plugin and its service providers.
+     *
+     * @return void
+     * @throws NotFoundException|ContainerExceptionInterface
+     */
+    public function register(): void {
+        $this->getContainer()->addShared( Plugin::class, function () {
+            return new Plugin(
+                $this->getContainer(),
+                $this->getContainer()->get( RewritesInterface::class ),
+                $this->getContainer()->get( ConfigInterface::class )
+            );
+        } );
+    }
 }
