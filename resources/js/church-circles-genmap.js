@@ -56,7 +56,7 @@
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    url: add_url_params($autolink.urls.route + "/api/genmap", {"node": group}),
+                    url: add_url_params($autolink.urls.route + "api/genmap", {"node": group}),
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("X-WP-Nonce", $autolink.nonce);
                     },

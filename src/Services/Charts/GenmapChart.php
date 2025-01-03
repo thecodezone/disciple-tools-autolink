@@ -41,13 +41,14 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		$genmapper_plugin_path = WP_PLUGIN_DIR . '/disciple-tools-genmapper';
 
 		container()->get( Assets::class )->enqueue_mapbox( 0, false );
+
 		wp_enqueue_style( "hint", "https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.1/hint.min.css", [], "2.5.1" );
 		wp_enqueue_style( "group-styles", $genmapper_plugin_url . "/includes/charts/church-circles/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/church-circles/style.css" ) );
 		wp_enqueue_style( "chart-styles", $genmapper_plugin_url . "/includes/charts/style.css", [], filemtime( $genmapper_plugin_path . "/includes/charts/style.css" ) );
 		wp_register_script( 'd3', 'https://d3js.org/d3.v5.min.js', false, '5' );
 
-
 		$group_fields = \DT_Posts::get_post_field_settings( "groups" );
+
 		wp_enqueue_script( 'gen-template', $genmapper_plugin_url . "/includes/charts/church-circles/template.js", [
 			'jquery',
 			'jquery-ui-core',
@@ -154,13 +155,13 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				"name"     => "source",
 			],
 		];
-		$groups = container()->make( GroupTreeRepository::class )->tree( 'groups', $args );
+		$groups = container()->get( GroupTreeRepository::class )->tree( 'groups', $args );
 
 		if ( is_wp_error( $groups ) ) {
 			return $groups;
 		}
 
-		if ( ! empty( $params["node"] && $params["node"] != "null" ) ) {
+		if ( ! empty( $params["node"] ) && $params["node"] != "null" ) {
 			$node = [];
 			foreach ( $groups as $group ) {
 				if ( $group["id"] === $params["node"] ) {

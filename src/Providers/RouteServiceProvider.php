@@ -21,6 +21,8 @@ use function DT\Autolink\routes_path;
  */
 class RouteServiceProvider extends RouteProvider implements BootableServiceProviderInterface {
 
+	public $route_capabilities = [ "access_contacts", "view_any_contacts" ];
+
     /**
      * Represents the configuration settings for the application.
      *
@@ -83,6 +85,8 @@ class RouteServiceProvider extends RouteProvider implements BootableServiceProvi
             }
         }
 
+	    add_filter( 'user_has_cap', [ $this, 'user_has_cap' ], 10, 3 );
+
         $renderer = $this->get_renderer();
 
         if ( $renderer ) {
@@ -91,4 +95,26 @@ class RouteServiceProvider extends RouteProvider implements BootableServiceProvi
 
         $route->resolve();
     }
+
+	/**
+	 * Check if a user has a specific capability.
+	 *
+	 * This method is used to determine if a user has a specific capability. It takes an array of
+	 * all capabilities currently assigned to the user, the capability to check, and any additional
+	 * arguments that may be required for the capability check.
+	 *
+	 * @param array $all_caps An array of all capabilities assigned to the user.
+	 * @param string $cap The capability to check.
+	 * @param mixed $args Additional arguments required for the capability check.
+	 *
+	 * @return array An updated array of all capabilities assigned to the user, including any additional capabilities.
+	 */
+	public function user_has_cap( $all_caps, $cap, $args ) {
+
+		foreach ( $this->route_capabilities as $cap ) {
+			$all_caps[ $cap ] = true;
+		}
+
+		return $all_caps;
+	}
 }

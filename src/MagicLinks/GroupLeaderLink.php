@@ -8,7 +8,7 @@ use function DT\Autolink\namespace_string;
 use function DT\Autolink\route_url;
 
 
-class GroupLeaderLink extends MagicApp
+class GroupLeaderLink extends MagicLink
 {
 
     public $page_title = 'Group leader autolink';
@@ -18,6 +18,14 @@ class GroupLeaderLink extends MagicApp
     public $post_type = 'group';
     public $show_bulk_send = true;
     public $show_app_tile = true;
+
+	/**
+	 * Do any action before the magic link is bootstrapped
+	 * @return void
+	 */
+	public function init() {
+		$this->whitelist_current_route();
+	}
 
     public function boot()
     {

@@ -6,7 +6,7 @@ use function DT\Autolink\namespace_string;
 use function DT\Autolink\route_url;
 
 
-class CoachingLink extends MagicApp {
+class CoachingLink extends MagicLink {
 
 	public $page_title = 'Coached by autolink';
 	public $page_description = 'Share this link with someone this contact is coaching.';
@@ -15,6 +15,14 @@ class CoachingLink extends MagicApp {
 	public $post_type = 'contact';
 	public $show_bulk_send = true;
 	public $show_app_tile = true;
+
+	/**
+	 * Do any action before the magic link is bootstrapped
+	 * @return void
+	 */
+	public function init() {
+		$this->whitelist_current_route();
+	}
 
 	public function boot() {
 		$coach = \DT_Posts::get_post( $this->post_type, $this->parts['post_id'], true, false );

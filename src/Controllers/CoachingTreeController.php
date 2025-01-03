@@ -131,9 +131,9 @@ class CoachingTreeController {
 			}
 		}
 
-		return [
+		return response( [
 			'success' => true,
 			'message' => __( 'Group moved successfully.', 'disciple-tools-autolink' ),
-		];
+		] );
 	}
 }

@@ -15,6 +15,7 @@ class LoggedIn implements MiddlewareInterface {
 			return redirect( wp_login_url( $request->getUri() ) );
 		}
 
+
 		return $handler->handle( $request );
 	}
 }

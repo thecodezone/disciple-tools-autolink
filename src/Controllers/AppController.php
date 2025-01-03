@@ -3,6 +3,7 @@
 namespace DT\Autolink\Controllers;
 
 use DT\Autolink\GuzzleHttp\Psr7\Request;
+use function DT\Autolink\response;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 use function DT\Autolink\extract_request_input;
@@ -26,7 +27,7 @@ class AppController {
 				}
 			}
 
-			return $church;
+			return response( $church );
 		}, $churches['posts'] ?? [] );
 
 		$churches['total'] = $churches['total'] ?? 0;

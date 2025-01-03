@@ -22,7 +22,8 @@ class SurveyController {
 	 * @return mixed The template for displaying the survey question.
 	 * @throws Exception When the survey question is not found.
 	 */
-	public function show( Request $request, $page = 0 ) {
+	public function show( Request $request, $params ) {
+		$page = $params['page'] ?? 0;
 		$survey_repository = container()->get( SurveyRepository::class );
 		$prev_page = $page - 1;
 		$question = $survey_repository->get( $page );
@@ -45,7 +46,8 @@ class SurveyController {
 	 * @return mixed The appropriate redirect after processing the answer.
 	 * @throws Exception When the survey question is not found.
 	 */
-	public function update( Request $request, $page ) {
+	public function update( Request $request, $params ) {
+		$page = $params['page'] ?? 0;
 		$survey_repository = container()->get( SurveyRepository::class );
 		$input         = extract_request_input( $request );
 		$question      = $survey_repository->get( $page );

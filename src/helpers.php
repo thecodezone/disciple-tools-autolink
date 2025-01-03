@@ -211,6 +211,10 @@ function view( string $view = "", array $args = [] ) {
 	);
 }
 
+function render( string $view, array $args = [] ): string {
+	return (string) view( $view, $args )->getBody();
+}
+
 /**
  * Renders a template using the Template service and returns a response
  *
@@ -410,7 +414,13 @@ function extract_request_input( RequestInterface $request ): array {
         // Handle JSON content type.
         $body = $request->getBody()->getContents();
 
-        return json_decode( $body, true );
+        $result = json_decode( $body, true );
+
+		if ( $result === null ) {
+			return [];
+		}
+
+		return $result;
     }
 
     switch ( strtoupper( $request->getMethod() ) ) {

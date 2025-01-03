@@ -2,10 +2,12 @@
 
 namespace DT\Autolink\Middleware;
 
+use Disciple_Tools_Users;
 use DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\Psr\Http\Message\ServerRequestInterface;
 use DT\Autolink\Psr\Http\Server\MiddlewareInterface;
 use DT\Autolink\Psr\Http\Server\RequestHandlerInterface;
+use DT_Posts;
 use function DT\Autolink\config;
 
 class CheckShareCookie implements MiddlewareInterface {

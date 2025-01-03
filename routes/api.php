@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var \DT\Autolink\League\Route\Router $r
+ * @var Router $r
  */
 
 use DT\Autolink\Controllers\CoachingTreeController;
@@ -9,6 +9,7 @@ use DT\Autolink\Controllers\FieldController;
 use DT\Autolink\Controllers\GenMapController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\League\Route\RouteCollectionInterface;
+use DT\Autolink\League\Route\Router;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\LoggedIn;
 

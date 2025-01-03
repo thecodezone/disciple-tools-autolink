@@ -51,4 +51,4 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 	$r->get( 'groups/{group_id}/modal', [ GroupController::class, 'show_modal' ] );
 
 	$r->get( 'groups/{group_id}', [ GroupController::class, 'show' ] );
-})->middlewares( [ new LoggedIn(), new CheckShareCookie(), new HasCap( 'manage_contacts' ) ] );
+})->middlewares( [ new LoggedIn(), new CheckShareCookie() ] );
