@@ -90,9 +90,7 @@ class LoginController {
 	 * Logs the user out and redirects them to the login page.
 	 *
 	 * @param array $params Additional parameters (optional).
-	 *
-	 * @return \DT\Autolink\Illuminate\Http\RedirectResponse The response object.
-	 */
+	 * */
 	public function logout( $params = [] ) {
 		wp_logout();
 

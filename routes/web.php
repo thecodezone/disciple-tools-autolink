@@ -12,24 +12,18 @@
  * @see https://github.com/thecodezone/wp-router
  */
 
-use DT\Autolink\CodeZone\Router\FastRoute\Routes;
-use DT\Autolink\CodeZone\WPSupport\Middleware\HasCap;
-use DT\Autolink\Controllers\Admin\GeneralSettingsController;
 use DT\Autolink\Controllers\AppController;
 use DT\Autolink\Controllers\CoachingTreeController;
-use DT\Autolink\Controllers\FieldController;
 use DT\Autolink\Controllers\GenMapController;
 use DT\Autolink\Controllers\GroupController;
 use DT\Autolink\Controllers\LoginController;
 use DT\Autolink\Controllers\RegisterController;
 use DT\Autolink\Controllers\SurveyController;
 use DT\Autolink\Controllers\TrainingController;
-use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\League\Route\RouteCollectionInterface;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\SurveyCompleted;
-use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 
 $r->get( '/', [ GenMapController::class, 'show', [ 'middleware' => [ 'genmap', 'auth' ] ] ] );
 $r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );

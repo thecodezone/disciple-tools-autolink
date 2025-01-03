@@ -2,7 +2,6 @@
 
 namespace DT\Autolink\Repositories;
 
-use DT\Autolink\Illuminate\Support\Arr;
 use function DT\Autolink\groups_label;
 
 /**
@@ -36,7 +35,7 @@ class SurveyRepository {
 	 * @return mixed The value of the requested page from the questions array, or an empty array if the page is not found.
 	 */
 	public function get( $page ) {
-		return Arr::get( $this->questions(), $page, [] );
+		return $this->questions()[ $page ] ?? [];
 	}
 
 	/**

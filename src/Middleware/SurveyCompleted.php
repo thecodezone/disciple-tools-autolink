@@ -2,14 +2,11 @@
 
 namespace DT\Autolink\Middleware;
 
-use DT\Autolink\CodeZone\Router\Middleware\Middleware;
-use DT\Autolink\Illuminate\Http\Request;
 use DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\Psr\Http\Message\ServerRequestInterface;
 use DT\Autolink\Psr\Http\Server\MiddlewareInterface;
 use DT\Autolink\Psr\Http\Server\RequestHandlerInterface;
 use DT\Autolink\Repositories\SurveyRepository;
-use DT\Autolink\Symfony\Component\HttpFoundation\Response;
 use function DT\Autolink\container;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
