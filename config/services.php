@@ -15,7 +15,6 @@ use DT\Autolink\Providers\AssetServiceProvider;
 $config->merge( [
     'services' => [
         'providers' => [
-            ConfigServiceProvider::class,
             OptionsServiceProvider::class,
             AssetServiceProvider::class,
             ViewServiceProvider::class,
