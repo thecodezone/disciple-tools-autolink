@@ -39,6 +39,7 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 	$r->get( 'logout', [ LoginController::class, 'logout' ] );
 	$r->get( 'survey', [ SurveyController::class, 'show' ] );
 	$r->get( 'survey/{page}', [ SurveyController::class, 'show' ] );
+	$r->post( 'survey/{page}', [ SurveyController::class, 'update' ] );
 	$r->get( 'groups/create', [ GroupController::class, 'create' ] );
 	$r->get( 'groups/modal/create', [ GroupController::class, 'create_modal' ] );
 	$r->get( 'groups/{group_id}/edit', [ GroupController::class, 'edit' ] );
