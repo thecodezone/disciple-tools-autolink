@@ -16,7 +16,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
 ?>
 
 <form method="post">
-  <?php wp_nonce_field( 'disciple-tools-autolink' ) ?>
+  <?php wp_nonce_field( 'dt_admin_form_nonce' ) ?>
   <table class="widefat striped">
     <thead>
     <tr>

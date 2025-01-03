@@ -73,9 +73,6 @@ class Settings {
      * @return void
      */
     public function route(): void {
-        $request = container()->get( ServerRequestInterface::class );
-        $query = $request->getQueryParams();
-        $tab = $query['tab'] ?? 'general';
         $route = container()->get( RouteInterface::class );
         $route->file( routes_path( 'settings.php' ) )
             ->resolve();
