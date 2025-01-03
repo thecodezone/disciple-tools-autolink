@@ -7,6 +7,7 @@ use DT\Autolink\CodeZone\WPSupport\Assets\AssetQueueInterface;
 use function DT\Autolink\config;
 use function DT\Autolink\Kucrut\Vite\enqueue_asset;
 use function DT\Autolink\namespace_string;
+use function DT\Autolink\plugin_path;
 
 /**
  * Class Assets
@@ -100,11 +101,6 @@ class Assets
 	 * @return void
 	 */
 	public function enqueue() {
-		if ( self::$enqueued ) {
-			return;
-		}
-		self::$enqueued = true;
-
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ], 1000 );
 			add_action( 'admin_head', [ $this, 'cloak_style' ] );
