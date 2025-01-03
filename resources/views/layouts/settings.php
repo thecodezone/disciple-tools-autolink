@@ -8,7 +8,7 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
 
 ?>
 <div class="wrap">
-    <h2><?php esc_html_e( 'Disciple.Tools - Autolink', 'disciple_tools_autolink' ) ?></h2>
+    <h2><?php esc_html_e( 'Disciple.Tools - Autolink', 'dt-autolink' ) ?></h2>
 
     <div class="nav-tab-wrapper">
       <?php foreach ( $nav as $index => $item ): ?>

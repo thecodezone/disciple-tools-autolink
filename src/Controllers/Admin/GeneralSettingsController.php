@@ -44,9 +44,9 @@ class GeneralSettingsController {
 		set_plugin_option( 'show_in_menu', $show_in_menu );
 
 		if ( $error ) {
-			\wp_redirect( 'admin.php?page=disciple_tools_autolink&tab=general&error=' . $error );
+			\wp_redirect( 'admin.php?page=dt-autolink&tab=general&error=' . $error );
 		} else {
-			\wp_redirect( 'admin.php?page=disciple_tools_autolink&tab=general' );
+			\wp_redirect( 'admin.php?page=dt-autolink&tab=general' );
 		}
 		exit;
 	}
