@@ -88,7 +88,9 @@ function has_route_rewrite(): bool {
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
 function plugin_url( string $path = '' ): string {
-	return plugins_url( 'dt-autolink' ) . '/' . ltrim( $path, '/' );
+	$plugin_dir = explode( '/', plugin_dir_path( __FILE__ ) );
+	$plugin_dir = $plugin_dir[ count( $plugin_dir ) - 3 ];
+	return plugins_url( $plugin_dir ) . '/' . ltrim( $path, '/' );
 }
 
 /**
@@ -454,4 +456,47 @@ function groups_label()
 function group_label()
 {
     return group_labels()->singular_name;
+}
+
+/**
+ * Retrieves the URL for the logo image.
+ *
+ * By default, the method returns the URL for the plugin's logo image located in the resources/img directory.
+ * However, if a custom logo URL is set via the 'custom_logo_url' option, that URL will be returned instead.
+ *
+ * @return string The URL for the logo image.
+ */
+function logo_url()
+{
+	$logo_url = plugin_url( 'resources/img/logo-color.png' );
+	$custom_logo_url = get_option( 'custom_logo_url' );
+	if ( !empty( $custom_logo_url ) ) {
+		$logo_url = $custom_logo_url;
+	}
+
+	return $logo_url;
+}
+
+
+/**
+ * function group_leader_share_url( $group_id )
+ * {
+ * return magic_url( "autolink", "group_leader", $group_id );
+ * }
+ */
+function group_leader_share_url( $group_id )
+{
+	$current_user_contact_id = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+	return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
+}
+
+/**
+ * Generates and returns a URL for sharing a specific user-related context.
+ *
+ * @return string The generated sharing URL.
+ */
+function share_url()
+{
+	return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 }

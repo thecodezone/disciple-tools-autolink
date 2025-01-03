@@ -26,7 +26,7 @@ use DT\Autolink\Repositories\UserRepository;
 use function DT\Autolink\container;
 use function DT\Autolink\share_url;
 
-$user_repository = container()->make( UserRepository::class );
+$user_repository = container()->get( UserRepository::class );
 $user_name = $user_repository->display_name();
 $coach_name = $user_repository->coach_name();
 ?>

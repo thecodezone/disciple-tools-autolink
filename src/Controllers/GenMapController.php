@@ -2,6 +2,7 @@
 
 namespace DT\Autolink\Controllers;
 
+use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\GuzzleHttp\Psr7\Response;
 use DT\Autolink\Services\Charts\GenmapChart;
 use function DT\Autolink\container;

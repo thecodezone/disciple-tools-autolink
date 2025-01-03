@@ -18,7 +18,7 @@ $config->merge( [
             'dt-autolink',
             'dt-autolink-admin',
         ],
-        'javascript_global_scope' => '$dt_autolink',
+        'javascript_global_scope' => '$autolink',
         'manifest_dir' => plugin_path( '/dist' )
     ]
 ] );
