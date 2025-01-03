@@ -18,23 +18,45 @@
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-use DT\Autolink\Illuminate\Container\Container;
+use DT\Autolink\CodeZone\WPSupport\Config\ConfigInterface;
 use DT\Autolink\Plugin;
+use DT\Autolink\Providers\ConfigServiceProvider;
+use DT\Autolink\Providers\PluginServiceProvider;
+use DT\Autolink\Providers\RewritesServiceProvider;
+use DT\Autolink\CodeZone\WPSupport\Container\ContainerFactory;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+    exit; // Exit if accessed directly
 }
 
-require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/scoper-autoload.php';
-require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/autoload.php';
-require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
+//Load dependencies
 
-$container = new Container();
-$container->singleton( Container::class, function ( $container ) {
-	return $container;
-} );
-$container->singleton( Plugin::class, function ( $container ) {
-	return new Plugin( $container );
-} );
-$plugin_instance = $container->make( Plugin::class );
-$plugin_instance->init();
+require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
+// Create the IOC container
+$container = ContainerFactory::singleton();
+
+require_once plugin_dir_path( __FILE__ ) . 'src/helpers.php';
+
+// Add any services providers required to init the plugin
+$boot_providers = [
+    ConfigServiceProvider::class,
+    RewritesServiceProvider::class,
+    PluginServiceProvider::class
+];
+
+foreach ( $boot_providers as $provider ) {
+    $container->addServiceProvider( $container->get( $provider ) );
+}
+
+// Init the plugin
+$dt_autolink = $container->get( Plugin::class );
+$dt_autolink->init();
+
+// Add the rest of the service providers
+$config = $container->get( ConfigInterface::class );
+foreach ( $config->get( 'services.providers' ) as $provider ) {
+    $container->addServiceProvider( $container->get( $provider ) );
+}
