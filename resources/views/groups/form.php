@@ -1,4 +1,7 @@
 <?php
+use function DT\Autolink\request;
+use function DT\Autolink\config;
+
 /**
 * @var string $action
  * @var string $nonce
@@ -27,7 +30,7 @@
       action="<?php echo esc_attr( $action ) ?>"
       method="POST">
 
-	<?php wp_nonce_field(  'disciple-tools-autolink' ); ?>
+	<?php wp_nonce_field( config('plugin.nonce') ); ?>
 
 
 	<?php if ( ! empty( $group_id ) ): ?>

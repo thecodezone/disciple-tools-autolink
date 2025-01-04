@@ -23,7 +23,10 @@ strong.greeting {
 h1.user_name {
     font-weight: 700;
     font-size: 32px;
-    text-transform: capitalize;
+}
+
+h1.user_name::first-letter {
+    text-transform: uppercase;
 }
 
 strong.coached_by {

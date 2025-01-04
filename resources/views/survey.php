@@ -16,7 +16,7 @@ $this->layout( 'layouts/app' );
       action="<?php echo esc_url( $action ); ?>"
       method="POST">
 
-	<?php wp_nonce_field( 'disciple-tools-autolink' ); ?>
+	<?php wp_nonce_field( config('plugin.nonce') ); ?>
 
 	<dt-tile title="<?php echo esc_attr( $question['label'] ); ?>"
 	         class="question">

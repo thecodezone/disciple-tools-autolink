@@ -111,6 +111,7 @@ class CheckShareCookie implements MiddlewareInterface {
         if ( isset( $_COOKIE[$cookie_name] ) ) {
             unset( $_COOKIE[$cookie_name] );
             setcookie( $cookie_name, '', time() - 3600, '/' );
+
         }
     }
 
@@ -125,9 +126,10 @@ class CheckShareCookie implements MiddlewareInterface {
             "leaders" => [
                 "force_values" => false,
                 "values" => [
-                    [ 'value' => $current_user_contact ]
+                    [ 'value' => (string) $current_user_contact ]
                 ]
             ],
+            'assigned_to' => (string) get_current_user_id(),
         ];
         DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
 

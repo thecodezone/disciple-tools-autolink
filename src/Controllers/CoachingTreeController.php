@@ -44,7 +44,7 @@ class CoachingTreeController {
 			'coached_label'     => groups_label() . ' ' . __( 'assigned to those you coach', 'disciple-tools-autolink' ),
 			'leading_label'     => groups_label() . ' ' . __( 'you lead', 'disciple-tools-autolink' ),
 			'generation_label'  => __( 'Generation Number', 'disciple-tools-autolink' ),
-			'no_groups_message' => __( 'No ', 'disciple-tools-autolink' ) . ' ' . Str::lower( groups_label() ) . ' found.',
+			'no_groups_message' => __( 'No ', 'disciple-tools-autolink' ) . ' ' . strtolower( groups_label() ) . ' found.',
 		];
 
 		return template( 'coaching-tree', compact( 'fetch_url', 'translations' ) );

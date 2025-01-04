@@ -22,7 +22,7 @@ $this->layout( 'layouts/auth' );
 
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-                <?php wp_nonce_field( 'disciple-tools-autolink' ); ?>
+                <?php wp_nonce_field( config('plugin.nonce') ); ?>
 
                 <?php if ( ! empty( $error ) ) : ?>
                     <dt-alert context="alert"

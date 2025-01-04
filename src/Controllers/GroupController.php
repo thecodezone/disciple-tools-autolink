@@ -64,7 +64,7 @@ class GroupController {
         }, $result['posts'] ?? [] );
         $result['total'] = $result['total'] ?? 0;
 
-        return $result;
+        return response( $result );
     }
 
 	/**
@@ -202,6 +202,21 @@ class GroupController {
         $church_fields = [
             'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
         ];
+	    $allowed_church_count_fields = [
+		    'member_count',
+		    'leader_count',
+		    'believer_count',
+		    'baptized_count',
+		    'baptized_in_group_count'
+	    ];
+	    $church_count_fields = [];
+	    foreach ( $allowed_church_count_fields as $field ) {
+		    // Fields can be registered or deregistered by plugins, so check and make sure it exists
+		    if ( isset( $group_fields[$field] ) && ( !isset( $group_fields[$field]['hidden'] ) || !$group_fields[$field]['hidden'] ) ) {
+			    // Assign group_id to each church_count_field
+			    $church_count_fields[$field] = array_merge( $group_fields[$field], [ 'group_id' => $group_id ] );
+		    }
+	    }
 
         $opened = true;
 
@@ -210,7 +225,7 @@ class GroupController {
             'group', 'action', 'group_id', 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label',
             'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group',
             'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'church_fields', 'churches',
-            'opened'
+            'opened', 'church_count_fields'
         );
     }
 
@@ -425,7 +440,7 @@ class GroupController {
         $user         = wp_get_current_user();
         $contact_id   = Disciple_Tools_Users::get_contact_for_user( $user->ID );
         $parent_group = $input['parent_group'] ?? '';
-
+	    $group_type = $input['group_type'] ?? 'pre-group';
 
         if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
             $location = $location['location_grid_meta']['values'];
@@ -504,7 +519,7 @@ class GroupController {
             return redirect( route_url( "?e=" . $result->get_error_message() ) );
         }
 
-        return redirect( route_url() );
+        return redirect( route_url( 'groups' ) );
     }
 
     /**

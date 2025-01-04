@@ -143,3 +143,6 @@ jobs:
       - name: PHPunit
         run: |
           vendor/bin/phpunit
+
+#      - name: Test phpcs
+#        run: ./tests/test_phpcs.sh
