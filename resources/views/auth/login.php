@@ -4,7 +4,12 @@
  * @var $register_url string
  * @var $form_action string
  * @var $error string
+ * @var $username string
+ * @var $password string
+ * @var $reset_url string
  */
+
+use function DT\Autolink\config;
 use function DT\Autolink\logo_url;
 
 $this->layout( 'layouts/auth' );
@@ -55,7 +60,7 @@ $this->layout( 'layouts/auth' );
 
                     <dt-button context="link"
                                href="<?php echo esc_url( $register_url ); ?>"
-                               tabindex="`4"
+                               tabindex="4"
                                title="<?php esc_attr_e( 'Create Account', 'disciple-tools-autolink' ); ?>">
                         <?php esc_html_e( 'Create Account', 'disciple-tools-autolink' ) ?>
                         <dt-chevron-right></dt-chevron-right>

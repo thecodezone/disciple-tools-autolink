@@ -63,6 +63,9 @@ class RegisterController {
 	 * Show the register template
 	 */
 	public function register( $params = [] ) {
+        if (!is_array($params)) {
+            $params = is_object($params) ? (array) $params : [];
+        }
 		$form_action = route_url( 'register' );
 		$login_url   = route_url( 'login' );
 		$error       = $params['error'] ?? '';
