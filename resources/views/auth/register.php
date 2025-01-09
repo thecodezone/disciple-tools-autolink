@@ -3,6 +3,8 @@
  * @var $form_action string
  * @var $error string
  */
+
+use function DT\Autolink\config;
 use function DT\Autolink\logo_url;
 $this->layout( 'layouts/auth' );
 ?>
@@ -18,7 +20,7 @@ $this->layout( 'layouts/auth' );
 
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-                <?php wp_nonce_field( 'disciple-tools-autolink' ); ?>
+                <?php wp_nonce_field( config('plugin.nonce') ); ?>
 
                 <?php if ( ! empty( $error ) ) : ?>
                     <dt-alert context="alert"

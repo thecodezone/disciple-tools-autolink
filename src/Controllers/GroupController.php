@@ -38,7 +38,8 @@ class GroupController {
      * @param Request $request The HTTP request object.
      */
     public function index( Request $request ) {
-		$params = extract_request_input( $request );
+        dt_write_log('GGGGGGGGGGGGGGGGG');
+        $params = extract_request_input( $request );
         $limit  = $params['limit'] ?? 10;
         $offset = $params['offset'] ?? 0;
 
@@ -64,54 +65,54 @@ class GroupController {
         }, $result['posts'] ?? [] );
         $result['total'] = $result['total'] ?? 0;
 
-        return $result;
+        return response( $result );
     }
 
-	/**
-	 * Show modal method returns the content and post data for a specific group modal.
-	 *
-	 * @param Request $request The HTTP request object.
-	 * @param array $params The route params
-	 *
-	 * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content, post, and code.
-	 */
-	public function show_modal( Request $request, array $params ) {
-		$group_id = $params['group_id'] ?? null;
+    /**
+     * Show modal method returns the content and post data for a specific group modal.
+     *
+     * @param Request $request The HTTP request object.
+     * @param array $params The route params
+     *
+     * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content, post, and code.
+     */
+    public function show_modal( Request $request, array $params ) {
+        $group_id = $params['group_id'] ?? null;
 
-		return response( [
-			'content' => render( 'groups/modal', $this->form_view_params( $request, $params ) ),
-			'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
-			'code' => 200
-		] );
-	}
+        return response( [
+            'content' => render( 'groups/modal', $this->form_view_params( $request, $params ) ),
+            'post' => $group_id ? DT_Posts::get_post( 'groups', $group_id, true, false ) : null,
+            'code' => 200
+        ] );
+    }
 
-	/**
-	 * Create modal method returns the content and HTTP code for a create modal view.
-	 *
-	 * @param Request $request The HTTP request object.
-	 *
-	 * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content and HTTP code.
-	 */
-	public function create_modal( Request $request ) {
-		return response( [
-			'content' => render( 'groups/create-modal', $this->form_view_params( $request ) )->getBody()->getContents(),
-			'code' => 200
-		] );
-	}
+    /**
+     * Create modal method returns the content and HTTP code for a create modal view.
+     *
+     * @param Request $request The HTTP request object.
+     *
+     * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content and HTTP code.
+     */
+    public function create_modal( Request $request ) {
+        return response( [
+            'content' => render( 'groups/create-modal', $this->form_view_params( $request ) )->getBody()->getContents(),
+            'code' => 200
+        ] );
+    }
 
-	/**
-	 * Edit method retrieves the data for a group from the database.
-	 *
-	 * @param Request $request The HTTP request object.
-	 *
-	 * @return mixed The form content or an error message.
-	 */
-	public function create( Request $request ) {
-		$assets = container()->get( Assets::class );
-		$assets->register_mapbox();
+    /**
+     * Edit method retrieves the data for a group from the database.
+     *
+     * @param Request $request The HTTP request object.
+     *
+     * @return mixed The form content or an error message.
+     */
+    public function create( Request $request ) {
+        $assets = container()->get( Assets::class );
+        $assets->register_mapbox();
 
-		return template( 'groups/page', $this->form_view_params( $request ) );
-	}
+        return template( 'groups/page', $this->form_view_params( $request ) );
+    }
 
     /**
      * Form method handles the generation of the form.
@@ -122,11 +123,11 @@ class GroupController {
      * @return mixed The form content or an error message.
      */
     public function edit( Request $request, array $params ): mixed {
-	    $assets = container()->get( Assets::class );
-		$group_id = $params['group_id'] ?? null;
-	    $assets->register_mapbox( $group_id );
+        $assets = container()->get( Assets::class );
+        $group_id = $params['group_id'] ?? null;
+        $assets->register_mapbox( $group_id );
 
-	    return template( 'groups/page', $this->form_view_params( $request, $params ) );
+        return template( 'groups/page', $this->form_view_params( $request, $params ) );
     }
 
 
@@ -134,15 +135,14 @@ class GroupController {
      * Generate the view parameters for the form view.
      *
      * @param Request $request The HTTP request object.
-     * @param array $params The route params
+     * @param array|null $params The route params
      *
      * @return array The view parameters.
-     * @throws \Exception
      */
-    private function form_view_params( Request $request, array $params ): array {
+    private function form_view_params( Request $request, array $params = null ): array {
         $group               = null;
-		$group_id            = $params['group_id'] ?? null;
-	    $input               = extract_request_input( $request );
+        $group_id            = $params['group_id'] ?? null;
+        $input               = extract_request_input( $request );
         $action              = route_url( "/groups" );
         $leaders             = null;
 
@@ -202,6 +202,21 @@ class GroupController {
         $church_fields = [
             'health_metrics' => $group_fields['health_metrics']['default'] ?? [],
         ];
+        $allowed_church_count_fields = [
+            'member_count',
+            'leader_count',
+            'believer_count',
+            'baptized_count',
+            'baptized_in_group_count'
+        ];
+        $church_count_fields = [];
+        foreach ( $allowed_church_count_fields as $field ) {
+            // Fields can be registered or deregistered by plugins, so check and make sure it exists
+            if ( isset( $group_fields[$field] ) && ( !isset( $group_fields[$field]['hidden'] ) || !$group_fields[$field]['hidden'] ) ) {
+                // Assign group_id to each church_count_field
+                $church_count_fields[$field] = array_merge( $group_fields[$field], [ 'group_id' => $group_id ] );
+            }
+        }
 
         $opened = true;
 
@@ -210,7 +225,7 @@ class GroupController {
             'group', 'action', 'group_id', 'heading', 'name_label', 'name_placeholder', 'start_date_label', 'leaders_label',
             'cancel_url', 'cancel_label', 'submit_label', 'error', 'name', 'leader_ids', 'leader_options', 'parent_group',
             'parent_group_field_callback', 'show_location_field', 'start_date', 'group_fields', 'church_fields', 'churches',
-            'opened'
+            'opened', 'church_count_fields'
         );
     }
 
@@ -223,9 +238,9 @@ class GroupController {
      * @return mixed The view with the parent group field options and data.
      */
     public function parent_group_field( Request $request ) {
-		$options = container()->get( Options::class );
-	    $params = extract_request_input( $request );
-	    $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
+        $options = container()->get( Options::class );
+        $params = extract_request_input( $request );
+        $group_fields = DT_Posts::get_post_settings( 'groups' )['fields'];
         $post_type    = get_post_type_object( 'groups' );
         $group_labels = get_post_type_labels( $post_type );
         $leaders_ids  = $params['leaders'] ?? [];
@@ -311,20 +326,20 @@ class GroupController {
      * @throws \Exception
      */
     public function store( Request $request ) {
-		$input = extract_request_input( $request );
-		$wants_json = request_wants_json( $request );
+        $input = extract_request_input( $request );
+        $wants_json = request_wants_json( $request );
 
-		if ( !isset( $input['name'] ) ) {
-			if ( $wants_json ) {
-				return response( [
-					'error' => __( 'Invalid field: name' )
-				], 400 );
-			} else {
-				return redirect( route_url( "/groups/create?" . http_build_query(
-                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
-                ) ) );
-			}
-		}
+        if ( !isset( $input['name'] ) ) {
+            if ( $wants_json ) {
+                return response( [
+                    'error' => __( 'Invalid field: name' )
+                ], 400 );
+            } else {
+                return redirect( route_url( "/groups/create?" . http_build_query(
+                        array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
+                    ) ) );
+            }
+        }
 
         $fields = $this->group_fields_from_request( $request );
         $group = DT_Posts::create_post( 'groups', $fields, false, false );
@@ -360,21 +375,21 @@ class GroupController {
      * @throws \Exception
      */
     public function update( Request $request, array $params ) {
-		$group_id = $params['group_id'];
-	    $input = extract_request_input( $request );
-	    $wants_json = request_wants_json( $request );
+        $group_id = $params['group_id'];
+        $input = extract_request_input( $request );
+        $wants_json = request_wants_json( $request );
 
-	    if ( !isset( $input['name'] ) ) {
-		    if ( $wants_json ) {
-			    return response( [
-				    'error' => __( 'Invalid field: name' )
-			    ], 400 );
-		    } else {
-			    return redirect( route_url( "/groups/create?" . http_build_query(
-                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
-                ) ) );
-		    }
-	    }
+        if ( !isset( $input['name'] ) ) {
+            if ( $wants_json ) {
+                return response( [
+                    'error' => __( 'Invalid field: name' )
+                ], 400 );
+            } else {
+                return redirect( route_url( "/groups/create?" . http_build_query(
+                        array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
+                    ) ) );
+            }
+        }
 
 
         $fields = $this->group_fields_from_request( $request );
@@ -412,7 +427,7 @@ class GroupController {
      * @throws \Exception When there are validation errors in the request fields.
      */
     private function group_fields_from_request( $request ) {
-		$input = extract_request_input( $request );
+        $input = extract_request_input( $request );
         $id           = $input['group_id'] ?? null;
         $name         = $input['name'] ?? '';
 
@@ -425,7 +440,7 @@ class GroupController {
         $user         = wp_get_current_user();
         $contact_id   = Disciple_Tools_Users::get_contact_for_user( $user->ID );
         $parent_group = $input['parent_group'] ?? '';
-
+        $group_type = $input['group_type'] ?? 'pre-group';
 
         if ( isset( $location['location_grid_meta'] ) && isset( $location['location_grid_meta']['values'] ) ) {
             $location = $location['location_grid_meta']['values'];
@@ -442,7 +457,7 @@ class GroupController {
                                 [ "value" => $contact_id ]
                             ]
                         ]
-                ], true, false );
+                    ], true, false );
                 $leaders[ $idx ] = $contact['ID'];
                 wp_publish_post( $contact['ID'] );
             }
@@ -504,7 +519,7 @@ class GroupController {
             return redirect( route_url( "?e=" . $result->get_error_message() ) );
         }
 
-        return redirect( route_url() );
+        return redirect( route_url( 'groups' ) );
     }
 
     /**

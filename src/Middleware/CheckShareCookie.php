@@ -12,7 +12,7 @@ use function DT\Autolink\config;
 
 class CheckShareCookie implements MiddlewareInterface {
 
- /**
+    /**
      * If the user is not logged in, the request handler is directly called and the response is returned.
      * If the 'dt_home_share' cookie exists, sanitize and assign its value to $leader_id, otherwise set $leader_id to null.
      * If $leader_id is not null, attempt to add the leader with the given ID.
@@ -29,8 +29,8 @@ class CheckShareCookie implements MiddlewareInterface {
             return $handler->handle( $request );
         }
 
-	    $leader_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.coached_by' ) ] ?? '' ) );
-	    $group_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.leads_group' ) ] ?? '' ) );
+        $leader_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.coached_by' ) ] ?? '' ) );
+        $group_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.cookies.leads_group' ) ] ?? '' ) );
 
         if ( $leader_id ) {
             try {
@@ -52,65 +52,66 @@ class CheckShareCookie implements MiddlewareInterface {
     }
 
 
-	/**
-	 * Add a leader to a contact's coached_by field and update assigned_to field.
-	 *
-	 * @param int $leader_id The ID of the leader to be added.
-	 *
-	 * @return void
-	 */
-	public function add_leader( $leader_id ) {
-		if ( ! $leader_id ) {
-			return;
-		}
+    /**
+     * Add a leader to a contact's coached_by field and update assigned_to field.
+     *
+     * @param int $leader_id The ID of the leader to be added.
+     *
+     * @return void
+     */
+    public function add_leader( $leader_id ) {
+        if ( ! $leader_id ) {
+            return;
+        }
 
-		$contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+        $contact = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
-		if ( $leader_id == $contact ) {
-			$this->remove_cookie();
-			return;
-		}
+        if ( $leader_id == $contact ) {
+            $this->remove_cookie();
+            return;
+        }
 
-		$contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
-		$leader         = DT_Posts::get_post( 'contacts', $leader_id, true, false );
+        $contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
+        $leader         = DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
-		if ( ! $contact_record || ! $leader ) {
-			$this->remove_cookie();
-		}
+        if ( ! $contact_record || ! $leader ) {
+            $this->remove_cookie();
+        }
 
-		if ( ! count( $contact_record['coached_by'] ) ) {
-			$fields = [
-				"coached_by"  => [
-					"values"       => [
-						[ "value" => (string) $leader_id ],
-					],
-					"force_values" => false
-				],
-				'assigned_to' => (string) $leader['corresponds_to_user']
-			];
+        if ( ! count( $contact_record['coached_by'] ) ) {
+            $fields = [
+                "coached_by"  => [
+                    "values"       => [
+                        [ "value" => (string) $leader_id ],
+                    ],
+                    "force_values" => false
+                ],
+                'assigned_to' => (string) $leader['corresponds_to_user']
+            ];
 
-			DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
-		}
+            DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+        }
 
-		$this->remove_cookie();
-	}
+        $this->remove_cookie();
+    }
 
-	/**
-	 * Removes the 'dt_autolink_share' cookie if it exists.
-	 *
-	 * @return void
-	 */
-	public function remove_cookie() {
-		$cookie_name = config( 'plugin.cookies.coached_by' );
-		if ( isset( $_COOKIE[$cookie_name] ) ) {
-			unset( $_COOKIE[$cookie_name] );
-			setcookie( $cookie_name, '', time() - 3600, '/' );
-		}
+    /**
+     * Removes the 'dt_autolink_share' cookie if it exists.
+     *
+     * @return void
+     */
+    public function remove_cookie() {
+        $cookie_name = config( 'plugin.cookies.coached_by' );
+        if ( isset( $_COOKIE[$cookie_name] ) ) {
+            unset( $_COOKIE[$cookie_name] );
+            setcookie( $cookie_name, '', time() - 3600, '/' );
+        }
 
         $cookie_name = config( 'plugin.cookies.leads_group' );
         if ( isset( $_COOKIE[$cookie_name] ) ) {
             unset( $_COOKIE[$cookie_name] );
             setcookie( $cookie_name, '', time() - 3600, '/' );
+
         }
     }
 
@@ -125,9 +126,10 @@ class CheckShareCookie implements MiddlewareInterface {
             "leaders" => [
                 "force_values" => false,
                 "values" => [
-                    [ 'value' => $current_user_contact ]
+                    [ 'value' => (string) $current_user_contact ]
                 ]
             ],
+            'assigned_to' => (string) get_current_user_id(),
         ];
         DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
 

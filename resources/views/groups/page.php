@@ -1,6 +1,8 @@
 <?php
+use function DT\Autolink\wants_json;
+
 /**
-* @var string $heading
+ * @var string $heading
  * @var string $error
  * @var string $action
  * @var string $nonce
@@ -21,23 +23,24 @@
  * @var string $cancel_url
  * @var string $cancel_label
  */
-if ( !request()->wantsJson() ) {
-	$this->layout( "layouts/app" );
+
+if ( !wants_json() ) {
+    $this->layout( "layouts/app" );
 }
 ?>
 
 <div class="app">
-	<div class="container login">
-		<dt-tile title="<?php echo esc_attr( $heading ?? '' ); ?>">
-			<div class="section__inner">
-				<?php if ( $error ?? false ): ?>
-					<dt-alert context="alert"
-					          dismissable>
-						<?php echo esc_html( $error ); ?>
-					</dt-alert>
-				<?php endif; ?>
-		    <?php $this->insert( 'groups/form', get_defined_vars() ); ?>
-      </div>
-		</dt-tile>
-	</div>
+    <div class="container login">
+        <dt-tile title="<?php echo esc_attr( $heading ?? '' ); ?>">
+            <div class="section__inner">
+                <?php if ( $error ?? false ): ?>
+                    <dt-alert context="alert"
+                              dismissable>
+                        <?php echo esc_html( $error ); ?>
+                    </dt-alert>
+                <?php endif; ?>
+                <?php $this->insert( 'groups/form', get_defined_vars() ); ?>
+            </div>
+        </dt-tile>
+    </div>
 </div>

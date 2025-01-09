@@ -26,7 +26,7 @@ use Exception;
  * @return Plugin The singleton instance of the Plugin class.
  */
 function plugin(): Plugin {
-	return container()->get( Plugin::class );
+    return container()->get( Plugin::class );
 }
 
 /**
@@ -36,7 +36,7 @@ function plugin(): Plugin {
  * @see https://container.thephpleague.com/4.x/
  */
 function container(): Container {
-	return ContainerFactory::singleton();
+    return ContainerFactory::singleton();
 }
 
 /**
@@ -50,19 +50,19 @@ function container(): Container {
  * @see https://config.thephpleague.com/
  */
 function config( $key = null, $default = null ) {
-	$service = container()->get( ConfigInterface::class );
+    $service = container()->get( ConfigInterface::class );
 
-	if ( $key ) {
-		return $service->get( $key, $default );
-	}
+    if ( $key ) {
+        return $service->get( $key, $default );
+    }
 
-	return $service;
+    return $service;
 }
 
 function set_config( $key, $value ) {
-	$service = container()->get( ConfigInterface::class );
+    $service = container()->get( ConfigInterface::class );
 
-	return $service->set( $key, $value );
+    return $service->set( $key, $value );
 }
 
 /**
@@ -73,11 +73,11 @@ function set_config( $key, $value ) {
  *
  */
 function has_route_rewrite(): bool {
-	$rewrites = container()->get( RewritesInterface::class );
+    $rewrites = container()->get( RewritesInterface::class );
 
-	return $rewrites->exists(
-		array_key_first( config()->get( 'routes.rewrites' ) )
-	);
+    return $rewrites->exists(
+        array_key_first( config()->get( 'routes.rewrites' ) )
+    );
 }
 
 /**
@@ -88,9 +88,9 @@ function has_route_rewrite(): bool {
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
 function plugin_url( string $path = '' ): string {
-	$plugin_dir = explode( '/', plugin_dir_path( __FILE__ ) );
-	$plugin_dir = $plugin_dir[ count( $plugin_dir ) - 3 ];
-	return plugins_url( $plugin_dir ) . '/' . ltrim( $path, '/' );
+    $plugin_dir = explode( '/', plugin_dir_path( __FILE__ ) );
+    $plugin_dir = $plugin_dir[ count( $plugin_dir ) - 3 ];
+    return plugins_url( $plugin_dir ) . '/' . ltrim( $path, '/' );
 }
 
 /**
@@ -102,13 +102,13 @@ function plugin_url( string $path = '' ): string {
  * @return string The URL for the given route.
  */
 function route_url( string $path = '', $key = 'web' ): string {
-	$file = config()->get( 'routes.files' )[ $key ];
+    $file = config()->get( 'routes.files' )[ $key ];
 
-	if ( ! has_route_rewrite() ) {
-		return site_url() . '?' . http_build_query( [ $file['query'] => $path ] );
-	} else {
-		return site_url( $file['path'] . '/' . ltrim( $path, '/' ) );
-	}
+    if ( ! has_route_rewrite() ) {
+        return site_url() . '?' . http_build_query( [ $file['query'] => $path ] );
+    } else {
+        return site_url( $file['path'] . '/' . ltrim( $path, '/' ) );
+    }
 }
 
 /**
@@ -121,7 +121,7 @@ function route_url( string $path = '', $key = 'web' ): string {
  * @see route_url()
  */
 function api_url( string $path ) {
-	return route_url( $path, 'api' );
+    return route_url( $path, 'api' );
 }
 
 /**
@@ -132,7 +132,7 @@ function api_url( string $path ) {
  * @return string The generated URL.
  */
 function web_url( string $path ) {
-	return route_url( $path, 'web' );
+    return route_url( $path, 'web' );
 }
 
 /**
@@ -144,7 +144,7 @@ function web_url( string $path ) {
  * @see https://developer.wordpress.org/reference/functions/plugin_dir_path/
  */
 function plugin_path( string $path = '' ): string {
-	return Plugin::dir_path() . '/' . trim( $path, '/' );
+    return Plugin::dir_path() . '/' . trim( $path, '/' );
 }
 
 /**
@@ -155,7 +155,7 @@ function plugin_path( string $path = '' ): string {
  * @return string The complete source path.
  */
 function src_path( string $path = '' ): string {
-	return plugin_path( config( 'plugin.paths.src' ) . '/' . $path );
+    return plugin_path( config( 'plugin.paths.src' ) . '/' . $path );
 }
 
 /**
@@ -166,7 +166,7 @@ function src_path( string $path = '' ): string {
  * @return string The path to the resources directory, with optional subdirectory appended.
  */
 function resources_path( string $path = '' ): string {
-	return plugin_path( config( 'plugin.paths.resources' ) . '/' . $path );
+    return plugin_path( config( 'plugin.paths.resources' ) . '/' . $path );
 }
 
 /**
@@ -177,7 +177,7 @@ function resources_path( string $path = '' ): string {
  * @return string The path to the routes directory, with optional subdirectory appended.
  */
 function routes_path( string $path = '' ): string {
-	return plugin_path( config( 'plugin.paths.routes' ) . '/' . $path );
+    return plugin_path( config( 'plugin.paths.routes' ) . '/' . $path );
 }
 
 /**
@@ -188,7 +188,7 @@ function routes_path( string $path = '' ): string {
  * @return string The path to the views directory, with optional subdirectory appended.
  */
 function views_path( string $path = '' ): string {
-	return plugin_path( config( 'plugin.paths.views' ) . '/' . $path );
+    return plugin_path( config( 'plugin.paths.views' ) . '/' . $path );
 }
 
 /**
@@ -201,18 +201,18 @@ function views_path( string $path = '' ): string {
  * @see https://platesphp.com/v3/
  */
 function view( string $view = "", array $args = [] ) {
-	$engine = container()->get( Engine::class );
-	if ( ! $view ) {
-		return $engine;
-	}
+    $engine = container()->get( Engine::class );
+    if ( ! $view ) {
+        return $engine;
+    }
 
-	return response(
-		$engine->render( $view, $args )
-	);
+    return response(
+        $engine->render( $view, $args )
+    );
 }
 
 function render( string $view, array $args = [] ): string {
-	return (string) view( $view, $args )->getBody();
+    return (string) view( $view, $args )->getBody();
 }
 
 /**
@@ -225,14 +225,14 @@ function render( string $view, array $args = [] ): string {
  *               If $template is specified, the rendered template is returned.
  */
 function template( string $template = "", array $args = [] ) {
-	$service = container()->get( Template::class );
-	if ( ! $template ) {
-		return $service;
-	}
+    $service = container()->get( Template::class );
+    if ( ! $template ) {
+        return $service;
+    }
 
-	$service->register();
+    $service->register();
 
-	return view( $template, $args );
+    return view( $template, $args );
 }
 
 /**
@@ -240,7 +240,15 @@ function template( string $template = "", array $args = [] ) {
  * @see https://github.com/guzzle/psr7
  */
 function request(): ServerRequestInterface {
-	return container()->get( ServerRequestInterface::class );
+    return container()->get( ServerRequestInterface::class );
+}
+
+/**
+ * Checks the Accept HTML header for the string application/json and returns true if it is set.
+ * @return bool
+ */
+function wants_json() {
+    return strpos( request()->getHeaderLine('Accept'), 'application/json' ) !== false;
 }
 
 /**
@@ -253,7 +261,7 @@ function request(): ServerRequestInterface {
  * @see https://github.com/guzzle/psr7
  */
 function redirect( string $url, int $status = 302, $headers = [] ): ResponseInterface {
-	return ResponseFactory::redirect( $url, $status, $headers );
+    return ResponseFactory::redirect( $url, $status, $headers );
 }
 
 /**
@@ -267,7 +275,7 @@ function redirect( string $url, int $status = 302, $headers = [] ): ResponseInte
  * @see https://github.com/guzzle/psr7
  */
 function response( $content, $status = 200, $headers = [] ) {
-	return ResponseFactory::make( $content, $status, $headers );
+    return ResponseFactory::make( $content, $status, $headers );
 }
 
 /**
@@ -283,11 +291,11 @@ function response( $content, $status = 200, $headers = [] ) {
  * @see https://developer.wordpress.org/reference/functions/update_option/
  */
 function set_option( string $option_name, $value ): bool {
-	if ( get_option( $option_name ) === false ) {
-		return add_option( $option_name, $value );
-	} else {
-		return update_option( $option_name, $value );
-	}
+    if ( get_option( $option_name ) === false ) {
+        return add_option( $option_name, $value );
+    } else {
+        return update_option( $option_name, $value );
+    }
 }
 
 /**
@@ -299,9 +307,9 @@ function set_option( string $option_name, $value ): bool {
  * @return mixed The value of the option if it exists, or the default value if it doesn't.
  */
 function get_plugin_option( $option, $default = null, $required = false ) {
-	$options = container()->get( OptionsInterface::class );
+    $options = container()->get( OptionsInterface::class );
 
-	return $options->get( $option, $default, $required );
+    return $options->get( $option, $default, $required );
 }
 
 /**
@@ -313,9 +321,9 @@ function get_plugin_option( $option, $default = null, $required = false ) {
  * @return bool True if the option value was successfully set, false otherwise.
  */
 function set_plugin_option( $option, $value ): bool {
-	$options = container()->get( OptionsInterface::class );
+    $options = container()->get( OptionsInterface::class );
 
-	return $options->set( $option, $value );
+    return $options->set( $option, $value );
 }
 
 /**
@@ -328,20 +336,20 @@ function set_plugin_option( $option, $value ): bool {
  * @throws Exception If there is a database error before starting the transaction.
  */
 function transaction( $callback ) {
-	global $wpdb;
-	if ( $wpdb->last_error ) {
-		return $wpdb->last_error;
-	}
-	$wpdb->query( 'START TRANSACTION' );
-	$callback();
-	if ( $wpdb->last_error ) {
-		$wpdb->query( 'ROLLBACK' );
+    global $wpdb;
+    if ( $wpdb->last_error ) {
+        return $wpdb->last_error;
+    }
+    $wpdb->query( 'START TRANSACTION' );
+    $callback();
+    if ( $wpdb->last_error ) {
+        $wpdb->query( 'ROLLBACK' );
 
-		return $wpdb->last_error;
-	}
-	$wpdb->query( 'COMMIT' );
+        return $wpdb->last_error;
+    }
+    $wpdb->query( 'COMMIT' );
 
-	return true;
+    return true;
 }
 
 /**
@@ -352,7 +360,7 @@ function transaction( $callback ) {
  * @return string The result of concatenating the given string to the namespace of the Router class.
  */
 function namespace_string( string $string ): string {
-	return config( 'plugin.text_domain' ) . '.' . $string;
+    return config( 'plugin.text_domain' ) . '.' . $string;
 }
 
 /**
@@ -365,10 +373,10 @@ function namespace_string( string $string ): string {
  *                  Returns an array if found, otherwise returns false.
  */
 function magic_app( $root, $type ) {
-	$magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-	$root_apps  = $magic_apps[ $root ] ?? [];
+    $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+    $root_apps  = $magic_apps[ $root ] ?? [];
 
-	return $root_apps[ $type ] ?? false;
+    return $root_apps[ $type ] ?? false;
 }
 
 /**
@@ -381,23 +389,23 @@ function magic_app( $root, $type ) {
  * @return string The generated magic URL.
  */
 function magic_url( $root, $type, $id ): string {
-	$app = magic_app( $root, $type );
-	if ( ! $app ) {
-		return "";
-	}
-	if ( $app['post_type'] === 'user' ) {
-		$app_user_key = get_user_option( $app['meta_key'] );
-		$app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
+    $app = magic_app( $root, $type );
+    if ( ! $app ) {
+        return "";
+    }
+    if ( $app['post_type'] === 'user' ) {
+        $app_user_key = get_user_option( $app['meta_key'] );
+        $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
 
-		return $app_url_base . $app_user_key;
-	} else {
-		return DT_Magic_URL::get_link_url_for_post(
-			$app["post_type"],
-			$id,
-			$app["root"],
-			$app["type"]
-		);
-	}
+        return $app_url_base . $app_user_key;
+    } else {
+        return DT_Magic_URL::get_link_url_for_post(
+            $app["post_type"],
+            $id,
+            $app["root"],
+            $app["type"]
+        );
+    }
 }
 
 /**
@@ -416,11 +424,11 @@ function extract_request_input( RequestInterface $request ): array {
 
         $result = json_decode( $body, true );
 
-		if ( $result === null ) {
-			return [];
-		}
+        if ( $result === null ) {
+            return [];
+        }
 
-		return $result;
+        return $result;
     }
 
     switch ( strtoupper( $request->getMethod() ) ) {
@@ -432,7 +440,7 @@ function extract_request_input( RequestInterface $request ): array {
 }
 
 function request_wants_json( RequestInterface $request ): bool {
-	return strpos( $request->getHeaderLine( 'Accept' ), 'application/json' ) !== false;
+    return strpos( $request->getHeaderLine( 'Accept' ), 'application/json' ) !== false;
 }
 
 /**
@@ -478,13 +486,13 @@ function group_label()
  */
 function logo_url()
 {
-	$logo_url = plugin_url( 'resources/img/logo-color.png' );
-	$custom_logo_url = get_option( 'custom_logo_url' );
-	if ( !empty( $custom_logo_url ) ) {
-		$logo_url = $custom_logo_url;
-	}
+    $logo_url = plugin_url( 'resources/img/logo-color.png' );
+    $custom_logo_url = get_option( 'custom_logo_url' );
+    if ( !empty( $custom_logo_url ) ) {
+        $logo_url = $custom_logo_url;
+    }
 
-	return $logo_url;
+    return $logo_url;
 }
 
 
@@ -496,9 +504,9 @@ function logo_url()
  */
 function group_leader_share_url( $group_id )
 {
-	$current_user_contact_id = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+    $current_user_contact_id = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
-	return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
+    return magic_url( "autolink", "group_leader", $group_id ) . "?contact=" . $current_user_contact_id;
 }
 
 /**
@@ -508,5 +516,5 @@ function group_leader_share_url( $group_id )
  */
 function share_url()
 {
-	return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+    return magic_url( "autolink", "coached_by", \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 }

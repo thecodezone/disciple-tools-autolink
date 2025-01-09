@@ -1,6 +1,9 @@
 <?php
+use function DT\Autolink\wants_json;
+use function DT\Autolink\config;
+
 /**
-* @var string $action
+ * @var string $action
  * @var string $nonce
  * @var string $group_id
  * @var string $name_label
@@ -27,78 +30,78 @@
       action="<?php echo esc_attr( $action ) ?>"
       method="POST">
 
-	<?php wp_nonce_field(  'disciple-tools-autolink' ); ?>
+    <?php wp_nonce_field( config('plugin.nonce') ); ?>
 
 
-	<?php if ( ! empty( $group_id ) ): ?>
-		<input type="hidden"
-		       name="id"
-		       value="<?php echo esc_attr( $group_id ); ?>">
-	<?php endif; ?>
+    <?php if ( ! empty( $group_id ) ): ?>
+        <input type="hidden"
+               name="id"
+               value="<?php echo esc_attr( $group_id ); ?>">
+    <?php endif; ?>
 
-	<dt-text
-		class="create-group__input"
-		label="<?php echo esc_html( $name_label ); ?>"
-		type="text"
-		name="name"
-		value="<?php echo esc_attr( $name ) ?>"
-		placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
-	></dt-text>
+    <dt-text
+        class="create-group__input"
+        label="<?php echo esc_html( $name_label ); ?>"
+        type="text"
+        name="name"
+        value="<?php echo esc_attr( $name ) ?>"
+        placeholder="<?php echo esc_attr( $name_placeholder ); ?>"
+    ></dt-text>
 
-	<dt-tags
-		allowAdd
-		class="create-group__input"
-		label="<?php echo esc_html( $leaders_label ); ?>"
-		name="leaders"
-		value="<?php echo esc_attr( wp_json_encode( $leader_ids ) ) ?>"
-		options="<?php echo esc_attr( wp_json_encode( $leader_options ) ) ?>"
-	></dt-tags>
+    <dt-tags
+        allowAdd
+        class="create-group__input"
+        label="<?php echo esc_html( $leaders_label ); ?>"
+        name="leaders"
+        value="<?php echo esc_attr( wp_json_encode( $leader_ids ) ) ?>"
+        options="<?php echo esc_attr( wp_json_encode( $leader_options ) ) ?>"
+    ></dt-tags>
 
-  <?php if ( request()->wantsJson() ): ?>
-    <input type="hidden" name="parent_group" value="<?php echo esc_attr( $parent_group ) ?>" />
-  <?php else : ?>
-    <al-ajax-field
-      callback="<?php echo esc_attr( $parent_group_field_callback ); ?>"
-      watch="leaders"
-      events="<?php echo esc_attr( wp_json_encode( [ 'change' ] ) ); ?>"
-      prefetch
-    >
-    </al-ajax-field>
-  <?php endif; ?>
+    <?php if ( wants_json() ): ?>
+        <input type="hidden" name="parent_group" value="<?php echo esc_attr( $parent_group ) ?>" />
+    <?php else : ?>
+        <al-ajax-field
+            callback="<?php echo esc_attr( $parent_group_field_callback ); ?>"
+            watch="leaders"
+            events="<?php echo esc_attr( wp_json_encode( [ 'change' ] ) ); ?>"
+            prefetch
+        >
+        </al-ajax-field>
+    <?php endif; ?>
 
-	<dt-date
-		format=""
-		name="start_date"
-		label="<?php echo esc_html( $start_date_label ); ?>"
-		value="<?php echo esc_attr( $start_date ) ?>"
-	></dt-date>
+    <dt-date
+        format=""
+        name="start_date"
+        label="<?php echo esc_html( $start_date_label ); ?>"
+        value="<?php echo esc_attr( $start_date ) ?>"
+    ></dt-date>
 
-	<?php if ( $show_location_field ): ?>
-		<div class="location-field">
-			<?php
-			render_field_for_display( 'location_grid_meta', $group_fields, $group );
-			?>
-			<input type="hidden"
-			       name="location">
-		</div>
-	<?php else : ?>
-		<input type="hidden"
-		       name="location">
-	<?php endif; ?>
+    <?php if ( $show_location_field ): ?>
+        <div class="location-field">
+            <?php
+            render_field_for_display( 'location_grid_meta', $group_fields, $group );
+            ?>
+            <input type="hidden"
+                   name="location">
+        </div>
+    <?php else : ?>
+        <input type="hidden"
+               name="location">
+    <?php endif; ?>
 
 
-	<?php if ( !request()->wantsJson() ): ?>
-		<div class="buttons">
-			<al-submit-button context="success"
-			                  type="submit">
-				<?php echo esc_html( $submit_label ) ?>
-			</al-submit-button>
+    <?php if ( !wants_json() ): ?>
+        <div class="buttons">
+            <al-submit-button context="success"
+                              type="submit">
+                <?php echo esc_html( $submit_label ) ?>
+            </al-submit-button>
 
-			<dt-button context="link"
-			           href="<?php echo esc_url( $cancel_url ); ?>"
-			           title="<?php echo esc_html( $cancel_label ) ?>">
-				<?php echo esc_html( $cancel_label ) ?>
-			</dt-button>
-		</div>
-	<?php endif; ?>
+            <dt-button context="link"
+                       href="<?php echo esc_url( $cancel_url ); ?>"
+                       title="<?php echo esc_html( $cancel_label ) ?>">
+                <?php echo esc_html( $cancel_label ) ?>
+            </dt-button>
+        </div>
+    <?php endif; ?>
 </form>
