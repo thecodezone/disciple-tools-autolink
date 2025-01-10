@@ -196,7 +196,6 @@ render() {
           >
             ${translations.edit_group}
           </dt-button>
-          ${console.log($autolink.nonce)}
           <dt-button context="alert"
                      href="${route_url("groups/" + group.ID + "/delete?_wpnonce=" + $autolink.nonce)}"
                      confirm="${translations.delete_group_confirm}">
