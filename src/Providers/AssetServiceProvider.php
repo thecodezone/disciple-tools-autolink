@@ -51,7 +51,7 @@ class AssetServiceProvider extends AbstractServiceProvider {
 
 		add_filter( namespace_string( 'javascript_globals' ), function ( $data ) {
 			return array_merge($data, [
-				'nonce'        => wp_create_nonce( 'disciple-tools-autolink' ),
+                'nonce'        => wp_create_nonce( config( 'plugin.nonce' ) ),
 				'map_key'      => \DT_Mapbox_API::get_key(),
 				'urls'         => [
 					'root'           => esc_url_raw( trailingslashit( site_url() ) ),
