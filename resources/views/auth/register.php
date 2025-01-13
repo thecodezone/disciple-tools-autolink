@@ -3,6 +3,8 @@
  * @var $form_action string
  * @var $error string
  */
+
+use function DT\Autolink\config;
 use function DT\Autolink\logo_url;
 $this->layout( 'layouts/auth' );
 ?>

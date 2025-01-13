@@ -1,4 +1,5 @@
 <?php
+use function DT\Autolink\request_wants_json;
 use function DT\Autolink\request;
 
 /**
@@ -23,7 +24,8 @@ use function DT\Autolink\request;
  * @var string $cancel_url
  * @var string $cancel_label
  */
-if ( !request()->wantsJson() ) {
+
+if ( !request_wants_json( request() ) ) {
 	$this->layout( "layouts/app" );
 }
 ?>
