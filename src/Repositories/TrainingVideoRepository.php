@@ -2,17 +2,17 @@
 
 namespace DT\Autolink\Repositories;
 
-use DT\Autolink\CodeZone\WPSupport\Config\Config;
+use DT\Autolink\Services\Options;
 
 class TrainingVideoRepository {
-	private Config $config;
+	private Options $options;
 
-	public function __construct( Config $config ) {
-		$this->config = $config;
+	public function __construct( Options $options ) {
+		$this->options = $options;
 	}
 
 	public function all() {
-		return $this->config->get( 'training.videos' );
+		return $this->options->get( 'training_videos' );
 	}
 
 	public function localized( $locale = null ): array {

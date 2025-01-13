@@ -1,6 +1,6 @@
 <?php
-use function DT\Autolink\request_wants_json;
 use function DT\Autolink\request;
+use function DT\Autolink\request_wants_json;
 use function DT\Autolink\config;
 
 /**

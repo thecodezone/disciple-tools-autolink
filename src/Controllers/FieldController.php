@@ -5,6 +5,7 @@ namespace DT\Autolink\Controllers;
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT_Posts;
 use Exception;
+use function DT\Autolink\extract_request_input;
 use function DT\Autolink\namespace_string;
 use function DT\Autolink\response;
 class FieldController {
@@ -14,7 +15,7 @@ class FieldController {
 	 * @param Request $request The request object.
 	 */
 	public function update( Request $request ) {
-		$body      = $request->all();
+	    $body = extract_request_input( $request );
 		$whitelist = apply_filters( namespace_string( 'updatable_group_fields' ), [
 			'health_metrics',
 			'member_count',
@@ -61,7 +62,7 @@ class FieldController {
 
 
 		if ( ! is_wp_error( $result ) ) {
-			return $result;
+			return response( $result );
 		}
 
 		return response( [ "message" => "Invalid request" ], 500 );

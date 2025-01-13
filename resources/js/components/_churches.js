@@ -133,27 +133,38 @@ export class Churches extends DtBase {
     this.total = data.total
   }
 
+updated() {
+  document.querySelectorAll('dt-button[href]').forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const link = button.shadowRoot ? button.shadowRoot.querySelector('a') : null;
+      if (link) {
+        window.location.href = link.href;
+      }
+    });
+  });
+}
+
   /**
    * @returns {TemplateResult<1>}
    */
-  render() {
-    const {loading, error} = this;
-
-    return html`
-      ${error && !loading ? html`
-        <dt-alert context="alert" dismissible>${error}</dt-alert>
-      ` : null}
-      ${this.renderGroups()}
-      ${this.renderPagination()}
-    `
-  }
+render() {
+  const {loading, error} = this;
+  return html`
+    ${error && !loading ? html`
+      <dt-alert context="alert" dismissible>${error}</dt-alert>
+    ` : null}
+    ${this.renderGroups()}
+    ${this.renderPagination()}
+  `;
+}
 
   renderGroups() {
     const {posts} = this;
 
     return html`
       <div class="churches__groups">
-        ${posts.map((group, index) => {
+        ${posts.filter(group => Object.keys(group).length > 0).map((group, index) => {
           return this.renderGroup(group, index === 0)
         })}
       </div>
