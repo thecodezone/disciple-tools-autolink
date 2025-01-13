@@ -8,6 +8,9 @@
  * @var string $previous_url
  * @var string $next_url
  */
+
+use function DT\Autolink\config;
+
 $this->layout( 'layouts/app' );
 
 ?>
