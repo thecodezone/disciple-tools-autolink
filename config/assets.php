@@ -18,6 +18,7 @@ $config->merge( [
 		    'chart-styles',
 		    'mapbox-gl-css',
 		    'portal-app-domenu-css',
+            'orgchart_css'
 	    ],
 	    'allowed_scripts' => [
 		    'jquery',
@@ -42,6 +43,7 @@ $config->merge( [
 		    'google-search-widget',
 		    'shared-functions',
 		    'typeahead-jquery',
+            'orgchart_js'
 	    ],
         'javascript_global_scope' => '$autolink',
         'manifest_dir' => plugin_path( '/dist' )

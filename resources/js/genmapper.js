@@ -45,6 +45,10 @@ class GenMapper {
     this.setKeyboardShorcuts();
 
     document.getElementsByTagName("body")[0].onresize = this.setSvgHeight;
+
+    // Chart v2 (Nested) Global Variables.
+    this.orgchart_container = null;
+    this.orgchart_container_chart = null;
   }
 
   static getFieldValueForRadioType(field, d) {
@@ -123,16 +127,24 @@ class GenMapper {
 
   zoomIn() {
     this.zoom.scaleBy(this.svg, 1.2);
+
+    // Support Chart v2 (Nested OrgChart) scaling.
+    if (this.orgchart_container && this.orgchart_container_chart) {
+      this.orgchart_container.setChartScale(this.orgchart_container_chart, 1.2);
+    }
   }
 
   zoomOut() {
     this.zoom.scaleBy(this.svg, 1 / 1.2);
+
+    // Support Chart v2 (Nested OrgChart) scaling.
+    if (this.orgchart_container && this.orgchart_container_chart) {
+      this.orgchart_container.setChartScale(this.orgchart_container_chart, 1 / 1.2);
+    }
   }
 
   origData() {
-    this.data = this.masterData;
-    this.redraw(template);
-    this.origPosition(true);
+    window.location.reload();
   }
 
   origPosition(atRoot = false) {
@@ -169,11 +181,11 @@ class GenMapper {
     document.getElementById("intro").classList.toggle("intro--active");
   }
 
-  async popupEditGroupModal(group) {
-    this.editGroupElement.classList.add("edit-group--active");
+  async popupEditGroupModal(group, global_scope = this) {
+    global_scope.editGroupElement.classList.add("edit-group--active");
     const groupData = group.data;
     const action = `${$autolink.urls.route}groups/${groupData.id}/modal`;
-    this.injectForm(action)
+    global_scope.injectForm(action)
     const container = document.getElementById("edit-group-content")
     const form = container.querySelector("al-ajax-form")
 
@@ -194,18 +206,18 @@ class GenMapper {
 
       const addButton = form.querySelector(".group__add");
       if (addButton) {
-        addButton.addEventListener("click", () => this.addGroup(groupData));
+        addButton.addEventListener("click", () => global_scope.addGroup(groupData));
       }
 
       const closeButton = form.querySelector(".group__close")
       if (closeButton) {
-        closeButton.addEventListener("click", this.closeEditGroupModal.bind(this));
+        closeButton.addEventListener("click", global_scope.closeEditGroupModal.bind(global_scope));
       }
     });
 
     form.addEventListener("success", (e) => {
       groupData.name = e.detail.name;
-      this.editGroup(groupData);
+      global_scope.editGroup(groupData);
     });
   }
 
@@ -292,7 +304,7 @@ class GenMapper {
     ]);
 
     this.editGroupElement.classList.remove("edit-group--active");
-    this.redraw(template);
+    window.location.reload();
   }
 
   openRecord(d) {
@@ -877,6 +889,58 @@ class GenMapper {
       }
     });
     this.editParentElement = document.getElementById("edit-parent");
+  }
+
+  chartV2(nested_connections) {
+    const groups = nested_connections['groups'];
+    const lookup_idx = nested_connections['lookup_idx'];
+
+    // Refresh Genmap Chart Tree.
+    let container = jQuery('#genmap-v2');
+    container.empty();
+
+    const nodeTemplate = function (data) {
+      return `
+            <div class="title" data-item-id="${window.lodash.escape(data.id)}">${window.lodash.escape(data.name)}</div>
+            <div class="content" style="padding-left: 5px; padding-right: 5px;">${window.lodash.escape((data['line_2']) ? data['line_2'] : '' )}</div>
+          `;
+    };
+
+    // Capture global scope locally, required for node click flows below.
+    const global_scope = this;
+
+    // Initialise groups orgchart.
+    global_scope.orgchart_container = container.orgchart({
+      data: groups,
+      nodeContent: 'content',
+      direction: 'l2r',
+      pan: true,
+      zoom: true,
+      zoomoutLimit: 0.25,
+      nodeTemplate: nodeTemplate,
+      initCompleted: function (chart) {
+        global_scope.orgchart_container_chart = chart;
+      }
+    });
+
+    // Initialise groups orgchart event listeners.
+    container.off('click', '.node');
+    container.on('click', '.node', function () {
+      const node = jQuery(this);
+      const node_id = node.attr('id');
+
+      // Ensure valid node data exists.
+      if (lookup_idx[node_id]) {
+
+        // Proceed with popup edit modal display.
+        global_scope.popupEditGroupModal({
+          'data': lookup_idx[node_id],
+          'parent': {
+            'id': lookup_idx[node_id]['parentId']
+          }
+        }, global_scope).then(r => console.log(r));
+      }
+    });
   }
 }
 
