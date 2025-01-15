@@ -6,7 +6,7 @@ export default defineConfig({
         setupNodeEvents() {
             // implement node event listeners here
         },
-        baseUrl: process.env.S3_BUCKET,
+        baseUrl: 'https://wp.ddev.site:8443'
     },
     dt: {
         credentials: {
