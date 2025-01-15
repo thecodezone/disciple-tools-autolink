@@ -22,7 +22,7 @@ use function DT\Autolink\request_wants_json;
  * @var string $submit_label
  * @var string $cancel_url
  * @var string $cancel_label
-
+*/
 if ( !request_wants_json(request()) ) {
 	$this->layout( "layouts/app" );
 }
