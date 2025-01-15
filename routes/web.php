@@ -59,4 +59,4 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 	$r->post( 'survey/{page}', [ SurveyController::class, 'update' ] );
 	$r->post( 'groups/{group_id}', [ GroupController::class, 'update' ] );
 	$r->get( 'groups/{group_id}/delete', [ GroupController::class, 'destroy' ] );
-})->middlewares( [ new LoggedIn(), new CheckShareCookie(), new Nonce( config( 'plugin.nonce_name' ) ) ] );
+})->middlewares( [ new LoggedIn(), new CheckShareCookie(), new Nonce( config( 'plugin.nonce' ) ) ] );

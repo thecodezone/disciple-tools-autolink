@@ -93,11 +93,11 @@ class GroupController {
 	 * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content and HTTP code.
 	 */
 	public function create_modal( Request $request ) {
-		return response( [
-			'content' => render( 'groups/create-modal', $this->form_view_params( $request ) )->getBody()->getContents(),
-			'code' => 200
-		] );
-	}
+        return response( [
+            'content' => render( 'groups/create-modal', $this->form_view_params( $request, [] ) ),
+            'code' => 200
+        ] );
+    }
 
 	/**
 	 * Edit method retrieves the data for a group from the database.
@@ -110,7 +110,7 @@ class GroupController {
 		$assets = container()->get( Assets::class );
 		$assets->register_mapbox();
 
-		return template( 'groups/page', $this->form_view_params( $request ) );
+		return template( 'groups/page', $this->form_view_params( $request, [] ) );
 	}
 
     /**
@@ -341,7 +341,7 @@ class GroupController {
 			}
 		}
 
-        $fields = $this->group_fields_from_request( $request );
+        $fields = $this->group_fields_from_request( $input );
         $group = DT_Posts::create_post( 'groups', $fields, false, false );
         if ( is_wp_error( $group ) ) {
             if ( $wants_json ) {
@@ -392,7 +392,7 @@ class GroupController {
 	    }
 
 
-        $fields = $this->group_fields_from_request( $request );
+        $fields = $this->group_fields_from_request( $input );
         $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
         if ( is_wp_error( $group ) ) {
             if ( $wants_json ) {
@@ -426,8 +426,8 @@ class GroupController {
      *
      * @throws \Exception When there are validation errors in the request fields.
      */
-    private function group_fields_from_request( $request ) {
-		$input = extract_request_input( $request );
+    private function group_fields_from_request( $input ) {
+//		$input = extract_request_input( $request );
         $id           = $input['group_id'] ?? null;
         $name         = $input['name'] ?? '';
 
