@@ -38,10 +38,10 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 })->middleware( new LoggedOut() );
 
 $r->group('', function ( RouteCollectionInterface $r ) {
-	$r->get( '/', [ GenMapController::class, 'show' ] )->middlewares( [ new Genmap(), new SurveyCompleted(), new HasGroups() ] );
+    $r->get( '/', [ GenMapController::class, 'show' ] )->middlewares( [ new Genmap(), new SurveyCompleted() ] );
 	$r->get( 'groups', [ AppController::class, 'show' ] )->middleware( new SurveyCompleted() );
 	$r->get( 'training', [ TrainingController::class, 'show' ] )->middleware( new SurveyCompleted() );
-	$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] )->middlewares( [ new SurveyCompleted(), new HasGroups() ] );
+	$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] )->middlewares( [ new SurveyCompleted() ] );
 
 	$r->get( 'logout', [ LoginController::class, 'logout' ] );
 	$r->get( 'survey', [ SurveyController::class, 'show' ] );

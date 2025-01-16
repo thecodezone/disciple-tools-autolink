@@ -13,7 +13,7 @@ class TrainingController
 	{
 		$options = container()->get( Options::class );
 		$videos = $options->get( 'training_videos' );
-		$videos = json_decode( $videos );
+		$videos = json_decode( $videos ?? '[]' );
 		return template( 'training', compact( 'videos' ) );
 	}
 }

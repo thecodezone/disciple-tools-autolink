@@ -139,7 +139,7 @@ class GroupController {
      * @return array The view parameters.
      * @throws \Exception
      */
-    private function form_view_params( Request $request, array $params ): array {
+    private function form_view_params( Request $request, array $params = null ): array {
         $group               = null;
 		$group_id            = $params['group_id'] ?? null;
 	    $input               = extract_request_input( $request );

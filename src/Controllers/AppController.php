@@ -27,7 +27,7 @@ class AppController {
 				}
 			}
 
-			return response( $church );
+            return $church;
 		}, $churches['posts'] ?? [] );
 
 		$churches['total'] = $churches['total'] ?? 0;
