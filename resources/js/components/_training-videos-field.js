@@ -80,6 +80,9 @@ export class TrainingVideosField extends LitElement {
     @property({
         type: Object
     })
+    @property({ type: Boolean })
+    isUpdated = false;
+
     translations = {
         title: 'Title',
         embed: 'Embed',
@@ -100,19 +103,38 @@ export class TrainingVideosField extends LitElement {
     static get formAssociated() {
         return true;
     }
-
-    updated(changedProperties) {
-        if (changedProperties.has('value')) {
-            const value = JSON.stringify(this.value);
-            this.internals.setFormValue(value);
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: {
-                    value
-                }
-            }));
-        }
-        super.updated(changedProperties);
+    allFieldsFilled() {
+      return this.value.every(video => video.title && video.embed);
     }
+isValidEmbedFormat(embed) {
+  const vimeoIframePattern = /<iframe.*src="https:\/\/player\.vimeo\.com\/video\/\d+\?h=[\w\d]+".*<\/iframe>/;
+  const vimeoPPattern = /<p><a href="https:\/\/vimeo\.com\/\d+">.*<\/a> from <a href="https:\/\/vimeo\.com\/user\d+">.*<\/a> on <a href="https:\/\/vimeo\.com">Vimeo<\/a>\.<\/p>/;
+  const youtubeIframePattern = /<iframe.*src="https:\/\/www\.youtube\.com\/embed\/[\w-]+\?.*<\/iframe>/;
+
+  const isValid = (vimeoIframePattern.test(embed) && vimeoPPattern.test(embed)) || youtubeIframePattern.test(embed);
+
+  if (!isValid) {
+    alert('Invalid embed format. Please provide a valid embed code.');
+  }
+
+  return isValid;
+}
+    updated(changedProperties) {
+    if ( changedProperties.has('value')) {
+        if (this.isUpdated && this.value.length > 0 && this.allFieldsFilled() && this.isValidEmbedFormat(this.value[this.value.length - 1].embed)) {
+            this.postValue();
+        }
+        const value = JSON.stringify(this.value);
+        this.internals.setFormValue(value);
+        this.dispatchEvent(new CustomEvent('change', {
+            detail: {
+                value
+            }
+        }));
+    }
+    this.isUpdated = true;
+    super.updated(changedProperties);
+}
 
 
     render() {
@@ -200,6 +222,33 @@ export class TrainingVideosField extends LitElement {
         }
         this.value = this.value.filter((video, i) => i !== index);
     }
+
+async postValue() {
+  const url = window.location.href;
+  const data = {
+    training_videos: this.value,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'X-WP-Nonce': $autolink.dt_admin_form_nonce // Ensure this is defined
+      }),
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      console.error('Error:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 
     reset() {
         const {translations} = this;
