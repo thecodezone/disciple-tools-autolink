@@ -2,10 +2,13 @@
 
 namespace DT\Autolink\Controllers;
 
+use \DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Charts\GenmapChart;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
+use function DT\Autolink\get_plugin_option;
+use function DT\Autolink\set_plugin_option;
 use function DT\Autolink\template;
 use function DT\Autolink\response;
 
@@ -26,8 +29,34 @@ class GenMapController {
 			return response( __( 'Not Found', 'disciple-tools-autolink' ), 404 );
 		}
 
-		return template( 'genmap' );
+        $show_tree_genmap = get_plugin_option( 'show_tree_genmap', 0 );
+        $chart_type = ( !$show_tree_genmap || ( $show_tree_genmap == 0 ) ) ? 'circles' : 'tree';
+
+        return template( 'genmap', compact( 'chart_type' ) );
 	}
+
+    /**
+     * Handles the changing of chart types before showing the Genmap template.
+     *
+     * @param Request $request The HTTP request instance.
+     *
+     * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The response object containing the rendered template or a 404 error.
+     */
+    public function switch( Request $request ): ResponseInterface {
+        $input = extract_request_input( $request );
+
+        // Determine new chart type to be switched to.
+        $show_tree_genmap = 0;
+        switch( $input['chart'] ?? 'circles' ) {
+            case 'tree':
+                $show_tree_genmap = 1;
+                break;
+        }
+
+        set_plugin_option( 'show_tree_genmap', $show_tree_genmap );
+
+        return $this->show( $request );
+    }
 
 	/**
 	 * Handles the process of retrieving and formatting the groups tree data using the Genmap chart.

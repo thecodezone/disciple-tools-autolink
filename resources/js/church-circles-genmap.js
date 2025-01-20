@@ -48,8 +48,8 @@
         `);
 
         // Determine genmap style to be displayed.
-        const show_nested_genmap = Boolean(JSON.parse(localizedObject['show_nested_genmap']));
-        if (show_nested_genmap === true) {
+        const show_tree_genmap = Boolean(JSON.parse(localizedObject['show_tree_genmap']));
+        if (show_tree_genmap === true) {
             jQuery('#genmapper-graph').hide();
         } else {
           jQuery('#genmapper-graph-v2').hide();
@@ -89,8 +89,8 @@
                       window.genmapper.origPosition(true);
                     }
 
-                    if ('nested_connections' in e) {
-                      window.genmapper.chartV2(e['nested_connections']);
+                    if ('tree_connections' in e) {
+                      window.genmapper.chart_tree(e['tree_connections']);
                     }
                 });
         });
