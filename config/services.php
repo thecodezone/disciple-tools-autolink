@@ -6,6 +6,7 @@
 
 use DT\Autolink\Providers\AdminServiceProvider;
 use DT\Autolink\Providers\ConfigServiceProvider;
+use DT\Autolink\Providers\DtMenuServiceProvider;
 use DT\Autolink\Providers\MagicLinkServiceProvider;
 use DT\Autolink\Providers\OptionsServiceProvider;
 use DT\Autolink\Providers\RouteServiceProvider;
@@ -20,7 +21,8 @@ $config->merge( [
             ViewServiceProvider::class,
             RouteServiceProvider::class,
             MagicLinkServiceProvider::class,
-            AdminServiceProvider::class
+            AdminServiceProvider::class,
+            DtMenuServiceProvider::class,
         ],
         'tgmpa' => [
             'plugins' => [
