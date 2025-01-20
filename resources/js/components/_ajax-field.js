@@ -125,6 +125,7 @@ export class AjaxField extends DtBase {
         }
 
         params.set( "_wpnonce", $autolink.nonce );
+        params.delete("name");
 
         const headers = new Headers();
         const endpoint = url + "?" + params;
