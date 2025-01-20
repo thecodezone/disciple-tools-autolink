@@ -11,7 +11,12 @@ describe('RT003_admin_enables_showing_nested_vertical_genmap_settings_option', (
     cy.session(
       'xyz_',
       () => {
-        // TODO....
+        /**
+         * NO LONGER REQUIRED, FOLLOWING INTRODUCTION OF FRONTEND GENMAP
+         * CHART SWITCHING FUNCTIONALITY.
+         *
+         * KEEPING FILE, AS PLACEHOLDER; TO ADHERE WITH TEST CASE FILE NUMBERING.
+         */
       }
     );
   })
