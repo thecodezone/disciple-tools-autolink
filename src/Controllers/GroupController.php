@@ -19,6 +19,7 @@ use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 use function DT\Autolink\view;
 use function DT\Autolink\response;
+use function DT\Autolink\get_plugin_option;
 
 /**
  * Ajax callback to get the parent group field.
@@ -284,7 +285,7 @@ class GroupController {
         $id                           = $params['id'] ?? null;
         $group                        = $id ? DT_Posts::get_post( 'groups', $id, true, false ) : null;
         $default_parent_group         = count( $groups ) ? $groups[0]['ID'] ?? null : null;
-        $allow_parent_group_selection = $options->get( 'allow_parent_group_selection' );
+        $allow_parent_group_selection = get_plugin_option( 'allow_parent_group_selection' );
         $allow_parent_group_selection = $allow_parent_group_selection === '1' || $allow_parent_group_selection === true;
 
 
