@@ -72,7 +72,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
     </tr>
     </tbody>
   </table>
-</form></form>
+</form>
 
 <?php $this->start( 'right' ) ?>
 

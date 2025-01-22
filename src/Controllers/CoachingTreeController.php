@@ -57,10 +57,9 @@ class CoachingTreeController {
 	 * from the `$tree_chart` object. The index represents the hierarchy and structure of
 	 * the coaching tree.
 	 *
-	 * @return array The index of the coaching tree.
 	 */
 	public function index() {
-		return $this->tree_chart->tree();
+        return response( $this->tree_chart->tree() );
 	}
 
 	/**

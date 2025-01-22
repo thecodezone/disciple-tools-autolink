@@ -21,22 +21,39 @@
     function show_template_overview() {
         const windowHeight = document.documentElement.clientHeight;
         chartDiv.empty().html(`
-      <div class="grid-x">
-        <div class="cell">
-          <aside id="left-menu">
-          </aside>
-          <section id="alert-message" class="alert-message">
-          </section>
-          <section id="edit-group" class="edit-group">
-          </section>
-          <section id="genmapper-graph" style="height:${
-            document.documentElement.clientHeight - 250
-        }px">
-            <svg id="genmapper-graph-svg" width="100%"></svg>
-          </section>
-        </div>
-      </div>
-    `);
+          <div class="grid-x">
+            <div class="cell">
+              <aside id="left-menu">
+              </aside>
+              <section id="alert-message" class="alert-message">
+              </section>
+              <section id="edit-group" class="edit-group">
+              </section>
+              <section id="genmapper-graph" style="height:${
+                document.documentElement.clientHeight - 250
+            }px">
+                <svg id="genmapper-graph-svg" width="100%"></svg>
+              </section>
+              <section id="genmapper-graph-v2" style="
+              height: ${document.documentElement.clientHeight - 250}px;
+              width: 85%;
+              border: 3px solid #343a40;
+              background-color: #FFFFFF;
+              overflow:scroll;
+              ">
+                <div id="genmap-v2"></div>
+              </section>
+            </div>
+          </div>
+        `);
+
+        // Determine genmap style to be displayed.
+        const show_tree_genmap = Boolean(JSON.parse(localizedObject['show_tree_genmap']));
+        if (show_tree_genmap === true) {
+            jQuery('#genmapper-graph').hide();
+        } else {
+          jQuery('#genmapper-graph-v2').hide();
+        }
 
         window.genmapper = new window.genMapperClass();
         get_groups();
@@ -66,8 +83,15 @@
                 })
                 .then((e) => {
                     loading_spinner.removeClass("active");
-                    window.genmapper.importJSON(e, group === null);
-                    window.genmapper.origPosition(true);
+
+                    if ('flat_connections' in e) {
+                      window.genmapper.importJSON(e['flat_connections'], group === null);
+                      window.genmapper.origPosition(true);
+                    }
+
+                    if ('tree_connections' in e) {
+                      window.genmapper.chart_tree(e['tree_connections']);
+                    }
                 });
         });
     }

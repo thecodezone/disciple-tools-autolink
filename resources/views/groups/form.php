@@ -58,7 +58,7 @@ use function DT\Autolink\config;
 		options="<?php echo esc_attr( wp_json_encode( $leader_options ) ) ?>"
 	></dt-tags>
 
-  <?php if ( request_wants_json(request()) ): ?>
+  <?php if ( request_wants_json( request() ) ): ?>
     <input type="hidden" name="parent_group" value="<?php echo esc_attr( $parent_group ) ?>" />
   <?php else : ?>
     <al-ajax-field
@@ -91,7 +91,7 @@ use function DT\Autolink\config;
 	<?php endif; ?>
 
 
-	<?php if ( !request_wants_json(request()) ): ?>
+	<?php if ( !request_wants_json( request() ) ): ?>
 		<div class="buttons">
 			<al-submit-button context="success"
 			                  type="submit">

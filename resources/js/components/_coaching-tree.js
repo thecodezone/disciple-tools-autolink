@@ -291,7 +291,7 @@ export class CoachingTree extends LitElement {
           .unassigned__tip {
             margin-bottom: calc(var(--tree-spacing) * 2.5);
           }
-          
+
           .group__icon {
             margin-left: var(--tree-spacing);
             display: block;

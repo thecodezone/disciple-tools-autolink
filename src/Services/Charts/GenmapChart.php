@@ -6,6 +6,7 @@ use DT\Autolink\League\Plates\Extension\Asset;
 use DT\Autolink\Repositories\GroupTreeRepository;
 use DT\Autolink\Services\Assets;
 use function DT\Autolink\container;
+use function DT\Autolink\get_plugin_option;
 use function DT\Autolink\plugin_path;
 use function DT\Autolink\plugin_url;
 use function DT\Autolink\route_url;
@@ -83,6 +84,16 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 			]
 		);
 
+        // Vertical Genmap Support Scripts
+        wp_enqueue_script( 'orgchart_js', 'https://cdnjs.cloudflare.com/ajax/libs/orgchart/3.7.0/js/jquery.orgchart.min.js', [
+            'jquery',
+        ], '3.7.0', true );
+
+        $css_file_name = 'dt-metrics/common/jquery.orgchart.custom.css';
+        $css_uri = get_template_directory_uri() . "/$css_file_name";
+        $css_dir = get_template_directory() . "/$css_file_name";
+        wp_enqueue_style( 'orgchart_css', $css_uri, [], filemtime( $css_dir ) );
+
 		// Localize script with array data
 		wp_localize_script(
 			'dt_' . $this->slug . '_script', $this->js_object_name, [
@@ -93,6 +104,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				'current_user_login' => wp_get_current_user()->user_login,
 				'current_user_id'    => get_current_user_id(),
 				'spinner'            => '<img src="' . trailingslashit( plugin_dir_url( __DIR__ ) ) . 'ajax-loader.gif" style="height:1em;" />',
+                'show_tree_genmap'   => get_plugin_option( 'show_tree_genmap', 0 ),
 				'translation'        => [
 					'string1'            => __( 'Group Generation Tree', 'disciple-tools-genmapper' ),
 					'string2'            => __( 'This tree shows your groups and your descendants.', 'disciple-tools-genmapper' ),
@@ -174,6 +186,15 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 			$groups = array_merge( [ $node ], $this->get_node_descendants( $groups, [ $params["node"] ] ) );
 		}
 
+        // Capture parent ids and their associated groups.
+        $tree_parents_idx = [
+            0 => []
+        ];
+
+        $tree_groups_idx = [
+            0 => $prepared_array[0]
+        ];
+
 		foreach ( $groups as $group ) {
 			$lines   = [];
 			$lines[] = $group['name'];
@@ -222,12 +243,45 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				"health_metrics_sharing"    => (bool) $group['health_metrics_sharing'],
 			];
 			$prepared_array[] = $values;
+
+            // Assign group to associated parent.
+            if ( !isset( $tree_parents_idx[$values['parentId']] ) || !is_array( $tree_parents_idx[$values['parentId']] ) ) {
+                $tree_parents_idx[$values['parentId']] = [];
+            }
+            $tree_groups_idx[$values['id']] = $values;
+            $tree_parents_idx[$values['parentId']][] = $values;
 		}
 
 		if ( empty( $prepared_array ) ) {
 			return new \WP_Error( 'failed_to_build_data', 'Failed to build data', [ 'status' => 400 ] );
 		} else {
-			return $prepared_array;
+            return [
+                'flat_connections' => $prepared_array,
+                'tree_connections' => [
+                    'groups' => $this->build_tree_connections( 0, $tree_parents_idx, $tree_groups_idx ),
+                    'lookup_idx' => $tree_groups_idx
+                ]
+            ];
 		}
 	}
+
+    private function build_tree_connections( $parent_id, $tree_parents_idx, $tree_groups_idx ): array {
+        $children = [];
+        if ( isset( $tree_parents_idx[ $parent_id ] ) && is_array( $tree_parents_idx[ $parent_id ] ) ) {
+            foreach ( $tree_parents_idx[ $parent_id ] as $tree_parents_item ) {
+                if ( isset( $tree_parents_item['id'] ) ) {
+                    $children[] = $this->build_tree_connections( $tree_parents_item['id'], $tree_parents_idx, $tree_groups_idx );
+                }
+            }
+        }
+
+        // Package and return tree connections.
+        $group = [];
+        if ( isset( $tree_groups_idx[$parent_id] ) ) {
+            $group = $tree_groups_idx[$parent_id];
+            $group['children'] = $children;
+        }
+
+        return $group;
+    }
 }
