@@ -24,7 +24,6 @@ use DT\Autolink\Controllers\TrainingController;
 use DT\Autolink\League\Route\RouteCollectionInterface;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\Genmap;
-use DT\Autolink\Middleware\HasGroups;
 use DT\Autolink\Middleware\LoggedIn;
 use DT\Autolink\Middleware\LoggedOut;
 use DT\Autolink\Middleware\SurveyCompleted;
@@ -39,7 +38,8 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 
 $r->group('', function ( RouteCollectionInterface $r ) {
     $r->get( '/', [ GenMapController::class, 'show' ] )->middlewares( [ new Genmap(), new SurveyCompleted() ] );
-	$r->get( 'groups', [ AppController::class, 'show' ] )->middleware( new SurveyCompleted() );
+    $r->get( 'genmap/switch', [ GenMapController::class, 'switch' ] )->middlewares( [ new Genmap(), new SurveyCompleted() ] );
+    $r->get( 'groups', [ AppController::class, 'show' ] )->middleware( new SurveyCompleted() );
 	$r->get( 'training', [ TrainingController::class, 'show' ] )->middleware( new SurveyCompleted() );
 	$r->get( 'coaching-tree', [ CoachingTreeController::class, 'show' ] )->middlewares( [ new SurveyCompleted() ] );
 

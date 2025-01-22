@@ -27,10 +27,8 @@ class GeneralSettingsController {
 
 		$allow_parent_group_selection = $input['allow_parent_group_selection'] ?? null;
 		$show_in_menu = $input['show_in_menu'] ?? null;
-        $show_nested_genmap = $input['show_nested_genmap'] ?? null;
         $allow_parent_group_selection = $allow_parent_group_selection == "1" ? "1" : "0";
 		$show_in_menu = $show_in_menu == "1" ? "1" : "0";
-        $show_nested_genmap = $show_nested_genmap == "1" ? "1" : "0";
 
 		if ( $training_videos ) {
 			$is_valid = $this->validate_videos( $training_videos );
@@ -43,7 +41,6 @@ class GeneralSettingsController {
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
 		set_plugin_option( 'show_in_menu', $show_in_menu );
-        set_plugin_option( 'show_nested_genmap', $show_nested_genmap );
 
 		if ( $error ) {
 			\wp_redirect( 'admin.php?page=dt-autolink&tab=general&error=' . $error );
@@ -63,8 +60,7 @@ class GeneralSettingsController {
 		$old                     = [
 			'allow_parent_group_selection' => get_plugin_option( 'allow_parent_group_selection' ),
 			'training_videos'              => get_plugin_option( 'training_videos' ),
-			'show_in_menu'                 => get_plugin_option( 'show_in_menu' ),
-            'show_nested_genmap'           => get_plugin_option( 'show_nested_genmap', false )
+			'show_in_menu'                 => get_plugin_option( 'show_in_menu' )
 		];
 
 		$error = false;
