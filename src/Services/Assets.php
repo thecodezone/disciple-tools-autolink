@@ -172,6 +172,7 @@ class Assets
 				'in-footer' => false, // Optional. Defaults to false.
 			]
 		);
+        wp_localize_script( 'disciple-tools-autolink', config( 'assets.javascript_global_scope' ), apply_filters( namespace_string( 'javascript_globals' ), [] ) );
 	}
 
 	/**

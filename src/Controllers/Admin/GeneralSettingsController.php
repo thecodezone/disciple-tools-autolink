@@ -8,6 +8,8 @@ use Exception;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\plugin_url;
+use function DT\Autolink\request_wants_json;
+use function DT\Autolink\response;
 use function DT\Autolink\set_plugin_option;
 use function DT\Autolink\view;
 use function DT\Autolink\get_plugin_option;
@@ -18,8 +20,15 @@ class GeneralSettingsController {
 	 * Submit the general settings admin tab form
 	 */
 	public function update( Request $request ) {
+        $input = extract_request_input( $request );
+
+		if ( request_wants_json( $request ) ) {
+		 $training_videos = json_encode( $input['training_videos'] ) ?? null;
+		 set_plugin_option( 'training_videos', $training_videos );
+		 return response( [ 'message' => 'Training updated' ] );
+		}
+
 		$error = false;
-		$input = extract_request_input( $request );
 		$training_videos = $input['training_videos'] ?? null;
 		if ( $training_videos ) {
 			$training_videos = stripslashes( preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $training_videos ) );
