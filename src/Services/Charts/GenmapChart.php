@@ -104,7 +104,7 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 				'current_user_login' => wp_get_current_user()->user_login,
 				'current_user_id'    => get_current_user_id(),
 				'spinner'            => '<img src="' . trailingslashit( plugin_dir_url( __DIR__ ) ) . 'ajax-loader.gif" style="height:1em;" />',
-                'show_nested_genmap' => get_plugin_option( 'show_nested_genmap', false ),
+                'show_tree_genmap'   => get_plugin_option( 'show_tree_genmap', 0 ),
 				'translation'        => [
 					'string1'            => __( 'Group Generation Tree', 'disciple-tools-genmapper' ),
 					'string2'            => __( 'This tree shows your groups and your descendants.', 'disciple-tools-genmapper' ),
@@ -187,11 +187,11 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		}
 
         // Capture parent ids and their associated groups.
-        $nested_parents_idx = [
+        $tree_parents_idx = [
             0 => []
         ];
 
-        $nested_groups_idx = [
+        $tree_groups_idx = [
             0 => $prepared_array[0]
         ];
 
@@ -245,11 +245,11 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 			$prepared_array[] = $values;
 
             // Assign group to associated parent.
-            if ( !isset( $nested_parents_idx[$values['parentId']] ) || !is_array( $nested_parents_idx[$values['parentId']] ) ) {
-                $nested_parents_idx[$values['parentId']] = [];
+            if ( !isset( $tree_parents_idx[$values['parentId']] ) || !is_array( $tree_parents_idx[$values['parentId']] ) ) {
+                $tree_parents_idx[$values['parentId']] = [];
             }
-            $nested_groups_idx[$values['id']] = $values;
-            $nested_parents_idx[$values['parentId']][] = $values;
+            $tree_groups_idx[$values['id']] = $values;
+            $tree_parents_idx[$values['parentId']][] = $values;
 		}
 
 		if ( empty( $prepared_array ) ) {
@@ -257,28 +257,28 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 		} else {
             return [
                 'flat_connections' => $prepared_array,
-                'nested_connections' => [
-                    'groups' => $this->build_nested_connections( 0, $nested_parents_idx, $nested_groups_idx ),
-                    'lookup_idx' => $nested_groups_idx
+                'tree_connections' => [
+                    'groups' => $this->build_tree_connections( 0, $tree_parents_idx, $tree_groups_idx ),
+                    'lookup_idx' => $tree_groups_idx
                 ]
             ];
 		}
 	}
 
-    private function build_nested_connections( $parent_id, $nested_parents_idx, $nested_groups_idx ): array {
+    private function build_tree_connections( $parent_id, $tree_parents_idx, $tree_groups_idx ): array {
         $children = [];
-        if ( isset( $nested_parents_idx[ $parent_id ] ) && is_array( $nested_parents_idx[ $parent_id ] ) ) {
-            foreach ( $nested_parents_idx[ $parent_id ] as $nested_parents_item ) {
-                if ( isset( $nested_parents_item['id'] ) ) {
-                    $children[] = $this->build_nested_connections( $nested_parents_item['id'], $nested_parents_idx, $nested_groups_idx );
+        if ( isset( $tree_parents_idx[ $parent_id ] ) && is_array( $tree_parents_idx[ $parent_id ] ) ) {
+            foreach ( $tree_parents_idx[ $parent_id ] as $tree_parents_item ) {
+                if ( isset( $tree_parents_item['id'] ) ) {
+                    $children[] = $this->build_tree_connections( $tree_parents_item['id'], $tree_parents_idx, $tree_groups_idx );
                 }
             }
         }
 
-        // Package and return nested connections.
+        // Package and return tree connections.
         $group = [];
-        if ( isset( $nested_groups_idx[$parent_id] ) ) {
-            $group = $nested_groups_idx[$parent_id];
+        if ( isset( $tree_groups_idx[$parent_id] ) ) {
+            $group = $tree_groups_idx[$parent_id];
             $group['children'] = $children;
         }
 

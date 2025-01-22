@@ -49,17 +49,6 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
     </tr>
     <tr>
         <td style="white-space: nowrap;">
-            <?php esc_html_e( 'Show nested Genmap?', 'disciple-tools-autolink' ) ?>
-        </td>
-        <td style="text-align: left;">
-            <input type="checkbox"
-                   name="show_nested_genmap"
-                   value="1"
-                   <?php if ( $old['show_nested_genmap'] === '1' ): ?>checked<?php endif; ?> />
-        </td>
-    </tr>
-    <tr>
-        <td style="white-space: nowrap;">
             <?php esc_html_e( 'Enable the capturing of analytics?', 'disciple-tools-autolink' ) ?>
         </td>
         <td style="text-align: left;">

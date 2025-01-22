@@ -46,7 +46,7 @@ class GenMapper {
 
     document.getElementsByTagName("body")[0].onresize = this.setSvgHeight;
 
-    // Chart v2 (Nested) Global Variables.
+    // Chart v2 (Tree) Global Variables.
     this.orgchart_container = null;
     this.orgchart_container_chart = null;
   }
@@ -128,7 +128,7 @@ class GenMapper {
   zoomIn() {
     this.zoom.scaleBy(this.svg, 1.2);
 
-    // Support Chart v2 (Nested OrgChart) scaling.
+    // Support Chart v2 (Tree OrgChart) scaling.
     if (this.orgchart_container && this.orgchart_container_chart) {
       this.orgchart_container.setChartScale(this.orgchart_container_chart, 1.2);
     }
@@ -137,7 +137,7 @@ class GenMapper {
   zoomOut() {
     this.zoom.scaleBy(this.svg, 1 / 1.2);
 
-    // Support Chart v2 (Nested OrgChart) scaling.
+    // Support Chart v2 (Tree OrgChart) scaling.
     if (this.orgchart_container && this.orgchart_container_chart) {
       this.orgchart_container.setChartScale(this.orgchart_container_chart, 1 / 1.2);
     }
@@ -891,9 +891,9 @@ class GenMapper {
     this.editParentElement = document.getElementById("edit-parent");
   }
 
-  chartV2(nested_connections) {
-    const groups = nested_connections['groups'];
-    const lookup_idx = nested_connections['lookup_idx'];
+  chart_tree(tree_connections) {
+    const groups = tree_connections['groups'];
+    const lookup_idx = tree_connections['lookup_idx'];
 
     // Refresh Genmap Chart Tree.
     let container = jQuery('#genmap-v2');
