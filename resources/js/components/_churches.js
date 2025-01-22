@@ -133,16 +133,13 @@ export class Churches extends DtBase {
     this.total = data.total
   }
 
-updated() {
-  document.querySelectorAll('dt-button[href]').forEach(button => {
-    button.addEventListener('click', (event) => {
-      event.preventDefault();
-      const link = button.shadowRoot ? button.shadowRoot.querySelector('a') : null;
-      if (link) {
-        window.location.href = link.href;
-      }
-    });
-  });
+  confirmDelete(groupId, event) {
+    const {translations} = $autolink
+    event.preventDefault();
+    const confirmed = confirm(translations.delete_group_confirm);
+    if (confirmed) {
+      window.location.href = route_url("groups/" + groupId + "/delete?_wpnonce=" + $autolink.nonce);
+    }
 }
 
   /**
@@ -196,11 +193,11 @@ render() {
           >
             ${translations.edit_group}
           </dt-button>
-          <dt-button context="alert"
-                     href="${route_url("groups/" + group.ID + "/delete?_wpnonce=" + $autolink.nonce)}"
-                     confirm="${translations.delete_group_confirm}">
-            ${translations.delete_group}
-          </dt-button>
+         <dt-button context="alert"
+           href="${route_url("groups/" + group.ID + "/delete?_wpnonce=" + $autolink.nonce)}"
+           @click="${this.confirmDelete.bind(this, group.ID)}">
+          ${translations.delete_group}
+        </dt-button>
         </al-church-menu>
       </al-church-tile>
     `
