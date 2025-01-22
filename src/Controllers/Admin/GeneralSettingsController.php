@@ -4,6 +4,7 @@ namespace DT\Autolink\Controllers\Admin;
 
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Options;
+use DT\Autolink\Services\Analytics;
 use Exception;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
@@ -37,7 +38,15 @@ class GeneralSettingsController {
 				$error = __( 'Invalid training videos.', 'disciple-tools-autolink' );
 			}
 			set_plugin_option( 'training_videos', $training_videos );
-		}
+
+            // Capture total active training video counts.
+            container()->get( Analytics::class )->metric( 'total-active-training-videos-count', [
+                'lib_name' => __CLASS__,
+                'value' => count( json_decode( $training_videos, true ) ),
+                'unit' => 'active-training-videos',
+                'description' => 'Total Active Training Videos Count'
+            ] );
+        }
 
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
