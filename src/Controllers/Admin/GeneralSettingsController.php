@@ -31,6 +31,7 @@ class GeneralSettingsController {
         $allow_parent_group_selection = $allow_parent_group_selection == "1" ? "1" : "0";
 		$show_in_menu = $show_in_menu == "1" ? "1" : "0";
         $show_nested_genmap = $show_nested_genmap == "1" ? "1" : "0";
+        $dt_autolink_analytics_permission = isset( $input['dt_autolink_analytics_permission'] ) && ( $input['dt_autolink_analytics_permission'] == 1 );
 
 		if ( $training_videos ) {
 			$is_valid = $this->validate_videos( $training_videos );
@@ -44,6 +45,7 @@ class GeneralSettingsController {
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
 		set_plugin_option( 'show_in_menu', $show_in_menu );
         set_plugin_option( 'show_nested_genmap', $show_nested_genmap );
+        set_plugin_option( 'dt_autolink_analytics_permission', $dt_autolink_analytics_permission );
 
 		if ( $error ) {
 			\wp_redirect( 'admin.php?page=dt-autolink&tab=general&error=' . $error );
@@ -64,7 +66,8 @@ class GeneralSettingsController {
 			'allow_parent_group_selection' => get_plugin_option( 'allow_parent_group_selection' ),
 			'training_videos'              => get_plugin_option( 'training_videos' ),
 			'show_in_menu'                 => get_plugin_option( 'show_in_menu' ),
-            'show_nested_genmap'           => get_plugin_option( 'show_nested_genmap', false )
+            'show_nested_genmap'           => get_plugin_option( 'show_nested_genmap', false ),
+            'dt_autolink_analytics_permission'  => get_plugin_option( 'dt_autolink_analytics_permission', false )
 		];
 
 		$error = false;
