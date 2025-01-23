@@ -4,6 +4,7 @@ namespace DT\Autolink\Controllers\Admin;
 
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Options;
+use DT\Autolink\Services\Analytics;
 use Exception;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
@@ -38,6 +39,7 @@ class GeneralSettingsController {
 		$show_in_menu = $input['show_in_menu'] ?? null;
         $allow_parent_group_selection = $allow_parent_group_selection == "1" ? "1" : "0";
 		$show_in_menu = $show_in_menu == "1" ? "1" : "0";
+        $dt_autolink_analytics_permission = isset( $input['dt_autolink_analytics_permission'] ) && ( $input['dt_autolink_analytics_permission'] == 1 );
 
 		if ( $training_videos ) {
 			$is_valid = $this->validate_videos( $training_videos );
@@ -45,11 +47,20 @@ class GeneralSettingsController {
 				$error = __( 'Invalid training videos.', 'disciple-tools-autolink' );
 			}
 			set_plugin_option( 'training_videos', $training_videos );
-		}
+
+            // Capture total active training video counts.
+            container()->get( Analytics::class )->metric( 'total-active-training-videos-count', [
+                'lib_name' => __CLASS__,
+                'value' => count( json_decode( $training_videos, true ) ),
+                'unit' => 'active-training-videos',
+                'description' => 'Total Active Training Videos Count'
+            ] );
+        }
 
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
 		set_plugin_option( 'show_in_menu', $show_in_menu );
+        set_plugin_option( 'dt_autolink_analytics_permission', $dt_autolink_analytics_permission );
 
 		if ( $error ) {
 			\wp_redirect( 'admin.php?page=dt-autolink&tab=general&error=' . $error );
@@ -69,7 +80,8 @@ class GeneralSettingsController {
 		$old                     = [
 			'allow_parent_group_selection' => get_plugin_option( 'allow_parent_group_selection' ),
 			'training_videos'              => get_plugin_option( 'training_videos' ),
-			'show_in_menu'                 => get_plugin_option( 'show_in_menu' )
+			'show_in_menu'                 => get_plugin_option( 'show_in_menu' ),
+            'dt_autolink_analytics_permission'  => get_plugin_option( 'dt_autolink_analytics_permission', false )
 		];
 
 		$error = false;

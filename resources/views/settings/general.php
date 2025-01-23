@@ -48,6 +48,18 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
       </td>
     </tr>
     <tr>
+        <td style="white-space: nowrap;">
+            <?php esc_html_e( 'Enable the capturing of analytics?', 'disciple-tools-autolink' ) ?>
+        </td>
+        <td style="text-align: left;">
+            <input type="checkbox"
+                   id="dt_autolink_analytics_permission"
+                   name="dt_autolink_analytics_permission"
+                   value="1"
+                   <?php if ( $old['dt_autolink_analytics_permission'] ): ?>checked<?php endif; ?> />
+        </td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">
     <?php echo esc_attr( $training_videos_translations['label'] ) ?>
       </td>

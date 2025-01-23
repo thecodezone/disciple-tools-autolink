@@ -53,7 +53,8 @@
 			            'hi_IN' => '<iframe src="https://player.vimeo.com/video/871549933?h=5af4199b78" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 <p><a href="https://vimeo.com/871549933">वीडियो 6: अपना ग्रुप जेन मैप बनाना और साझा करना</a> from <a href="https://vimeo.com/user188171893">Darien Clark</a> on <a href="https://vimeo.com">Vimeo</a>.</p>'
 		            ]
-	            ]
+	            ],
+                'dt_autolink_analytics_permission' => false
             ],
         ]
     ] );

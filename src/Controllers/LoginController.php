@@ -3,6 +3,8 @@
 namespace DT\Autolink\Controllers;
 
 use DT\Autolink\GuzzleHttp\Psr7\Request;
+use DT\Autolink\Services\Analytics;
+use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
@@ -16,7 +18,7 @@ use function DT\Autolink\plugin_url;
  */
 class LoginController {
 
-	/**
+    /**
 	 * Processes the login request.
 	 *
 	 * @param Request $request The request object.
@@ -26,11 +28,16 @@ class LoginController {
 	public function process( Request $request ) {
 		global $errors;
 
+        $analytics = container()->get( Analytics::class );
+        $analytics->event( 'login', [ 'action' => 'start', 'lib_name' => __CLASS__ ] );
+
 		$input = extract_request_input( $request );
 		$username = $input['username'] ?? '';
 		$password = $input['password'] ?? '';
 
 		$user = wp_authenticate( $username, $password );
+
+        $analytics->event( 'login', [ 'action' => 'stop' ] );
 
 		if ( is_wp_error( $user ) ) {
 			//phpcs:ignore
@@ -41,12 +48,16 @@ class LoginController {
 			//If the error links to lost password, inject the 3/3rds redirect
 			$error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/', $error );
 
+            $analytics->event( 'login-error', [ 'action' => 'snapshot', 'lib_name' => __CLASS__, 'attributes' => [ 'error' => 'wp_error' ] ] );
+
 			return $this->login( [ 'error' => $error, 'username' => $username, 'password' => $password ] );
 		}
 
 		wp_set_auth_cookie( $user->ID );
 
 		if ( ! $user ) {
+            $analytics->event( 'login-error', [ 'action' => 'snapshot', 'lib_name' => __CLASS__, 'attributes' => [ 'error' => 'invalid_user' ] ] );
+
 			return $this->login( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] );
 		}
 
@@ -97,6 +108,8 @@ class LoginController {
 	 * */
 	public function logout( $params = [] ) {
 		wp_logout();
+
+        container()->get( Analytics::class )->event( __FUNCTION__, [ 'action' => 'snapshot', 'lib_name' => __CLASS__ ] );
 
 		return redirect( route_url( 'login' ) );
 	}

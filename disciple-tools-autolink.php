@@ -18,12 +18,14 @@
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
 
+use Dotenv\Dotenv;
 use DT\Autolink\CodeZone\WPSupport\Config\ConfigInterface;
 use DT\Autolink\Plugin;
 use DT\Autolink\Providers\ConfigServiceProvider;
 use DT\Autolink\Providers\PluginServiceProvider;
 use DT\Autolink\Providers\RewritesServiceProvider;
 use DT\Autolink\CodeZone\WPSupport\Container\ContainerFactory;
+use DT\Autolink\Services\Analytics;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
@@ -34,6 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
+// Load environmental variables.
+Dotenv::createUnsafeImmutable( __DIR__ )->load();
 
 // Create the IOC container
 $container = ContainerFactory::singleton();
@@ -54,6 +59,8 @@ foreach ( $boot_providers as $provider ) {
 // Init the plugin
 $dt_autolink = $container->get( Plugin::class );
 $dt_autolink->init();
+
+$container->get( Analytics::class )->init();
 
 // Add the rest of the service providers
 $config = $container->get( ConfigInterface::class );
