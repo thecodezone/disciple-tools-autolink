@@ -5,9 +5,9 @@ describe('RT019_admin_can_move_training_video_up_and_down_and_confirm_its_displa
     embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/LyTXREZOxwA?si=sJtlAGdfQl2cPhhI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
   };
   //
-  // before(() => {
-  //   cy.npmAutoLinkInit();
-  // })
+  before(() => {
+    cy.npmAutoLinkInit();
+  })
 
 // Admin can create a training video.
   it('Admin can create a training video', () => {
