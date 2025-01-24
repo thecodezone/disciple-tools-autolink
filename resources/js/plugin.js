@@ -16,6 +16,10 @@ loaded((document) => {
     // Force all dt-button elements with an href attribute to navigate to the href when clicked
     document.querySelectorAll( 'dt-button[href]' ).forEach(button => {
         button.addEventListener('click', (event) => {
+
+            if (button.getAttribute('context') === 'alert') {
+              return; // Skip navigation for alert context
+            }
             event.preventDefault();
             const link = button.shadowRoot ? button.shadowRoot.querySelector( 'a' ) : null;
             if (link) {
