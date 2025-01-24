@@ -81,8 +81,8 @@ class LoginController {
 	 */
 	public function login( $params = [] ) {
 
-        if (!is_array($params)) {
-            $params = is_object($params) ? (array) $params : [];
+        if ( !is_array( $params ) ) {
+            $params = is_object( $params ) ? (array) $params : [];
         }
 		$register_url = route_url( 'register' );
 		$form_action  = route_url( 'login' );

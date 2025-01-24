@@ -200,7 +200,7 @@ class Analytics {
          */
 
         $result = false;
-        switch ($properties['action']) {
+        switch ( $properties['action'] ) {
             case 'start':
 
                 // Ensure required start action properties are present.
@@ -314,7 +314,7 @@ class Analytics {
          */
 
         $result = false;
-        switch ($properties['type']) {
+        switch ( $properties['type'] ) {
             case 'counter':
 
                 // Ensure required counter properties are present.
