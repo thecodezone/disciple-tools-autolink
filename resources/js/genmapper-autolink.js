@@ -1,4 +1,4 @@
-class GenmapperAutolink extends GenMapper {
+class GenMapperAutolink extends GenMapper {
 
   constructor() {
     super();
@@ -249,4 +249,4 @@ class GenmapperAutolink extends GenMapper {
 
 }
 
-window.genMapperAutolinkClass = GenmapperAutolink;
+window.genMapperAutolinkClass = GenMapperAutolink;
