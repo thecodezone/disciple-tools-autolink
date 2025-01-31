@@ -7,6 +7,7 @@ use DT\Autolink\Repositories\SurveyRepository;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
+use DT\Autolink\Services\Analytics;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
@@ -81,6 +82,14 @@ class SurveyController {
 				"field_type" => "text"
 			]
 		);
+
+         container()->get( Analytics::class )->event( 'survey-submission', [
+            'action' => 'snapshot',
+            'lib_name' => __CLASS__,
+            'attributes' => [
+                'description' =>  "Survey question '{$question['label']}' was answered with: " . $answer
+            ]
+        ]);
 
 		if ( $survey_repository->get( $next_page ) ) {
 			return redirect( route_url( 'survey/' . $next_page ) );
