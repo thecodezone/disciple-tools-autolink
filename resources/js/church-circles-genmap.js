@@ -55,7 +55,7 @@
           jQuery('#genmapper-graph-v2').hide();
         }
 
-        window.genmapper = new window.genMapperClass();
+        window.genmapper = new window.genMapperAutolinkClass();
         get_groups();
 
         $("#reset_tree").on("click", function () {

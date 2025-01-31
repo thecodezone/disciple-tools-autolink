@@ -2,7 +2,6 @@
 
 namespace DT\Autolink\Services\Charts;
 
-use DT\Autolink\League\Plates\Extension\Asset;
 use DT\Autolink\Repositories\GroupTreeRepository;
 use DT\Autolink\Services\Assets;
 use function DT\Autolink\container;
@@ -64,25 +63,46 @@ class GenmapChart extends \DT_Genmapper_Metrics_Chart_Base {
 			]
 		);
 
+        wp_enqueue_script( 'genmapper', $genmapper_plugin_url . "/includes/charts/genmapper.js", [
+            'jquery',
+            'jquery-ui-core',
+            'd3',
+            'gen-template'
+        ], filemtime( $genmapper_plugin_path . "/includes/charts/genmapper.js" ), true );
+
+        wp_localize_script(
+            'genmapper', 'genApiTemplate', [
+                'plugin_uri'   => $genmapper_plugin_url,
+                'group_fields' => $group_fields,
+                'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
+                'show_icons'   => get_option( "dt_genmapper_show_health_icons", true )
+            ]
+        );
+
+        wp_localize_script(
+            'genmapper', 'wpApiGenmapper', [
+                'plugin_uri'   => $genmapper_plugin_url
+            ]
+        );
+
 		wp_enqueue_script( 'dt_' . $this->slug . '_script', plugin_url( 'resources/js/church-circles-genmap.js' ), [
 			'jquery',
 			'genmapper',
 		], filemtime( plugin_path( 'resources/js/church-circles-genmap.js' ) ), true );
 
-		wp_enqueue_script( 'genmapper', plugin_url( 'resources/js/genmapper.js' ), [
-			'jquery',
-			'jquery-ui-core',
-			'd3',
-			'gen-template',
-		], filemtime( plugin_path( 'resources/js/genmapper.js' ) ), true );
+        wp_enqueue_script( 'genmapper-autolink', plugin_url( 'resources/js/genmapper-autolink.js' ), [
+            'jquery',
+            'jquery-ui-core',
+            'genmapper'
+        ], filemtime( plugin_path( 'resources/js/genmapper-autolink.js' ) ), true );
 
-		wp_localize_script(
-			'genmapper', 'genApiTemplate', [
-				'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
-				'show_icons'   => get_option( "dt_genmapper_show_health_icons", true ),
-				'app_url'      => route_url(),
-			]
-		);
+        wp_localize_script(
+            'genmapper-autolink', 'genApiTemplate', [
+                'show_metrics' => get_option( "dt_genmapper_show_health_metrics", false ),
+                'show_icons'   => get_option( "dt_genmapper_show_health_icons", true ),
+                'app_url'      => route_url()
+            ]
+        );
 
         // Vertical Genmap Support Scripts
         wp_enqueue_script( 'orgchart_js', 'https://cdnjs.cloudflare.com/ajax/libs/orgchart/3.7.0/js/jquery.orgchart.min.js', [
