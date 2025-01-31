@@ -59,7 +59,18 @@ class GeneralSettingsController {
 
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
-		set_plugin_option( 'show_in_menu', $show_in_menu );
+
+        if ( $show_in_menu != get_plugin_option( 'show_in_menu' ) ) {
+            container()->get( Analytics::class )->event( 'show-in-menu', [
+                'action' => 'snapshot',
+                'lib_name' => __CLASS__,
+                'attributes' => [
+                    'show_in_menu' => $show_in_menu == "1"
+                ]
+            ]);
+        }
+
+        set_plugin_option( 'show_in_menu', $show_in_menu );
         set_plugin_option( 'dt_autolink_analytics_permission', $dt_autolink_analytics_permission );
 
 		if ( $error ) {
