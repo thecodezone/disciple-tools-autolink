@@ -4,10 +4,13 @@ namespace DT\Autolink\Controllers;
 
 use Disciple_Tools_Users;
 use DT\Autolink\GuzzleHttp\Psr7\Request;
+use DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\Services\Assets;
 use DT\Autolink\Services\Options;
+use DT\Autolink\Services\Analytics;
 use DT_Mapbox_API;
 use DT_Posts;
+use Exception;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\group_label;
@@ -43,7 +46,7 @@ class GroupController {
         $limit  = $params['limit'] ?? 10;
         $offset = $params['offset'] ?? 0;
 
-        $result = \DT_Posts::list_posts( 'groups', [
+        $result = DT_Posts::list_posts( 'groups', [
             'assigned_to' => [ get_current_user_id() ],
             'limit'       => $limit,
             'offset'      => $offset,
@@ -65,6 +68,15 @@ class GroupController {
         }, $result['posts'] ?? [] );
         $result['total'] = $result['total'] ?? 0;
 
+        // Capture frontend group count metrics
+        container()->get( Analytics::class )->metric( 'total-group-count', [
+            'lib_name' => __CLASS__,
+            'value' => $result['total'],
+            'unit' => 'group_count',
+            'description' => 'Total Group Count'
+        ] );
+
+        //$analytics->event( 'group_count', [ 'action' => 'stop' ] );
         return response( $result );
     }
 
@@ -74,7 +86,7 @@ class GroupController {
 	 * @param Request $request The HTTP request object.
 	 * @param array $params The route params
 	 *
-	 * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content, post, and code.
+	 * @return ResponseInterface The array containing the content, post, and code.
 	 */
 	public function show_modal( Request $request, array $params ) {
 		$group_id = $params['group_id'] ?? null;
@@ -86,51 +98,6 @@ class GroupController {
 		] );
 	}
 
-	/**
-	 * Create modal method returns the content and HTTP code for a create modal view.
-	 *
-	 * @param Request $request The HTTP request object.
-	 *
-	 * @return \DT\Autolink\Psr\Http\Message\ResponseInterface The array containing the content and HTTP code.
-	 */
-	public function create_modal( Request $request ) {
-        return response( [
-            'content' => render( 'groups/create-modal', $this->form_view_params( $request, [] ) ),
-            'code' => 200
-        ] );
-    }
-
-	/**
-	 * Edit method retrieves the data for a group from the database.
-	 *
-	 * @param Request $request The HTTP request object.
-	 *
-	 * @return mixed The form content or an error message.
-	 */
-	public function create( Request $request ) {
-		$assets = container()->get( Assets::class );
-		$assets->register_mapbox();
-
-		return template( 'groups/page', $this->form_view_params( $request, [] ) );
-	}
-
-    /**
-     * Form method handles the generation of the form.
-     *
-     * @param Request $request The HTTP request object.
-     * @param array $params The route params
-     *
-     * @return mixed The form content or an error message.
-     */
-    public function edit( Request $request, array $params ): mixed {
-	    $assets = container()->get( Assets::class );
-		$group_id = $params['group_id'] ?? null;
-	    $assets->register_mapbox( $group_id );
-
-	    return template( 'groups/page', $this->form_view_params( $request, $params ) );
-    }
-
-
     /**
      * Generate the view parameters for the form view.
      *
@@ -138,7 +105,7 @@ class GroupController {
      * @param array $params The route params
      *
      * @return array The view parameters.
-     * @throws \Exception
+     * @throws Exception
      */
     private function form_view_params( Request $request, array $params = null ): array {
         $group               = null;
@@ -230,6 +197,49 @@ class GroupController {
         );
     }
 
+	/**
+	 * Create modal method returns the content and HTTP code for a create modal view.
+	 *
+	 * @param Request $request The HTTP request object.
+	 *
+	 * @return ResponseInterface The array containing the content and HTTP code.
+	 */
+	public function create_modal( Request $request ) {
+        return response( [
+            'content' => render( 'groups/create-modal', $this->form_view_params( $request, [] ) ),
+            'code' => 200
+        ] );
+    }
+
+	/**
+	 * Edit method retrieves the data for a group from the database.
+	 *
+	 * @param Request $request The HTTP request object.
+	 *
+	 * @return mixed The form content or an error message.
+	 */
+	public function create( Request $request ) {
+		$assets = container()->get( Assets::class );
+		$assets->register_mapbox();
+
+		return template( 'groups/page', $this->form_view_params( $request, [] ) );
+	}
+
+    /**
+     * Form method handles the generation of the form.
+     *
+     * @param Request $request The HTTP request object.
+     * @param array $params The route params
+     *
+     * @return mixed The form content or an error message.
+     */
+    public function edit( Request $request, array $params ): mixed {
+	    $assets = container()->get( Assets::class );
+		$group_id = $params['group_id'] ?? null;
+	    $assets->register_mapbox( $group_id );
+
+	    return template( 'groups/page', $this->form_view_params( $request, $params ) );
+    }
 
     /**
      * Retrieves the parent group field options and data for a group.
@@ -324,7 +334,7 @@ class GroupController {
      * @param Request $request The HTTP request object.
      *
      * @return mixed The result of the "process" method.
-     * @throws \Exception
+     * @throws Exception
      */
     public function store( Request $request ) {
 		$input = extract_request_input( $request );
@@ -367,65 +377,13 @@ class GroupController {
     }
 
     /**
-     * Update method updates the data for a group in the database.
-     *
-     * @param Request $request The HTTP request object.
-     * @param array $params The route params
-     *
-     * @return mixed The result of the "process" method.
-     * @throws \Exception
-     */
-    public function update( Request $request, array $params ) {
-		$group_id = $params['group_id'];
-	    $input = extract_request_input( $request );
-	    $wants_json = request_wants_json( $request );
-
-	    if ( !isset( $input['name'] ) ) {
-		    if ( $wants_json ) {
-			    return response( [
-				    'error' => __( 'Invalid field: name' )
-			    ], 400 );
-		    } else {
-			    return redirect( route_url( "/groups/create?" . http_build_query(
-                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
-                ) ) );
-		    }
-	    }
-
-
-        $fields = $this->group_fields_from_request( $input );
-        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
-        if ( is_wp_error( $group ) ) {
-            if ( $wants_json ) {
-                return response( [
-                    'error' => $group->get_error_message(),
-                    'success' => false
-                ] );
-            } else {
-                return redirect( route_url( "/groups/" . $group_id . "/edit?e=" . $group->get_error_message() ) );
-            }
-        }
-
-        do_action( 'dt_autolink_group_updated', $group );
-
-        if ( $wants_json ) {
-            return response( [
-                'success' => true
-            ] );
-        } {
-            return redirect( route_url( 'groups ' ) );
-        }
-    }
-
-
-    /**
      * group_fields_from_request method extracts and processes the fields from the request object.
      *
      * @param mixed $request The request object from which to extract the fields.
      *
      * @return array The processed fields extracted from the request.
      *
-     * @throws \Exception When there are validation errors in the request fields.
+     * @throws Exception When there are validation errors in the request fields.
      */
     private function group_fields_from_request( $input ) {
 //      $input = extract_request_input( $request );
@@ -502,6 +460,57 @@ class GroupController {
         }
 
         return $fields;
+    }
+
+    /**
+     * Update method updates the data for a group in the database.
+     *
+     * @param Request $request The HTTP request object.
+     * @param array $params The route params
+     *
+     * @return mixed The result of the "process" method.
+     * @throws Exception
+     */
+    public function update( Request $request, array $params ) {
+		$group_id = $params['group_id'];
+	    $input = extract_request_input( $request );
+	    $wants_json = request_wants_json( $request );
+
+	    if ( !isset( $input['name'] ) ) {
+		    if ( $wants_json ) {
+			    return response( [
+				    'error' => __( 'Invalid field: name' )
+			    ], 400 );
+		    } else {
+			    return redirect( route_url( "/groups/create?" . http_build_query(
+                    array_merge( [ 'e' => __( 'Invalid field: name' ) ], $input )
+                ) ) );
+		    }
+	    }
+
+
+        $fields = $this->group_fields_from_request( $input );
+        $group = DT_Posts::update_post( 'groups', (int) $group_id, $fields, false, false );
+        if ( is_wp_error( $group ) ) {
+            if ( $wants_json ) {
+                return response( [
+                    'error' => $group->get_error_message(),
+                    'success' => false
+                ] );
+            } else {
+                return redirect( route_url( "/groups/" . $group_id . "/edit?e=" . $group->get_error_message() ) );
+            }
+        }
+
+        do_action( 'dt_autolink_group_updated', $group );
+
+        if ( $wants_json ) {
+            return response( [
+                'success' => true
+            ] );
+        } {
+            return redirect( route_url( 'groups ' ) );
+        }
     }
 
     /**
