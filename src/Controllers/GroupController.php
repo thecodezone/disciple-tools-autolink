@@ -428,7 +428,7 @@ class GroupController {
      * @throws \Exception When there are validation errors in the request fields.
      */
     private function group_fields_from_request( $input ) {
-//		$input = extract_request_input( $request );
+//      $input = extract_request_input( $request );
         $id           = $input['group_id'] ?? null;
         $name         = $input['name'] ?? '';
 

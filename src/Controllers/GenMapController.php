@@ -2,7 +2,7 @@
 
 namespace DT\Autolink\Controllers;
 
-use \DT\Autolink\Psr\Http\Message\ResponseInterface;
+use DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Services\Charts\GenmapChart;
 use function DT\Autolink\container;
@@ -47,7 +47,7 @@ class GenMapController {
 
         // Determine new chart type to be switched to.
         $show_tree_genmap = 0;
-        switch( $input['chart'] ?? 'circles' ) {
+        switch ( $input['chart'] ?? 'circles' ) {
             case 'tree':
                 $show_tree_genmap = 1;
                 break;

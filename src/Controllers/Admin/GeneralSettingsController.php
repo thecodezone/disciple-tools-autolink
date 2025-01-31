@@ -57,6 +57,15 @@ class GeneralSettingsController {
             ] );
         }
 
+        if ( $allow_parent_group_selection != get_plugin_option( 'allow_parent_group_selection' ) ) {
+            container()->get( Analytics::class )->event( 'allow-parent-group-selection', [
+                'action' => 'snapshot',
+                'lib_name' => __CLASS__,
+                'attributes' => [
+                    'allow_parent_group_selection' => $allow_parent_group_selection == "1"
+                ]
+            ]);
+        }
 
 		set_plugin_option( 'allow_parent_group_selection', $allow_parent_group_selection );
 
