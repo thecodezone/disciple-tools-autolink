@@ -25,7 +25,7 @@ body ul,
 body li,
 body blockquote {
     margin-top: 0;
-    margin-bottom: .8em;
+    margin-bottom: 0.8em;
 }
 
 .al-cloak {
@@ -55,4 +55,101 @@ body.dom-loaded .al-cloak {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* show copied text */
+.copy-toast {
+    position: fixed;
+    top: 20px; /* Positioned at the top */
+    right: 20px; /* Aligned to the right */
+    background: #235463; /* Deep blue-green shade */
+    color: #fff; /* White text */
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+    font-size: 15px;
+    font-weight: 500;
+    z-index: 1000; /* Ensure it appears above other elements */
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition:
+        opacity 0.3s ease-in-out,
+        transform 0.3s ease-in-out;
+    transform: translateY(-20px); /* Starts slightly above */
+}
+
+/* Show the toast */
+.copy-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Moves into place */
+}
+
+/* Add an icon to the toast */
+.copy-toast::before {
+    content: "✔"; /* Checkmark */
+    font-size: 16px;
+    background: #fff;
+    color: green;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Close button */
+.copy-toast .close-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0 8px !important;
+}
+
+.copy-toast .close-btn:hover {
+    color: #fc0;
+}
+
+/* Responsive styles */
+@media (width <= 768px) {
+    .copy-toast {
+        top: 10px; /* Adjust top position */
+        right: 10px; /* Adjust right position */
+        padding: 10px 15px; /* Adjust padding */
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .copy-toast::before {
+        font-size: 14px; /* Adjust icon size */
+        height: 18px; /* Adjust icon height */
+        width: 18px; /* Adjust icon width */
+    }
+
+    .copy-toast .close-btn {
+        font-size: 14px; /* Adjust close button size */
+    }
+}
+
+@media (width <= 480px) {
+    .copy-toast {
+        top: 5px; /* Adjust top position */
+        right: 5px; /* Adjust right position */
+        padding: 8px 12px; /* Adjust padding */
+        font-size: 12px; /* Adjust font size */
+    }
+
+    .copy-toast::before {
+        font-size: 12px; /* Adjust icon size */
+        height: 16px; /* Adjust icon height */
+        width: 16px; /* Adjust icon width */
+    }
+
+    .copy-toast .close-btn {
+        font-size: 12px; /* Adjust close button size */
+    }
 }

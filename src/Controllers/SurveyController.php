@@ -83,11 +83,11 @@ class SurveyController {
 			]
 		);
 
-         container()->get( Analytics::class )->event( 'survey-submission', [
+        container()->get( Analytics::class )->event( 'survey-submission', [
             'action' => 'snapshot',
             'lib_name' => __CLASS__,
             'attributes' => [
-                'description' =>  "Survey question '{$question['label']}' was answered with: " . $answer
+                'description' => "Survey question '{$question['label']}' was answered with: " . $answer
             ]
         ]);
 
