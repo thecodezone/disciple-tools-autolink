@@ -29,6 +29,7 @@ use function DT\Autolink\share_url;
 $user_repository = container()->get( UserRepository::class );
 $user_name = $user_repository->display_name();
 $coach_name = $user_repository->coach_name();
+$share_link = esc_url( share_url() );
 ?>
 <div class="container">
 	<strong class="greeting">
@@ -42,13 +43,24 @@ $coach_name = $user_repository->coach_name();
 		</strong>
 	<?php endif; ?>
 
-	<dt-tile title="<?php echo esc_attr( __( 'My Link', 'disciple-tools-autolink' ) ); ?>"
-	         class="app__link">
-		<div class="section__inner">
-			<dt-copy-text value="<?php echo esc_url( share_url() ); ?>" <?php language_attributes(); ?>></dt-copy-text>
-			<span class="help-text cloak">
-          <?php esc_html_e( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' ) ?>
-      </span>
-		</div>
-	</dt-tile>
+    <dt-tile title="<?php echo esc_attr( __( 'My Link', 'disciple-tools-autolink' ) ); ?>"
+             class="app__link">
+        <div class="section__inner" style="text-align: center;">
+            <dt-copy-text id="copyTextElement" value="<?php echo $share_link; ?>" <?php language_attributes(); ?>>
+            </dt-copy-text>
+
+            <span id="help-text" class="help-text cloak">
+                <?php esc_html_e( 'Copy this link and share it with people you are coaching.', 'disciple-tools-autolink' ); ?>
+            </span>
+          <span id="copyMessage" class="help-text cloak" style="display: none; color: #139513; font-weight: bold;">
+                Link copied! Share it with your coaching participants.
+                <br>Need help? <a href="https://vimeo.com/854811711" target="_blank" style="color: #235463">Watch this tutorial</a>.
+          </span>
+            <!-- Copy Confirmation Message -->
+            <div id="copyToast" class="copy-toast">
+                <span><?php esc_html_e( 'Link copied!', 'disciple-tools-autolink' ); ?></span>
+                <button class="close-btn" id="hide-copy-toast">✖</button>
+            </div>
+        </div>
+    </dt-tile>
 </div>
