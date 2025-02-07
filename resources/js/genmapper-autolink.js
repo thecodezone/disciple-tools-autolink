@@ -7,8 +7,10 @@ class GenMapperAutolink extends GenMapper {
     this.orgchart_container = null;
     this.orgchart_container_chart = null;
   }
+    appendRebaseButton(group) {}
+    appendAddButton(group) {}
 
-  loadHTMLContent() {
+    loadHTMLContent() {
     this.translations = window.wpApiGenmapper.translation;
 
     document.getElementById("left-menu").innerHTML = `<div id="template-logo">
