@@ -17,15 +17,43 @@ loaded((document) => {
     document.querySelectorAll( 'dt-button[href]' ).forEach(button => {
         button.addEventListener('click', (event) => {
 
-            if (button.getAttribute('context') === 'alert') {
-              return; // Skip navigation for alert context
-            }
-            event.preventDefault();
-            const link = button.shadowRoot ? button.shadowRoot.querySelector( 'a' ) : null;
-            if (link) {
-              window.location.href = link.href;
-            }
-        });
-    });
-});
+                          if (button.getAttribute('context') === 'alert') {
+                            return; // Skip navigation for alert context
+                          }
+                          event.preventDefault();
+                          const link = button.shadowRoot ? button.shadowRoot.querySelector( 'a' ) : null;
+                          if (link) {
+                            window.location.href = link.href;
+                          }
+                      });
+                  });
 
+                document.getElementById('copyTextElement').addEventListener('click', function() {
+                  const link = this.getAttribute('value');
+                  showCopyMessage(link);
+                });
+
+                function showCopyMessage(link) {
+                  let copyMessage = document.getElementById("copyMessage");
+                  let helpMessage = document.getElementById("help-text");
+                  let toast = document.getElementById("copyToast");
+
+                  copyMessage.style.display = "block";
+                  helpMessage.style.display = "none";
+
+                  navigator.clipboard.writeText(link).then(() => {
+                    // Show toast
+                    toast.classList.add("show");
+                    // Auto-hide after 3 seconds
+                    setTimeout(() => hideCopyToast(), 3000);
+                  });
+                }
+                document.getElementById('hide-copy-toast').addEventListener('click', function() {
+                  hideCopyToast();
+                });
+
+                function hideCopyToast() {
+                  let toast = document.getElementById("copyToast");
+                  toast.classList.remove("show");
+                }
+              });
