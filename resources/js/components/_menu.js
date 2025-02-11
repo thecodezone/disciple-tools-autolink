@@ -1,11 +1,12 @@
 import {css, html, LitElement, nothing} from "lit";
 import {DtBase} from "@disciple.tools/web-components";
 import { customElement, property } from "lit/decorators.js";
+import {api_url} from "../_helpers.js";
 
 @customElement("al-menu")
 export class AppMenu extends DtBase {
     @property({type: Boolean, attribute: false}) show = false;
-
+    @property({type: Array}) languages = [];
     static get styles() {
         return css`
           .menu__toggle {
@@ -29,9 +30,11 @@ export class AppMenu extends DtBase {
 
           .menu__list .menu__item {
             list-style: none;
+            margin: 10px 0;
           }
 
-          .menu__list a.menu__link {
+          .menu__list a.menu__link,
+          .menu__item select {
             text-decoration: none;
             color: var(--surface-1);
             font-weight: 700;
@@ -43,7 +46,16 @@ export class AppMenu extends DtBase {
             margin: 10px auto;
             display: block;
             max-width: 342px;
+            width: 100%; /* Ensure full width */
+            box-sizing: border-box; /* Include padding and border in width calculation */
+            background-color: var(--primary-color);
           }
+
+          .menu__item select option {
+            background-color: var(--primary-color);
+            color: var(--surface-1);
+          }
+
 
           .menu__list a.menu__link:hover {
             background-color: var(--surface-1);
@@ -67,9 +79,20 @@ export class AppMenu extends DtBase {
             bottom: 0;
             right: 0;
           }
+
+          .menu__item select option {
+            background-color: var(--primary-color);
+            color: var(--surface-1);
+          }
         `;
     }
-
+    connectedCallback() {
+      super.connectedCallback();
+      const dataLang = this.getAttribute('data-lang');
+      if (dataLang) {
+         this.languages = JSON.parse(dataLang);
+      }
+    }
     /**
      * The icon code.
      * @see https://iconify.design/ for more icons
@@ -109,6 +132,25 @@ export class AppMenu extends DtBase {
         `;
     }
 
+    handleLocaleChange(event) {
+      const selectedLocale = event.target.value;
+      fetch( api_url("language"), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': $autolink.nonce // Assuming you have a nonce for security
+        },
+        body: JSON.stringify({ dt_autolink_locale: selectedLocale })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Locale switched:', data);
+      })
+      .catch(error => {
+        console.error('Error switching locale:', error);
+      });
+    }
+
     /**
      * Make sure the backdrop is the specific element clicked
      */
@@ -129,6 +171,15 @@ export class AppMenu extends DtBase {
         return html`
             <div class="menu__collapse">
                 <ul class="menu__list">
+                     <li class="menu__item">
+                       <select class="menu__link" name="dt-autolink-locale" @change=${this.handleLocaleChange}>
+                         ${this.languages.map(language => html`
+                           <option value="${language.name.language}" ?selected=${language.selected}>
+                             ${language.name.flag ? language.name.flag + ' ' : ''}${language.name.native_name}
+                           </option>
+                         `)}
+                       </select>
+                     </li>
                     <li class="menu__item">
                         <a
                                 href="${$autolink.urls.home}"

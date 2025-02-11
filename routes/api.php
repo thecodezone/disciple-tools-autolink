@@ -12,6 +12,7 @@ use DT\Autolink\League\Route\RouteCollectionInterface;
 use DT\Autolink\League\Route\Router;
 use DT\Autolink\Middleware\CheckShareCookie;
 use DT\Autolink\Middleware\LoggedIn;
+use DT\Autolink\Controllers\LanguageController;
 
 $r->group('', function ( RouteCollectionInterface $r ) {
 	$r->post( '/coaching-tree', [ CoachingTreeController::class, 'update' ] );
@@ -19,4 +20,5 @@ $r->group('', function ( RouteCollectionInterface $r ) {
 	$r->get( '/groups', [ GroupController::class, 'index' ] );
 	$r->post( '/field', [ FieldController::class, 'update' ] );
 	$r->get( '/genmap', [ GenMapController::class, 'index' ] );
+    $r->post( 'language', [ LanguageController::class, 'switch' ] );
 })->middlewares( [ new LoggedIn(), new CheckShareCookie() ] );
