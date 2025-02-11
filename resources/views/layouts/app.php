@@ -1,6 +1,10 @@
 <?php
-	use function DT\Autolink\logo_url;
-	$this->layout( 'layouts/plugin' );
+use DT\Autolink\Services\Language;
+use function DT\Autolink\logo_url;
+$this->layout( 'layouts/plugin' );
+$user = wp_get_current_user();
+$lang = new Language();
+$available_languages = $lang->getAvailableLanguages( $user->ID );
 ?>
 
 <?php $this->unshift( 'header' ) ?>
@@ -8,9 +12,8 @@
     <a href="/autolink" title="<?php esc_attr_e( 'Autolink Home', 'disciple-tools-autolink' ) ?>">
       <img class="navbar__logo" src="<?php echo esc_url( logo_url() ) ?>">
     </a>
-    <al-menu></al-menu>
+   <al-menu data-lang="<?php echo esc_attr( json_encode( $available_languages ) ); ?>"></al-menu>
   </header>
-<?php $this->end() ?>
 
 
 <?php echo $this->section( 'header' ); ?>
