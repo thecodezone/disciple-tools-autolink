@@ -38,7 +38,6 @@ class RegisterController {
 				'password' => $password
 			] );
 		}
-
 		$user = wp_create_user( $username, $password, $email );
 
 		if ( is_wp_error( $user ) ) {
@@ -55,6 +54,9 @@ class RegisterController {
 		if ( ! $user ) {
 			return $this->register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] );
 		}
+
+        // Add a record to the dt_share table
+        $this->addRecordToDtShareTable( $user );
 
 		return redirect( '/autolink' );
 	}
@@ -83,4 +85,23 @@ class RegisterController {
 			'error'       => $error
 		] );
 	}
+
+    /**
+     * Add a record to the dt_share table
+     *
+     * @param int $user_id
+     */
+    public function addRecordToDtShareTable( int $user_id ){
+        global $wpdb;
+        $post_id = \Disciple_Tools_Users::get_contact_for_user( $user_id );
+        $wpdb->insert(
+            "{$wpdb->prefix}dt_share",
+            [
+                'user_id' => $user_id,
+                'post_id' => $post_id,
+                'meta'    => null
+            ],
+            [ '%d', '%d', '%s' ]
+        );
+    }
 }
