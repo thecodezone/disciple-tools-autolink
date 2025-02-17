@@ -35,7 +35,13 @@ class UserRepository {
 			$id = get_current_user_id();
 		}
 		$contact_id = \Disciple_Tools_Users::get_contact_for_user( $id );
-		return \DT_Posts::get_post( 'contacts', $contact_id );
+
+        $contact = \DT_Posts::get_post( 'contacts', $contact_id );
+        if ( empty( $contact ) || is_wp_error( $contact ) ) {
+            return [];
+        }
+
+        return $contact;
 	}
 
 
@@ -48,7 +54,7 @@ class UserRepository {
 	 */
 	public function coached_by( $id = null ) {
 		$contact = $this->contact( $id );
-		return $contact["coached_by"];
+		return $contact["coached_by"] ?? null;
 	}
 
 	/**
