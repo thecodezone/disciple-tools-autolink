@@ -25,19 +25,4 @@
         max-width: 95%;
         margin: 0 auto;
     }
-
-    .footer p {
-        display: none;
-    }
-    dt-tile[title="My Link"] {
-        display: none;
-    }
-    :root {
-        --dt-tile-background-color: none;
-        --dt-tile-border-top: 4px solid none;
-        --dt-tile-box-shadow: none;
-
-    }
-
-
 }
