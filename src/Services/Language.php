@@ -6,7 +6,7 @@ class Language
 {
     public function switchUserLocale( $user_id, $data ): bool
     {
-        if (!empty( $data['dt_autolink_locale'] )) {
+        if ( !empty( $data['dt_autolink_locale'] ) ) {
             $locale = $data['dt_autolink_locale'];
             switch_to_locale( $locale );
             $user = get_user_by( 'id', $user_id );
