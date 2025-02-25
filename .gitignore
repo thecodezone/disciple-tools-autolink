@@ -8,4 +8,3 @@ tmp-*
 dist/*
 dt-autolink.zip
 /yarn.lock
-.env
