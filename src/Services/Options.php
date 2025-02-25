@@ -141,7 +141,7 @@ class Options {
 	 * Sets the value of the specified option.
 	 *
 	 * @param string $key The key of the option to set.
-	 * @param $value // The value to set for the option.
+	 * @param mixed $value The value to set for the option.
 	 *
 	 * @return bool Returns true if the option was set successfully, otherwise returns false.
 	 */
