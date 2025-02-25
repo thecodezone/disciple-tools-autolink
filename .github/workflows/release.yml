@@ -51,13 +51,10 @@ jobs:
           composer update
           composer install --no-dev --no-interaction --ignore-platform-reqs
 
-      - name: Patch Scoper Bug
-        run: node patch-scoper-autoload.js
-
       - name: Package release
         run: |
           mkdir dt-autolink
-          cp -r dt-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json dt-autolink/
+          cp -r disciple-tools-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json dt-autolink/
           zip -r dt-autolink.zip dt-autolink
 
       - name: Create Release
