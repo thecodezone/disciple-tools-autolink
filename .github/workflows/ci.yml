@@ -41,7 +41,9 @@ jobs:
           ./bin/setup-scoper.sh
 
       - name: Install dependencies
-        run: composer install --no-interaction --ignore-platform-reqs
+        run: |
+          composer update
+          composer install --no-interaction --ignore-platform-reqs
 
       - name: Test syntax
         run: ./bin/test-for-syntax-errors.sh
