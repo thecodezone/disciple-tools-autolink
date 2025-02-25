@@ -56,7 +56,7 @@ class RegisterController {
 		}
 
         // Add a record to the dt_share table
-        $this->addRecordToDtShareTable( $user );
+        $this->add_record_to_dt_share_table( $user );
 
 		return redirect( '/autolink' );
 	}
@@ -91,7 +91,7 @@ class RegisterController {
      *
      * @param int $user_id
      */
-    public function addRecordToDtShareTable( int $user_id ){
+    public function add_record_to_dt_share_table( int $user_id ){
         global $wpdb;
         $post_id = \Disciple_Tools_Users::get_contact_for_user( $user_id );
         $wpdb->insert(

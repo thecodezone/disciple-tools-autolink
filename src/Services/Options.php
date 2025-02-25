@@ -145,7 +145,7 @@ class Options {
 	 *
 	 * @return bool Returns true if the option was set successfully, otherwise returns false.
 	 */
-	public function set( string $key, mixed $value ): bool {
+	public function set( string $key, $value ): bool {
 		$key = $this->scope_key( $key );
 
 		return set_option( $key, $value );

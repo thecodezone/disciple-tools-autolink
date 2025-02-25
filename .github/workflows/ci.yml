@@ -41,7 +41,9 @@ jobs:
           ./bin/setup-scoper.sh
 
       - name: Install dependencies
-        run: composer install --no-interaction --ignore-platform-reqs
+        run: |
+          composer update
+          composer install --no-interaction --ignore-platform-reqs
 
       - name: Test syntax
         run: ./bin/test-for-syntax-errors.sh
@@ -66,7 +68,7 @@ jobs:
       - name: Package release
         run: |
           mkdir dt-autolink
-          cp -r dt-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json phpcs.xml dt-autolink/
+          cp -r disciple-tools-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json phpcs.xml dt-autolink/
           zip -r dt-autolink.zip dt-autolink
 
       - name: Upload release
@@ -136,6 +138,11 @@ jobs:
       - name: Test phpcs
         run: ./bin/test-phpcs.sh
 
+      - name: Install Subversion
+        run: |
+          sudo apt-get update
+          sudo apt-get install subversion -y
+
       - name: Install WP Tests
         run: ./bin/install-wp-tests.sh wordpress_test root rootpassword 127.0.0.0 latest
         shell: bash
@@ -143,6 +150,3 @@ jobs:
       - name: PHPunit
         run: |
           vendor/bin/phpunit
-
-#      - name: Test phpcs
-#        run: ./tests/test_phpcs.sh

@@ -440,7 +440,7 @@ function request_wants_json( RequestInterface $request ): bool {
  *
  * Works with JSON requests, GET requests
  *
- * @param RequestInterface $request The request object from which to
+ * @return object
  */
 function group_labels()
 {

@@ -14,7 +14,7 @@ class LanguageController
 
         $body = extract_request_input( $request );
         $user_id = get_current_user_id();
-        $result = container()->get( Language::class )->switchUserLocale( $user_id, $body );
+        $result = container()->get( Language::class )->switch_user_locale( $user_id, $body );
 		if ( ! $result ) {
           return response( [ "message" => "Invalid request" ], 400 );
         }

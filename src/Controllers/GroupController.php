@@ -379,13 +379,11 @@ class GroupController {
     /**
      * group_fields_from_request method extracts and processes the fields from the request object.
      *
-     * @param mixed $request The request object from which to extract the fields.
+     * @param array $input
+     * @return array $input The processed fields extracted from the request.
      *
-     * @return array The processed fields extracted from the request.
-     *
-     * @throws Exception When there are validation errors in the request fields.
      */
-    private function group_fields_from_request( $input ) {
+    private function group_fields_from_request( array $input ) {
 //      $input = extract_request_input( $request );
         $id           = $input['group_id'] ?? null;
         $name         = $input['name'] ?? '';

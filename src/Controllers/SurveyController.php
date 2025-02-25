@@ -4,10 +4,10 @@ namespace DT\Autolink\Controllers;
 
 use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\Repositories\SurveyRepository;
+use DT\Autolink\Services\Analytics;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
-use DT\Autolink\Services\Analytics;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 
