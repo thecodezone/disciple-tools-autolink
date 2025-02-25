@@ -3,14 +3,27 @@ name: Release
 on:
   push:
     tags:
-      - '*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*.*' # Push events to matching v*, i.e., v1.0, v20.15.10
+      - '*.*' # Push events to matching v*, i.e. 1.0, 20.15.10
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    env:
+      RELEASE_TYPE: false  # Default to false
+      PRE_RELEASE: false    # Default to false
+
     steps:
+      - name: Determine if Release
+        id: set_release_type
+        run: |
+          if [[ "${GITHUB_REF#refs/tags/}" != v* ]]; then
+            echo "RELEASE_TYPE=true" >> $GITHUB_ENV
+            echo "PRE_RELEASE=true" >> $GITHUB_ENV
+          fi
+
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -53,8 +66,8 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          draft: ${{ env.RELEASE_TYPE }}
+          prerelease: ${{ env.PRE_RELEASE }}
 
       - name: Upload Release Asset
         id: upload-release-asset
