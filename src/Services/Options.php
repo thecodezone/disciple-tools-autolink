@@ -141,11 +141,11 @@ class Options {
 	 * Sets the value of the specified option.
 	 *
 	 * @param string $key The key of the option to set.
-	 * @param mixed $value The value to set for the option.
+	 * @param $value // The value to set for the option.
 	 *
 	 * @return bool Returns true if the option was set successfully, otherwise returns false.
 	 */
-	public function set( string $key, mixed $value ): bool {
+	public function set( string $key, $value ): bool {
 		$key = $this->scope_key( $key );
 
 		return set_option( $key, $value );
