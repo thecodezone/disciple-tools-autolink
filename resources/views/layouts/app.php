@@ -4,7 +4,7 @@ use function DT\Autolink\logo_url;
 $this->layout( 'layouts/plugin' );
 $user = wp_get_current_user();
 $lang = new Language();
-$available_languages = $lang->getAvailableLanguages( $user->ID );
+$available_languages = $lang->get_available_languages( $user->ID );
 ?>
 
 <?php $this->unshift( 'header' ) ?>

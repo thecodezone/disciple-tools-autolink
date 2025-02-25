@@ -7,13 +7,13 @@ use DT\Autolink\GuzzleHttp\Psr7\Request;
 use DT\Autolink\GuzzleHttp\Psr7\Response;
 use DT\Autolink\Psr\Http\Message\ResponseInterface;
 use DT\Autolink\Services\Analytics;
+use DT_Login_Fields;
 use function DT\Autolink\container;
 use function DT\Autolink\extract_request_input;
 use function DT\Autolink\redirect;
 use function DT\Autolink\route_url;
 use function DT\Autolink\template;
 use function DT\Autolink\plugin_url;
-use DT_Login_Fields;
 
 /**
  * Class LoginController
@@ -120,13 +120,7 @@ class LoginController {
 	/**
 	 * Renders the login template with the provided parameters.
 	 *
-	 * @param array $params {
-	 *     An array of parameters.
-	 *
-	 * @type string $username The username input value. Default empty string.
-	 * @type string $password The password input value. Default empty string.
-	 * @type string $error The error message to display. Default empty string.
-	 * }
+	 * @param Request $request The request object.
 	 *
 	 * @return Response The response object.
 	 */
