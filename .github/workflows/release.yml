@@ -53,9 +53,9 @@ jobs:
 
       - name: Package release
         run: |
-          mkdir dt-autolink
-          cp -r disciple-tools-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json dt-autolink/
-          zip -r dt-autolink.zip dt-autolink
+          mkdir disciple-tools-autolink
+          cp -r disciple-tools-autolink.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json disciple-tools-autolink/
+          zip -r disciple-tools-autolink.zip disciple-tools-autolink
 
       - name: Create Release
         id: create_release
@@ -75,6 +75,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./dt-autolink.zip
-          asset_name: dt-autolink.zip
+          asset_path: ./disciple-tools-autolink.zip
+          asset_name: disciple-tools-autolink.zip
           asset_content_type: application/zip
