@@ -17,7 +17,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
 
 <form method="post">
   <?php wp_nonce_field( 'dt_admin_form_nonce' ) ?>
-  <table class="widefat striped">
+    <div style="overflow-x:auto;">
+  <table class="widefat striped training-videos" style="border-collapse: collapse; width: 100%;">
     <thead>
     <tr>
       <th><?php esc_html_e( 'Options', 'disciple-tools-autolink' ) ?></th>
@@ -84,6 +85,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'error' ) )
     </tr>
     </tbody>
   </table>
+    </div>
 </form>
 
 <?php $this->start( 'right' ) ?>

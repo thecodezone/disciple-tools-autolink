@@ -1,0 +1,6 @@
+/* Training Videos */
+@media (width >= 228px) and (width <= 500px) {
+    .training-videos {
+        width: 500px !important;
+    }
+}
