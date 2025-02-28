@@ -2,8 +2,6 @@
     body#blank-template-body {
         border: none;
     }
-
-
     .al__link,
     dt-button,
     header.navbar,
@@ -11,18 +9,40 @@
     .user_name {
         display: none !important;
     }
-
     .app--genmap dt-tile {
         --dt-tile-background-color: transparent;
         --dt-tile-border-top: none;
         --dt-tile-box-shadow: none;
     }
-
-
     .app--genmap .app,
     .app--genmap .container {
         padding: 0;
         max-width: 95%;
         margin: 0 auto;
     }
+
+    .footer p {
+        display: none;
+    }
+
+    dt-tile[title="My Link"] {
+        display: none;
+    }
+    dt-tile[title="Key"] {
+        display: none;
+    }
+    .section-body{
+        display: none;
+    }
+    .section-header{
+        display: none;
+    }
+    :root {
+        --dt-tile-background-color: none;
+        --dt-tile-border-top: 4px solid none;
+        --dt-tile-box-shadow: none;
+
+    }
+
+
 }
