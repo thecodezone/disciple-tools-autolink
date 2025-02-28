@@ -4,9 +4,9 @@ namespace DT\Autolink\Services;
 
 class Language
 {
-    public function switchUserLocale( $user_id, $data ): bool
+    public function switch_user_locale( $user_id, $data ): bool
     {
-        if (!empty( $data['dt_autolink_locale'] )) {
+        if ( !empty( $data['dt_autolink_locale'] ) ) {
             $locale = $data['dt_autolink_locale'];
             switch_to_locale( $locale );
             $user = get_user_by( 'id', $user_id );
@@ -17,7 +17,7 @@ class Language
         return false;
     }
 
-    public function getAvailableLanguages( $user_id = null ): array
+    public function get_available_languages( $user_id = null ): array
     {
         if ( $user_id === null ){
             $user_id = get_current_user_id();

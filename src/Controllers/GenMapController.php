@@ -29,12 +29,12 @@ class GenMapController {
         $input = extract_request_input( $request );
 
         $analytics = container()->get( Analytics::class );
-        $chartType = $input['chart'] ?? 'circles';
-        $analytics->event( $chartType, [ 'action' => 'start', 'lib_name' => __CLASS__ ] );
+        $chart_type = $input['chart'] ?? 'circles';
+        $analytics->event( $chart_type, [ 'action' => 'start', 'lib_name' => __CLASS__ ] );
 
         // Determine new chart type to be switched to.
         $show_tree_genmap = 0;
-        switch ( $chartType ) {
+        switch ( $chart_type ) {
             case 'tree':
                 $show_tree_genmap = 1;
                 $analytics->event( 'tree', [ 'action' => 'snapshot' ] );

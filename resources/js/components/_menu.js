@@ -36,6 +36,7 @@ export class AppMenu extends DtBase {
           .menu__list a.menu__link,
           .menu__item select {
             text-decoration: none;
+            -webkit-appearance: none;
             color: var(--surface-1);
             font-weight: 700;
             font-size: 14px;
@@ -51,11 +52,13 @@ export class AppMenu extends DtBase {
             background-color: var(--primary-color);
           }
 
-          .menu__item select option {
-            background-color: var(--primary-color);
-            color: var(--surface-1);
-          }
-
+        .menu__item select {
+          background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"%3E%3Cpath fill="%23FFFFFF" d="M5 7L2 3h6z"/%3E%3C/svg%3E');
+          background-repeat: no-repeat;
+          background-position: right 10px center;
+          background-size: 10px;
+          padding-right: 30px; /* Add space for the arrow */
+        }
 
           .menu__list a.menu__link:hover {
             background-color: var(--surface-1);
@@ -80,10 +83,6 @@ export class AppMenu extends DtBase {
             right: 0;
           }
 
-          .menu__item select option {
-            background-color: var(--primary-color);
-            color: var(--surface-1);
-          }
         `;
     }
     connectedCallback() {
