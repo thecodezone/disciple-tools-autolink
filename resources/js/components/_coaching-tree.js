@@ -314,9 +314,50 @@ export class CoachingTree extends LitElement {
         background-color: #b3e3ae;
       }
 
+      /* print coaching tree */
       @media print {
+        .tree__key {
+          display: none;
+        }
+        .group__generation {
+          display: none;
+        }
+        .group__icons {
+          display: none;
+        }
+        .group__handle {
+          display: none;
+        }
+        .group--assigned > .group__body > .group__tag {
+          background-color: #b3e3ae;
+        }
+        .key--assigned {
+          background-color: #b3e3ae;
+        }
         .group__body {
-          -webkit-print-color-adjust: exact;
+          padding-top: calc(var(--tree-spacing) * 2);
+          background-color: #e2e2e2; /* Ensure background color remains the same during print */
+        }
+        .group__title {
+          font-size: 1.2em;
+        }
+        .group__children {
+          padding-left: 20px;
+          padding-bottom: 10px;
+        }
+        .group--assigned > .group__body > .group__tag {
+          -webkit-print-color-adjust: exact !important;
+        }
+        .groups,
+        .groups--sortable,
+        .group__children {
+          display: block;
+        }
+        dt-tile[title="Key"] {
+          display: none;
+        }
+        .footer p {
+          display: none;
         }
       }
     `;
